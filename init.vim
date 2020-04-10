@@ -1,74 +1,62 @@
-" Plugins ---------------------------------------------------------------------------------
+"Plugins ----------------------------------------------------------------------
 set nocompatible
 filetype off
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-
-
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'preservim/nerdtree'
 Plug 'tomasr/molokai'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 Plug 'junegunn/goyo.vim'
 Plug 'Yggdroot/indentLine'
-Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
-" Plug 'ervandew/supertab'
 Plug 'jiangmiao/auto-pairs'
 Plug 'chrisbra/Colorizer'
 Plug 'heavenshell/vim-pydocstring'
 Plug 'powerline/fonts'
 Plug 'ycm-core/YouCompleteMe'
 Plug 'itchyny/lightline.vim'
-
+Plug 'mengelbrecht/lightline-bufferline'
+Plug 'davidhalter/jedi-vim'
+Plug 'nvie/vim-flake8'
+Plug 'Valloric/ListToggle'
+Plug 'kien/ctrlp.vim'
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 
 
 call plug#end()
 
-" let g:deoplete#enable_at_startup = 1
-
-
-" Remaps ------------------------------------------------------------------------------------
+"Remaps -----------------------------------------------------------------------
 
 " Native
 inoremap jk <Esc>
 
 nnoremap <silent><A-j> :set paste<CR>m`o<Esc>``:set nopaste<CR>
 nnoremap <silent><A-k> :set paste<CR>m`O<Esc>``:set nopaste<CR>
-nnoremap <silent><C-B>n :bnext<CR>
-nnoremap <silent><C-B>1 :b1<CR>
-nnoremap <silent><C-B>2 :b2<CR>
-nnoremap <silent><C-B>3 :b3<CR>
 nnoremap <silent><CR> :noh<CR><CR>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-nnoremap <silent><C-space> za
-
-nmap <silent><Space> :set number! relativenumber!<CR>
+nmap     <silent><Space> :set number! relativenumber!<CR>
 
 tnoremap <Esc> <C-\><C-n>
 
 
-"Plugs
+" Plugs
 let mapleader=","
-map <C-n> :NERDTreeToggle<CR>
-nmap <leader>go :Goyo<CR>
+map      <C-n> :NERDTreeToggle<CR>
+nmap     <leader>go :Goyo<CR>
 nnoremap <leader>gtd :YcmCompleter GoTo<CR>
 nnoremap <leader>gtr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>gt :YcmCompleter GetType<CR>
 nnoremap <leader>gd :YcmCompleter GetDoc<CR>
 
 
-" Plugins Config ---------------------------------------------------------------------------
- 
-" Lightline selenize_dark, nord, 
+"Plugins Config ---------------------------------------------------------------
+
+" Lightline
 let g:lightline = {
 		\'colorscheme': 'custom_nord',
 		\'active': {
@@ -76,69 +64,136 @@ let g:lightline = {
 		\			  [ 'readonly', 'filename', 'modified' ] ],
 		\	'right':[ [ 'lineinfo' ],
 		\			  [ 'percent' ],
-		\			  [ 'fileformat', 'fileencoding', 'filetype'] ]
+		\			  [ 'fileencoding', 'filetype' ] ]
 		\},
 		\'inactive': {
 		\	'left': [ ['readonly', 'filename', 'modified'] ],
 		\	'right':[ [ 'lineinfo' ],
 		\			  [ 'percent' ],
-		\			  [ 'fileformat', 'fileencoding', 'filetype'] ]
+		\			  [ 'fileencoding', 'filetype'] ]
+		\},
+		\'component_function': {
+		\},
 		\}
-		\}
+
+let g:lightline#bufferline#show_number  = 1
+let g:lightline#bufferline#shorten_path = 0
+let g:lightline#bufferline#unnamed      = '[No Name]'
+
+let g:lightline.tabline          = {'left': [['buffers']], 'right': [[]]}
+let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+let g:lightline.component_type   = {'buffers': 'tabsel'}
+let g:lightline#bufferline#enable_devicons  = 1
+let g:lightline#bufferline#min_buffer_count = 2
+
+" Semshi
+let g:semshi#mark_selected_nodes = 0
+
+" Jedi
+let g:jedi#auto_vim_configuration   = 0
+let g:jedi#use_splits_not_buffers   = "bottom"
+let g:jedi#popup_on_dot			    = 0
+let g:jedi#popup_select_first       = 0
+let g:jedi#goto_command             = ""
+let g:jedi#goto_assignments_command = ""
+let g:jedi#goto_stubs_command       = ""
+let g:jedi#goto_definitions_command = ""
+let g:jedi#documentation_command    = ""
+let g:jedi#usages_command           = ""
+let g:jedi#completions_command      = ""
+let g:jedi#rename_command           = ""
 
 " indentLine
-let g:indentLine_char='▏'
+let g:indentLine_char  = '▏'
 
 " NerdTree
-let NERDTreeShowHidden=1
+let NERDTreeShowHidden = 1
 
 " Supertab
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
+" YCM
+let g:ycm_auto_trigger = 1
+
+" ListToggle
+let g:lt_location_list_toggle_map = '<leader>l'
+let g:lt_quickfix_list_toggle_map = '<leader>q'
+
+" Flake8
+let g:flake8_show_quickfix  = 0
+let g:flake8_show_in_gutter = 1
+let g:flake8_show_in_file   = 1
+let flake8_error_marker     ='✖'
+let flake8_warning_marker   ='!'
 
 
-" Options ---------------------------------------------------------------------------------
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-"set t_Co=256
-set number
-syntax on
+" Options ----------------------------------------------------------------------
+let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+
+set 		number
+syntax 		on
 colorscheme molokai
+
+set 	  colorcolumn=80
 highlight LineNr ctermbg=234
 highlight Comment gui=bold
-hi MatchParen cterm=none ctermbg=none ctermfg=202
-set colorcolumn=80
+highlight MatchParen cterm=none ctermbg=none ctermfg=202
+highlight Flake8_Error ctermbg=124
+highlight Flake8_Warning ctermbg=142 ctermfg=233
 
 set completeopt-=preview
 set incsearch ignorecase smartcase hlsearch
 set noshowmode
 
-set tabstop=4
 set softtabstop=0 noexpandtab
-
 set splitbelow
 set splitright
+set tabstop=4
 
 
-" Other
-" -----------------------------------------------------------------------------------
+"Other ------------------------------------------------------------------------
 filetype plugin indent on
 let g:python3_host_prog = '/usr/bin/python3'
 
 
 
-" VimEnter
-autocmd VimEnter * RainbowParentheses .
+" cmd/func
+autocmd VimEnter  * nnoremap <C-L> <C-W><C-L>
+autocmd VimEnter  * nnoremap <silent><leader>bn :bnext<CR>
+autocmd VimEnter  * nnoremap <silent><leader>b1 :b1<CR>
+autocmd VimEnter  * nnoremap <silent><leader>b2 :b2<CR>
+autocmd VimEnter  * nnoremap <silent><leader>b3 :b3<CR>
+autocmd VimEnter  * nnoremap <silent><leader>bd :bd<CR>
+autocmd BufAdd    * nnoremap <C-L> <C-W><C-L>
+autocmd BufCreate * nnoremap <C-L> <C-W><C-L>
+autocmd BufNew    * nnoremap <C-L> <C-W><C-L>
+autocmd BufEnter  * nnoremap <C-L> <C-W><C-L>
+autocmd BufWritePost *.py call flake8#Flake8()
+autocmd BufRead,BufNewFile *.py let python_highlight_all=1
+autocmd VimEnter * call SetColors()
 
+function! GetErrors()
+  return "e: " . youcompleteme#GetErrorCount()
+endfunction
 
+function! GetWarnings()
+  return "w: " . youcompleteme#GetWarningCount()
+endfunction
 
+function! SetColors()
+		hi semshiLocal           ctermfg=209
+		hi semshiGlobal          ctermfg=172
+		hi semshiImported        ctermfg=172
+		hi semshiParameter       ctermfg=75
+		hi semshiParameterUnused ctermfg=117
+		hi semshiFree            ctermfg=84
+		hi semshiBuiltin         ctermfg=112
+		hi semshiAttribute       ctermfg=49
+		hi semshiSelf            ctermfg=249
+		hi semshiUnresolved      ctermfg=226
+		hi semshiSelected        ctermfg=231
 
-
-
-
-
-
-
-
-
-
-
+		hi semshiErrorSign       ctermfg=231
+		hi semshiErrorChar       ctermfg=231
+		sign define semshiError text=E texthl=semshiErrorSign
+endfunction
