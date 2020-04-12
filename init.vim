@@ -7,13 +7,11 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'preservim/nerdtree'
 Plug 'tomasr/molokai'
 Plug 'ryanoasis/vim-devicons'
-Plug 'junegunn/goyo.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'chrisbra/Colorizer'
-Plug 'heavenshell/vim-pydocstring'
 Plug 'powerline/fonts'
 Plug 'ycm-core/YouCompleteMe'
 Plug 'itchyny/lightline.vim'
@@ -23,7 +21,10 @@ Plug 'nvie/vim-flake8'
 Plug 'Valloric/ListToggle'
 Plug 'kien/ctrlp.vim'
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-
+Plug 'kalekundert/vim-coiled-snake'
+Plug 'Konfekt/FastFold'
+Plug 'tpope/vim-commentary'
+Plug 'Vimjas/vim-python-pep8-indent'
 
 call plug#end()
 
@@ -34,27 +35,30 @@ inoremap jk <Esc>
 
 nnoremap <silent><A-j> :set paste<CR>m`o<Esc>``:set nopaste<CR>
 nnoremap <silent><A-k> :set paste<CR>m`O<Esc>``:set nopaste<CR>
-nnoremap <silent><CR> :noh<CR><CR>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-nmap     <silent><Space> :set number! relativenumber!<CR>
 
 tnoremap <Esc> <C-\><C-n>
 
 
-" Plugs
-let mapleader=","
-map      <C-n> :NERDTreeToggle<CR>
+" Leader
+let mapleader=" "
+map      <leader>n :NERDTreeToggle<CR>
 nmap     <leader>go :Goyo<CR>
 nnoremap <leader>gtd :YcmCompleter GoTo<CR>
 nnoremap <leader>gtr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>gt :YcmCompleter GetType<CR>
 nnoremap <leader>gd :YcmCompleter GetDoc<CR>
+nnoremap <silent><leader>f za
+nnoremap <silent><leader><Space> :set number! relativenumber!<CR>
+noremap <Leader>y "+yg_
+noremap <Leader>p "+p
+nnoremap <leader>e :call flake8#Flake8ShowError()<CR>
+nnoremap <silent><leader><CR> :noh<CR>
 
-
-"Plugins Config ---------------------------------------------------------------
+" Plugins Config ---------------------------------------------------------------
 
 " Lightline
 let g:lightline = {
@@ -88,6 +92,7 @@ let g:lightline#bufferline#min_buffer_count = 2
 
 " Semshi
 let g:semshi#mark_selected_nodes = 0
+let g:semshi#error_sign_delay = 4
 
 " Jedi
 let g:jedi#auto_vim_configuration   = 0
@@ -126,6 +131,11 @@ let g:flake8_show_in_file   = 1
 let flake8_error_marker     ='✖'
 let flake8_warning_marker   ='!'
 
+" Fast fold
+let g:fastfold_savehook = 1
+let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
+let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
+
 
 " Options ----------------------------------------------------------------------
 let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
@@ -140,21 +150,25 @@ highlight Comment gui=bold
 highlight MatchParen cterm=none ctermbg=none ctermfg=202
 highlight Flake8_Error ctermbg=124
 highlight Flake8_Warning ctermbg=142 ctermfg=233
+highlight Pmenu ctermfg=15 ctermbg=234 guifg=#ffffff guibg=#000000
 
 set completeopt-=preview
 set incsearch ignorecase smartcase hlsearch
 set noshowmode
-
+set nofoldenable
+set foldlevel=1
 set softtabstop=0 noexpandtab
 set splitbelow
 set splitright
 set tabstop=4
-
+set wrap!
+set scrolloff=2
+set smartcase
+set pumheight=15
 
 "Other ------------------------------------------------------------------------
 filetype plugin indent on
 let g:python3_host_prog = '/usr/bin/python3'
-
 
 
 " cmd/func
@@ -168,6 +182,7 @@ autocmd BufAdd    * nnoremap <C-L> <C-W><C-L>
 autocmd BufCreate * nnoremap <C-L> <C-W><C-L>
 autocmd BufNew    * nnoremap <C-L> <C-W><C-L>
 autocmd BufEnter  * nnoremap <C-L> <C-W><C-L>
+autocmd BufEnter  * set foldlevel=1
 autocmd BufWritePost *.py call flake8#Flake8()
 autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 autocmd VimEnter * call SetColors()
@@ -197,3 +212,4 @@ function! SetColors()
 		hi semshiErrorChar       ctermfg=231
 		sign define semshiError text=E texthl=semshiErrorSign
 endfunction
+
