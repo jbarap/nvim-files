@@ -25,6 +25,8 @@ Plug 'kalekundert/vim-coiled-snake'
 Plug 'Konfekt/FastFold'
 Plug 'tpope/vim-commentary'
 Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'majutsushi/tagbar'
 
 call plug#end()
 
@@ -42,6 +44,10 @@ nnoremap <C-H> <C-W><C-H>
 
 tnoremap <Esc> <C-\><C-n>
 
+map ]f <Plug>(PythonsenseStartOfNextPythonFunction)
+map ]F <Plug>(PythonsenseEndOfPythonFunction)
+map [f <Plug>(PythonsenseStartOfPythonFunction)
+map [F <Plug>(PythonsenseEndOfPreviousPythonFunction)
 
 " Leader
 let mapleader=" "
@@ -57,6 +63,13 @@ noremap <Leader>y "+yg_
 noremap <Leader>p "+p
 nnoremap <leader>e :call flake8#Flake8ShowError()<CR>
 nnoremap <silent><leader><CR> :noh<CR>
+nnoremap <silent><leader>t :TagbarToggle<CR>
+nmap <Leader>b1 <Plug>lightline#bufferline#go(1)
+nmap <Leader>b2 <Plug>lightline#bufferline#go(2)
+nmap <Leader>b3 <Plug>lightline#bufferline#go(3)
+nmap <Leader>b4 <Plug>lightline#bufferline#go(4)
+nmap <Leader>b5 <Plug>lightline#bufferline#go(5)
+nmap <Leader>b6 <Plug>lightline#bufferline#go(6)
 
 " Plugins Config ---------------------------------------------------------------
 
@@ -80,9 +93,10 @@ let g:lightline = {
 		\},
 		\}
 
-let g:lightline#bufferline#show_number  = 1
-let g:lightline#bufferline#shorten_path = 0
+let g:lightline#bufferline#show_number  = 2
+let g:lightline#bufferline#shorten_path = 1
 let g:lightline#bufferline#unnamed      = '[No Name]'
+let g:lightline#bufferline#filename_modifier = ':t'
 
 let g:lightline.tabline          = {'left': [['buffers']], 'right': [[]]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
@@ -136,6 +150,8 @@ let g:fastfold_savehook = 1
 let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
 let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
 
+" Pydocstring
+
 
 " Options ----------------------------------------------------------------------
 let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
@@ -174,9 +190,6 @@ let g:python3_host_prog = '/usr/bin/python3'
 " cmd/func
 autocmd VimEnter  * nnoremap <C-L> <C-W><C-L>
 autocmd VimEnter  * nnoremap <silent><leader>bn :bnext<CR>
-autocmd VimEnter  * nnoremap <silent><leader>b1 :b1<CR>
-autocmd VimEnter  * nnoremap <silent><leader>b2 :b2<CR>
-autocmd VimEnter  * nnoremap <silent><leader>b3 :b3<CR>
 autocmd VimEnter  * nnoremap <silent><leader>bd :bd<CR>
 autocmd BufAdd    * nnoremap <C-L> <C-W><C-L>
 autocmd BufCreate * nnoremap <C-L> <C-W><C-L>
@@ -186,13 +199,12 @@ autocmd BufEnter  * set foldlevel=1
 autocmd BufWritePost *.py call flake8#Flake8()
 autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 autocmd VimEnter * call SetColors()
+autocmd FileType qf call AdjustWindowHeight(3, 10)
+autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr><C-o>
+autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab 
 
-function! GetErrors()
-  return "e: " . youcompleteme#GetErrorCount()
-endfunction
-
-function! GetWarnings()
-  return "w: " . youcompleteme#GetWarningCount()
+function! AdjustWindowHeight(minheight, maxheight)
+  exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
 
 function! SetColors()
