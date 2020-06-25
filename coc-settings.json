@@ -1,0 +1,11 @@
+{
+    "suggest.timeout": 15000,
+    "suggest.maxCompleteItemCount": 20,
+
+    "python.linting.pylintUseMinimalCheckers": true,
+    "python.jediEnabled": true,
+    "python.linting.enabled": false,
+    "python.pythonPath": "python3",
+    "diagnostic.displayByAle": true,
+
+}
