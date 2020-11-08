@@ -1,10 +1,6 @@
 " TextEdit might fail if hidden is not set.
 set hidden
 
-" Some servers have issues with backup files, see #649.
-" set nobackup
-" set nowritebackup
-
 " Give more space for displaying messages.
 " set cmdheight=2
 
@@ -55,7 +51,7 @@ nmap <silent><leader>gy <Plug>(coc-type-definition)
 nmap <silent><leader>gti <Plug>(coc-implementation)
 nmap <silent><leader>gtr <Plug>(coc-references)
 
-nnoremap <silent><leader>gd :call <SID>show_documentation()<CR>
+nmap <silent><leader>gd :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -69,11 +65,12 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming. Pending ----------------------------------
-" nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>rn <Plug>(coc-rename)
+xmap <leader>ev  <Plug>(coc-codeaction-selected)
 
 " Formatting selected code.
-xmap <leader>af  <Plug>(coc-format-selected)
-nmap <leader>af  <Plug>(coc-format-selected)
+" xmap <leader>af  <Plug>(coc-format-selected)
+" nmap <leader>af  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
@@ -85,13 +82,13 @@ augroup end
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+" xmap <leader>a  <Plug>(coc-codeaction-selected)
+" nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current line.
-nmap <leader>ac  <Plug>(coc-codeaction)
+" nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
+" nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Introduce function text object pending -----------------------
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -122,19 +119,22 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings using CoCList:
 " Show all diagnostics.
-nnoremap <silent> <space>cd  :<C-u>CocList diagnostics<cr>
-" Manage extensions.
-nnoremap <silent> <space>ce  :<C-u>CocList extensions<cr>
-" Show commands.
-nnoremap <silent> <space>cc  :<C-u>CocList commands<cr>
-" Find symbol of current document.
-nnoremap <silent> <space>co  :<C-u>CocList outline<cr>
-" Search workspace symbols.
-nnoremap <silent> <space>cs  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>cj  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>ck  :<C-u>CocPrev<CR>
-" Resume latest coc list.
-nnoremap <silent> <space>cp  :<C-u>CocListResume<CR>
+" nnoremap <silent> <space>cd  :<C-u>CocList diagnostics<cr>
+" " Manage extensions.
+" nnoremap <silent> <space>ce  :<C-u>CocList extensions<cr>
+" " Show commands.
+" nnoremap <silent> <space>cc  :<C-u>CocList commands<cr>
+" " Find symbol of current document.
+" nnoremap <silent> <space>co  :<C-u>CocList outline<cr>
+" " Search workspace symbols.
+" nnoremap <silent> <space>cs  :<C-u>CocList -I symbols<cr>
+" " Do default action for next item.
+" nnoremap <silent> <space>cj  :<C-u>CocNext<CR>
+" " Do default action for previous item.
+" nnoremap <silent> <space>ck  :<C-u>CocPrev<CR>
+" " Resume latest coc list.
+" nnoremap <silent> <space>cp  :<C-u>CocListResume<CR>
+
+" highlights ------------------------------------------------------------------
+
 

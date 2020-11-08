@@ -33,19 +33,24 @@ Plug 'Konfekt/FastFold'
 Plug 'tpope/vim-commentary'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'jeetsukumaran/vim-pythonsense'
-Plug 'majutsushi/tagbar'
+Plug 'liuchengxu/vista.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'sheerun/vim-polyglot'
 Plug 'alvan/vim-closetag'
-Plug 'heavenshell/vim-pydocstring'
+Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
 Plug 'tpope/vim-repeat'
 Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'svermeulen/vim-subversive'
 Plug 'mhinz/vim-startify'
 Plug 'unblevable/quick-scope'
+Plug 'goerz/jupytext.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'jupyter-vim/jupyter-vim'
+
+
 
 call plug#end()
 
@@ -63,12 +68,8 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-nmap s <plug>(SubversiveSubstitute)
-nmap ss <plug>(SubversiveSubstituteLine)
-nmap S <plug>(SubversiveSubstituteToEndOfLine)
 nnoremap ( f)i
-nnoremap ) 2f)i
-nnoremap <C-p> :GFiles<CR>
+nnoremap ) $i
 nnoremap <silent> x :<c-u>call NoDotX(v:count1)<CR>
 
 tnoremap <Esc> <C-\><C-n>
@@ -79,7 +80,7 @@ nmap ]F <Plug>(PythonsenseEndOfPythonFunction)
 nmap [f <Plug>(PythonsenseStartOfPythonFunction)
 nmap [F <Plug>(PythonsenseEndOfPreviousPythonFunction)
 
-" Leader
+" Leader/Plugs
 let mapleader=" "
 map      <silent><leader>n :NERDTreeToggle<CR>
 nnoremap <silent><leader>f za
@@ -87,27 +88,49 @@ nnoremap <silent><leader><Space> :set relativenumber!<CR>
 noremap <Leader>y "+yg_
 noremap <Leader>p "+p
 nnoremap <silent><leader><CR> :noh<CR>
-nnoremap <silent><leader>t :TagbarToggle<CR>
+nnoremap <silent><leader>t :Vista!!<CR>
+
 nnoremap <leader>w :StripWhitespace<CR>
+
+nmap s <plug>(SubversiveSubstitute)
+vmap s <plug>(SubversiveSubstitute)
+nmap ss <plug>(SubversiveSubstituteLine)
+nmap S <plug>(SubversiveSubstituteToEndOfLine)
+
 nmap <Leader>b1 <Plug>lightline#bufferline#go(1)
 nmap <Leader>b2 <Plug>lightline#bufferline#go(2)
 nmap <Leader>b3 <Plug>lightline#bufferline#go(3)
 nmap <Leader>b4 <Plug>lightline#bufferline#go(4)
 nmap <Leader>b5 <Plug>lightline#bufferline#go(5)
 nmap <Leader>b6 <Plug>lightline#bufferline#go(6)
-nmap <silent><leader>rn :Semshi rename<CR>
+
 nmap <silent> <Tab> :Semshi goto name next<CR>
 nmap <silent> <S-Tab> :Semshi goto name prev<CR>
-nmap <Leader>x :call flake8#Flake8UnplaceMarkers()<CR>
-nmap <silent> <C-_> <Plug>(pydocstring)
+
+nmap <silent> <leader>pd <Plug>(pydocstring)
+
 nnoremap <leader>dbb :PUDBToggleBreakPoint<CR>
 nnoremap <leader>dbc :PUDBClearAllBreakpoints<CR>
 nnoremap <leader>dbu :PUDBUpdateBreakPoints<CR>
 nnoremap <leader>dbs :PUDBStatus<CR>
 nnoremap <leader>dbl :PUDBLaunchDebuggerTab<CR>
+
 nmap <leader>gh :diffget //2<CR>
 nmap <leader>gl :diffget //3<CR>
 nmap <leader>gs :G <CR>
+
+nmap <leader>rf <Plug>(coc-codeaction-selected)
+
+nnoremap <leader>md :MarkdownPreview<CR>
+
+nmap <leader>jpc :JupyterConnect<CR>
+vmap <leader>jps :JupyterSendRange<CR>
+nmap <leader>jpd :JupyterDisconnect<CR>
+
+nnoremap <C-p> :GFiles<CR>
+nnoremap <C-f> :Files<CR>
+nnoremap <leader>rg :Rg<space>
+
 
 
 " Plugins Config ---------------------------------------------------------------
@@ -185,7 +208,20 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 highlight QuickScopePrimary guifg='#00C7DF' gui=underline ctermfg=155 cterm=underline
 highlight QuickScopeSecondary guifg='#afff5f' gui=underline ctermfg=81 cterm=underline
 
+" Markdown Preview
+let g:mkdp_auto_close = 0
 
+" Jupyter vim
+let g:jupyter_mapkeys = 0
+
+" Pydocstring (google, sphinx, numpy)
+let g:pydocstring_formatter = 'google'
+let g:python_style = 'google'
+
+" Vista
+let g:vista_default_executive = 'coc'
+let g:vista_echo_cursor_strategy = 'floating_win'
+let g:vista_cursor_delay = 800
 
 
 " Options ----------------------------------------------------------------------
@@ -198,7 +234,7 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
-colorscheme molokai
+colorscheme gruvbox
 set background=dark
 let s:molokai_original = 0
 
@@ -225,6 +261,7 @@ set pumheight=15
 set nohlsearch
 set diffopt+=vertical
 set hidden
+set formatoptions-=cro
 
 "Other ------------------------------------------------------------------------
 filetype plugin indent on
@@ -269,35 +306,44 @@ endfunction
 
 function! SetColors()
     hi semshiLocal           ctermfg=209
-    hi semshiGlobal          ctermfg=172
+    hi semshiGlobal          ctermfg=172    guifg=#CC7E00
     hi semshiImported        ctermfg=172    guifg=#CC7E00
-    hi semshiParameter       ctermfg=75
+    hi semshiParameter       ctermfg=75     guifg=#83a598
     hi semshiParameterUnused ctermfg=117
     hi semshiFree            ctermfg=84
     hi semshiBuiltin         ctermfg=112
     hi semshiAttribute       ctermfg=49
     hi semshiSelf            ctermfg=249
-    hi semshiUnresolved      ctermfg=226
+    hi semshiUnresolved      ctermfg=226    guifg=#ECDD57
     hi semshiSelected        ctermfg=231
 
-    hi semshiErrorSign       ctermfg=231
-    hi semshiErrorChar       ctermfg=231
+    hi semshiErrorSign       ctermfg=231 gui=underline
+    hi semshiErrorChar       ctermfg=231 gui=underline
     sign define semshiError text=E texthl=semshiErrorSign
 
 
     if g:colors_name ==# "molokai" || g:colors_name ==# "gruvbox"
         set cursorline
-        hi CursorLine            guibg=#101010
-        hi Normal                guibg=#090909
-        hi MatchParen            gui=none       guibg=none      guifg=#BF4900
-        hi LineNr                guibg=#121212  guifg=#5E5E5E
-        hi Comment               guibg=none     guifg=#343434
-        hi ExtraWhitespace       guibg=#292929
-        hi ColorColumn           guibg=#101010
-        hi Visual                guibg=#4A4A4A
-        hi Error                 guibg=#121212  guifg=#FFFFFF
-        hi Todo                  guibg=#121212
-        hi SignColumn            guibg=#121212
+        hi CursorLine           guibg=#101010
+        hi Normal               guibg=#090909
+        hi MatchParen           gui=none       guibg=none      guifg=#BF4900
+        hi LineNr               guibg=#121212  guifg=#5E5E5E
+        hi Comment              guibg=none     guifg=#343434
+        hi ExtraWhitespace      guibg=#292929
+        hi ColorColumn          guibg=#101010
+        hi Visual               guibg=#4A4A4A
+        hi Error                guibg=#121212  guifg=#FFFFFF gui=underline
+        hi Todo                 guibg=#121212
+        hi SignColumn           guibg=#121212
+        hi CursorLineNr         guibg=#101010
+
+        hi ALEError             guibg=#121212 guifg=#EB4034
+        hi ALEStyleError        guibg=#121212
+        hi ALEErrorSign         guibg=#121212 guifg=#EB4034
+        hi ALEWarning           guibg=#121212
+        hi ALEWarningSign       guibg=#121212
+        hi ALEStyleWarning      guibg=#121212
+        hi ALEInfo              guibg=#121212
     endif
 
 endfunction

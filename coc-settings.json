@@ -1,6 +1,9 @@
 {
     "suggest.timeout": 15000,
     "suggest.maxCompleteItemCount": 20,
+    "diagnostic.errorSign": "●",
+    "diagnostic.warningSign": "•",
+    "diagnostic.infoSign": "•",
 
     "python.linting.pylintUseMinimalCheckers": true,
     "python.jediEnabled": true,
