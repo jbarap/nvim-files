@@ -6,9 +6,8 @@
     "diagnostic.infoSign": "•",
 
     "python.linting.pylintUseMinimalCheckers": true,
-    "python.jediEnabled": true,
+    "python.jediEnabled": false,
     "python.linting.enabled": false,
     "python.pythonPath": "python3",
-    "diagnostic.displayByAle": true,
-
+    "diagnostic.displayByAle": true
 }

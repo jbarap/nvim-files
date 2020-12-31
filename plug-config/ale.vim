@@ -3,18 +3,19 @@ let g:ale_linters_explicit = 1
 let g:ale_linters = {
     \    'python': ['flake8', 'pylint', 'mypy'],
     \}
-" add mypy
 
 let g:ale_python_flake8_options = '--max-line-length=110'
 
 " let g:ale_python_pylint_executable = 'python3'
-let g:ale_python_pylint_options = '--disable=missing-module-docstring,
+let g:ale_python_pylint_options = "--disable=missing-module-docstring,
     \too-few-public-methods,missing-class-docstring,missing-function-docstring,
     \invalid-name,import-error,no-else-return,line-too-long,trailing-newlines,
     \no-name-in-module
-    \ --generated-members=pandas.,cv2.,cv2.aruco.'
+    \ --generated-members=pandas.,cv2.,cv2.aruco."
 
 let g:ale_python_mypy_options = '--ignore-missing-import'
+
+let g:ale_python_flake8_options = '--indent-size=2'
 
 
 " Fixers ---------------------------------------------------------------------

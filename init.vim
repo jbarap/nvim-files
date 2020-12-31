@@ -49,8 +49,7 @@ Plug 'unblevable/quick-scope'
 Plug 'goerz/jupytext.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'jupyter-vim/jupyter-vim'
-
-
+Plug 'mvanderkamp/vim-pudb-and-jam'
 
 call plug#end()
 
@@ -109,11 +108,11 @@ nmap <silent> <S-Tab> :Semshi goto name prev<CR>
 
 nmap <silent> <leader>pd <Plug>(pydocstring)
 
-nnoremap <leader>dbb :PUDBToggleBreakPoint<CR>
-nnoremap <leader>dbc :PUDBClearAllBreakpoints<CR>
-nnoremap <leader>dbu :PUDBUpdateBreakPoints<CR>
-nnoremap <leader>dbs :PUDBStatus<CR>
-nnoremap <leader>dbl :PUDBLaunchDebuggerTab<CR>
+" nnoremap <leader>dbb :PUDBToggleBreakPoint<CR>
+" nnoremap <leader>dbc :PUDBClearAllBreakpoints<CR>
+" nnoremap <leader>dbu :PUDBUpdateBreakPoints<CR>
+" nnoremap <leader>dbs :PUDBStatus<CR>
+" nnoremap <leader>dbl :PUDBLaunchDebuggerTab<CR>
 
 nmap <leader>gh :diffget //2<CR>
 nmap <leader>gl :diffget //3<CR>
@@ -131,6 +130,9 @@ nnoremap <C-p> :GFiles<CR>
 nnoremap <C-f> :Files<CR>
 nnoremap <leader>rg :Rg<space>
 
+nnoremap <leader>dbc :<C-U>PudbClearAll<CR>
+nnoremap <leader>dbl :<C-U>PudbList<CR>
+nnoremap <leader>dbb :<C-U>PudbToggle<CR>
 
 
 " Plugins Config ---------------------------------------------------------------
@@ -174,6 +176,7 @@ let g:lightline#bufferline#min_buffer_count = 2
 let g:semshi#mark_selected_nodes = 0
 let g:semshi#error_sign_delay = 4
 let g:semshi#error_sign = v:false
+let g:semshi#filetypes = ['python']
 
 " indentLine
 let g:indentLine_char  = '▏'
@@ -226,6 +229,7 @@ let g:vista_cursor_delay = 800
 
 " Options ----------------------------------------------------------------------
 let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+set mouse=a
 
 set 		number
 syntax 		on
@@ -344,6 +348,8 @@ function! SetColors()
         hi ALEWarningSign       guibg=#121212
         hi ALEStyleWarning      guibg=#121212
         hi ALEInfo              guibg=#121212
+
+        hi CocHighlightText     guibg=#121212 gui=underline
     endif
 
 endfunction

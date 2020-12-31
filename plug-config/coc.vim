@@ -51,7 +51,8 @@ nmap <silent><leader>gy <Plug>(coc-type-definition)
 nmap <silent><leader>gti <Plug>(coc-implementation)
 nmap <silent><leader>gtr <Plug>(coc-references)
 
-nmap <silent><leader>gd :call <SID>show_documentation()<CR>
+" nmap <silent><leader>gd :call <SID>show_documentation()<CR>
+nmap <silent><S-K> :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -62,7 +63,12 @@ function! s:show_documentation()
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
+" nmap <silent><S-H> :call <SID>highlight_symbol()<CR>
+
+" function! s:highlight_symbol()
+"     call CocActionAsync('highlight')
+" endfunction
 
 " Symbol renaming. Pending ----------------------------------
 nmap <leader>rn <Plug>(coc-rename)

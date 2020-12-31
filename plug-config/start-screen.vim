@@ -18,5 +18,6 @@ let g:startify_bookmarks = [
 
 let g:startify_bookmarks = [
             \ { 'i': '~/.config/nvim/init.vim' },
+            \ { 'z': '~/.zshrc'}
             \ ]
 
