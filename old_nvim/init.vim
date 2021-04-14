@@ -1,5 +1,3 @@
-set termguicolors
-
 if exists('+termguicolors')
   let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
@@ -37,6 +35,7 @@ Plug 'liuchengxu/vista.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'RyanMillerC/better-vim-tmux-resizer'
 Plug 'sheerun/vim-polyglot'
 Plug 'alvan/vim-closetag'
 Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
@@ -48,21 +47,30 @@ Plug 'mhinz/vim-startify'
 Plug 'unblevable/quick-scope'
 Plug 'goerz/jupytext.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'jupyter-vim/jupyter-vim'
+" Plug 'jupyter-vim/jupyter-vim'
+Plug 'bfredl/nvim-ipy'
 Plug 'mvanderkamp/vim-pudb-and-jam'
+Plug 'svermeulen/vim-macrobatics'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'python-rope/ropevim'
+Plug 'eugen0329/vim-esearch'
+Plug 'wellle/targets.vim'
 
 call plug#end()
 
 "Remaps -----------------------------------------------------------------------
 
-" Native
+let mapleader=" "
+
 inoremap jk <Esc>l
 inoremap JK <Esc>l
 
-nnoremap <silent><A-j> :set paste<CR>m`o<Esc>``:set nopaste<CR>
-nnoremap <silent><A-k> :set paste<CR>m`O<Esc>``:set nopaste<CR>
-nnoremap <silent><A-l> :bnext<CR>
-nnoremap <silent><A-h> :bprevious<CR>
+nnoremap <silent><C-M-j> :set paste<CR>m`o<Esc>``:set nopaste<CR>
+nnoremap <silent><C-M-k> :set paste<CR>m`O<Esc>``:set nopaste<CR>
+
+nnoremap <silent><M-.> :bnext<CR>
+nnoremap <silent><M-,> :bprevious<CR>
+
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -78,16 +86,16 @@ nmap ]f <Plug>(PythonsenseStartOfNextPythonFunction)
 nmap ]F <Plug>(PythonsenseEndOfPythonFunction)
 nmap [f <Plug>(PythonsenseStartOfPythonFunction)
 nmap [F <Plug>(PythonsenseEndOfPreviousPythonFunction)
+nmap ]c <Plug>(PythonsenseStartOfNextPythonClass)
+nmap [c <Plug>(PythonsenseStartOfPythonClass)
 
 " Leader/Plugs
-let mapleader=" "
 map      <silent><leader>n :NERDTreeToggle<CR>
-nnoremap <silent><leader>f za
 nnoremap <silent><leader><Space> :set relativenumber!<CR>
 noremap <Leader>y "+yg_
 noremap <Leader>p "+p
 nnoremap <silent><leader><CR> :noh<CR>
-nnoremap <silent><leader>t :Vista!!<CR>
+nnoremap <silent><leader>tt :Vista!!<CR>
 
 nnoremap <leader>w :StripWhitespace<CR>
 
@@ -108,12 +116,6 @@ nmap <silent> <S-Tab> :Semshi goto name prev<CR>
 
 nmap <silent> <leader>pd <Plug>(pydocstring)
 
-" nnoremap <leader>dbb :PUDBToggleBreakPoint<CR>
-" nnoremap <leader>dbc :PUDBClearAllBreakpoints<CR>
-" nnoremap <leader>dbu :PUDBUpdateBreakPoints<CR>
-" nnoremap <leader>dbs :PUDBStatus<CR>
-" nnoremap <leader>dbl :PUDBLaunchDebuggerTab<CR>
-
 nmap <leader>gh :diffget //2<CR>
 nmap <leader>gl :diffget //3<CR>
 nmap <leader>gs :G <CR>
@@ -122,9 +124,9 @@ nmap <leader>rf <Plug>(coc-codeaction-selected)
 
 nnoremap <leader>md :MarkdownPreview<CR>
 
-nmap <leader>jpc :JupyterConnect<CR>
-vmap <leader>jps :JupyterSendRange<CR>
-nmap <leader>jpd :JupyterDisconnect<CR>
+" nmap <leader>jpc :JupyterConnect<CR>
+" vmap <leader>jps :JupyterSendRange<CR>
+" nmap <leader>jpd :JupyterDisconnect<CR>
 
 nnoremap <C-p> :GFiles<CR>
 nnoremap <C-f> :Files<CR>
@@ -133,7 +135,23 @@ nnoremap <leader>rg :Rg<space>
 nnoremap <leader>dbc :<C-U>PudbClearAll<CR>
 nnoremap <leader>dbl :<C-U>PudbList<CR>
 nnoremap <leader>dbb :<C-U>PudbToggle<CR>
+nnoremap <leader>dbs oimport pudb; pu.db<Esc>
 
+nmap <nowait> q <plug>(Mac_Play)
+nmap <nowait> gq <plug>(Mac_RecordNew)
+nmap <leader>mh :DisplayMacroHistory<cr>
+nmap [m <plug>(Mac_RotateBack)
+nmap ]m <plug>(Mac_RotateForward)
+nmap <leader>ma <plug>(Mac_Append)
+nmap <leader>mp <plug>(Mac_Prepend)
+nmap <leader>mn <plug>(Mac_NameCurrentMacro)
+nmap <leader>me <plug>(Mac_SearchForNamedMacroAndPlay)
+nmap <leader>ms <plug>(Mac_SearchForNamedMacroAndSelect)
+
+nmap <silent>]q :cnext<CR>
+nmap <silent>[q :cprev<CR>
+nmap <silent>[Q :clast<CR>
+nmap <silent>[Q :cfirst<CR>
 
 " Plugins Config ---------------------------------------------------------------
 
@@ -180,6 +198,7 @@ let g:semshi#filetypes = ['python']
 
 " indentLine
 let g:indentLine_char  = '▏'
+let g:indentLine_fileType = ['c', 'cpp', 'python']
 
 " NerdTree
 let NERDTreeShowHidden = 1
@@ -225,6 +244,32 @@ let g:python_style = 'google'
 let g:vista_default_executive = 'coc'
 let g:vista_echo_cursor_strategy = 'floating_win'
 let g:vista_cursor_delay = 800
+
+" Jupyter
+" TODO: close the kernel automatically
+" command! -nargs=0 RunQtConsole
+"     \ call jobstart("jupyter qtconsole --JupyterWidget.include_other_output=True")
+
+fu! RunQtConsole()
+    !jupyter kernelspec list
+    let kernel = input("Choose the notebook's kernel: ")
+    let jupyter_command = "jupyter qtconsole --JupyterWidget.include_other_output=True --kernel=" .. kernel
+    :call jobstart(jupyter_command)
+endfunction
+
+let g:ipy_celldef = '^##' " regex for cell start and end
+let g:nvim_ipy_perform_mappings = 0
+
+nmap <silent> <leader>jqt :call RunQtConsole()<Enter>
+nmap <silent> <leader>jk :IPython<Space>--existing<Space>--no-window<CR>
+nmap <silent> <leader>jr <Plug>(IPy-Run)
+nmap <silent> <leader>jc <Plug>(IPy-RunCell)
+nmap <silent> <leader>ja <Plug>(IPy-RunAll)
+nmap <silent> <leader>jt <Plug>(IPy-Terminate)
+
+" Tmux
+let g:tmux_resizer_resize_count = 1  " horizontal
+let g:tmux_resizer_vertical_resize_count = 1  " vertical
 
 
 " Options ----------------------------------------------------------------------
@@ -280,6 +325,7 @@ autocmd VimEnter * nnoremap <C-I> <C-I>
 autocmd BufEnter  * set foldlevel=1
 " autocmd BufWritePost *.py call flake8#Flake8()
 autocmd BufRead,BufNewFile *.py let python_highlight_all=1
+autocmd BufRead,BufNewFile *.md let conceallevel=0
 autocmd VimEnter * call SetColors()
 autocmd FileType qf call AdjustWindowHeight(3, 10)
 autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
@@ -313,10 +359,10 @@ function! SetColors()
     hi semshiGlobal          ctermfg=172    guifg=#CC7E00
     hi semshiImported        ctermfg=172    guifg=#CC7E00
     hi semshiParameter       ctermfg=75     guifg=#83a598
-    hi semshiParameterUnused ctermfg=117
-    hi semshiFree            ctermfg=84
-    hi semshiBuiltin         ctermfg=112
-    hi semshiAttribute       ctermfg=49
+    hi semshiParameterUnused ctermfg=117    guifg=#98c0b1
+    hi semshiFree            ctermfg=84     guifg=#3CC687
+    hi semshiBuiltin         ctermfg=112    guifg=#33A12F
+    hi semshiAttribute       ctermfg=49     guifg=#3BA1C2
     hi semshiSelf            ctermfg=249
     hi semshiUnresolved      ctermfg=226    guifg=#ECDD57
     hi semshiSelected        ctermfg=231

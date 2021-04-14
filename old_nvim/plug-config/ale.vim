@@ -15,8 +15,6 @@ let g:ale_python_pylint_options = "--disable=missing-module-docstring,
 
 let g:ale_python_mypy_options = '--ignore-missing-import'
 
-let g:ale_python_flake8_options = '--indent-size=2'
-
 
 " Fixers ---------------------------------------------------------------------
 let g:ale_fixers = {

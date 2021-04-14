@@ -6,8 +6,17 @@
     "diagnostic.infoSign": "•",
 
     "python.linting.pylintUseMinimalCheckers": true,
-    "python.jediEnabled": false,
     "python.linting.enabled": false,
     "python.pythonPath": "python3",
+    /* "python.venvPath": "/home/john/.pyenv/versions/", */
+
+    /* Jedi options */
+    /* "jedi.startupMessage": false, */
+    /* "jedi.completion.disableSnippets": true, */
+
+    "python.jediEnabled": true,
+    "python.analysis.downloadChannel": "daily",
+
     "diagnostic.displayByAle": true
 }
+
