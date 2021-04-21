@@ -15,13 +15,14 @@ bind('n', '<Leader>y', '"+y', opts)
 -- Make Y key yank to end of line
 bind('n', 'Y', 'y$', {noremap = true})
 
--- Don't leave visual mode after indenting
--- bind('v', '>', '>gv^', {noremap = true})
--- bind('v', '<', '<gv^', {noremap = true})
-
 -- Indent with Tab and Shift-Tab
 bind('v', '<Tab>', '>', {})
 bind('v', '<S-Tab>', '<', {})
+
+-- Don't leave visual mode after certain actions
+-- bind('v', '>', '>gv^', {noremap = true})
+-- bind('v', '<', '<gv^', {noremap = true})
+bind('v', 'S', 'Sgv^', {noremap = true})
 
 -- Clear search highlight
 bind('n', '<leader><esc>', ':nohlsearch<cr>', opts)

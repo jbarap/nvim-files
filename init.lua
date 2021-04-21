@@ -4,7 +4,6 @@ local cmd = vim.cmd
 vim.g.mapleader = ' '
 
 -- Add commands for reload and restart
--- TODO: Update name of loaded modules
 cmd('command! Reload lua require("utils").Reload()')
 cmd('command! Restart lua require("utils").Restart()')
 

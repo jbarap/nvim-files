@@ -30,7 +30,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<Leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
 
     -- Code actions
-    buf_set_keymap('n', '<Leader>crn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 
     -- Diagnostics (currently handled by ALE, see lua/config/tools)
     -- buf_set_keymap('n', '<Leader>cd', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
@@ -71,6 +71,20 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = function(...)
         }
     )(...)
 end
+
+-- diagnostics symbols
+vim.fn.sign_define('LspDiagnosticsSignError',
+    { text = '✗', texthl = 'LspDiagnosticsSignError' })
+
+vim.fn.sign_define('LspDiagnosticsSignWarning',
+    { text = '', texthl = 'LspDiagnosticsSignWarning' })
+
+vim.fn.sign_define('LspDiagnosticsSignInformation',
+    { text = '', texthl = 'LspDiagnosticsSignInformation' })
+
+vim.fn.sign_define('LspDiagnosticsSignHint',
+    { text = '', texthl = 'LspDiagnosticsSignHint' })
+
 
 -- nvim_lsp.pyls.setup{
 --     cmd = {"/home/john/.local/bin/pyls"},
@@ -218,6 +232,12 @@ vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 
+vim.cmd("inoremap <silent><expr> <C-Space> compe#complete()")
+vim.cmd("inoremap <silent><expr> <CR>      compe#confirm('<CR>')")
+vim.cmd("inoremap <silent><expr> <C-e>     compe#close('<C-e>')")
+vim.cmd("inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })")
+vim.cmd("inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })")
+
 -- Completion with saga
 -- local saga = require 'lspsaga'
 -- saga.init_lsp_saga()
@@ -226,7 +246,4 @@ vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 require('lspkind').init({
     with_text = false
 })
-
--- signature help
--- require('lsp_signature').on_attach()
 

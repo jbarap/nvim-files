@@ -3,11 +3,12 @@ local opts = { noremap = true, silent = true }
 
 -- Tree-sitter
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = {'c', 'cpp', 'python', 'bash', 'lua'},
+    ensure_installed = 'all',
     highlight = {
         enable = true,
         disable = {},
     },
+
     incremental_selection = {
         enable = true,
         keymaps = {
@@ -17,9 +18,43 @@ require'nvim-treesitter.configs'.setup {
             node_decremental = "grm",
         },
     },
+
     indent = {
-        enable = true
+        enable = true,
+        disable = {"python"},
     },
+
+    textobjects = {
+        select = {
+          enable = true,
+          keymaps = {
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = "@class.inner",
+          },
+        },
+        move = {
+          enable = true,
+          set_jumps = false, -- whether to set jumps in the jumplist
+          goto_next_start = {
+            ["]f"] = "@function.outer",
+            ["]c"] = "@class.outer",
+          },
+          goto_next_end = {
+            ["]F"] = "@function.outer",
+            ["]C"] = "@class.outer",
+          },
+          goto_previous_start = {
+            ["[f"] = "@function.outer",
+            ["[c"] = "@class.outer",
+          },
+          goto_previous_end = {
+            ["[F"] = "@function.outer",
+            ["[C"] = "@class.outer",
+          },
+        },
+    }
 }
 
 -- Autopairs
@@ -33,10 +68,6 @@ require('nvim-autopairs').setup({
         ['`'] = '`',
     }
 })
-
--- Dial
-bind('n', '<C-a>', '<Plug>(dial-increment)', opts)
-bind('n', '<C-x>', '<Plug>(dial-decrement)', opts)
 
 -- Rooter
 vim.g.rooter_patterns = {
@@ -55,6 +86,8 @@ bind('n', "<C-j>", "<CMD>lua require('Navigator').down()<CR>", opts)
 bind('n', "<Leader>n", ":NvimTreeToggle<CR>", opts)
 vim.g.nvim_tree_gitignore = 1
 vim.g.nvim_tree_auto_open = 1
+vim.g.nvim_tree_gitignore = 0
+vim.g.nvim_tree_width = 40
 vim.g.nvim_tree_auto_ignore_ft = {'startify', 'dashboard'}
 vim.g.nvim_tree_indent_markers = 1
 
@@ -73,28 +106,28 @@ neogit.setup {
 bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts) ]]
 
 -- Gitsigns
--- require('gitsigns').setup{
---     keymaps = {
---         noremap = true,
---         buffer = true,
+require('gitsigns').setup{
+    keymaps = {
+        noremap = true,
+        buffer = true,
 
---         ['n ]h'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
---         ['n [h'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
+        ['n ]h'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
+        ['n [h'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
 
---         ['n <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
---         ['n <leader>ghu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
---         ['n <leader>ghr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
---         ['n <leader>ghR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
---         ['n <leader>ghp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
---         ['n <leader>ghh'] = '<cmd>lua require"gitsigns".toggle_numhl()<CR>',
---         ['n <leader>gbl'] = '<cmd>lua require"gitsigns".blame_line()<CR>',
---         ['n <leader>gbt'] = '<cmd>lua require"gitsigns".toggle_current_line_blame()<CR>',
+        ['n <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
+        ['n <leader>ghu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
+        ['n <leader>ghr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+        ['n <leader>ghR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
+        ['n <leader>ghp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
+        ['n <leader>ghh'] = '<cmd>lua require"gitsigns".toggle_numhl()<CR>',
+        ['n <leader>gbl'] = '<cmd>lua require"gitsigns".blame_line()<CR>',
+        ['n <leader>gbt'] = '<cmd>lua require"gitsigns".toggle_current_line_blame()<CR>',
 
---         -- Text objects
---         ['o ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
---         ['x ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>'
---     },
--- }
+        -- Text objects
+        ['o ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
+        ['x ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>'
+    },
+}
 
 -- Fugitive
 bind('n', "<Leader>gs", ":Git<CR>", opts)
@@ -114,7 +147,7 @@ vim.cmd("nmap <c-f><c-f> <plug>(esearch)")
 
 -- Doge
 vim.g.doge_doc_standard_python = 'google'
-vim.g.doge_mapping = '<Leader>ds'
+vim.g.doge_mapping = '<Leader>cds'
 
 -- Comments
 require('kommentary.config').configure_language("default", {
@@ -141,58 +174,37 @@ vim.g.ale_sign_info = '.'
 vim.g.ale_sign_style_error = '●'
 vim.g.ale_sign_style_warning = '.'
 vim.g.ale_sign_warning = '.'
-vim.g.ale_warn_about_trailing_blank_lines = 1
+vim.g.ale_warn_about_trailing_blank_lines = 0
 vim.g.ale_warn_about_trailing_whitespace = 1
+
+vim.g.ale_virtualtext_cursor = 0
+
+vim.cmd("hi! link ALEError LspDiagnosticsDefaultError")
+vim.cmd("hi! link ALEErrorSign LspDiagnosticsSignError")
+vim.cmd("hi! link ALEInfo LspDiagnosticsDefaultInformation")
+vim.cmd("hi! link ALEInfoSign LspDiagnosticsSignInformation")
+vim.cmd("hi! link ALEStyleError LspDiagnosticsDefaultHint")
+vim.cmd("hi! link ALEStyleErrorSign LspDiagnosticsSignHint")
+vim.cmd("hi! link ALEWarning LspDiagnosticsDefaultWarning")
+vim.cmd("hi! link ALEWarningSign LspDiagnosticsSignWarning")
 
 vim.cmd("nmap <silent> [D :ALEFirst<CR> :ALEDetail<CR>")
 vim.cmd("nmap <silent> [d :ALEPreviousWrap<cr>")
 vim.cmd("nmap <silent> ]d :ALENextWrap<cr> :ALEDetail<CR>")
 vim.cmd("nmap <silent> ]D :ALELast<cr> :ALEDetail<CR>")
 
--- DAP
-local dap = require('dap')
+-- Vimspector
+-- Debugging configs in ~/.local/share/nvim/site/pack/packer/start/vimspector/configurations/linux/<lang>
+bind("n", "<Leader>db", ":call vimspector#ToggleBreakpoint()<CR>", opts)
+bind("n", "<Leader>dc", ":call vimspector#Continue()<CR>", opts)
+bind("n", "<Leader>dj", ":call vimspector#StepOver()<CR>", opts)
+bind("n", "<Leader>dl", ":call vimspector#StepInto()<CR>", opts)
+bind("n", "<Leader>dh", ":call vimspector#StepOut()<CR>", opts)
+bind("n", "<Leader>ds", ":call vimspector#Reset()<CR>", opts)
+vim.cmd("nmap <Leader>di <Plug>VimspectorBalloonEval")
+vim.cmd("xmap <Leader>di <Plug>VimspectorBalloonEval")
 
-dap.adapters.python_attach = {
-  type = 'executable';
-  command = '/home/john/.pyenv/versions/nvim-env/bin/python3';
-  args = { '-m', 'debugpy.adapter' };
-}
-
-dap.configurations.python = {
-    {
-        type = 'python_attach',
-        request = 'executable',
-        name = 'Attach to process',
-        args = function()
-            local host = vim.fn.input('Host [127.0.0.1]: ')
-            if host == "" then
-                host = '127.0.0.1'
-            end
-
-            local port = vim.fn.input('Port [5678]: ') or 5678
-            local pid = vim.fn.input('PID [12345]: ') or 12345
-
-            return "--listen "..host..":"..port.." --pid "..pid
-        end
-    },
-}
-
-local dap_python = require('dap-python')
-dap_python.setup('~/.pyenv/versions/nvim-env/bin/python3', {include_configs=true, console='internalConsole'})
-dap_python.test_runner = 'pytest'
-
-bind("n", "<Leader>db", ":lua require('dap').toggle_breakpoint()<CR>", opts)
-bind("n", "<Leader>dc", ":lua require('dap').continue()<CR>", opts)
-bind("n", "<Leader>dj", ":lua require('dap').step_over()<CR>", opts)
-bind("n", "<Leader>dl", ":lua require('dap').step_into()<CR>", opts)
-bind("n", "<Leader>dh", ":lua require('dap').step_out()<CR>", opts)
-bind("n", "<Leader>dr", ":lua require('dap').repl.open()<CR>", opts)
-
-require("dapui").setup({
-    sidebar = {
-        position = "right"
-    },
-
-})
-
+vim.fn.sign_define('vimspectorBP', {text = '◆', texthl = 'WarningMsg' })
+-- vim.g.vimspector_sidebar_width = 75
+-- vim.g.vimspector_bottombar_height = 15
 

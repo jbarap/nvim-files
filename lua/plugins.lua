@@ -11,20 +11,18 @@ end
 
 return require('packer').startup(function()
     -- Packer
-    use 'wbthomason/packer.nvim'
+    use {'wbthomason/packer.nvim'}
 
     -- Colors
-    use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
     use 'norcalli/nvim-colorizer.lua'
-    use 'sainnhe/sonokai'
     use 'joshdick/onedark.vim'
+    use 'folke/tokyonight.nvim'
 
     -- LSP
     use 'neovim/nvim-lspconfig'
     use 'hrsh7th/nvim-compe'
     use 'kabouzeid/nvim-lspinstall'
     use 'onsails/lspkind-nvim'
-    -- use 'ray-x/lsp_signature.nvim'
 
     -- Linting
     -- Waiting until https://github.com/mfussenegger/nvim-lint is more developed
@@ -33,6 +31,7 @@ return require('packer').startup(function()
 
     -- Syntax
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+    use 'nvim-treesitter/nvim-treesitter-textobjects'
 
     -- Icons
     use 'kyazdani42/nvim-web-devicons'
@@ -65,9 +64,6 @@ return require('packer').startup(function()
     -- Surround
     use 'tpope/vim-surround'
 
-    -- Increment
-    use 'monaqa/dial.nvim'
-
     -- Substitution
     use 'svermeulen/vim-subversive'
 
@@ -76,7 +72,7 @@ return require('packer').startup(function()
 
     -- Git
     -- use 'TimUntersberger/neogit'
-    use 'lewis6991/gitsigns.nvim'  -- Currently fails in not-git repos
+    use 'lewis6991/gitsigns.nvim'
     use 'tpope/vim-fugitive'
 
     -- Change cwd to project
@@ -98,9 +94,10 @@ return require('packer').startup(function()
     use 'wellle/targets.vim'
 
     -- Debugging
-    use 'mfussenegger/nvim-dap'
-    use 'mfussenegger/nvim-dap-python'
-    use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+    use 'puremourning/vimspector'
+
+    -- Python Indent
+    use 'Vimjas/vim-python-pep8-indent'
 
 end)
 

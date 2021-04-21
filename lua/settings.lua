@@ -8,11 +8,12 @@ set_opt('o', 'splitright', true)
 -- Resize sign column limit
 -- Something overrides the option, has to be autocmd
 -- vim.cmd('autocmd VimEnter * :set signcolumn="auto:2"<CR>')
-set_opt('o', 'signcolumn', 'auto:2')
+set_opt('o', 'signcolumn', 'yes:1')
 
 -- Swap
-set_opt('o', 'swapfile', true)
-set_opt('o', 'dir', '/tmp')
+-- set_opt('o', 'swapfile', true)
+-- set_opt('o', 'dir', '/tmp')
+set_opt('o', 'undofile', true)
 
 -- Completion menu height
 set_opt('o', 'pumheight', 20)
@@ -73,3 +74,13 @@ cmd 'filetype plugin on'
 require('utils').create_augroup({
     {'TextYankPost', '*', 'silent!', 'lua vim.highlight.on_yank()'}
 }, 'highlight_on_yank')
+
+
+--Add move line shortcuts
+vim.api.nvim_set_keymap('n', '<A-j>', ':m .+1<CR>==', { noremap = true})
+vim.api.nvim_set_keymap('n', '<A-k>', ':m .-2<CR>==', { noremap = true})
+vim.api.nvim_set_keymap('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { noremap = true})
+vim.api.nvim_set_keymap('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { noremap = true})
+vim.api.nvim_set_keymap('v', '<A-j>', ':m \'>+1<CR>gv=gv', { noremap = true})
+vim.api.nvim_set_keymap('v', '<A-k>', ':m \'<-2<CR>gv=gv', { noremap = true})
+
