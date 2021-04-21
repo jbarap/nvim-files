@@ -154,7 +154,7 @@ nvim_lsp.dockerfile.setup{
 
 -- nvim_lsp.efm.setup {
 --     cmd = {"/home/john/go/bin/efm-langserver"},
---     init_options = {documentFormatting = true},
+--     init_options = {documentFormatting = false},
 --     filetypes = {"python"},
 --     settings = {
 --         rootMarkers = {".git/", "setup.py", "requirements.txt", "venv"},
@@ -163,6 +163,7 @@ nvim_lsp.dockerfile.setup{
 --         }
 --     }
 -- }
+
 
 -- Completion with compe
 vim.o.completeopt = "menuone,noselect"

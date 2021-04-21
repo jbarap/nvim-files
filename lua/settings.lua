@@ -58,7 +58,7 @@ set_opt('o', 'ignorecase', true)
 set_opt('o', 'smartcase', true)
 
 -- Faster update time
-set_opt('o', 'updatetime', 100)
+set_opt('o', 'updatetime', 200)
 
 -- Highlight current line
 set_opt('o', 'cursorline', false)

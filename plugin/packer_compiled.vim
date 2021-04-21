@@ -87,10 +87,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
   },
-  ["gruvbox.nvim"] = {
-    loaded = true,
-    path = "/home/john/.local/share/nvim/site/pack/packer/start/gruvbox.nvim"
-  },
   ["indent-blankline.nvim"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim"
@@ -106,10 +102,6 @@ _G.packer_plugins = {
   ["lualine.nvim"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/lualine.nvim"
-  },
-  ["lush.nvim"] = {
-    loaded = true,
-    path = "/home/john/.local/share/nvim/site/pack/packer/start/lush.nvim"
   },
   ["nvim-ale-diagnostic"] = {
     loaded = true,
@@ -166,10 +158,6 @@ _G.packer_plugins = {
   ["popup.nvim"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/popup.nvim"
-  },
-  sonokai = {
-    loaded = true,
-    path = "/home/john/.local/share/nvim/site/pack/packer/start/sonokai"
   },
   ["targets.vim"] = {
     loaded = true,
