@@ -13,6 +13,9 @@ return require('packer').startup(function()
     -- Packer
     use {'wbthomason/packer.nvim'}
 
+    -- Icons
+    use 'kyazdani42/nvim-web-devicons'
+
     -- Colors
     use 'norcalli/nvim-colorizer.lua'
     use 'joshdick/onedark.vim'
@@ -23,18 +26,11 @@ return require('packer').startup(function()
     use 'hrsh7th/nvim-compe'
     use 'kabouzeid/nvim-lspinstall'
     use 'onsails/lspkind-nvim'
-
-    -- Linting
-    -- Waiting until https://github.com/mfussenegger/nvim-lint is more developed
-    use 'dense-analysis/ale'
-    use 'nathunsmitty/nvim-ale-diagnostic'
+    use {'folke/lsp-trouble.nvim', requires = "kyazdani42/nvim-web-devicons"}
 
     -- Syntax
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
     use 'nvim-treesitter/nvim-treesitter-textobjects'
-
-    -- Icons
-    use 'kyazdani42/nvim-web-devicons'
 
     -- Fuzzy finding
     use {
@@ -98,6 +94,9 @@ return require('packer').startup(function()
 
     -- Python Indent
     use 'Vimjas/vim-python-pep8-indent'
+
+    -- Markdown preview
+    use {'iamcco/markdown-preview.nvim', run=':call mkdp#util#install()'}
 
 end)
 

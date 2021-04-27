@@ -1,5 +1,6 @@
 local bind = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
+local utils = require('config.utils')
 
 vim.o.termguicolors = true
 
@@ -52,6 +53,7 @@ bind('n', '<Leader>bf', ':BufferPick<CR>', opts)
 
 -- Indent lines
 vim.g.indent_blankline_show_trailing_blankline_indent = false
+vim.g.indent_blankline_use_treesitter = false
 vim.g.indent_blankline_char = '▏'
 
 -- Colorscheme
@@ -61,33 +63,50 @@ vim.g.tokyonight_hide_inactive_statusline = true
 
 vim.cmd('colorscheme tokyonight')
 
--- Make darker
+-- Make elements darker
 local background_color = "#131313"
-vim.cmd("hi Normal guibg="..background_color)
-vim.cmd("hi Terminal guibg="..background_color)
-vim.cmd("hi EndOfBuffer guibg="..background_color)
-vim.cmd("hi TabLineFill guibg="..background_color)
 
-vim.cmd("hi GitSignsAdd guibg=NONE")
-vim.cmd("hi GitSignsChange guibg=NONE")
-vim.cmd("hi GitSignsDelete guibg=NONE")
+utils.change_highlight_bg("Normal", background_color)
+utils.change_highlight_bg("Terminal", background_color)
+utils.change_highlight_bg("EndOfBuffer", background_color)
+utils.change_highlight_bg("TabLineFill", background_color)
 
-vim.cmd("hi LineNr guibg=NONE")
-vim.cmd("hi SignColumn guibg=NONE")
+-- gitsigns
+utils.change_highlight_bg("GitSignsAdd", "NONE")
+utils.change_highlight_bg("GitSignsChange", "NONE")
+utils.change_highlight_bg("GitSignsDelete", "NONE")
+
+-- Sign column
+utils.change_highlight_bg("SignColumn", "NONE")
+utils.change_highlight_bg("LineNr", "NONE")
 
 -- floating windows
-vim.cmd("hi Pmenu guibg=#202020")
+utils.change_highlight_bg("Pmenu", "#202020")
 
 -- Tabline colors
-vim.cmd("hi BufferCurrent guibg=#202020")
-vim.cmd("hi BufferCurrentMod guibg=#202020")
-vim.cmd("hi BufferCurrentSign guibg=#202020")
-vim.cmd("hi BufferInactive guifg=#606060")
+utils.change_highlight_bg("BufferCurrent", "#202020")
+utils.change_highlight_bg("BufferCurrentMod", "#202020")
+utils.change_highlight_bg("BufferCurrentSign", "#202020")
+utils.change_highlight_fg("BufferInactive", "#606060")
 
 -- Lsp colors
-vim.cmd("hi LSPDiagnosticsFloatingError guibg=NONE")
-vim.cmd("hi LSPDiagnosticsFloatingWarning guibg=NONE")
-vim.cmd("hi LSPDiagnosticsFloatingHint guibg=NONE")
+-- utils.change_highlight_bg("LSPDiagnosticsSignHint", "NONE")
+-- utils.change_highlight_bg("LSPDiagnosticsSignWarning", "NONE")
+-- utils.change_highlight_bg("LSPDiagnosticsSignError", "NONE")
 
+utils.change_highlight_bg("LSPDiagnosticsDefaultHint", "NONE")
+utils.change_highlight_bg("LSPDiagnosticsDefaultWarning", "NONE")
+utils.change_highlight_bg("LSPDiagnosticsDefaultError", "NONE")
 
+-- utils.change_highlight_bg("LSPDiagnosticsFloatingError", "NONE")
+-- utils.change_highlight_bg("LSPDiagnosticsFloatingWarning", "NONE")
+-- utils.change_highlight_bg("LSPDiagnosticsFloatingHint", "NONE")
 
+-- LSP Trouble
+vim.cmd("autocmd BufEnter * hi LspTroubleNormal guibg=#151515")
+
+-- Nvim tree
+vim.cmd("autocmd BufEnter * hi NvimTreeNormal guibg=#131313")
+
+-- Others
+utils.change_highlight_fg("VertSplit", "#202020")

@@ -7,13 +7,13 @@ set_opt('o', 'splitright', true)
 
 -- Resize sign column limit
 -- Something overrides the option, has to be autocmd
--- vim.cmd('autocmd VimEnter * :set signcolumn="auto:2"<CR>')
-set_opt('o', 'signcolumn', 'yes:1')
+vim.cmd('autocmd VimEnter * :set signcolumn="yes:2"<CR>')
+-- set_opt('o', 'signcolumn', 'yes')
 
 -- Swap
 -- set_opt('o', 'swapfile', true)
 -- set_opt('o', 'dir', '/tmp')
-set_opt('o', 'undofile', true)
+-- set_opt('o', 'undofile', true)
 
 -- Completion menu height
 set_opt('o', 'pumheight', 20)

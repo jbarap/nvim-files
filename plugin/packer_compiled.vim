@@ -75,10 +75,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/Navigator.nvim"
   },
-  ale = {
-    loaded = true,
-    path = "/home/john/.local/share/nvim/site/pack/packer/start/ale"
-  },
   ["barbar.nvim"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/barbar.nvim"
@@ -95,6 +91,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/kommentary"
   },
+  ["lsp-trouble.nvim"] = {
+    loaded = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/lsp-trouble.nvim"
+  },
   ["lspkind-nvim"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/lspkind-nvim"
@@ -103,9 +103,9 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/lualine.nvim"
   },
-  ["nvim-ale-diagnostic"] = {
+  ["markdown-preview.nvim"] = {
     loaded = true,
-    path = "/home/john/.local/share/nvim/site/pack/packer/start/nvim-ale-diagnostic"
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim"
   },
   ["nvim-autopairs"] = {
     loaded = true,

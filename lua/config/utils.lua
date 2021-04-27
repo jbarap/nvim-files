@@ -42,7 +42,26 @@ function ReturnHighlightTerm(group, term)
     return output
 end
 
--- local result = ReturnHighlightTerm('Comment', 'fg')
+function M.change_highlight_bg(group, color)
+    local fg_color = ReturnHighlightTerm(group, 'fg')
+    local fg_option = ""
+    if fg_color ~= nil and fg_color ~= '' then
+        fg_option = " guifg="..fg_color
+    end
+    vim.cmd("hi "..group..fg_option.." guibg="..color)
+end
+
+function M.change_highlight_fg(group, color)
+    local bg_color = ReturnHighlightTerm(group, 'bg') or "NONE"
+    local bg_option = ""
+    if bg_color ~= nil and bg_color ~= '' then
+        bg_option = " guifg="..bg_color
+    end
+    vim.cmd("hi "..group.." guifg="..color..bg_option)
+end
+
+
+-- local result = ReturnHighlightTerm('Normal', 'fg')
 -- print(result)
 -- local sub_1 = string.sub(result, 2, 3)
 -- print(sub_1)
@@ -51,6 +70,5 @@ end
 
 -- print(string.sub(result, 4, 5))
 -- print(string.sub(result, 6, 7))
-
 
 return M

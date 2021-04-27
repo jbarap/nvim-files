@@ -107,6 +107,13 @@ bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>
 
 -- Gitsigns
 require('gitsigns').setup{
+    signs = {
+        add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+        change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+        delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+        topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+        changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    },
     keymaps = {
         noremap = true,
         buffer = true,
@@ -121,12 +128,16 @@ require('gitsigns').setup{
         ['n <leader>ghp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
         ['n <leader>ghh'] = '<cmd>lua require"gitsigns".toggle_numhl()<CR>',
         ['n <leader>gbl'] = '<cmd>lua require"gitsigns".blame_line()<CR>',
-        ['n <leader>gbt'] = '<cmd>lua require"gitsigns".toggle_current_line_blame()<CR>',
+        ['n <leader>gbb'] = '<cmd>lua require"gitsigns".toggle_current_line_blame()<CR>',
 
         -- Text objects
         ['o ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
-        ['x ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>'
+        ['x ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
     },
+    watch_index = {
+        interval = 2000
+    },
+    update_debounce = 1000,
 }
 
 -- Fugitive
@@ -154,45 +165,6 @@ require('kommentary.config').configure_language("default", {
     prefer_single_line_comments = true,
 })
 
--- ALE (backup linter in case LSP is laggy)
-vim.g.ale_enabled = 1
-vim.g.ale_disable_lsp = 1
-vim.g.ale_floating_preview = 1
-vim.g.ale_floating_window_border = {'│', '─', '╭', '╮', '╯', '╰'}
-vim.g.ale_hover_cursor = 1
-vim.g.ale_lint_on_text_changed = 'never'
-vim.g.ale_lint_on_insert_leave = 1
-
-vim.g.ale_fixers = {python = {'black'}}
-vim.g.ale_linters = {python = {'flake8', 'pylint'}}
-vim.g.ale_python_flake8_options = '--max-line-length=110'
-vim.g.ale_python_pylint_options = "--disable=C0111,R0903,C0111,C0103,F0401,C0301,E0611 "..
-                                  "--generated-members=pandas.,cv2.,cv2.aruco."
-
-vim.g.ale_sign_error = '●'
-vim.g.ale_sign_info = '.'
-vim.g.ale_sign_style_error = '●'
-vim.g.ale_sign_style_warning = '.'
-vim.g.ale_sign_warning = '.'
-vim.g.ale_warn_about_trailing_blank_lines = 0
-vim.g.ale_warn_about_trailing_whitespace = 1
-
-vim.g.ale_virtualtext_cursor = 0
-
-vim.cmd("hi! link ALEError LspDiagnosticsDefaultError")
-vim.cmd("hi! link ALEErrorSign LspDiagnosticsSignError")
-vim.cmd("hi! link ALEInfo LspDiagnosticsDefaultInformation")
-vim.cmd("hi! link ALEInfoSign LspDiagnosticsSignInformation")
-vim.cmd("hi! link ALEStyleError LspDiagnosticsDefaultHint")
-vim.cmd("hi! link ALEStyleErrorSign LspDiagnosticsSignHint")
-vim.cmd("hi! link ALEWarning LspDiagnosticsDefaultWarning")
-vim.cmd("hi! link ALEWarningSign LspDiagnosticsSignWarning")
-
-vim.cmd("nmap <silent> [D :ALEFirst<CR> :ALEDetail<CR>")
-vim.cmd("nmap <silent> [d :ALEPreviousWrap<cr>")
-vim.cmd("nmap <silent> ]d :ALENextWrap<cr> :ALEDetail<CR>")
-vim.cmd("nmap <silent> ]D :ALELast<cr> :ALEDetail<CR>")
-
 -- Vimspector
 -- Debugging configs in ~/.local/share/nvim/site/pack/packer/start/vimspector/configurations/linux/<lang>
 bind("n", "<Leader>db", ":call vimspector#ToggleBreakpoint()<CR>", opts)
@@ -207,4 +179,8 @@ vim.cmd("xmap <Leader>di <Plug>VimspectorBalloonEval")
 vim.fn.sign_define('vimspectorBP', {text = '◆', texthl = 'WarningMsg' })
 -- vim.g.vimspector_sidebar_width = 75
 -- vim.g.vimspector_bottombar_height = 15
+
+-- Markdown preview
+vim.g.mkdp_auto_close = 0
+
 

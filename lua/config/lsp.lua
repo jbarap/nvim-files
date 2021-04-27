@@ -1,7 +1,6 @@
 local nvim_lsp = require('lspconfig')
 
--- Route LSP diagnostics to ALE
-require("nvim-ale-diagnostic")
+local opts = {noremap=true, silent=true}
 
 -- Setup lsp mappings
 local on_attach = function(client, bufnr)
@@ -11,7 +10,6 @@ local on_attach = function(client, bufnr)
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     -- Mappings.
-    local opts = { noremap=true, silent=true }
 
     -- Get/Go
     -- See telescope for definition and references
@@ -32,11 +30,11 @@ local on_attach = function(client, bufnr)
     -- Code actions
     buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 
-    -- Diagnostics (currently handled by ALE, see lua/config/tools)
-    -- buf_set_keymap('n', '<Leader>cd', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-    -- buf_set_keymap('n', '<space>cq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-    -- buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    -- buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+    -- Diagnostics
+    buf_set_keymap('n', '<Leader>cdl', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    buf_set_keymap('n', '<space>cdq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+    buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+    buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 
     -- Set some keybinds conditional on server capabilities
     if client.resolved_capabilities.document_formatting then
@@ -64,9 +62,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = function(...)
         vim.lsp.diagnostic.on_publish_diagnostics,
         {
             update_in_insert = false,
-            -- Let ALE deal with diagnostics
-            underline = false,
             virtual_text = false,
+            underline = true,
             signs = true,
         }
     )(...)
@@ -74,7 +71,7 @@ end
 
 -- diagnostics symbols
 vim.fn.sign_define('LspDiagnosticsSignError',
-    { text = '✗', texthl = 'LspDiagnosticsSignError' })
+    { text = '☓', texthl = 'LspDiagnosticsSignError' })
 
 vim.fn.sign_define('LspDiagnosticsSignWarning',
     { text = '', texthl = 'LspDiagnosticsSignWarning' })
@@ -83,8 +80,11 @@ vim.fn.sign_define('LspDiagnosticsSignInformation',
     { text = '', texthl = 'LspDiagnosticsSignInformation' })
 
 vim.fn.sign_define('LspDiagnosticsSignHint',
-    { text = '', texthl = 'LspDiagnosticsSignHint' })
+    { text = '', texthl = 'LspDiagnosticsSignHint' })
 
+-- Diagnostic list
+require("trouble").setup {}
+vim.api.nvim_set_keymap("n", "<leader>cdd", "<cmd>LspTroubleToggle<cr>", opts)
 
 -- nvim_lsp.pyls.setup{
 --     cmd = {"/home/john/.local/bin/pyls"},
@@ -108,7 +108,11 @@ nvim_lsp.python.setup {
         venvPath = "/home/john/.pyenv/versions/",
         pythonPath = "/home/john/.pyenv/shims/python"
     },
-    on_attach = on_attach
+    on_attach = on_attach,
+    flags = {
+        debounce_text_changes = 3000,
+        allow_incremental_sync = true,
+    }
 }
 
 -- Lua
@@ -128,41 +132,47 @@ nvim_lsp.dockerfile.setup{
     on_attach = on_attach
 }
 
--- Python Linter (Currently too laggy)
+-- Linter
 -- https://github.com/lukas-reineke/dotfiles/tree/master/vim/lua/efm
 
--- local python_arguments = {}
+local python_arguments = {}
 
--- local flake8 = {
---     LintCommand = 'flake8 --ignore="E501,W391" --max-line-length=110 --stdin-display-name ${INPUT} -',
---     lintStdin = true,
---     lintFormats = {"%f:%l:%c: %m"}
--- }
--- table.insert(python_arguments, flake8)
+local flake8 = {
+    LintCommand = 'flake8 --ignore="E501,W391" --max-line-length=110 --stdin-display-name ${INPUT} -',
+    lintStdin = true,
+    lintFormats = {"%f:%l:%c: %m"}
+}
+table.insert(python_arguments, flake8)
 
--- local isort = {
---     formatCommand = "isort --quiet -",
---     formatStdin = true
--- }
--- table.insert(python_arguments, isort)
+local isort = {
+    formatCommand = "isort --quiet -",
+    formatStdin = true
+}
+table.insert(python_arguments, isort)
 
--- local black = {
---     formatCommand = "black --quiet --stdin-filename ",
---     formatStdin = true
--- }
--- table.insert(python_arguments, black)
+local black = {
+    formatCommand = "black --quiet --stdin-filename ",
+    formatStdin = true
+}
+table.insert(python_arguments, black)
 
--- nvim_lsp.efm.setup {
---     cmd = {"/home/john/go/bin/efm-langserver"},
---     init_options = {documentFormatting = false},
---     filetypes = {"python"},
---     settings = {
---         rootMarkers = {".git/", "setup.py", "requirements.txt", "venv"},
---         languages = {
---             python = python_arguments,
---         }
---     }
--- }
+-- debounce_text_changes is for recent neovim builds
+-- efm also has the option lintDebounce (in nano seconds)
+nvim_lsp.efm.setup {
+    cmd = {"/home/john/go/bin/efm-langserver"},
+    init_options = {documentFormatting = false, },
+    filetypes = {"python"},
+    settings = {
+        rootMarkers = {".git/", "setup.py", "requirements.txt", "venv"},
+        languages = {
+            python = python_arguments,
+        },
+    },
+    flags = {
+        debounce_text_changes = 3500,
+        allow_incremental_sync = true,
+    },
+}
 
 
 -- Completion with compe
@@ -247,4 +257,5 @@ vim.cmd("inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })")
 require('lspkind').init({
     with_text = false
 })
+
 
