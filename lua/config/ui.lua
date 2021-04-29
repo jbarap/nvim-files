@@ -32,8 +32,9 @@ require('lualine').setup{
 -- Startify
 vim.g.startify_session_dir = '~/.config/nvim/session'
 vim.g.startify_bookmarks = {
+    {t = "~/.tmux.conf"},
     {v = "~/.config/nvim/init.lua"},
-    {z = "~/.zshrc"}
+    {z = "~/.zshrc"},
 }
 
 -- Tabline
@@ -64,12 +65,13 @@ vim.g.tokyonight_hide_inactive_statusline = true
 vim.cmd('colorscheme tokyonight')
 
 -- Make elements darker
-local background_color = "#131313"
+local dark_bg_color = "#131313"
+local less_dark_bg_color = "#202020"
 
-utils.change_highlight_bg("Normal", background_color)
-utils.change_highlight_bg("Terminal", background_color)
-utils.change_highlight_bg("EndOfBuffer", background_color)
-utils.change_highlight_bg("TabLineFill", background_color)
+utils.change_highlight_bg("Normal", dark_bg_color)
+utils.change_highlight_bg("Terminal", dark_bg_color)
+utils.change_highlight_bg("EndOfBuffer", dark_bg_color)
+utils.change_highlight_bg("TabLineFill", dark_bg_color)
 
 -- gitsigns
 utils.change_highlight_bg("GitSignsAdd", "NONE")
@@ -81,32 +83,25 @@ utils.change_highlight_bg("SignColumn", "NONE")
 utils.change_highlight_bg("LineNr", "NONE")
 
 -- floating windows
-utils.change_highlight_bg("Pmenu", "#202020")
+utils.change_highlight_bg("Pmenu", less_dark_bg_color)
 
 -- Tabline colors
-utils.change_highlight_bg("BufferCurrent", "#202020")
-utils.change_highlight_bg("BufferCurrentMod", "#202020")
-utils.change_highlight_bg("BufferCurrentSign", "#202020")
+utils.change_highlight_bg("BufferCurrent", less_dark_bg_color)
+utils.change_highlight_bg("BufferCurrentMod", less_dark_bg_color)
+utils.change_highlight_bg("BufferCurrentSign", less_dark_bg_color)
 utils.change_highlight_fg("BufferInactive", "#606060")
 
 -- Lsp colors
--- utils.change_highlight_bg("LSPDiagnosticsSignHint", "NONE")
--- utils.change_highlight_bg("LSPDiagnosticsSignWarning", "NONE")
--- utils.change_highlight_bg("LSPDiagnosticsSignError", "NONE")
-
 utils.change_highlight_bg("LSPDiagnosticsDefaultHint", "NONE")
 utils.change_highlight_bg("LSPDiagnosticsDefaultWarning", "NONE")
 utils.change_highlight_bg("LSPDiagnosticsDefaultError", "NONE")
-
--- utils.change_highlight_bg("LSPDiagnosticsFloatingError", "NONE")
--- utils.change_highlight_bg("LSPDiagnosticsFloatingWarning", "NONE")
--- utils.change_highlight_bg("LSPDiagnosticsFloatingHint", "NONE")
 
 -- LSP Trouble
 vim.cmd("autocmd BufEnter * hi LspTroubleNormal guibg=#151515")
 
 -- Nvim tree
-vim.cmd("autocmd BufEnter * hi NvimTreeNormal guibg=#131313")
+vim.cmd("autocmd BufEnter * hi NvimTreeNormal guibg="..dark_bg_color)
 
 -- Others
-utils.change_highlight_fg("VertSplit", "#202020")
+utils.change_highlight_fg("VertSplit", less_dark_bg_color)
+

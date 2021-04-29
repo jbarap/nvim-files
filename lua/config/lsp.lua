@@ -53,6 +53,7 @@ local on_attach = function(client, bufnr)
     buf_bind_picker('<Leader>fD', 'lsp_workspace_diagnostics')
     buf_bind_picker('gd', 'lsp_definitions')
     buf_bind_picker('gr', 'lsp_references')
+
 end
 
 -- Wait until inserLeave to report diagnostics
@@ -86,16 +87,6 @@ vim.fn.sign_define('LspDiagnosticsSignHint',
 require("trouble").setup {}
 vim.api.nvim_set_keymap("n", "<leader>cdd", "<cmd>LspTroubleToggle<cr>", opts)
 
--- nvim_lsp.pyls.setup{
---     cmd = {"/home/john/.local/bin/pyls"},
---     on_attach = on_attach,
---     plugins = {
---         rope_completion = {
---             enabled = false
---         }
---     }
--- }
-
 require'lspinstall'.setup()
 
 -- Pyright (as "python" for lspinstall)
@@ -110,7 +101,7 @@ nvim_lsp.python.setup {
     },
     on_attach = on_attach,
     flags = {
-        debounce_text_changes = 3000,
+        debounce_text_changes = 3500,
         allow_incremental_sync = true,
     }
 }
