@@ -79,6 +79,14 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/barbar.nvim"
   },
+  ["dashboard-nvim"] = {
+    loaded = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/dashboard-nvim"
+  },
+  ["diffview.nvim"] = {
+    loaded = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/diffview.nvim"
+  },
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
@@ -107,6 +115,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim"
   },
+  ["neoscroll.nvim"] = {
+    loaded = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/neoscroll.nvim"
+  },
   ["nvim-autopairs"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/nvim-autopairs"
@@ -126,6 +138,10 @@ _G.packer_plugins = {
   ["nvim-lspinstall"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/nvim-lspinstall"
+  },
+  ["nvim-toggleterm.lua"] = {
+    loaded = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/nvim-toggleterm.lua"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
@@ -176,8 +192,10 @@ _G.packer_plugins = {
     path = "/home/john/.local/share/nvim/site/pack/packer/start/tokyonight.nvim"
   },
   ["vim-doge"] = {
-    loaded = true,
-    path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-doge"
+    commands = { "DogeGenerate" },
+    loaded = false,
+    needs_bufread = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/opt/vim-doge"
   },
   ["vim-esearch"] = {
     loaded = true,
@@ -199,9 +217,9 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-rooter"
   },
-  ["vim-startify"] = {
+  ["vim-sleuth"] = {
     loaded = true,
-    path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-startify"
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-sleuth"
   },
   ["vim-subversive"] = {
     loaded = true,
@@ -211,13 +229,40 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-surround"
   },
+  ["vim-test"] = {
+    load_after = {
+      ["vim-ultest"] = true
+    },
+    loaded = false,
+    needs_bufread = false,
+    path = "/home/john/.local/share/nvim/site/pack/packer/opt/vim-test"
+  },
+  ["vim-ultest"] = {
+    after = { "vim-test" },
+    commands = { "Ulttest", "UltestNearest" },
+    loaded = false,
+    needs_bufread = false,
+    path = "/home/john/.local/share/nvim/site/pack/packer/opt/vim-ultest"
+  },
   vimspector = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/vimspector"
+  },
+  ["which-key.nvim"] = {
+    loaded = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/which-key.nvim"
   }
 }
 
 time("Defining packer_plugins", false)
+
+-- Command lazy-loads
+time("Defining lazy-load commands", true)
+vim.cmd [[command! -nargs=* -range -bang -complete=file UltestNearest lua require("packer.load")({'vim-ultest'}, { cmd = "UltestNearest", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+vim.cmd [[command! -nargs=* -range -bang -complete=file DogeGenerate lua require("packer.load")({'vim-doge'}, { cmd = "DogeGenerate", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+vim.cmd [[command! -nargs=* -range -bang -complete=file Ulttest lua require("packer.load")({'vim-ultest'}, { cmd = "Ulttest", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+time("Defining lazy-load commands", false)
+
 if should_profile then save_profiles() end
 
 END

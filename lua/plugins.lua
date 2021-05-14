@@ -10,93 +10,111 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 return require('packer').startup(function()
-    -- Packer
-    use {'wbthomason/packer.nvim'}
+  -- Packer
+  use {'wbthomason/packer.nvim'}
 
-    -- Icons
-    use 'kyazdani42/nvim-web-devicons'
+  -- Icons
+  use 'kyazdani42/nvim-web-devicons'
 
-    -- Colors
-    use 'norcalli/nvim-colorizer.lua'
-    use 'joshdick/onedark.vim'
-    use 'folke/tokyonight.nvim'
+  -- Colors
+  use 'norcalli/nvim-colorizer.lua'
+  use 'joshdick/onedark.vim'
+  use 'folke/tokyonight.nvim'
 
-    -- LSP
-    use 'neovim/nvim-lspconfig'
-    use 'hrsh7th/nvim-compe'
-    use 'kabouzeid/nvim-lspinstall'
-    use 'onsails/lspkind-nvim'
-    use {'folke/lsp-trouble.nvim', requires = "kyazdani42/nvim-web-devicons"}
+  -- LSP
+  use 'neovim/nvim-lspconfig'
+  use 'hrsh7th/nvim-compe'
+  use 'kabouzeid/nvim-lspinstall'
+  use 'onsails/lspkind-nvim'
+  use {'folke/lsp-trouble.nvim', requires = "kyazdani42/nvim-web-devicons"}
 
-    -- Syntax
-    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-    use 'nvim-treesitter/nvim-treesitter-textobjects'
+  -- Syntax
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use 'nvim-treesitter/nvim-treesitter-textobjects'
 
-    -- Fuzzy finding
-    use {
-        'nvim-telescope/telescope.nvim',
-        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
-    }
-    use 'nvim-telescope/telescope-fzy-native.nvim'
+  -- Smooth scrolling
+  use 'karb94/neoscroll.nvim'
 
-    -- Tabs
-    use 'romgrk/barbar.nvim'
+  -- Fuzzy finding
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+  }
+  use 'nvim-telescope/telescope-fzy-native.nvim'
 
-    --Statusline
-    use {'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
+  -- Tabs
+  use 'romgrk/barbar.nvim'
 
-    -- File tree
-    use 'kyazdani42/nvim-tree.lua'
+  --Statusline
+  use {'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
 
-    -- Indent lines
-    use {'lukas-reineke/indent-blankline.nvim', branch = 'lua'}
+  -- File tree
+  use 'kyazdani42/nvim-tree.lua'
 
-    -- Commenting
-    use 'b3nj5m1n/kommentary'
+  -- Indent lines
+  use {'lukas-reineke/indent-blankline.nvim', branch = 'lua'}
 
-    -- Autopairs
-    use 'windwp/nvim-autopairs'
+  -- Commenting
+  use 'b3nj5m1n/kommentary'
 
-    -- Surround
-    use 'tpope/vim-surround'
+  -- Autopairs
+  use 'windwp/nvim-autopairs'
 
-    -- Substitution
-    use 'svermeulen/vim-subversive'
+  -- Surround
+  use 'tpope/vim-surround'
 
-    -- Tmux navigation
-    use 'numToStr/Navigator.nvim'
+  -- Substitution
+  use 'svermeulen/vim-subversive'
 
-    -- Git
-    -- use 'TimUntersberger/neogit'
-    use 'lewis6991/gitsigns.nvim'
-    use 'tpope/vim-fugitive'
+  -- Tmux navigation
+  use 'numToStr/Navigator.nvim'
 
-    -- Change cwd to project
-    use 'airblade/vim-rooter'
+  -- Git
+  use 'lewis6991/gitsigns.nvim'
+  use 'tpope/vim-fugitive'
 
-    -- Startify
-    use 'mhinz/vim-startify'
+  -- Change cwd to project
+  use 'airblade/vim-rooter'
 
-    -- Search and replace
-    use 'eugen0329/vim-esearch'
+  -- Dashboard
+  use 'glepnir/dashboard-nvim'
 
-    -- Documentation generation
-    use {'kkoomen/vim-doge', run=':call doge#install()'}
+  -- Search and replace
+  use 'eugen0329/vim-esearch'
 
-    -- Repeat
-    use 'tpope/vim-repeat'
+  -- Documentation generation
+  use {'kkoomen/vim-doge', run=':call doge#install()', opt = true, cmd = {'DogeGenerate'}}
 
-    -- Targets
-    use 'wellle/targets.vim'
+  -- Repeat
+  use 'tpope/vim-repeat'
 
-    -- Debugging
-    use 'puremourning/vimspector'
+  -- Targets
+  use 'wellle/targets.vim'
 
-    -- Python Indent
-    use 'Vimjas/vim-python-pep8-indent'
+  -- Debugging
+  use {'puremourning/vimspector'}
 
-    -- Markdown preview
-    use {'iamcco/markdown-preview.nvim', run=':call mkdp#util#install()'}
+  -- Python Indent
+  use 'Vimjas/vim-python-pep8-indent'
+
+  -- Markdown preview
+  use {'iamcco/markdown-preview.nvim', run=':call mkdp#util#install()'}
+
+  -- Tests
+  use {"rcarriga/vim-ultest", requires = {"janko/vim-test"}, run = ":UpdateRemotePlugins",
+       opt = true, cmd = {'Ulttest', 'UltestNearest'}}
+
+  -- Diffview
+  use 'sindrets/diffview.nvim'
+
+  -- Manage tab settings
+  use 'tpope/vim-sleuth'
+
+  -- Which key
+  use "folke/which-key.nvim"
+
+  -- Terminal
+  use 'akinsho/nvim-toggleterm.lua'
 
 end)
 

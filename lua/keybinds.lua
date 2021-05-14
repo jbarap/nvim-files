@@ -12,6 +12,11 @@ bind('t', '<Esc>', '<C-\\><C-n>', opts)
 bind('v', '<Leader>y', '"+y', opts)
 bind('n', '<Leader>y', '"+y', opts)
 
+-- Don't add { or } to jumplist
+-- TODO
+-- vim.cmd('nnoremap <silent> } :<C-u>execute "keepjumps norm! " . v:count1 . "}"<CR>')
+-- vim.cmd('nnoremap <silent> { :<C-u>execute "keepjumps norm! " . v:count1 . "{"<CR>')
+
 -- Make Y key yank to end of line
 bind('n', 'Y', 'y$', {noremap = true})
 
@@ -28,8 +33,8 @@ bind('v', 'S', 'Sgv^', {noremap = true})
 bind('n', '<leader><esc>', ':nohlsearch<cr>', opts)
 
 -- Buffer settings
-bind('n', '<leader>bn', ':bnext<CR>', opts)
-bind('n', '<leader>bp', ':bprev<CR>', opts)
+bind('n', '<leader>b.', ':bnext<CR>', opts)
+bind('n', '<leader>b,', ':bprev<CR>', opts)
 bind('n', '<leader>bd', ':bdelete<CR>', opts)
 
 -- Goto window above/below/left/right
@@ -38,8 +43,13 @@ bind('n', '<C-j>', ':wincmd j<CR>', opts)
 bind('n', '<C-k>', ':wincmd k<CR>', opts)
 bind('n', '<C-l>', ':wincmd l<CR>', opts)
 
+-- QuickFix
+bind('n', ']q', ':cn<CR>', opts)
+bind('n', '[q', ':cp<CR>', opts)
+bind('n', '<leader>qq', ':copen<CR>', opts)
+
 -- Resize windows
--- Pending
+-- TODO
 
 -- Keybinds for editing vim config
 bind('n', '<Leader>ve', ':edit $MYVIMRC<CR>', opts)

@@ -10,32 +10,49 @@ vim.cmd('syntax enable')
 vim.cmd('syntax on')
 
 -- Statusline
-local custom_gruvbox = require'lualine.themes.gruvbox'
-custom_gruvbox.normal.c.bg = 'NONE'
-
 require('lualine').setup{
-    options = {
-        theme = 'tokyonight'
+  options = {
+    theme = 'tokyonight',
+    section_separators = '',
+    component_separators = '❘',
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch'},
+    lualine_c = {
+      {'filename', file_status = true, path = 1},
     },
-    sections = {
-        lualine_a = {'mode'},
-        lualine_b = {'branch'},
-        lualine_c = {
-            {'filename', full_name = true, shorten = true},
-        },
-        lualine_x = {'encoding', 'fileformat', 'filetype'},
-        lualine_y = {'progress'},
-        lualine_z = {'location'}
-    }
+    lualine_x = {
+      {'diagnostics', sources = {'nvim_lsp'}}, 'encoding', 'filetype'
+    },
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  }
 }
 
--- Startify
-vim.g.startify_session_dir = '~/.config/nvim/session'
-vim.g.startify_bookmarks = {
-    {t = "~/.tmux.conf"},
-    {v = "~/.config/nvim/init.lua"},
-    {z = "~/.zshrc"},
+-- Dashboard
+bind('n', '<Leader>ss', ':SessionSave<CR>', opts)
+bind('n', '<Leader>sl', ':SessionLoad<CR>', opts)
+vim.g.dashboard_default_executive = 'telescope'
+
+vim.g.dashboard_custom_shortcut = {
+  last_session = 'SPC s l',
+  find_history = 'SPC f h',
+  find_file    = 'SPC f f',
+  find_word    = 'SPC f g',
+  new_file     = 'SPC c n',
+  change_colorscheme = 'SPC t c',
+  book_marks   = 'SPC b b',
 }
+vim.g.dashboard_custom_header = {
+' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
+' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
+' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
+' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
+' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
+' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
+}
+vim.g.dashboard_custom_footer = {"Better than yesterday."}
 
 -- Tabline
 bind('n', '<A-,>', ':BufferPrevious<CR>', opts)
@@ -50,12 +67,14 @@ bind('n', '<A-4>', ':BufferGoto 4<CR>', opts)
 bind('n', '<A-5>', ':BufferGoto 5<CR>', opts)
 bind('n', '<A-6>', ':BufferGoto 6<CR>', opts)
 
-bind('n', '<Leader>bf', ':BufferPick<CR>', opts)
+bind('n', '<Leader>bp', ':BufferPick<CR>', opts)
 
 -- Indent lines
 vim.g.indent_blankline_show_trailing_blankline_indent = false
 vim.g.indent_blankline_use_treesitter = false
 vim.g.indent_blankline_char = '▏'
+vim.g.indent_blankline_enabled = true
+vim.g.indent_blankline_filetype_exclude = {'dashboard'}
 
 -- Colorscheme
 vim.g.tokyonight_style = "night"
@@ -64,9 +83,12 @@ vim.g.tokyonight_hide_inactive_statusline = true
 
 vim.cmd('colorscheme tokyonight')
 
--- Make elements darker
+
+---- Make elements darker
 local dark_bg_color = "#131313"
-local less_dark_bg_color = "#202020"
+local almost_dark_bg_color = "#151515"
+local mid_dark_bg_color = "#191919"
+local light_dark_bg_color = "#202020"
 
 utils.change_highlight_bg("Normal", dark_bg_color)
 utils.change_highlight_bg("Terminal", dark_bg_color)
@@ -82,13 +104,19 @@ utils.change_highlight_bg("GitSignsDelete", "NONE")
 utils.change_highlight_bg("SignColumn", "NONE")
 utils.change_highlight_bg("LineNr", "NONE")
 
+-- Color column
+utils.change_highlight_bg("ColorColumn", almost_dark_bg_color)
+utils.change_highlight_bg("CursorLine", almost_dark_bg_color)
+
 -- floating windows
-utils.change_highlight_bg("Pmenu", less_dark_bg_color)
+utils.change_highlight_bg("Pmenu", light_dark_bg_color)
+utils.change_highlight_bg("NormalFloat", mid_dark_bg_color)
+utils.change_highlight_bg("FloatBorder", mid_dark_bg_color)
 
 -- Tabline colors
-utils.change_highlight_bg("BufferCurrent", less_dark_bg_color)
-utils.change_highlight_bg("BufferCurrentMod", less_dark_bg_color)
-utils.change_highlight_bg("BufferCurrentSign", less_dark_bg_color)
+utils.change_highlight_bg("BufferCurrent", light_dark_bg_color)
+utils.change_highlight_bg("BufferCurrentMod", light_dark_bg_color)
+utils.change_highlight_bg("BufferCurrentSign", light_dark_bg_color)
 utils.change_highlight_fg("BufferInactive", "#606060")
 
 -- Lsp colors
@@ -96,12 +124,15 @@ utils.change_highlight_bg("LSPDiagnosticsDefaultHint", "NONE")
 utils.change_highlight_bg("LSPDiagnosticsDefaultWarning", "NONE")
 utils.change_highlight_bg("LSPDiagnosticsDefaultError", "NONE")
 
+-- Which-key
+vim.cmd("autocmd BufEnter * hi WhichKeyFloat guibg="..mid_dark_bg_color)
+
 -- LSP Trouble
-vim.cmd("autocmd BufEnter * hi LspTroubleNormal guibg=#151515")
+vim.cmd("autocmd BufEnter * hi LspTroubleNormal guibg="..dark_bg_color)
 
 -- Nvim tree
 vim.cmd("autocmd BufEnter * hi NvimTreeNormal guibg="..dark_bg_color)
 
 -- Others
-utils.change_highlight_fg("VertSplit", less_dark_bg_color)
+utils.change_highlight_fg("VertSplit", light_dark_bg_color)
 

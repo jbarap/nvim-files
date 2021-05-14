@@ -6,14 +6,15 @@ set_opt('o', 'splitbelow', true)
 set_opt('o', 'splitright', true)
 
 -- Resize sign column limit
--- Something overrides the option, has to be autocmd
-vim.cmd('autocmd VimEnter * :set signcolumn="yes:2"<CR>')
--- set_opt('o', 'signcolumn', 'yes')
+set_opt('w', 'signcolumn', 'yes:1')
 
 -- Swap
 -- set_opt('o', 'swapfile', true)
 -- set_opt('o', 'dir', '/tmp')
 -- set_opt('o', 'undofile', true)
+
+-- Color column
+set_opt('w', 'colorcolumn', '90')
 
 -- Completion menu height
 set_opt('o', 'pumheight', 20)
@@ -61,7 +62,7 @@ set_opt('o', 'smartcase', true)
 set_opt('o', 'updatetime', 200)
 
 -- Highlight current line
-set_opt('o', 'cursorline', false)
+set_opt('w', 'cursorline', true)
 
 -- Scroll offsets
 set_opt('o', 'scrolloff', 7)
@@ -75,10 +76,13 @@ require('utils').create_augroup({
     {'TextYankPost', '*', 'silent!', 'lua vim.highlight.on_yank()'}
 }, 'highlight_on_yank')
 
+-- Move the screen
+vim.api.nvim_set_keymap('n', '<A-j>', '<C-d>', {})
+vim.api.nvim_set_keymap('n', '<A-k>', '<C-u>', {})
 
 --Add move line shortcuts
-vim.api.nvim_set_keymap('n', '<A-j>', ':m .+1<CR>==', { noremap = true})
-vim.api.nvim_set_keymap('n', '<A-k>', ':m .-2<CR>==', { noremap = true})
+-- vim.api.nvim_set_keymap('n', '<A-j>', ':m .+1<CR>==', { noremap = true})
+-- vim.api.nvim_set_keymap('n', '<A-k>', ':m .-2<CR>==', { noremap = true})
 vim.api.nvim_set_keymap('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { noremap = true})
 vim.api.nvim_set_keymap('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { noremap = true})
 vim.api.nvim_set_keymap('v', '<A-j>', ':m \'>+1<CR>gv=gv', { noremap = true})
