@@ -29,8 +29,9 @@ bind('v', '<S-Tab>', '<', {})
 -- bind('v', '<', '<gv^', {noremap = true})
 bind('v', 'S', 'Sgv^', {noremap = true})
 
--- Clear search highlight
-bind('n', '<leader><esc>', ':nohlsearch<cr>', opts)
+-- Clear search highlight and exit visual mode
+bind('n', '<leader><CR>', ':nohlsearch<cr>', opts)
+bind('v', '<leader><CR>', '<Esc>', opts)
 
 -- Buffer settings
 bind('n', '<leader>b.', ':bnext<CR>', opts)

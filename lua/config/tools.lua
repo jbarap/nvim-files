@@ -71,7 +71,9 @@ require('nvim-autopairs').setup({
 
 -- Rooter
 vim.g.rooter_patterns = {
-  ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "requirements.txt"}
+  ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "requirements.txt"
+}
+vim.g.rooter_silent_chdir = 1
 
 -- Tmux
 require('Navigator').setup()
@@ -81,7 +83,8 @@ bind('n', "<C-l>", "<CMD>lua require('Navigator').right()<CR>", opts)
 bind('n', "<C-j>", "<CMD>lua require('Navigator').down()<CR>", opts)
 
 -- File Tree
-bind('n', "<Leader>n", ":NvimTreeToggle<CR>", opts)
+bind('n', "<Leader>nn", ":NvimTreeToggle<CR>", opts)
+bind('n', "<Leader>nf", ":NvimTreeFindFile<CR>", opts)
 vim.g.nvim_tree_gitignore = 1
 vim.g.nvim_tree_auto_open = 1
 vim.g.nvim_tree_gitignore = 1
@@ -96,12 +99,15 @@ vim.g.nvim_tree_icons = {
   }
 }
 
--- NeoGit (not stable yet)
---[[ local neogit = require('neogit')
+-- NeoGit
+local neogit = require('neogit')
 neogit.setup {
-    disable_context_highlighting = true
+    disable_context_highlighting = true,
+    integrations = {
+      diffview = true,
+    }
 }
-bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts) ]]
+bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts)
 
 -- Gitsigns
 require('gitsigns').setup{
@@ -139,7 +145,7 @@ require('gitsigns').setup{
 }
 
 -- Fugitive
-bind('n', "<Leader>gs", ":Git<CR>", opts)
+-- bind('n', "<Leader>gs", ":Git<CR>", opts)
 bind('n', "<Leader>gdh", ":diffget //2<CR>", opts)
 bind('n', "<Leader>gdl", ":diffget //3<CR>", opts)
 
@@ -153,6 +159,12 @@ vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
 vim.cmd("let g:esearch = {}")
 vim.cmd("let g:esearch.default_mappings = 0")
 vim.cmd("nmap <c-f><c-f> <plug>(esearch)")
+
+-- --no-ignore-vcs
+vim.g.esearch = {
+  adapter = 'ag',
+  paths = '**/*',
+}
 
 -- Doge
 vim.g.doge_doc_standard_python = 'google'
@@ -176,8 +188,6 @@ vim.cmd("nmap <Leader>di <Plug>VimspectorBalloonEval")
 vim.cmd("xmap <Leader>di <Plug>VimspectorBalloonEval")
 
 vim.fn.sign_define('vimspectorBP', {text = '◆', texthl = 'WarningMsg' })
--- vim.g.vimspector_sidebar_width = 75
--- vim.g.vimspector_bottombar_height = 15
 
 -- Markdown preview
 vim.g.mkdp_auto_close = 0
@@ -206,8 +216,8 @@ require'diffview'.setup {
     view = {
       ["<tab>"]     = cb("select_next_entry"),
       ["<s-tab>"]   = cb("select_prev_entry"),
-      ["<leader>f"] = cb("focus_files"),
-      ["<leader>n"] = cb("toggle_files"),
+      ["<leader>nf"] = cb("focus_files"),
+      ["<leader>nn"] = cb("toggle_files"),
     },
     file_panel = {
       ["j"]         = cb("next_entry"),
@@ -219,11 +229,12 @@ require'diffview'.setup {
       ["R"]         = cb("refresh_files"),
       ["<tab>"]     = cb("select_next_entry"),
       ["<s-tab>"]   = cb("select_prev_entry"),
-      ["<leader>f"] = cb("focus_files"),
-      ["<leader>n"] = cb("toggle_files"),
+      ["<leader>nf"] = cb("focus_files"),
+      ["<leader>nn"] = cb("toggle_files"),
     }
   }
 }
+bind('n', '<leader>dv', ':lua require("config.utils").toggle_diff_view()<CR>', opts)
 
 -- Smooth scrolling
 require('neoscroll').setup{}
@@ -231,6 +242,17 @@ require('neoscroll').setup{}
 -- Toggle term
 require("toggleterm").setup{
   open_mapping = [[<c-_>]],
+  direction = 'float',
+  size = function (term)
+    if term.direction == 'float' then
+      return 50
+    elseif term.direction == 'horizontal' then
+      return 12
+    elseif term.direction == 'vertical' then
+      return 60
+    end
+  end,
+  persist_size = false,
 }
 bind('n', '<Leader>tf', ':ToggleTerm direction=float<CR>', opts)
 bind('n', '<Leader>th', ':ToggleTerm direction=horizontal<CR>', opts)
@@ -255,8 +277,12 @@ wk.setup{
 wk.register({
   ["<leader>"] = {
     y = "Yank to clipboard",
-    n = "Tree toggle",
-    ["<Esc>"] = "Highlight disable",
+    ["<CR>"] = "Highlight disable",
+    n = {
+      name = "tree",
+      n = "Tree toggle",
+      f = "Tree find file",
+    },
     b = {
       name = "buffer",
       d = "Buffer delete",
@@ -275,14 +301,15 @@ wk.register({
       }
     },
     d = {
-      name = "debugging",
-      b = "Breakpoint toggle",
-      c = "Continue",
-      h = "Step out",
-      l = "Step in",
-      j = "Step over",
-      i = "Inspect variable",
-      s = "Stop",
+      name = "debugging/diff",
+      b = "Debug Breakpoint toggle",
+      c = "Debug Continue",
+      h = "Debug Step out",
+      l = "Debug Step in",
+      j = "Debug Step over",
+      i = "Debug Inspect variable",
+      s = "Debug Stop",
+      v = "Diffview toggle"
     },
     f = {
       name = "find/files",
@@ -354,5 +381,4 @@ wk.register({
     },
   }
 })
-
 

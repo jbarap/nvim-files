@@ -55,20 +55,45 @@ function M.change_highlight_fg(group, color)
   local bg_color = ReturnHighlightTerm(group, 'bg') or "NONE"
   local bg_option = ""
   if bg_color ~= nil and bg_color ~= '' then
-    bg_option = " guifg="..bg_color
+    bg_option = " guibg="..bg_color
   end
   vim.cmd("hi "..group.." guifg="..color..bg_option)
 end
 
+function M.toggle_diff_view()
+  -- DiffviewFiles,
+  local bfr = vim.api.nvim_get_current_buf()
+  local win = vim.api.nvim_get_current_win()
 
--- local result = ReturnHighlightTerm('Normal', 'fg')
--- print(result)
--- local sub_1 = string.sub(result, 2, 3)
--- print(sub_1)
--- print(type(sub_1))
--- print(tonumber(sub_1, 16))
+  local buf_type = vim.api.nvim_buf_get_option(bfr, 'filetype')
+  local win_diff = vim.api.nvim_win_get_option(win, 'diff')
 
--- print(string.sub(result, 4, 5))
--- print(string.sub(result, 6, 7))
+  local is_diffview = false
+
+  if buf_type == "DiffviewFiles" or win_diff == true then
+    is_diffview = true
+  end
+
+  -- print('The buffer is diffview: ' .. tostring(is_diffview))
+  if is_diffview then
+    vim.cmd("silent DiffviewClose")
+    vim.cmd("silent BufferCloseAllButCurrent")
+  else
+    -- print('is not diffview')
+    local option = vim.fn.input({prompt = 'Against which commit [enter/hash]? ', cancelreturn = '<canceled>'})
+
+    if option == '<canceled>' then
+      return nil
+    elseif option == '' then
+      vim.cmd("silent DiffviewOpen")
+    else
+      vim.cmd("silent DiffviewOpen " .. option)
+    end
+
+    vim.cmd("echon ''")
+
+  end
+
+end
 
 return M

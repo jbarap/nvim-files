@@ -90,10 +90,14 @@ local almost_dark_bg_color = "#151515"
 local mid_dark_bg_color = "#191919"
 local light_dark_bg_color = "#202020"
 
+-- Backgrounds
 utils.change_highlight_bg("Normal", dark_bg_color)
 utils.change_highlight_bg("Terminal", dark_bg_color)
 utils.change_highlight_bg("EndOfBuffer", dark_bg_color)
 utils.change_highlight_bg("TabLineFill", dark_bg_color)
+
+-- Syntax
+utils.change_highlight_fg("Normal", "#c9c9c9")
 
 -- gitsigns
 utils.change_highlight_bg("GitSignsAdd", "NONE")

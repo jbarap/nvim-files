@@ -18,7 +18,6 @@ return require('packer').startup(function()
 
   -- Colors
   use 'norcalli/nvim-colorizer.lua'
-  use 'joshdick/onedark.vim'
   use 'folke/tokyonight.nvim'
 
   -- LSP
@@ -29,7 +28,7 @@ return require('packer').startup(function()
   use {'folke/lsp-trouble.nvim', requires = "kyazdani42/nvim-web-devicons"}
 
   -- Syntax
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
   use 'nvim-treesitter/nvim-treesitter-textobjects'
 
   -- Smooth scrolling
@@ -72,9 +71,11 @@ return require('packer').startup(function()
   -- Git
   use 'lewis6991/gitsigns.nvim'
   use 'tpope/vim-fugitive'
+  use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
 
   -- Change cwd to project
   use 'airblade/vim-rooter'
+  -- Look into https://github.com/ahmedkhalf/lsp-rooter.nvim
 
   -- Dashboard
   use 'glepnir/dashboard-nvim'
@@ -94,7 +95,7 @@ return require('packer').startup(function()
   -- Debugging
   use {'puremourning/vimspector'}
 
-  -- Python Indent
+  -- Python
   use 'Vimjas/vim-python-pep8-indent'
 
   -- Markdown preview

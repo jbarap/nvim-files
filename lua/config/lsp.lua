@@ -173,7 +173,7 @@ nvim_lsp.diagnosticls.setup{
         command = get_python_executable('flake8'),
         args = {
           [[--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s]],
-          '--ignore=E501,W391,F401',
+          '--ignore=E501,W391,F401,E741',
           '--max-line-length=110',
           '-'
         },
@@ -206,7 +206,7 @@ nvim_lsp.diagnosticls.setup{
           'text',
           '--score',
           'no',
-          '--disable=E0401,C0116,C0103,C0301,C0114,C0305',
+          '--disable=E0401,C0116,C0103,C0301,C0114,C0305,C0115',
           '--msg-template',
           [['{line}:{column}:{category}:{msg} ({msg_id}:{symbol})']],
           '%file',
