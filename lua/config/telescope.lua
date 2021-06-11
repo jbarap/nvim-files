@@ -26,6 +26,9 @@ require('telescope').setup{
         ["<C-h>"] = actions.preview_scrolling_up,
         ["<C-l>"] = actions.preview_scrolling_down,
 
+        -- Send to quickfix
+        ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+
         -- Effectively remove normal mode
         ["<esc>"] = actions.close,
       },

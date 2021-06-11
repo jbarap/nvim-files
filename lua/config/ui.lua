@@ -9,6 +9,23 @@ vim.o.background = "dark"
 vim.cmd('syntax enable')
 vim.cmd('syntax on')
 
+-- File Tree
+bind('n', "<Leader>nn", ":NvimTreeToggle<CR>", opts)
+bind('n', "<Leader>nf", ":NvimTreeFindFile<CR>", opts)
+vim.g.nvim_tree_auto_open = 1
+vim.g.nvim_tree_gitignore = 0
+vim.g.nvim_tree_width = 40
+vim.g.nvim_tree_auto_ignore_ft = {'startify', 'dashboard'}
+vim.g.nvim_tree_indent_markers = 1
+vim.g.nvim_tree_ignore = {'.git'}
+
+vim.g.nvim_tree_icons = {
+  git = {
+    unstaged = "!",
+    untracked = "?",
+  }
+}
+
 -- Statusline
 require('lualine').setup{
   options = {

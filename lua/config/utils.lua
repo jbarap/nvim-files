@@ -74,7 +74,6 @@ function M.toggle_diff_view()
     is_diffview = true
   end
 
-  -- print('The buffer is diffview: ' .. tostring(is_diffview))
   if is_diffview then
     vim.cmd("silent DiffviewClose")
     vim.cmd("silent BufferCloseAllButCurrent")
@@ -94,6 +93,36 @@ function M.toggle_diff_view()
 
   end
 
+end
+
+function M.prompt_esearch()
+  local option = vim.fn.input({prompt = 'Search in directory: [enter/dir]? ', cancelreturn = '<canceled>'})
+  local path = "**/*"
+
+  if option == '<canceled>' then
+    return nil
+  elseif option ~= '' then
+    path = option
+  end
+
+  vim.cmd("call esearch#init({'paths': '" .. path .. "'})")
+
+end
+
+function M.prompt_git_file()
+  local option = vim.fn.input({prompt = 'Open file in which commit: [~(number)/hash]? ', cancelreturn = '<canceled>'})
+
+  if option == '<canceled>' then
+    return nil
+  elseif option == '' then
+    vim.cmd("silent Gedit HEAD~1:%")
+  elseif string.find(option, '~') ~= nil then
+    vim.cmd("silent Gedit HEAD" .. option .. ":%")
+  else
+    vim.cmd("silent Gedit " .. option .. ":%")
+  end
+
+  vim.cmd("echon ''")
 end
 
 return M

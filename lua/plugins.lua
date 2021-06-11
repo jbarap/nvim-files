@@ -40,6 +40,7 @@ return require('packer').startup(function()
     requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   }
   use 'nvim-telescope/telescope-fzy-native.nvim'
+  -- check out https://github.com/camspiers/snap
 
   -- Tabs
   use 'romgrk/barbar.nvim'
@@ -57,7 +58,7 @@ return require('packer').startup(function()
   use 'b3nj5m1n/kommentary'
 
   -- Autopairs
-  use 'windwp/nvim-autopairs'
+  use {'windwp/nvim-autopairs', commit = 'b5816204bd2f92f1c64dff132fbd67a1530c1751'}
 
   -- Surround
   use 'tpope/vim-surround'
@@ -94,9 +95,13 @@ return require('packer').startup(function()
 
   -- Debugging
   use {'puremourning/vimspector'}
+  use 'mfussenegger/nvim-dap'
+  use 'Pocco81/DAPInstall.nvim'
+  use {'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'}}
 
   -- Python
   use 'Vimjas/vim-python-pep8-indent'
+  use {'ahmedkhalf/jupyter-nvim', run = ":UpdateRemotePlugins"}
 
   -- Markdown preview
   use {'iamcco/markdown-preview.nvim', run=':call mkdp#util#install()'}
@@ -116,6 +121,9 @@ return require('packer').startup(function()
 
   -- Terminal
   use 'akinsho/nvim-toggleterm.lua'
+
+  -- rsync
+  use 'kenn7/vim-arsync'
 
 end)
 

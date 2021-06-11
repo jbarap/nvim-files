@@ -82,32 +82,16 @@ bind('n', "<C-k>", "<CMD>lua require('Navigator').up()<CR>", opts)
 bind('n', "<C-l>", "<CMD>lua require('Navigator').right()<CR>", opts)
 bind('n', "<C-j>", "<CMD>lua require('Navigator').down()<CR>", opts)
 
--- File Tree
-bind('n', "<Leader>nn", ":NvimTreeToggle<CR>", opts)
-bind('n', "<Leader>nf", ":NvimTreeFindFile<CR>", opts)
-vim.g.nvim_tree_gitignore = 1
-vim.g.nvim_tree_auto_open = 1
-vim.g.nvim_tree_gitignore = 1
-vim.g.nvim_tree_width = 40
-vim.g.nvim_tree_auto_ignore_ft = {'startify', 'dashboard'}
-vim.g.nvim_tree_indent_markers = 1
-
-vim.g.nvim_tree_icons = {
-  git = {
-    unstaged = "!",
-    untracked = "?",
-  }
-}
-
 -- NeoGit
 local neogit = require('neogit')
 neogit.setup {
     disable_context_highlighting = true,
+    disable_commit_confirmation = false,
     integrations = {
       diffview = true,
     }
 }
-bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts)
+-- bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts)
 
 -- Gitsigns
 require('gitsigns').setup{
@@ -145,9 +129,10 @@ require('gitsigns').setup{
 }
 
 -- Fugitive
--- bind('n', "<Leader>gs", ":Git<CR>", opts)
+bind('n', "<Leader>gs", ":Git<CR>", opts)
 bind('n', "<Leader>gdh", ":diffget //2<CR>", opts)
 bind('n', "<Leader>gdl", ":diffget //3<CR>", opts)
+bind('n', "<Leader>gf", ":lua require('config.utils').prompt_git_file()<CR>", opts)
 
 -- Subsitution
 vim.cmd("nmap s <plug>(SubversiveSubstitute)")
@@ -156,38 +141,131 @@ vim.cmd("nmap ss <plug>(SubversiveSubstituteLine)")
 vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
 
 -- Esearch
-vim.cmd("let g:esearch = {}")
-vim.cmd("let g:esearch.default_mappings = 0")
-vim.cmd("nmap <c-f><c-f> <plug>(esearch)")
-
--- --no-ignore-vcs
 vim.g.esearch = {
   adapter = 'ag',
-  paths = '**/*',
+  default_mappings = 0,
+  win_map = {
+    {'n', '<C-q>', ':<c-u>call esearch#init(extend(copy(b:esearch), {"out": "qflist"}))<cr>'}
+  }
 }
+bind('n', '<c-f><c-f>', ':lua require("config.utils").prompt_esearch()<CR>', {silent = true})
 
 -- Doge
 vim.g.doge_doc_standard_python = 'google'
 vim.g.doge_mapping = '<Leader>cds'
 bind('n', '<Leader>cds', ':DogeGenerate<CR>', opts)
 
+-- Jupyter
+-- require('jupyter-nvim').setup({})
+
 -- Comments
 require('kommentary.config').configure_language("default", {
     prefer_single_line_comments = true,
 })
 
+
+---- Debugging
 -- Vimspector
 -- Debugging configs in ~/.local/share/nvim/site/pack/packer/start/vimspector/configurations/linux/<lang>
-bind("n", "<Leader>db", ":call vimspector#ToggleBreakpoint()<CR>", opts)
-bind("n", "<Leader>dc", ":call vimspector#Continue()<CR>", opts)
-bind("n", "<Leader>dj", ":call vimspector#StepOver()<CR>", opts)
-bind("n", "<Leader>dl", ":call vimspector#StepInto()<CR>", opts)
-bind("n", "<Leader>dh", ":call vimspector#StepOut()<CR>", opts)
-bind("n", "<Leader>ds", ":call vimspector#Reset()<CR>", opts)
-vim.cmd("nmap <Leader>di <Plug>VimspectorBalloonEval")
-vim.cmd("xmap <Leader>di <Plug>VimspectorBalloonEval")
+-- bind("n", "<Leader>db", ":call vimspector#ToggleBreakpoint()<CR>", opts)
+-- bind("n", "<Leader>dc", ":call vimspector#Continue()<CR>", opts)
+-- bind("n", "<Leader>dj", ":call vimspector#StepOver()<CR>", opts)
+-- bind("n", "<Leader>dl", ":call vimspector#StepInto()<CR>", opts)
+-- bind("n", "<Leader>dh", ":call vimspector#StepOut()<CR>", opts)
+-- bind("n", "<Leader>ds", ":call vimspector#Reset()<CR>", opts)
+-- vim.cmd("nmap <Leader>di <Plug>VimspectorBalloonEval")
+-- vim.cmd("xmap <Leader>di <Plug>VimspectorBalloonEval")
 
-vim.fn.sign_define('vimspectorBP', {text = '◆', texthl = 'WarningMsg' })
+-- vim.fn.sign_define('vimspectorBP', {text = '◆', texthl = 'WarningMsg' })
+
+-- nvim-dap
+require('dap')
+bind("n", "<Leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", opts)
+bind("n", "<Leader>dc", ":lua require'dap'.continue()<CR>", opts)
+bind("n", "<Leader>dj", ":lua require'dap'.step_over()<CR>", opts)
+bind("n", "<Leader>dl", ":lua require'dap'.step_into()<CR>", opts)
+bind("n", "<Leader>dh", ":lua require'dap'.step_out()<CR>", opts)
+bind("n", "<Leader>dr", ":lua require'dap'.repl.open()<CR>", opts)
+bind("n", "<Leader>ds", ":lua require'dap'.stop()<CR>:lua require('dapui').close()<CR>", opts)
+
+vim.cmd("au FileType dap-repl lua require('dap.ext.autocompl').attach()")
+
+vim.fn.sign_define('DapBreakpoint', {text='🔺', texthl='', linehl='', numhl=''})
+
+-- nvim-dap-install
+local dap_install = require("dap-install")
+
+dap_install.setup({
+  installation_path = "data/debuggers/",
+  verbosely_call_debuggers = true,
+})
+
+dap_install.config(
+  "python_dbg",
+  {
+    adapters = {
+      type = "executable",
+      command = vim.fn.expand('~/.config/nvim/data/debuggers/python_dbg/bin/python3'),
+      args = {"-m", "debugpy.adapter"}
+    },
+    configurations = {
+      {
+        type = "python",
+        request = "launch",
+        name = "Launch file",
+        program = "${file}",
+        pythonPath = "python3",
+        -- pythonPath = function()
+        --   local cwd = vim.fn.getcwd()
+        --   if vim.fn.executable(cwd .. "/usr/bin/python3") == 1 then
+        --     return cwd .. "/usr/bin/python3.9"
+        --   else
+        --     return "/usr/bin/python3"
+        --   end
+        -- end
+      }
+    }
+  }
+)
+
+dap_install.config("python_dbg", {})
+
+-- nvim-dap-ui
+require("dapui").setup({
+  icons = {
+    expanded = "",
+    collapsed = ""
+  },
+  mappings = {
+    expand = {"<CR>", "<2-LeftMouse>"},
+    open = "o",
+    remove = "d",
+    edit = "e",
+  },
+  sidebar = {
+    elements = {
+      -- You can change the order of elements in the sidebar
+      "scopes",
+      "breakpoints",
+      "stacks",
+      "watches"
+    },
+    width = 40,
+    position = "left" -- Can be "left" or "right"
+  },
+  tray = {
+    elements = {
+      "repl"
+    },
+    height = 10,
+    position = "bottom" -- Can be "bottom" or "top"
+  },
+  floating = {
+    max_height = nil, -- These can be integers or a float between 0 and 1.
+    max_width = nil   -- Floats will be treated as percentage of your screen.
+  }
+})
+
 
 -- Markdown preview
 vim.g.mkdp_auto_close = 0
@@ -237,12 +315,18 @@ require'diffview'.setup {
 bind('n', '<leader>dv', ':lua require("config.utils").toggle_diff_view()<CR>', opts)
 
 -- Smooth scrolling
-require('neoscroll').setup{}
+require('neoscroll').setup{
+  cursor_scrolls_alone = true,
+}
+require('neoscroll.config').set_mappings({
+  ['<C-u>'] = {'scroll', {'-vim.wo.scroll', 'true', '200'}},
+  ['<C-d>'] = {'scroll', { 'vim.wo.scroll', 'true', '200'}}
+})
 
 -- Toggle term
 require("toggleterm").setup{
   open_mapping = [[<c-_>]],
-  direction = 'float',
+  direction = 'horizontal',
   size = function (term)
     if term.direction == 'float' then
       return 50
@@ -328,6 +412,7 @@ wk.register({
     g = {
       name = "git",
       s = "Status",
+      f = "File open",
       b = {
           name = "blame",
           b = "Toggle line blame",
