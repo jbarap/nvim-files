@@ -52,14 +52,13 @@ bind('n', '<Leader>ss', ':SessionSave<CR>', opts)
 bind('n', '<Leader>sl', ':SessionLoad<CR>', opts)
 vim.g.dashboard_default_executive = 'telescope'
 
-vim.g.dashboard_custom_shortcut = {
-  last_session = 'SPC s l',
-  find_history = 'SPC f h',
-  find_file    = 'SPC f f',
-  find_word    = 'SPC f g',
-  new_file     = 'SPC c n',
-  change_colorscheme = 'SPC t c',
-  book_marks   = 'SPC b b',
+vim.g.dashboard_custom_section = {
+  a = {description = {"  New File                  SPC f n"}, command = "DashboardNewFile"},
+  b = {description = {"  Recents                   SPC f o"}, command = "Telescope oldfiles"},
+  c = {description = {"  Find File                 SPC f f"}, command = "Telescope find_files"},
+  d = {description = {"  Find Word                 SPC f g"}, command = "Telescope live_grep"},
+  e = {description = {"  Bookmarks                 SPC b m"}, command = "Telescope marks"},
+  f = {description = {"  Load Last Session         SPC s l"}, command = "SessionLoad"}
 }
 vim.g.dashboard_custom_header = {
 ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
@@ -91,7 +90,7 @@ vim.g.indent_blankline_show_trailing_blankline_indent = false
 vim.g.indent_blankline_use_treesitter = false
 vim.g.indent_blankline_char = '▏'
 vim.g.indent_blankline_enabled = true
-vim.g.indent_blankline_filetype_exclude = {'dashboard'}
+vim.g.indent_blankline_filetype_exclude = {'dashboard', 'help', 'toggleterm'}
 
 -- Colorscheme
 vim.g.tokyonight_style = "night"
@@ -144,6 +143,10 @@ utils.change_highlight_fg("BufferInactive", "#606060")
 utils.change_highlight_bg("LSPDiagnosticsDefaultHint", "NONE")
 utils.change_highlight_bg("LSPDiagnosticsDefaultWarning", "NONE")
 utils.change_highlight_bg("LSPDiagnosticsDefaultError", "NONE")
+
+-- Compe documentation lines
+utils.change_highlight_bg("CompeDocumentation", utils.return_highlight_term('NormalFloat', 'bg'))
+utils.change_highlight_fg("CompeDocumentation", "#606060")
 
 -- Which-key
 vim.cmd("autocmd BufEnter * hi WhichKeyFloat guibg="..mid_dark_bg_color)

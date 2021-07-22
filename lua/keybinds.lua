@@ -12,6 +12,9 @@ bind('t', '<Esc>', '<C-\\><C-n>', opts)
 bind('v', '<Leader>y', '"+y', opts)
 bind('n', '<Leader>y', '"+y', opts)
 
+-- Paste anything (e.g. lines) to cursor
+bind('n', 'gp', 'a<CR><Esc>PkJJxx', opts)
+
 -- Don't add { or } to jumplist
 -- TODO
 -- vim.cmd('nnoremap <silent> } :<C-u>execute "keepjumps norm! " . v:count1 . "}"<CR>')
@@ -36,7 +39,7 @@ bind('v', '<leader><CR>', '<Esc>', opts)
 -- Buffer settings
 bind('n', '<leader>b.', ':bnext<CR>', opts)
 bind('n', '<leader>b,', ':bprev<CR>', opts)
-bind('n', '<leader>bd', ':bdelete<CR>', opts)
+bind('n', '<leader>bd', ':BufferClose<CR>', opts)
 
 -- Goto window above/below/left/right
 bind('n', '<C-h>', ':wincmd h<CR>', opts)
@@ -47,14 +50,18 @@ bind('n', '<C-l>', ':wincmd l<CR>', opts)
 -- QuickFix
 bind('n', ']q', ':cn<CR>', opts)
 bind('n', '[q', ':cp<CR>', opts)
-bind('n', '<leader>qq', ':copen<CR>', opts)
+bind('n', '<leader>qq', ':lua require("config.utils").toggle_quickfix()<CR>', opts)
 
 -- Resize windows
--- TODO
+-- See tools.lua for resize with tmux
 
 -- Keybinds for editing vim config
 bind('n', '<Leader>ve', ':edit $MYVIMRC<CR>', opts)
 bind('n', '<Leader>vr', ':lua require("utils").Reload()<CR>', opts)
 bind('n', '<Leader>vR', ':lua require("utils").Restart()<CR>', opts)
+bind('n', '<Leader>vs', ':Reload<CR>:PackerSync<CR>', opts)
 bind('n', '<Leader>vv', ':version<CR>', opts)
+
+-- Exit whichkey with one esc press instead of two
+bind('n', '<Leader><Esc>', '<Esc>', opts)
 

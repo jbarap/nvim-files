@@ -58,16 +58,23 @@ require'nvim-treesitter.configs'.setup {
 }
 
 -- Autopairs
-require('nvim-autopairs').setup({
-  pairs_map = {
-    ["'"] = "'",
-    ['"'] = '"',
-    ['('] = ')',
-    ['['] = ']',
-    ['{'] = '}',
-    ['`'] = '`',
-  }
-})
+require "pears".setup(function(conf)
+
+  -- Compatibility with compe
+  conf.on_enter(function(pears_handle)
+    if vim.fn.pumvisible() == 1 and vim.fn.complete_info().selected ~= -1 then
+      return vim.fn["compe#confirm"]("<CR>")
+    else
+      pears_handle()
+    end
+  end)
+
+  -- Expand double underscore
+  conf.pair('__', {
+    close = '__'
+  })
+
+end)
 
 -- Rooter
 vim.g.rooter_patterns = {
@@ -76,11 +83,21 @@ vim.g.rooter_patterns = {
 vim.g.rooter_silent_chdir = 1
 
 -- Tmux
-require('Navigator').setup()
-bind('n', "<C-h>", "<CMD>lua require('Navigator').left()<CR>", opts)
-bind('n', "<C-k>", "<CMD>lua require('Navigator').up()<CR>", opts)
-bind('n', "<C-l>", "<CMD>lua require('Navigator').right()<CR>", opts)
-bind('n', "<C-j>", "<CMD>lua require('Navigator').down()<CR>", opts)
+require("tmux").setup({
+  copy_sync = {
+    enable = false,
+  },
+  navigation = {
+    enable_default_keybindings = true,
+  },
+  resize = {
+    enable_default_keybindings = false,
+  }
+})
+bind('n', '<Right>', [[<cmd>lua require("tmux").resize_right()<cr>]], opts)
+bind('n', '<Left>', [[<cmd>lua require("tmux").resize_left()<cr>]], opts)
+bind('n', '<Up>', [[<cmd>lua require("tmux").resize_top()<cr>]], opts)
+bind('n', '<Down>', [[<cmd>lua require("tmux").resize_bottom()<cr>]], opts)
 
 -- NeoGit
 local neogit = require('neogit')
@@ -91,7 +108,7 @@ neogit.setup {
       diffview = true,
     }
 }
--- bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts)
+bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts)
 
 -- Gitsigns
 require('gitsigns').setup{
@@ -129,7 +146,7 @@ require('gitsigns').setup{
 }
 
 -- Fugitive
-bind('n', "<Leader>gs", ":Git<CR>", opts)
+-- bind('n', "<Leader>gs", ":Git<CR>", opts)
 bind('n', "<Leader>gdh", ":diffget //2<CR>", opts)
 bind('n', "<Leader>gdl", ":diffget //3<CR>", opts)
 bind('n', "<Leader>gf", ":lua require('config.utils').prompt_git_file()<CR>", opts)
@@ -156,116 +173,17 @@ vim.g.doge_mapping = '<Leader>cds'
 bind('n', '<Leader>cds', ':DogeGenerate<CR>', opts)
 
 -- Jupyter
--- require('jupyter-nvim').setup({})
+require('jupyter-nvim').setup({})
 
 -- Comments
 require('kommentary.config').configure_language("default", {
-    prefer_single_line_comments = true,
+  prefer_single_line_comments = true,
 })
+vim.g.kommentary_create_default_mappings = false
 
-
----- Debugging
--- Vimspector
--- Debugging configs in ~/.local/share/nvim/site/pack/packer/start/vimspector/configurations/linux/<lang>
--- bind("n", "<Leader>db", ":call vimspector#ToggleBreakpoint()<CR>", opts)
--- bind("n", "<Leader>dc", ":call vimspector#Continue()<CR>", opts)
--- bind("n", "<Leader>dj", ":call vimspector#StepOver()<CR>", opts)
--- bind("n", "<Leader>dl", ":call vimspector#StepInto()<CR>", opts)
--- bind("n", "<Leader>dh", ":call vimspector#StepOut()<CR>", opts)
--- bind("n", "<Leader>ds", ":call vimspector#Reset()<CR>", opts)
--- vim.cmd("nmap <Leader>di <Plug>VimspectorBalloonEval")
--- vim.cmd("xmap <Leader>di <Plug>VimspectorBalloonEval")
-
--- vim.fn.sign_define('vimspectorBP', {text = '◆', texthl = 'WarningMsg' })
-
--- nvim-dap
-require('dap')
-bind("n", "<Leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", opts)
-bind("n", "<Leader>dc", ":lua require'dap'.continue()<CR>", opts)
-bind("n", "<Leader>dj", ":lua require'dap'.step_over()<CR>", opts)
-bind("n", "<Leader>dl", ":lua require'dap'.step_into()<CR>", opts)
-bind("n", "<Leader>dh", ":lua require'dap'.step_out()<CR>", opts)
-bind("n", "<Leader>dr", ":lua require'dap'.repl.open()<CR>", opts)
-bind("n", "<Leader>ds", ":lua require'dap'.stop()<CR>:lua require('dapui').close()<CR>", opts)
-
-vim.cmd("au FileType dap-repl lua require('dap.ext.autocompl').attach()")
-
-vim.fn.sign_define('DapBreakpoint', {text='🔺', texthl='', linehl='', numhl=''})
-
--- nvim-dap-install
-local dap_install = require("dap-install")
-
-dap_install.setup({
-  installation_path = "data/debuggers/",
-  verbosely_call_debuggers = true,
-})
-
-dap_install.config(
-  "python_dbg",
-  {
-    adapters = {
-      type = "executable",
-      command = vim.fn.expand('~/.config/nvim/data/debuggers/python_dbg/bin/python3'),
-      args = {"-m", "debugpy.adapter"}
-    },
-    configurations = {
-      {
-        type = "python",
-        request = "launch",
-        name = "Launch file",
-        program = "${file}",
-        pythonPath = "python3",
-        -- pythonPath = function()
-        --   local cwd = vim.fn.getcwd()
-        --   if vim.fn.executable(cwd .. "/usr/bin/python3") == 1 then
-        --     return cwd .. "/usr/bin/python3.9"
-        --   else
-        --     return "/usr/bin/python3"
-        --   end
-        -- end
-      }
-    }
-  }
-)
-
-dap_install.config("python_dbg", {})
-
--- nvim-dap-ui
-require("dapui").setup({
-  icons = {
-    expanded = "",
-    collapsed = ""
-  },
-  mappings = {
-    expand = {"<CR>", "<2-LeftMouse>"},
-    open = "o",
-    remove = "d",
-    edit = "e",
-  },
-  sidebar = {
-    elements = {
-      -- You can change the order of elements in the sidebar
-      "scopes",
-      "breakpoints",
-      "stacks",
-      "watches"
-    },
-    width = 40,
-    position = "left" -- Can be "left" or "right"
-  },
-  tray = {
-    elements = {
-      "repl"
-    },
-    height = 10,
-    position = "bottom" -- Can be "bottom" or "top"
-  },
-  floating = {
-    max_height = nil, -- These can be integers or a float between 0 and 1.
-    max_width = nil   -- Floats will be treated as percentage of your screen.
-  }
-})
-
+bind('n', 'gc', '<Plug>kommentary_motion_default', {silent = true})
+bind('v', 'gc', '<Plug>kommentary_visual_default', {silent = true})
+bind('n', 'gcc', 'gcl', {silent = true})
 
 -- Markdown preview
 vim.g.mkdp_auto_close = 0
@@ -333,7 +251,7 @@ require("toggleterm").setup{
     elseif term.direction == 'horizontal' then
       return 12
     elseif term.direction == 'vertical' then
-      return 60
+      return vim.o.columns * 0.4
     end
   end,
   persist_size = false,
@@ -342,128 +260,17 @@ bind('n', '<Leader>tf', ':ToggleTerm direction=float<CR>', opts)
 bind('n', '<Leader>th', ':ToggleTerm direction=horizontal<CR>', opts)
 bind('n', '<Leader>tv', ':ToggleTerm direction=vertical<CR>', opts)
 
--- Which-key
-local wk = require('which-key')
-wk.setup{
-  plugins = {
-    presets = {
-      operators = false,
-      motions = false,
-      text_objects = false,
-      windows = true,
-      nav = true,
-      z = true,
-      g = true,
-    },
-  }
-}
+-- Better quickfix
+require('bqf').setup({
+  auto_resize_height = false
+})
 
-wk.register({
-  ["<leader>"] = {
-    y = "Yank to clipboard",
-    ["<CR>"] = "Highlight disable",
-    n = {
-      name = "tree",
-      n = "Tree toggle",
-      f = "Tree find file",
-    },
-    b = {
-      name = "buffer",
-      d = "Buffer delete",
-      p = "Buffer pick",
-      ["."] = "Buffer next",
-      [","] = "Buffer previous"
-    },
-    c = {
-      name = "code",
-      f = "Format buffer",
-      d = {
-          name = "diagnostics/docs",
-          d = "Diagnostic list toggle",
-          l = "Diagnostic line show",
-          s = "Docstring generate"
-      }
-    },
-    d = {
-      name = "debugging/diff",
-      b = "Debug Breakpoint toggle",
-      c = "Debug Continue",
-      h = "Debug Step out",
-      l = "Debug Step in",
-      j = "Debug Step over",
-      i = "Debug Inspect variable",
-      s = "Debug Stop",
-      v = "Diffview toggle"
-    },
-    f = {
-      name = "find/files",
-      b = "File browser",
-      f = "File find (exclude hidden)",
-      g = "File grep",
-      p = "File find (all)",
-      h = "Find help",
-      d = "Find diagnostics",
-      D = "Find workspace diagnostics",
-      s = "Find symbols",
-      S = "Find workspace symbols",
-      q = "Find quickfix",
-      t = "Find treesitter",
-    },
-    g = {
-      name = "git",
-      s = "Status",
-      f = "File open",
-      b = {
-          name = "blame",
-          b = "Toggle line blame",
-          l = "Blame line",
-      },
-      d = {
-          name = "diff",
-          h = "Diff put left",
-          l = "Diff put right",
-      },
-      h = {
-          name = "hunk",
-          h = "Num highlight toggle",
-          p = "Preview",
-          r = "Reset current hunk",
-          R = "Reset all buffer hunks",
-          s = "Stage hunk",
-          u = "Undo stage hunk"
-      },
-    },
-    s = {
-        name = "session",
-        l = "Load directory session",
-        s = "Save directory session",
-    },
-    t = {
-        name = "test/terminal",
-        t = "Test suite run",
-        n = "Test nearest function",
-        p = "Test summary",
-        s = "Test stop",
-        l = "Test jump to window",
-        f = "Terminal float",
-        v = "Terminal vertical",
-        h = "Terminal horizontal",
-    },
-    v = {
-        name = "vim",
-        r = "Reload",
-        e = "Edit init.lua",
-        R = "Restart",
-        v = "Version",
-    },
-    q = {
-        name = "quickfix",
-        q = "Open",
-    },
-    r = {
-        name = "re",
-        n = "Rename",
-    },
-  }
+-- Edit quickfix
+bind('n', '<leader>qe', ':lua require("replacer").run()<CR>', {nowait = true, noremap = true, silent = true})
+
+-- Orgmode
+require('orgmode').setup({
+  org_agenda_files = {'~/notes/orgmode/*', '~/'},
+  org_default_notes_file = '~/notes/orgmode/refile.org',
 })
 

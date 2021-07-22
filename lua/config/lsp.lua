@@ -16,7 +16,6 @@ local on_attach = function(client, bufnr)
 
   -- Information
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 
   -- Workspace
@@ -116,7 +115,7 @@ nvim_lsp.jedi_language_server.setup {
   flags = {
     debounce_text_changes = 1500,
     allow_incremental_sync = true,
-  }
+  },
 }
 
 -- Lua
@@ -277,7 +276,15 @@ require'compe'.setup {
   max_abbr_width = 100;
   max_kind_width = 100;
   max_menu_width = 100;
-  documentation = true;
+  -- documentation = true;
+  documentation = {
+    border = 'rounded',
+    winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+    max_width = 120,
+    min_width = 60,
+    max_height = math.floor(vim.o.lines * 0.3),
+    min_height = 1,
+  };
 
   source = {
     path = true;

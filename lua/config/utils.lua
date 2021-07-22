@@ -36,14 +36,14 @@ function M.buf_bind_picker(bufnr, keys, picker_name, extension_name)
 end
 
 -- Functions to modify highlight groups
-function ReturnHighlightTerm(group, term)
+function M.return_highlight_term(group, term)
   local hl_id = vim.fn.hlID(group)
   local output = vim.fn.synIDattr(vim.fn.synIDtrans(hl_id), term)
   return output
 end
 
 function M.change_highlight_bg(group, color)
-  local fg_color = ReturnHighlightTerm(group, 'fg')
+  local fg_color = M.return_highlight_term(group, 'fg')
   local fg_option = ""
   if fg_color ~= nil and fg_color ~= '' then
     fg_option = " guifg="..fg_color
@@ -52,7 +52,7 @@ function M.change_highlight_bg(group, color)
 end
 
 function M.change_highlight_fg(group, color)
-  local bg_color = ReturnHighlightTerm(group, 'bg') or "NONE"
+  local bg_color = M.return_highlight_term(group, 'bg') or "NONE"
   local bg_option = ""
   if bg_color ~= nil and bg_color ~= '' then
     bg_option = " guibg="..bg_color
@@ -123,6 +123,24 @@ function M.prompt_git_file()
   end
 
   vim.cmd("echon ''")
+end
+
+function M.toggle_quickfix()
+  local windows = vim.fn.getwininfo()
+  local quickfix_open = false
+
+  for _, value in pairs(windows) do
+    if value['quickfix'] == 1 then
+      quickfix_open = true
+    end
+  end
+
+  if quickfix_open then
+    vim.cmd('cclose')
+  else
+    vim.cmd('copen')
+  end
+
 end
 
 return M

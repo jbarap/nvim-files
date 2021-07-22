@@ -1,20 +1,19 @@
 local actions = require('telescope.actions')
 
+
 -- Global remapping
 require('telescope').setup{
   defaults = {
     layout_strategy    = "flex",
     borderchars        = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-    layout_defaults = {
+    layout_config = {
+      height = 0.9,
+      width = 0.9,
       horizontal = {
-        width_padding  = 0.07,
-        height_padding = 0.1,
-        preview_width  = 0.6,
+        preview_width = 0.6,
       },
       vertical = {
-        width_padding  = 0.05,
-        height_padding = 1,
-        preview_height = 0.5,
+        preview_width = 0.6,
       },
     },
     mappings = {
@@ -31,6 +30,9 @@ require('telescope').setup{
 
         -- Effectively remove normal mode
         ["<esc>"] = actions.close,
+
+        -- Change bind for horizontal split
+        ["<C-s>"] = actions.select_horizontal,
       },
       n = {
         ["<esc>"] = actions.close,

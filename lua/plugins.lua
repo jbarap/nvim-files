@@ -52,13 +52,13 @@ return require('packer').startup(function()
   use 'kyazdani42/nvim-tree.lua'
 
   -- Indent lines
-  use {'lukas-reineke/indent-blankline.nvim', branch = 'lua'}
+  use 'lukas-reineke/indent-blankline.nvim'
 
   -- Commenting
   use 'b3nj5m1n/kommentary'
 
   -- Autopairs
-  use {'windwp/nvim-autopairs', commit = 'b5816204bd2f92f1c64dff132fbd67a1530c1751'}
+  use 'steelsojka/pears.nvim'
 
   -- Surround
   use 'tpope/vim-surround'
@@ -67,12 +67,12 @@ return require('packer').startup(function()
   use 'svermeulen/vim-subversive'
 
   -- Tmux navigation
-  use 'numToStr/Navigator.nvim'
+  use 'aserowy/tmux.nvim'
 
   -- Git
   use 'lewis6991/gitsigns.nvim'
   use 'tpope/vim-fugitive'
-  use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
+  use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim'}
 
   -- Change cwd to project
   use 'airblade/vim-rooter'
@@ -81,7 +81,7 @@ return require('packer').startup(function()
   -- Dashboard
   use 'glepnir/dashboard-nvim'
 
-  -- Search and replace
+  -- Search
   use 'eugen0329/vim-esearch'
 
   -- Documentation generation
@@ -94,7 +94,6 @@ return require('packer').startup(function()
   use 'wellle/targets.vim'
 
   -- Debugging
-  use {'puremourning/vimspector'}
   use 'mfussenegger/nvim-dap'
   use 'Pocco81/DAPInstall.nvim'
   use {'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'}}
@@ -124,6 +123,13 @@ return require('packer').startup(function()
 
   -- rsync
   use 'kenn7/vim-arsync'
+
+  -- Quickfix
+  use 'kevinhwang91/nvim-bqf'
+  use 'gabrielpoca/replacer.nvim'
+
+  -- Notes
+  use 'kristijanhusak/orgmode.nvim'
 
 end)
 
