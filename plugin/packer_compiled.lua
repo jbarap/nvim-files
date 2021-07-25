@@ -11,7 +11,7 @@ local no_errors, error_msg = pcall(function()
 
   local time
   local profile_info
-  local should_profile = false
+  local should_profile = true
   if should_profile then
     local hrtime = vim.loop.hrtime
     profile_info = {}
@@ -125,6 +125,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/neoscroll.nvim"
   },
+  ["null-ls.nvim"] = {
+    loaded = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/null-ls.nvim"
+  },
   ["nvim-bqf"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/nvim-bqf"
@@ -235,10 +239,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-fugitive"
   },
-  ["vim-python-pep8-indent"] = {
-    loaded = true,
-    path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-python-pep8-indent"
-  },
   ["vim-repeat"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-repeat"
@@ -295,7 +295,7 @@ vim.cmd [[command! -nargs=* -range -bang -complete=file UltestNearest lua requir
 end
 time([[Defining lazy-load commands]], false)
 
-if should_profile then save_profiles() end
+if should_profile then save_profiles(1) end
 
 end)
 

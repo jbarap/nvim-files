@@ -147,9 +147,6 @@ end
 
 
 ---- Linter
--- from: https://github.com/kuator/nvim/blob/master/lua/plugins/lsp.lua
--- and: https://github.com/creativenull/diagnosticls-nvim/tree/main/lua/diagnosticls-nvim
-
 local get_python_executable = function(bin_name)
   local result = bin_name
   if os.getenv('VIRTUAL_ENV') then
@@ -161,105 +158,116 @@ local get_python_executable = function(bin_name)
   return result
 end
 
-local linter_debounce = 2000
+local null_ls = require('null-ls')
+local null_helpers = require('null-ls.helpers')
 
-nvim_lsp.diagnosticls.setup{
-  filetypes={'python'},
-  init_options = {
-    linters = {
-      flake8 = {
-        sourceName = 'flake8',
-        command = get_python_executable('flake8'),
-        args = {
-          [[--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s]],
-          '--ignore=E501,W391,F401,E741,F841',
-          '--max-line-length=110',
-          '-'
-        },
-        debounce = linter_debounce,
-        offsetLine = 0,
-        offsetColumn = 0,
-        formatLines = 1,
-        formatPattern = {
-          [[(\d+),(\d+),([A-Z]),(.*)(\r|\n)*$]],
-          {
-            line = 1,
-            column = 2,
-            security = 3,
-            message = 4,
-          },
-        },
-        securities = {
-          W = 'warning',
-          E = 'error',
-          F = 'error',
-          C = 'error',
-          N = 'error',
-        },
-      },
-      pylint = {
-        sourceName = 'pylint',
-        command = get_python_executable('pylint'),
-        args = {
-          '--output-format',
-          'text',
-          '--score',
-          'no',
-          '--disable=E0401,C0116,C0103,C0301,C0114,C0305,C0115',
-          '--msg-template',
-          [['{line}:{column}:{category}:{msg} ({msg_id}:{symbol})']],
-          '%file',
-        },
-        debounce = linter_debounce,
-        offsetColumn = 1,
-        formatLines = 1,
-        formatPattern = {
-          [[^(\d+?):(\d+?):([a-z]+?):(.*)$]],
-          {
-            line = 1,
-            column = 2,
-            security = 3,
-            message = 4
-          }
-        },
-        securities = {
-          informational = 'hint',
-          refactor = 'info',
-          convention = 'info',
-          warning = 'warning',
-          error = 'error',
-          fatal = 'error'
-        },
-        rootPatterns = {
-          '.git',
-          'pyproject.toml',
-          'setup.py',
-        }
+local pylint = {
+  method = null_ls.methods.DIAGNOSTICS,
+  filetypes = {'python'},
+  generator = null_helpers.generator_factory({
+    command = get_python_executable("pylint"),
+    to_stdin = true,
+    to_stderr = true,
+    args = {
+      "--output-format", "text",
+      "--score", "no",
+      "--disable", "import-error,line-too-long",
+      "--msg-template", [["{line}:{column}:{msg_id}:{msg}:{symbol}"]],
+      "--from-stdin", "$FILENAME"
+    },
+    format = "line",
+    check_exit_code = function(code)
+      return code == 0
+    end,
+    on_output = function(line, params)
+      local row, col, code, message = line:match("(%d+):(%d+):([CRWEF]%d+):(.*)")
+
+      if message == nil then
+        return nil
+      end
+
+      local end_col = col
+      local severity = 1  -- 1 (error), 2 (warning), 3 (information), 4 (hint)
+
+      if vim.startswith(code, "E") or vim.startswith(code, "F") then
+        severity = 1
+      elseif vim.startswith(code, "W") then
+        severity = 2
+      else
+        severity = 3
+      end
+
+      return {
+        message = message,
+        code = code,
+        row = row,
+        col = col - 1,
+        end_col = end_col,
+        severity = severity,
+        source = "pylint",
       }
-    },
-    filetypes = {
-      python = {'flake8', 'pylint'}
-    },
-    formatters = {
-      autopep8 = {
-        sourceName = 'autopep8',
-        command = get_python_executable('autopep8'),
-        args = {'%filepath'},
-        rootPatterns = {
-          'requirements.txt',
-          '.git',
-        },
-      },
-    },
-    formatFiletypes = {
-      python = {'autopep8'},
-    },
-  },
-  flags = {
-    debounce_text_changes = linter_debounce,
-  },
-  on_attach = on_attach
+    end,
+  })
 }
+
+local mypy = {
+  method = null_ls.methods.DIAGNOSTICS,
+  filetypes = {'python'},
+  generator = null_helpers.generator_factory({
+    command = get_python_executable("mypy"),
+    to_stdin = true,
+    to_stderr = true,
+    to_temp_file = true,
+    args = {
+      "--hide-error-context", "--show-column-numbers",
+      "--strict", "$FILENAME"
+    },
+    format = "line",
+    check_exit_code = function(code)
+      return code == 0
+    end,
+    on_output = function(line, params)
+      local row, col, code, message = line:match(":(%d+):(%d+): (.*): (.*)")
+
+      -- --hide-error-context isn't working, as a workaround we ignore notes
+      if error == "note" then
+        return nil
+      end
+
+      -- ignores the summary line of the command's output
+      if message == nil then
+        return nil
+      end
+
+      local end_col = col
+      local severity = 3  -- 1 (error), 2 (warning), 3 (information), 4 (hint)
+
+      return {
+        message = message,
+        code = code,
+        row = row,
+        col = col - 1,
+        end_col = end_col,
+        severity = severity,
+        source = "mypy",
+      }
+    end,
+  })
+}
+
+null_ls.config({
+  debounce = 500,
+  save_after_format = false,
+  default_timeout = 20000,
+  nvim_executable = "nvim",
+  sources = {
+    null_ls.builtins.diagnostics.flake8,
+    -- mypy,  -- only on certain projets, TODO: dynamically enable upon finding mypy.ini
+    pylint,  -- pylint is slow with big libraries
+  },
+  debug = false,
+})
+require('lspconfig')['null-ls'].setup({})
 
 ---- Completion with compe
 vim.o.completeopt = "menuone,noselect"

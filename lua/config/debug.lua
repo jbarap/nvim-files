@@ -9,7 +9,7 @@ bind("n", "<Leader>dj", ":lua require'dap'.step_over()<CR>", opts)
 bind("n", "<Leader>dl", ":lua require'dap'.step_into()<CR>", opts)
 bind("n", "<Leader>dh", ":lua require'dap'.step_out()<CR>", opts)
 bind("n", "<Leader>dr", ":lua require'dap'.repl.open()<CR>", opts)
-bind("n", "<Leader>ds", ":lua require'dap'.stop()<CR>:lua require('dapui').close()<CR>", opts)
+bind("n", "<Leader>ds", ":lua require'dap'.close()<CR>:lua require('dapui').close()<CR>", opts)
 
 vim.cmd("au FileType dap-repl lua require('dap.ext.autocompl').attach()")
 vim.fn.sign_define('DapBreakpoint', {text='🔺', texthl='', linehl='', numhl=''})

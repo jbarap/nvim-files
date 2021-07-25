@@ -9,7 +9,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
   execute 'packadd packer.nvim'
 end
 
-return require('packer').startup(function()
+return require('packer').startup({function()
   -- Packer
   use {'wbthomason/packer.nvim'}
 
@@ -26,6 +26,7 @@ return require('packer').startup(function()
   use 'kabouzeid/nvim-lspinstall'
   use 'onsails/lspkind-nvim'
   use {'folke/lsp-trouble.nvim', requires = "kyazdani42/nvim-web-devicons"}
+  use {'jose-elias-alvarez/null-ls.nvim', requires = {"nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"}}
 
   -- Syntax
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
@@ -99,7 +100,7 @@ return require('packer').startup(function()
   use {'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'}}
 
   -- Python
-  use 'Vimjas/vim-python-pep8-indent'
+  -- use 'Vimjas/vim-python-pep8-indent'
   use {'ahmedkhalf/jupyter-nvim', run = ":UpdateRemotePlugins"}
 
   -- Markdown preview
@@ -130,6 +131,14 @@ return require('packer').startup(function()
 
   -- Notes
   use 'kristijanhusak/orgmode.nvim'
+end,
 
-end)
+config = {
+  profile = {
+    enable = true,
+    threshold = 1
+  }
+}
+
+})
 
