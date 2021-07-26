@@ -239,6 +239,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-fugitive"
   },
+  ["vim-python-pep8-indent"] = {
+    loaded = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-python-pep8-indent"
+  },
   ["vim-repeat"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-repeat"
@@ -284,14 +288,14 @@ time([[Defining packer_plugins]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
+if vim.fn.exists(":UltestNearest") ~= 2 then
+vim.cmd [[command! -nargs=* -range -bang -complete=file UltestNearest lua require("packer.load")({'vim-ultest'}, { cmd = "UltestNearest", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+end
 if vim.fn.exists(":DogeGenerate") ~= 2 then
 vim.cmd [[command! -nargs=* -range -bang -complete=file DogeGenerate lua require("packer.load")({'vim-doge'}, { cmd = "DogeGenerate", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 end
 if vim.fn.exists(":Ulttest") ~= 2 then
 vim.cmd [[command! -nargs=* -range -bang -complete=file Ulttest lua require("packer.load")({'vim-ultest'}, { cmd = "Ulttest", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
-end
-if vim.fn.exists(":UltestNearest") ~= 2 then
-vim.cmd [[command! -nargs=* -range -bang -complete=file UltestNearest lua require("packer.load")({'vim-ultest'}, { cmd = "UltestNearest", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 end
 time([[Defining lazy-load commands]], false)
 

@@ -100,7 +100,7 @@ return require('packer').startup({function()
   use {'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'}}
 
   -- Python
-  -- use 'Vimjas/vim-python-pep8-indent'
+  use 'Vimjas/vim-python-pep8-indent'
   use {'ahmedkhalf/jupyter-nvim', run = ":UpdateRemotePlugins"}
 
   -- Markdown preview

@@ -50,7 +50,7 @@ bind('n', '<C-l>', ':wincmd l<CR>', opts)
 -- QuickFix
 bind('n', ']q', ':cn<CR>', opts)
 bind('n', '[q', ':cp<CR>', opts)
-bind('n', '<leader>qq', ':lua require("config.utils").toggle_quickfix()<CR>', opts)
+bind('n', '<leader>qq', ':lua require("plugins_config.utils").toggle_quickfix()<CR>', opts)
 
 -- Resize windows
 -- See tools.lua for resize with tmux

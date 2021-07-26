@@ -1,6 +1,6 @@
 local bind = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
-local utils = require('config.utils')
+local utils = require('plugins_config.utils')
 
 vim.o.termguicolors = true
 

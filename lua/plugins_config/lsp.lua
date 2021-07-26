@@ -40,7 +40,7 @@ local on_attach = function(client, bufnr)
 
   -- Telescope LSP
   local function buf_bind_picker(...)
-    require('config.utils').buf_bind_picker(bufnr, ...)
+    require('plugins_config.utils').buf_bind_picker(bufnr, ...)
   end
   buf_bind_picker('<Leader>fs', 'lsp_document_symbols')
   buf_bind_picker('<Leader>fS', 'lsp_workspace_symbols')
@@ -255,15 +255,57 @@ local mypy = {
   })
 }
 
+local flake8 = {
+  method = null_ls.methods.DIAGNOSTICS,
+  filetypes = {'python'},
+  generator = null_helpers.generator_factory({
+    command = get_python_executable("flake8"),
+    to_stdin = true,
+    to_stderr = true,
+    args = { "--stdin-display-name", "$FILENAME", "-" },
+    format = "line",
+    check_exit_code = function(code)
+      return code == 0 or code == 255
+    end,
+    on_output = function(line, params)
+      local row, col, message = line:match(":(%d+):(%d+): (.*)")
+      local end_col = col
+      local severity = 1
+      local code = string.match(message, "[EFWCN]%d+")
+
+      if message == nil then
+        return nil
+      end
+
+      if vim.startswith(code, "E") then
+          severity = 1
+      elseif vim.startswith(code, "W") then
+          severity = 2
+      else
+          severity = 3
+      end
+
+      return {
+        message = message,
+        code = code,
+        row = row,
+        col = col - 1,
+        end_col = end_col,
+        severity = severity,
+        source = "flake8",
+      }
+    end,
+  })
+}
+
 null_ls.config({
   debounce = 500,
   save_after_format = false,
   default_timeout = 20000,
-  nvim_executable = "nvim",
   sources = {
-    null_ls.builtins.diagnostics.flake8,
+    flake8,  -- used instead of builtin to support the "naming" flake8 plugin error codes
     -- mypy,  -- only on certain projets, TODO: dynamically enable upon finding mypy.ini
-    pylint,  -- pylint is slow with big libraries
+    -- pylint,  -- pylint is slow with big libraries
   },
   debug = false,
 })

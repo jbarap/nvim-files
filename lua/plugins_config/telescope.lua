@@ -42,7 +42,7 @@ require('telescope').setup{
 }
 require('telescope').load_extension('fzy_native')
 
-local bind_picker = require('config.utils').bind_picker
+local bind_picker = require('plugins_config.utils').bind_picker
 
 
 -- :Telescope find_files find_command=rg,--ignore,--hidden,--files prompt_prefix=🔍

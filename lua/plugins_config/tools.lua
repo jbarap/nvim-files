@@ -149,7 +149,7 @@ require('gitsigns').setup{
 -- bind('n', "<Leader>gs", ":Git<CR>", opts)
 bind('n', "<Leader>gdh", ":diffget //2<CR>", opts)
 bind('n', "<Leader>gdl", ":diffget //3<CR>", opts)
-bind('n', "<Leader>gf", ":lua require('config.utils').prompt_git_file()<CR>", opts)
+bind('n', "<Leader>gf", ":lua require('plugins_config.utils').prompt_git_file()<CR>", opts)
 
 -- Subsitution
 vim.cmd("nmap s <plug>(SubversiveSubstitute)")
@@ -165,7 +165,7 @@ vim.g.esearch = {
     {'n', '<C-q>', ':<c-u>call esearch#init(extend(copy(b:esearch), {"out": "qflist"}))<cr>'}
   }
 }
-bind('n', '<c-f><c-f>', ':lua require("config.utils").prompt_esearch()<CR>', {silent = true})
+bind('n', '<c-f><c-f>', ':lua require("plugins_config.utils").prompt_esearch()<CR>', {silent = true})
 
 -- Doge
 vim.g.doge_doc_standard_python = 'google'
@@ -230,7 +230,7 @@ require'diffview'.setup {
     }
   }
 }
-bind('n', '<leader>dv', ':lua require("config.utils").toggle_diff_view()<CR>', opts)
+bind('n', '<leader>dv', ':lua require("plugins_config.utils").toggle_diff_view()<CR>', opts)
 
 -- Smooth scrolling
 require('neoscroll').setup{
