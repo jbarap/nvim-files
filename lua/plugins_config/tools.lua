@@ -69,6 +69,9 @@ require "pears".setup(function(conf)
     end
   end)
 
+  conf.remove_pair_on_outer_backspace(false)
+  -- conf.remove_pair_on_inner_backspace(false)
+
   -- Expand double underscore
   conf.pair('__', {
     close = '__'
@@ -102,11 +105,11 @@ bind('n', '<Down>', [[<cmd>lua require("tmux").resize_bottom()<cr>]], opts)
 -- NeoGit
 local neogit = require('neogit')
 neogit.setup {
-    disable_context_highlighting = true,
-    disable_commit_confirmation = false,
-    integrations = {
-      diffview = true,
-    }
+  disable_context_highlighting = true,
+  disable_commit_confirmation = false,
+  integrations = {
+    diffview = true,
+  }
 }
 bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts)
 
@@ -132,6 +135,7 @@ require('gitsigns').setup{
     ['n <leader>ghR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
     ['n <leader>ghp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
     ['n <leader>ghh'] = '<cmd>lua require"gitsigns".toggle_numhl()<CR>',
+    ['n <leader>ghq'] = '<cmd>lua require"gitsigns".setqflist("attached")<CR><cmd>copen<CR>',
     ['n <leader>gbl'] = '<cmd>lua require"gitsigns".blame_line()<CR>',
     ['n <leader>gbb'] = '<cmd>lua require"gitsigns".toggle_current_line_blame()<CR>',
 
@@ -254,7 +258,7 @@ require("toggleterm").setup{
       return vim.o.columns * 0.4
     end
   end,
-  persist_size = false,
+  persist_size = true,
 }
 bind('n', '<Leader>tf', ':ToggleTerm direction=float<CR>', opts)
 bind('n', '<Leader>th', ':ToggleTerm direction=horizontal<CR>', opts)
@@ -267,10 +271,4 @@ require('bqf').setup({
 
 -- Edit quickfix
 bind('n', '<leader>qe', ':lua require("replacer").run()<CR>', {nowait = true, noremap = true, silent = true})
-
--- Orgmode
-require('orgmode').setup({
-  org_agenda_files = {'~/notes/orgmode/*', '~/'},
-  org_default_notes_file = '~/notes/orgmode/refile.org',
-})
 

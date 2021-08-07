@@ -53,18 +53,36 @@ end
 
 
 ---- Handlers
--- Wait until inserLeave to report diagnostics
-vim.lsp.handlers["textDocument/publishDiagnostics"] = function(...)
-  vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics,
-    {
-      update_in_insert = false,
-      virtual_text = false,
+-- modify the diagnostics formatting to include source
+vim.lsp.handlers["textDocument/publishDiagnostics"] =
+  function(_, _, params, client_id, _)
+    local config = { -- your config
       underline = true,
+      virtual_text = false,
       signs = true,
+      update_in_insert = false,
     }
-  )(...)
-end
+    local uri = params.uri
+    local bufnr = vim.uri_to_bufnr(uri)
+
+    if not bufnr then
+      return
+    end
+
+    local diagnostics = params.diagnostics
+
+    for i, v in ipairs(diagnostics) do
+      diagnostics[i].message = string.format("%s (%s)", v.message, v.source)
+    end
+
+    vim.lsp.diagnostic.save(diagnostics, bufnr, client_id)
+
+    if not vim.api.nvim_buf_is_loaded(bufnr) then
+      return
+    end
+
+    vim.lsp.diagnostic.display(diagnostics, bufnr, client_id, config)
+  end
 
 vim.lsp.handlers["textDocument/hover"] =
   vim.lsp.with(
@@ -137,7 +155,7 @@ nvim_lsp.lua.setup{
 }
 
 -- The rest
-local servers = {'dockerfile', 'rust', 'json', 'yaml'}
+local servers = {'dockerfile', 'rust', 'json', 'yaml', 'julials'}
 
 for _, server in pairs(servers) do
   require'lspconfig'[server].setup{
@@ -230,7 +248,7 @@ local mypy = {
       local row, col, code, message = line:match(":(%d+):(%d+): (.*): (.*)")
 
       -- --hide-error-context isn't working, as a workaround we ignore notes
-      if error == "note" then
+      if code ~= "error" then
         return nil
       end
 
@@ -239,15 +257,14 @@ local mypy = {
         return nil
       end
 
-      local end_col = col
       local severity = 3  -- 1 (error), 2 (warning), 3 (information), 4 (hint)
 
       return {
         message = message,
         code = code,
         row = row,
-        col = col - 1,
-        end_col = end_col,
+        col = col,
+        end_col = col + 1,
         severity = severity,
         source = "mypy",
       }
@@ -269,7 +286,6 @@ local flake8 = {
     end,
     on_output = function(line, params)
       local row, col, message = line:match(":(%d+):(%d+): (.*)")
-      local end_col = col
       local severity = 1
       local code = string.match(message, "[EFWCN]%d+")
 
@@ -289,8 +305,8 @@ local flake8 = {
         message = message,
         code = code,
         row = row,
-        col = col - 1,
-        end_col = end_col,
+        col = col,
+        end_col = col + 1,
         severity = severity,
         source = "flake8",
       }
@@ -302,14 +318,40 @@ null_ls.config({
   debounce = 500,
   save_after_format = false,
   default_timeout = 20000,
+  -- diagnostics_format = " #{m} (#{s})",
   sources = {
     flake8,  -- used instead of builtin to support the "naming" flake8 plugin error codes
-    -- mypy,  -- only on certain projets, TODO: dynamically enable upon finding mypy.ini
-    -- pylint,  -- pylint is slow with big libraries
+
+    require("null-ls.helpers").conditional(function(utils)
+      return utils.root_has_file("mypy.ini") and mypy
+    end),
+
+    -- pylint is slow with big libraries
+    require("null-ls.helpers").conditional(function(utils)
+      return utils.root_has_file("pylintrc") and pylint
+    end),
+
+    null_ls.builtins.formatting.black.with({
+      args = {"--quiet", "--fast", "--skip-string-normalization", "-"}
+    }),
+
+    -- Waiting on: https://github.com/jose-elias-alvarez/null-ls.nvim/issues/56
+    -- null_ls.builtins.formatting.isort.with({
+    --   args = {"--stdout", "--profile", "black", 0, "-"}
+    -- }),
+
+    null_ls.builtins.formatting.stylua.with({
+      args = {"--column-width", "90", "--indent-type", "Spaces", "--indent-width", "2", "-s", "-"}
+    }),
+
+    null_ls.builtins.diagnostics.markdownlint,
+
   },
   debug = false,
 })
-require('lspconfig')['null-ls'].setup({})
+require('lspconfig')['null-ls'].setup({
+  on_attach = on_attach,
+})
 
 ---- Completion with compe
 vim.o.completeopt = "menuone,noselect"
@@ -326,7 +368,6 @@ require'compe'.setup {
   max_abbr_width = 100;
   max_kind_width = 100;
   max_menu_width = 100;
-  -- documentation = true;
   documentation = {
     border = 'rounded',
     winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
@@ -363,8 +404,6 @@ end
 _G.tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-n>"
-  --[[ elseif vim.fn.call("vsnip#available", {1}) == 1 then
-    return t "<Plug>(vsnip-expand-or-jump)" ]]
   elseif check_back_space() then
     return t "<Tab>"
   else
@@ -375,8 +414,6 @@ end
 _G.s_tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-p>"
-  --[[ elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-    return t "<Plug>(vsnip-jump-prev)" ]]
   else
     return t "<S-Tab>"
   end

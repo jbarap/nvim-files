@@ -1,26 +1,28 @@
 local M = {}
 local cmd = vim.cmd
-local types = {o = vim.o, b = vim.bo, w = vim.wo}
+local types = { o = vim.o, b = vim.bo, w = vim.wo }
 
 -- Get table length
 function M.length(table)
   local count = 0
-  for _ in ipairs(table) do count = count + 1 end
+  for _ in ipairs(table) do
+    count = count + 1
+  end
   return count
 end
 
 function M.UnloadAllModules()
   -- Lua patterns for the modules to unload
   local unload_modules = {
-    '^config',
-    '^keybinds$',
-    '^plugins$',
-    '^settings$',
-    '^utils$'
+    "^utils$",
+    "^settings$",
+    "^plugins_list$",
+    "^keybinds$",
+    "^plugins_config$",
   }
 
-  for k,_ in pairs(package.loaded) do
-    for _,v in ipairs(unload_modules) do
+  for k, _ in pairs(package.loaded) do
+    for _, v in ipairs(unload_modules) do
       if k:match(v) then
         package.loaded[k] = nil
         break
@@ -32,13 +34,13 @@ end
 -- Reload Vim configuration
 function M.Reload()
   -- Stop LSP
-  cmd('LspStop')
+  cmd("lua vim.lsp.stop_client(vim.lsp.get_active_clients())")
 
   -- Unload all already loaded modules
   M.UnloadAllModules()
 
   -- Source init.lua
-  cmd('luafile $MYVIMRC')
+  cmd("luafile $MYVIMRC")
 end
 
 -- Restart Vim without having to close and run again
@@ -47,7 +49,7 @@ function M.Restart()
   M.Reload()
 
   -- Manually run VimEnter autocmd to emulate a new run of Vim
-  cmd('doautocmd VimEnter')
+  cmd("doautocmd VimEnter")
 end
 
 -- Get option
@@ -59,8 +61,8 @@ end
 function M.set_opt(type, name, value)
   types[type][name] = value
 
-  if type ~= 'o' then
-    types['o'][name] = value
+  if type ~= "o" then
+    types["o"][name] = value
   end
 end
 
@@ -84,14 +86,14 @@ end
 
 -- Create an augroup
 function M.create_augroup(autocmds, name)
-  cmd('augroup ' .. name)
-  cmd('autocmd!')
+  cmd("augroup " .. name)
+  cmd("autocmd!")
 
   for _, autocmd in ipairs(autocmds) do
-    cmd('autocmd ' .. table.concat(autocmd, ' '))
+    cmd("autocmd " .. table.concat(autocmd, " "))
   end
 
-  cmd('augroup END')
+  cmd("augroup END")
 end
 
 return M

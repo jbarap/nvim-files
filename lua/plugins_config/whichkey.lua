@@ -49,7 +49,8 @@ wk.register({
       j = "Debug Step over",
       i = "Debug Inspect variable",
       s = "Debug Stop",
-      v = "Diffview toggle"
+      t = "Debug insert trace code (python)",
+      v = "Diffview toggle",
     },
     f = {
       name = "find/files",
@@ -83,6 +84,7 @@ wk.register({
           name = "hunk",
           h = "Num highlight toggle",
           p = "Preview",
+          q = "Send to quickfix",
           r = "Reset current hunk",
           R = "Reset all buffer hunks",
           s = "Stage hunk",

@@ -76,15 +76,3 @@ require('utils').create_augroup({
     {'TextYankPost', '*', 'silent!', 'lua vim.highlight.on_yank()'}
 }, 'highlight_on_yank')
 
--- Move the screen
-vim.api.nvim_set_keymap('n', '<A-j>', '<C-d>', {})
-vim.api.nvim_set_keymap('n', '<A-k>', '<C-u>', {})
-
---Add move line shortcuts
--- vim.api.nvim_set_keymap('n', '<A-j>', ':m .+1<CR>==', { noremap = true})
--- vim.api.nvim_set_keymap('n', '<A-k>', ':m .-2<CR>==', { noremap = true})
-vim.api.nvim_set_keymap('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { noremap = true})
-vim.api.nvim_set_keymap('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { noremap = true})
-vim.api.nvim_set_keymap('v', '<A-j>', ':m \'>+1<CR>gv=gv', { noremap = true})
-vim.api.nvim_set_keymap('v', '<A-k>', ':m \'<-2<CR>gv=gv', { noremap = true})
-

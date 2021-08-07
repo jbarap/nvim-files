@@ -65,3 +65,20 @@ bind('n', '<Leader>vv', ':version<CR>', opts)
 -- Exit whichkey with one esc press instead of two
 bind('n', '<Leader><Esc>', '<Esc>', opts)
 
+-- Insert debugging snippet for quick python debugging
+bind('n', '<Leader>dt', ':append<CR>import pdb; pdb.set_trace()<CR>.<CR>', opts)
+
+-- Move the screen
+bind('n', '<A-j>', '<C-d>', {})
+bind('n', '<A-k>', '<C-u>', {})
+bind('v', '<A-j>', '<C-d>', {})
+bind('v', '<A-k>', '<C-u>', {})
+
+--Add move line shortcuts
+-- bind('n', '<A-j>', ':m .+1<CR>==', { noremap = true})
+-- bind('n', '<A-k>', ':m .-2<CR>==', { noremap = true})
+-- bind('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { noremap = true})
+-- bind('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { noremap = true})
+bind('v', '<C-j>', ':m \'>+1<CR>gv=gv', { noremap = true})
+bind('v', '<C-k>', ':m \'<-2<CR>gv=gv', { noremap = true})
+

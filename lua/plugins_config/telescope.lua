@@ -1,5 +1,10 @@
 local actions = require('telescope.actions')
 
+local bind = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
+local bind_picker = require('plugins_config.utils').bind_picker
+
 
 -- Global remapping
 require('telescope').setup{
@@ -38,28 +43,21 @@ require('telescope').setup{
         ["<esc>"] = actions.close,
       },
     },
-  }
+  },
 }
+
 require('telescope').load_extension('fzy_native')
 
-local bind_picker = require('plugins_config.utils').bind_picker
-
-
--- :Telescope find_files find_command=rg,--ignore,--hidden,--files prompt_prefix=🔍
 -- Bindings
-bind_picker('<Leader>ff', 'find_files')
-vim.api.nvim_set_keymap(
-    "n", "<Leader>fp", ":Telescope find_files find_command=rg,--files,--hidden,--no-ignore-vcs<CR>", {noremap=true, silent=true}
-)
+bind('n', '<Leader>pp', ":lua require'telescope'.extensions.project.project{}<CR>", opts)
 
+bind('n', "<Leader>fp", ":Telescope find_files find_command=rg,--files,--hidden,--no-ignore-vcs<CR>", opts)
+bind_picker('<Leader>ff', 'find_files')
 bind_picker('<Leader>fg', 'live_grep')
 bind_picker('<Leader>fh', 'help_tags')
 bind_picker('<Leader>ft', 'treesitter')
 bind_picker('<Leader>fq', 'quickfix')
 bind_picker('<Leader>fb', 'file_browser')
--- bind_picker('<Leader>fb', 'buffers')
 
 bind_picker('<M-x>', 'commands')
-
--- bind_picker('<Leader>fg', 'git_status')
 

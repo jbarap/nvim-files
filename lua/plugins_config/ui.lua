@@ -86,11 +86,18 @@ bind('n', '<A-6>', ':BufferGoto 6<CR>', opts)
 bind('n', '<Leader>bp', ':BufferPick<CR>', opts)
 
 -- Indent lines
-vim.g.indent_blankline_show_trailing_blankline_indent = false
-vim.g.indent_blankline_use_treesitter = false
-vim.g.indent_blankline_char = '▏'
-vim.g.indent_blankline_enabled = true
-vim.g.indent_blankline_filetype_exclude = {'dashboard', 'help', 'toggleterm'}
+require('indent_blankline').setup({
+  show_trailing_blankline_indent = false,
+  use_treesitter = false,
+  char = '▏',
+  enabled = true,
+  filetype_exclude = {'dashboard', 'help', 'toggleterm'},
+})
+-- vim.g.indent_blankline_show_trailing_blankline_indent = false
+-- vim.g.indent_blankline_use_treesitter = false
+-- vim.g.indent_blankline_char = '▏'
+-- vim.g.indent_blankline_enabled = true
+-- vim.g.indent_blankline_filetype_exclude = {'dashboard', 'help', 'toggleterm'}
 
 -- Colorscheme
 vim.g.tokyonight_style = "night"
@@ -147,6 +154,9 @@ utils.change_highlight_bg("LSPDiagnosticsDefaultError", "NONE")
 -- Compe documentation lines
 utils.change_highlight_bg("CompeDocumentation", utils.return_highlight_term('NormalFloat', 'bg'))
 utils.change_highlight_fg("CompeDocumentation", "#606060")
+
+-- Telescope
+utils.change_highlight_bg("TelescopeSelection", "#1a2440")
 
 -- Which-key
 vim.cmd("autocmd BufEnter * hi WhichKeyFloat guibg="..mid_dark_bg_color)

@@ -41,7 +41,7 @@ return require('packer').startup({function()
     requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   }
   use 'nvim-telescope/telescope-fzy-native.nvim'
-  -- check out https://github.com/camspiers/snap
+  use 'nvim-telescope/telescope-project.nvim'
 
   -- Tabs
   use 'romgrk/barbar.nvim'
@@ -50,7 +50,7 @@ return require('packer').startup({function()
   use {'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
 
   -- File tree
-  use 'kyazdani42/nvim-tree.lua'
+  use {'kyazdani42/nvim-tree.lua', opt = true, cmd = {'NvimTreeToggle', 'NvimTreeFindFile'}}
 
   -- Indent lines
   use 'lukas-reineke/indent-blankline.nvim'
@@ -128,9 +128,6 @@ return require('packer').startup({function()
   -- Quickfix
   use 'kevinhwang91/nvim-bqf'
   use 'gabrielpoca/replacer.nvim'
-
-  -- Notes
-  use 'kristijanhusak/orgmode.nvim'
 end,
 
 config = {
