@@ -2,83 +2,85 @@ local bind = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
 -- Exit insert mode
-bind('i', 'jk', '<ESC>', opts)
-bind('i', 'JK', '<ESC>', opts)
+bind("i", "jk", "<ESC>", opts)
+bind("i", "JK", "<ESC>", opts)
 
 -- Exit terminal insert
-bind('t', '<Esc>', '<C-\\><C-n>', opts)
+bind("t", "<Esc>", "<C-\\><C-n>", opts)
 
 -- Paste to clipboard
-bind('v', '<Leader>y', '"+y', opts)
-bind('n', '<Leader>y', '"+y', opts)
+bind("v", "<Leader>y", '"+y', opts)
+bind("n", "<Leader>y", '"+y', opts)
 
 -- Paste anything (e.g. lines) to cursor
-bind('n', 'gp', 'a<CR><Esc>PkJJxx', opts)
-
--- Don't add { or } to jumplist
--- TODO
--- vim.cmd('nnoremap <silent> } :<C-u>execute "keepjumps norm! " . v:count1 . "}"<CR>')
--- vim.cmd('nnoremap <silent> { :<C-u>execute "keepjumps norm! " . v:count1 . "{"<CR>')
+bind("n", "gp", "a<CR><Esc>PkJJxx", opts)
 
 -- Make Y key yank to end of line
-bind('n', 'Y', 'y$', {noremap = true})
+bind("n", "Y", "y$", { noremap = true })
 
 -- Indent with Tab and Shift-Tab
-bind('v', '<Tab>', '>', {})
-bind('v', '<S-Tab>', '<', {})
+bind("v", "<Tab>", ">", {})
+bind("v", "<S-Tab>", "<", {})
 
 -- Don't leave visual mode after certain actions
 -- bind('v', '>', '>gv^', {noremap = true})
 -- bind('v', '<', '<gv^', {noremap = true})
-bind('v', 'S', 'Sgv^', {noremap = true})
+bind("v", "S", "Sgv^", { noremap = true })
 
 -- Clear search highlight and exit visual mode
-bind('n', '<leader><CR>', ':nohlsearch<cr>', opts)
-bind('v', '<leader><CR>', '<Esc>', opts)
+bind("n", "<Leader><CR>", ":nohlsearch<cr>", opts)
+bind("v", "<Leader><CR>", "<Esc>", opts)
 
 -- Buffer settings
-bind('n', '<leader>b.', ':bnext<CR>', opts)
-bind('n', '<leader>b,', ':bprev<CR>', opts)
-bind('n', '<leader>bd', ':BufferClose<CR>', opts)
+bind("n", "<Leader>b.", ":bnext<CR>", opts)
+bind("n", "<Leader>b,", ":bprev<CR>", opts)
+bind("n", "<Leader>bd", ":BufferClose<CR>", opts)
 
 -- Goto window above/below/left/right
-bind('n', '<C-h>', ':wincmd h<CR>', opts)
-bind('n', '<C-j>', ':wincmd j<CR>', opts)
-bind('n', '<C-k>', ':wincmd k<CR>', opts)
-bind('n', '<C-l>', ':wincmd l<CR>', opts)
+bind("n", "<C-h>", ":wincmd h<CR>", opts)
+bind("n", "<C-j>", ":wincmd j<CR>", opts)
+bind("n", "<C-k>", ":wincmd k<CR>", opts)
+bind("n", "<C-l>", ":wincmd l<CR>", opts)
 
 -- QuickFix
-bind('n', ']q', ':cn<CR>', opts)
-bind('n', '[q', ':cp<CR>', opts)
-bind('n', '<leader>qq', ':lua require("plugins_config.utils").toggle_quickfix()<CR>', opts)
+bind("n", "]q", ":cn<CR>", opts)
+bind("n", "[q", ":cp<CR>", opts)
+bind("n", "<Leader>qq", ":lua require('utils').toggle_quickfix()<CR>", opts)
 
--- Resize windows
--- See tools.lua for resize with tmux
+-- Resize windows (See plugins_config.tools for resize with tmux)
 
 -- Keybinds for editing vim config
-bind('n', '<Leader>ve', ':edit $MYVIMRC<CR>', opts)
-bind('n', '<Leader>vr', ':lua require("utils").Reload()<CR>', opts)
-bind('n', '<Leader>vR', ':lua require("utils").Restart()<CR>', opts)
-bind('n', '<Leader>vs', ':Reload<CR>:PackerSync<CR>', opts)
-bind('n', '<Leader>vv', ':version<CR>', opts)
+bind("n", "<Leader>ve", ":edit $MYVIMRC<CR>", opts)
+bind("n", "<Leader>vr", ":lua require('utils').Reload()<CR>", opts)
+bind("n", "<Leader>vR", ":lua require('utils').Restart()<CR>", opts)
+bind("n", "<Leader>vs", ":Reload<CR>:PackerSync<CR>", opts)
+bind("n", "<Leader>vv", ":version<CR>", opts)
 
 -- Exit whichkey with one esc press instead of two
-bind('n', '<Leader><Esc>', '<Esc>', opts)
+bind("n", "<Leader><Esc>", "<Esc>", opts)
 
 -- Insert debugging snippet for quick python debugging
-bind('n', '<Leader>dt', ':append<CR>import pdb; pdb.set_trace()<CR>.<CR>', opts)
+bind("n", "<Leader>dt", ":append<CR>import pdb; pdb.set_trace()<CR>.<CR>", opts)
 
 -- Move the screen
-bind('n', '<A-j>', '<C-d>', {})
-bind('n', '<A-k>', '<C-u>', {})
-bind('v', '<A-j>', '<C-d>', {})
-bind('v', '<A-k>', '<C-u>', {})
+bind("n", "<A-j>", "<C-d>", {})
+bind("n", "<A-k>", "<C-u>", {})
+bind("v", "<A-j>", "<C-d>", {})
+bind("v", "<A-k>", "<C-u>", {})
 
 --Add move line shortcuts
 -- bind('n', '<A-j>', ':m .+1<CR>==', { noremap = true})
 -- bind('n', '<A-k>', ':m .-2<CR>==', { noremap = true})
 -- bind('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { noremap = true})
 -- bind('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { noremap = true})
-bind('v', '<C-j>', ':m \'>+1<CR>gv=gv', { noremap = true})
-bind('v', '<C-k>', ':m \'<-2<CR>gv=gv', { noremap = true})
+bind("v", "<C-j>", ":m '>+1<CR>gv=gv", { noremap = true })
+bind("v", "<C-k>", ":m '<-2<CR>gv=gv", { noremap = true })
 
+-- Center screen on cursor move
+bind("n", "<C-o>", "<C-o>zz", {silent = true})
+bind("n", "<C-i>", "<C-i>zz", {silent = true})
+bind("n", "n", "nzz", {silent = true})
+bind("n", "N", "Nzz", {silent = true})
+
+-- Save files with sudo
+vim.cmd("command! WSudo lua require'utils'.sudo_write()<CR>")

@@ -18,8 +18,14 @@ vim.g.nvim_tree_width = 40
 vim.g.nvim_tree_auto_ignore_ft = {'startify', 'dashboard'}
 vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_ignore = {'.git'}
-
+vim.g.nvim_tree_special_files = {}
+vim.g.nvim_tree_show_icons = {
+  git = 0,
+  folders = 1,
+  files = 1,
+}
 vim.g.nvim_tree_icons = {
+  default = '',
   git = {
     unstaged = "!",
     untracked = "?",
@@ -93,11 +99,6 @@ require('indent_blankline').setup({
   enabled = true,
   filetype_exclude = {'dashboard', 'help', 'toggleterm'},
 })
--- vim.g.indent_blankline_show_trailing_blankline_indent = false
--- vim.g.indent_blankline_use_treesitter = false
--- vim.g.indent_blankline_char = '▏'
--- vim.g.indent_blankline_enabled = true
--- vim.g.indent_blankline_filetype_exclude = {'dashboard', 'help', 'toggleterm'}
 
 -- Colorscheme
 vim.g.tokyonight_style = "night"
@@ -121,6 +122,8 @@ utils.change_highlight_bg("TabLineFill", dark_bg_color)
 
 -- Syntax
 utils.change_highlight_fg("Normal", "#c9c9c9")
+utils.change_highlight_bg("Search", "#273866")
+utils.change_highlight_fg("Search", "NONE")
 
 -- gitsigns
 utils.change_highlight_bg("GitSignsAdd", "NONE")
@@ -153,7 +156,9 @@ utils.change_highlight_bg("LSPDiagnosticsDefaultError", "NONE")
 
 -- Compe documentation lines
 utils.change_highlight_bg("CompeDocumentation", utils.return_highlight_term('NormalFloat', 'bg'))
-utils.change_highlight_fg("CompeDocumentation", "#606060")
+utils.change_highlight_fg("CompeDocumentation", "#aaaaaa")
+utils.change_highlight_bg("CompeDocumentationBorder", utils.return_highlight_term('NormalFloat', 'bg'))
+utils.change_highlight_fg("CompeDocumentationBorder", "#606060")
 
 -- Telescope
 utils.change_highlight_bg("TelescopeSelection", "#1a2440")

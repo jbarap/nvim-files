@@ -1,6 +1,8 @@
 local bind = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
+M = {}
+
 -- nvim-dap
 local dap = require('dap')
 bind("n", "<Leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", opts)
@@ -15,7 +17,7 @@ vim.cmd("au FileType dap-repl lua require('dap.ext.autocompl').attach()")
 vim.fn.sign_define('DapBreakpoint', {text='🔺', texthl='', linehl='', numhl=''})
 
 -- nvim-dap convenience functions
-local function pick_process()
+function M.pick_process()
   local output = vim.fn.system({'ps', 'a'})
   local lines = vim.split(output, '\n')
   local procs = {}
@@ -43,21 +45,12 @@ local function pick_process()
   return procs[choice].pid
 end
 
-
--- nvim-dap-install
-local dap_install = require("dap-install")
-
-dap_install.setup({
-  installation_path = "data/debuggers/",
-  verbosely_call_debuggers = true,
-})
-
 ---- nvim-dap configurations
 
 -- adapters
 dap.adapters.python_launch = {
   type = 'executable',
-  command = vim.fn.expand('~/.config/nvim/data/debuggers/python_dbg/bin/python3'),
+  command = vim.fn.expand('python3'),
   args = {'-m', 'debugpy.adapter'}
 }
 dap.adapters.python_attach = {
@@ -91,7 +84,6 @@ dap.configurations.python = {
     type = 'python_attach',
     request = 'attach',
   },
-
 }
 
 
@@ -130,4 +122,6 @@ require("dapui").setup({
     max_width = nil   -- Floats will be treated as percentage of your screen.
   }
 })
+
+return M
 

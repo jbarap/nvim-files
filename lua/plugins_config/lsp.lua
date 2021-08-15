@@ -127,14 +127,27 @@ require('lspkind').init({
 
 ---- Language servers
 -- Jedi (faster than pylsp, but no linting)
-nvim_lsp.jedi_language_server.setup {
-  cmd = {"/home/john/.pyenv/versions/nvim-env/bin/jedi-language-server"},
-  on_attach = on_attach,
-  flags = {
-    debounce_text_changes = 1500,
-    allow_incremental_sync = true,
-  },
-}
+local lsputil = require("lspconfig.util")
+local cwd = vim.loop.cwd()
+
+-- Python
+-- Use pyright if the config file exists, otherwise use jedi_language_server
+if lsputil.path.exists(lsputil.path.join(cwd, "pyrightconfig.json")) then
+  nvim_lsp.pyright.setup({})
+
+else
+  nvim_lsp.jedi_language_server.setup {
+    -- ideally, keep the pyenv version, but find a way to set system python as default
+    -- cmd = {"/home/john/.pyenv/versions/nvim-env/bin/jedi-language-server"},
+    cmd = {"jedi-language-server"},
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 1500,
+      allow_incremental_sync = true,
+    },
+  }
+
+end
 
 -- Lua
 nvim_lsp.lua.setup{
@@ -318,37 +331,34 @@ null_ls.config({
   debounce = 500,
   save_after_format = false,
   default_timeout = 20000,
-  -- diagnostics_format = " #{m} (#{s})",
   sources = {
+    ---- Linters
+    null_ls.builtins.diagnostics.markdownlint,
     flake8,  -- used instead of builtin to support the "naming" flake8 plugin error codes
 
     require("null-ls.helpers").conditional(function(utils)
       return utils.root_has_file("mypy.ini") and mypy
     end),
 
-    -- pylint is slow with big libraries
     require("null-ls.helpers").conditional(function(utils)
       return utils.root_has_file("pylintrc") and pylint
     end),
 
+    ---- Fixers
     null_ls.builtins.formatting.black.with({
       args = {"--quiet", "--fast", "--skip-string-normalization", "-"}
     }),
 
-    -- Waiting on: https://github.com/jose-elias-alvarez/null-ls.nvim/issues/56
-    -- null_ls.builtins.formatting.isort.with({
-    --   args = {"--stdout", "--profile", "black", 0, "-"}
-    -- }),
+    null_ls.builtins.formatting.isort,
 
     null_ls.builtins.formatting.stylua.with({
       args = {"--column-width", "90", "--indent-type", "Spaces", "--indent-width", "2", "-s", "-"}
     }),
 
-    null_ls.builtins.diagnostics.markdownlint,
-
   },
   debug = false,
 })
+
 require('lspconfig')['null-ls'].setup({
   on_attach = on_attach,
 })

@@ -69,10 +69,6 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  ["DAPInstall.nvim"] = {
-    loaded = true,
-    path = "/home/john/.local/share/nvim/site/pack/packer/start/DAPInstall.nvim"
-  },
   ["barbar.nvim"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/barbar.nvim"
@@ -112,6 +108,10 @@ _G.packer_plugins = {
   ["lualine.nvim"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/lualine.nvim"
+  },
+  ["magma-nvim"] = {
+    loaded = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/magma-nvim"
   },
   ["markdown-preview.nvim"] = {
     loaded = true,
@@ -187,6 +187,12 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/pears.nvim"
   },
+  playground = {
+    commands = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
+    loaded = false,
+    needs_bufread = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/opt/playground"
+  },
   ["plenary.nvim"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/plenary.nvim"
@@ -194,6 +200,10 @@ _G.packer_plugins = {
   ["popup.nvim"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/popup.nvim"
+  },
+  ["project.nvim"] = {
+    loaded = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/project.nvim"
   },
   ["replacer.nvim"] = {
     loaded = true,
@@ -206,10 +216,6 @@ _G.packer_plugins = {
   ["telescope-fzy-native.nvim"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/telescope-fzy-native.nvim"
-  },
-  ["telescope-project.nvim"] = {
-    loaded = true,
-    path = "/home/john/.local/share/nvim/site/pack/packer/start/telescope-project.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
@@ -249,10 +255,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-repeat"
   },
-  ["vim-rooter"] = {
-    loaded = true,
-    path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-rooter"
-  },
   ["vim-sleuth"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-sleuth"
@@ -266,19 +268,12 @@ _G.packer_plugins = {
     path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-surround"
   },
   ["vim-test"] = {
-    load_after = {
-      ["vim-ultest"] = true
-    },
-    loaded = false,
-    needs_bufread = false,
-    path = "/home/john/.local/share/nvim/site/pack/packer/opt/vim-test"
+    loaded = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-test"
   },
   ["vim-ultest"] = {
-    after = { "vim-test" },
-    commands = { "Ulttest", "UltestNearest" },
-    loaded = false,
-    needs_bufread = false,
-    path = "/home/john/.local/share/nvim/site/pack/packer/opt/vim-ultest"
+    loaded = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/vim-ultest"
   },
   ["which-key.nvim"] = {
     loaded = true,
@@ -290,11 +285,11 @@ time([[Defining packer_plugins]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Ulttest lua require("packer.load")({'vim-ultest'}, { cmd = "Ulttest", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file UltestNearest lua require("packer.load")({'vim-ultest'}, { cmd = "UltestNearest", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file DogeGenerate lua require("packer.load")({'vim-doge'}, { cmd = "DogeGenerate", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file NvimTreeFindFile lua require("packer.load")({'nvim-tree.lua'}, { cmd = "NvimTreeFindFile", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file NvimTreeToggle lua require("packer.load")({'nvim-tree.lua'}, { cmd = "NvimTreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command! -nargs=* -range -bang -complete=file NvimTreeFindFile lua require("packer.load")({'nvim-tree.lua'}, { cmd = "NvimTreeFindFile", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command! -nargs=* -range -bang -complete=file TSPlaygroundToggle lua require("packer.load")({'playground'}, { cmd = "TSPlaygroundToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command! -nargs=* -range -bang -complete=file TSHighlightCapturesUnderCursor lua require("packer.load")({'playground'}, { cmd = "TSHighlightCapturesUnderCursor", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command! -nargs=* -range -bang -complete=file NvimTreeToggle lua require("packer.load")({'nvim-tree.lua'}, { cmd = "NvimTreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command! -nargs=* -range -bang -complete=file DogeGenerate lua require("packer.load")({'vim-doge'}, { cmd = "DogeGenerate", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
 time([[Defining lazy-load commands]], false)
 
 if should_profile then save_profiles(1) end

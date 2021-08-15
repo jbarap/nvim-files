@@ -23,6 +23,7 @@ return require('packer').startup({function()
   -- LSP
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-compe'
+  -- Check https://github.com/ms-jpq/coq_nvim
   use 'kabouzeid/nvim-lspinstall'
   use 'onsails/lspkind-nvim'
   use {'folke/lsp-trouble.nvim', requires = "kyazdani42/nvim-web-devicons"}
@@ -31,6 +32,7 @@ return require('packer').startup({function()
   -- Syntax
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
   use 'nvim-treesitter/nvim-treesitter-textobjects'
+  use { 'nvim-treesitter/playground', opt = true, cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' }}
 
   -- Smooth scrolling
   use 'karb94/neoscroll.nvim'
@@ -41,7 +43,6 @@ return require('packer').startup({function()
     requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   }
   use 'nvim-telescope/telescope-fzy-native.nvim'
-  use 'nvim-telescope/telescope-project.nvim'
 
   -- Tabs
   use 'romgrk/barbar.nvim'
@@ -76,8 +77,7 @@ return require('packer').startup({function()
   use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim'}
 
   -- Change cwd to project
-  use 'airblade/vim-rooter'
-  -- Look into https://github.com/ahmedkhalf/lsp-rooter.nvim
+  use 'ahmedkhalf/project.nvim'
 
   -- Dashboard
   use 'glepnir/dashboard-nvim'
@@ -96,19 +96,18 @@ return require('packer').startup({function()
 
   -- Debugging
   use 'mfussenegger/nvim-dap'
-  use 'Pocco81/DAPInstall.nvim'
   use {'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'}}
 
   -- Python
   use 'Vimjas/vim-python-pep8-indent'
   use {'ahmedkhalf/jupyter-nvim', run = ":UpdateRemotePlugins"}
+  use { 'dccsillag/magma-nvim', run = ':UpdateRemotePlugins' }
 
   -- Markdown preview
   use {'iamcco/markdown-preview.nvim', run=':call mkdp#util#install()'}
 
   -- Tests
-  use {"rcarriga/vim-ultest", requires = {"janko/vim-test"}, run = ":UpdateRemotePlugins",
-       opt = true, cmd = {'Ulttest', 'UltestNearest'}}
+  use {"rcarriga/vim-ultest", requires = {"janko/vim-test"}, run = ":UpdateRemotePlugins"}
 
   -- Diffview
   use 'sindrets/diffview.nvim'
@@ -124,10 +123,20 @@ return require('packer').startup({function()
 
   -- rsync
   use 'kenn7/vim-arsync'
+  -- check: https://github.com/chipsenkbeil/distant.nvim
 
   -- Quickfix
   use 'kevinhwang91/nvim-bqf'
   use 'gabrielpoca/replacer.nvim'
+
+  -- Refactoring
+  -- use { "ThePrimeagen/refactoring.nvim",
+  --   requires = {
+  --     {"nvim-lua/plenary.nvim"},
+  --     {"nvim-treesitter/nvim-treesitter"}
+  --   }
+  -- }
+
 end,
 
 config = {

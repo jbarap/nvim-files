@@ -1,16 +1,8 @@
 local M = {}
-local cmd = vim.cmd
+
 local types = { o = vim.o, b = vim.bo, w = vim.wo }
 
--- Get table length
-function M.length(table)
-  local count = 0
-  for _ in ipairs(table) do
-    count = count + 1
-  end
-  return count
-end
-
+-- Unload modules described in 'unload_modules'
 function M.UnloadAllModules()
   -- Lua patterns for the modules to unload
   local unload_modules = {
@@ -33,23 +25,20 @@ end
 
 -- Reload Vim configuration
 function M.Reload()
-  -- Stop LSP
-  cmd("lua vim.lsp.stop_client(vim.lsp.get_active_clients())")
+  vim.cmd("lua vim.lsp.stop_client(vim.lsp.get_active_clients())")
 
-  -- Unload all already loaded modules
   M.UnloadAllModules()
 
   -- Source init.lua
-  cmd("luafile $MYVIMRC")
+  vim.cmd("luafile $MYVIMRC")
 end
 
 -- Restart Vim without having to close and run again
 function M.Restart()
-  -- Reload config
   M.Reload()
 
   -- Manually run VimEnter autocmd to emulate a new run of Vim
-  cmd("doautocmd VimEnter")
+  vim.cmd("doautocmd VimEnter")
 end
 
 -- Get option
@@ -86,14 +75,72 @@ end
 
 -- Create an augroup
 function M.create_augroup(autocmds, name)
-  cmd("augroup " .. name)
-  cmd("autocmd!")
+  vim.cmd("augroup " .. name)
+  vim.cmd("autocmd!")
 
   for _, autocmd in ipairs(autocmds) do
-    cmd("autocmd " .. table.concat(autocmd, " "))
+    vim.cmd("autocmd " .. table.concat(autocmd, " "))
   end
 
-  cmd("augroup END")
+  vim.cmd("augroup END")
+end
+
+-- Toggle the quickfix list
+function M.toggle_quickfix()
+  local windows = vim.fn.getwininfo()
+  local quickfix_open = false
+
+  for _, value in pairs(windows) do
+    if value['quickfix'] == 1 then
+      quickfix_open = true
+    end
+  end
+
+  if quickfix_open then
+    vim.cmd('cclose')
+  else
+    vim.cmd('copen')
+  end
+
+end
+
+-- Use sudo to execute commands and write files
+-- from: https://github.com/ibhagwan/nvim-lua/blob/main/lua/utils.lua#L280
+M.sudo_exec = function(cmd, print_output)
+  local password = vim.fn.inputsecret("Password: ")
+  if not password or #password == 0 then
+      vim.notify("Invalid password, sudo aborted")
+      return false
+  end
+  local out = vim.fn.system(string.format("sudo -p '' -S %s", cmd), password)
+  if vim.v.shell_error ~= 0 then
+    print("\r\n")
+    vim.notify(out)
+    return false
+  end
+  if print_output then print("\r\n", out) end
+  return true
+end
+
+M.sudo_write = function(tmpfile, filepath)
+  if not tmpfile then tmpfile = vim.fn.tempname() end
+  if not filepath then filepath = vim.fn.expand("%") end
+  if not filepath or #filepath == 0 then
+    vim.notify("E32: No file name")
+    return
+  end
+  -- `bs=1048576` is equivalent to `bs=1M` for GNU dd or `bs=1m` for BSD dd
+  -- Both `bs=1M` and `bs=1m` are non-POSIX
+  local cmd = string.format("dd if=%s of=%s bs=1048576",
+    vim.fn.shellescape(tmpfile),
+    vim.fn.shellescape(filepath))
+  -- no need to check error as this fails the entire function
+  vim.api.nvim_exec(string.format("write! %s", tmpfile), true)
+  if M.sudo_exec(cmd) then
+    vim.notify(string.format('\r\n"%s" written', filepath))
+    vim.cmd("e!")
+  end
+  vim.fn.delete(tmpfile)
 end
 
 return M

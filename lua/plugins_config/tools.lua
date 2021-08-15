@@ -4,9 +4,14 @@ local opts = { noremap = true, silent = true }
 -- Tree-sitter
 require'nvim-treesitter.configs'.setup {
   ensure_installed = 'all',
+
   highlight = {
     enable = true,
     disable = {},
+  },
+
+  playground = {
+    enable = true,
   },
 
   incremental_selection = {
@@ -32,6 +37,8 @@ require'nvim-treesitter.configs'.setup {
         ["if"] = "@function.inner",
         ["ac"] = "@class.outer",
         ["ic"] = "@class.inner",
+        ["aa"] = "@parameter.outer",
+        ["ia"] = "@parameter.inner",
       },
     },
     move = {
@@ -40,6 +47,7 @@ require'nvim-treesitter.configs'.setup {
       goto_next_start = {
         ["]f"] = "@function.outer",
         ["]c"] = "@class.outer",
+        ["]a"] = "@parameter.inner",
       },
       goto_next_end = {
         ["]F"] = "@function.outer",
@@ -48,6 +56,7 @@ require'nvim-treesitter.configs'.setup {
       goto_previous_start = {
         ["[f"] = "@function.outer",
         ["[c"] = "@class.outer",
+        ["[a"] = "@parameter.inner",
       },
       goto_previous_end = {
         ["[F"] = "@function.outer",
@@ -80,10 +89,13 @@ require "pears".setup(function(conf)
 end)
 
 -- Rooter
-vim.g.rooter_patterns = {
-  ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "requirements.txt"
-}
-vim.g.rooter_silent_chdir = 1
+require('project_nvim').setup({
+  manual_mode = false,
+  detection_methods = {'lsp', 'pattern'},
+  patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+  ignore_lsp = {'null-ls'},
+  silent_chdir = true,
+})
 
 -- Tmux
 require("tmux").setup({
@@ -178,6 +190,14 @@ bind('n', '<Leader>cds', ':DogeGenerate<CR>', opts)
 
 -- Jupyter
 require('jupyter-nvim').setup({})
+bind('n', '<Leader>mi', ':MagmaInit<CR>', opts)
+bind('n', '<Leader>mel', ':MagmaEvaluateLine<CR>', opts)
+bind('v', '<Leader>m<CR>', ':<C-u>MagmaEvaluateVisual<CR>', opts)
+bind('n', '<Leader>mec', ':MagmaReevaluateCell<CR>', opts)
+bind('n', '<Leader>m<CR>', ':MagmaShowOutput<CR>', opts)
+vim.cmd("hi def MagmaCell guibg=#202020 guifg=NONE")
+vim.g.magma_automatically_open_output = false
+vim.g.magma_cell_highlight_group = "MagmaCell"
 
 -- Comments
 require('kommentary.config').configure_language("default", {
@@ -193,10 +213,39 @@ bind('n', 'gcc', 'gcl', {silent = true})
 vim.g.mkdp_auto_close = 0
 
 -- Ulttest
+require('ultest').setup({
+  builders = {
+    ['python#pytest'] = function (cmd)
+    -- The command can start with python command directly or an env manager
+    local non_modules = {'python', 'pipenv', 'poetry'}
+    -- Index of the python module to run the test.
+    local module, module_index
+    if vim.tbl_contains(non_modules, cmd[1]) then
+      module_index = 3
+    else
+      module_index = 1
+    end
+
+    module = cmd[module_index]
+
+    -- Remaining elements are arguments to the module
+    local args = vim.list_slice(cmd, module_index + 1)
+    return {
+      dap = {
+        type = 'python_launch',
+        request = 'launch',
+        module = module,
+        args = args
+      }
+    }
+    end,
+  },
+})
 bind("n", "<Leader>tt", ":Ultest<CR>", opts)
 bind("n", "<Leader>tn", ":UltestNearest<CR>", opts)
 bind("n", "<Leader>ts", ":UltestStop<CR>", opts)
 bind("n", "<Leader>tp", ":UltestSummary<CR>", opts)
+bind("n", "<Leader>td", ":UltestDebugNearest<CR>", opts)
 
 vim.g.ultest_output_on_line = 0
 vim.cmd("let test#python#runner = 'pytest'")
@@ -264,6 +313,8 @@ bind('n', '<Leader>tf', ':ToggleTerm direction=float<CR>', opts)
 bind('n', '<Leader>th', ':ToggleTerm direction=horizontal<CR>', opts)
 bind('n', '<Leader>tv', ':ToggleTerm direction=vertical<CR>', opts)
 
+bind('n', '<Leader>ce', ":lua require('plugins_config.utils').run_code()<CR>", opts)
+
 -- Better quickfix
 require('bqf').setup({
   auto_resize_height = false
@@ -271,4 +322,7 @@ require('bqf').setup({
 
 -- Edit quickfix
 bind('n', '<leader>qe', ':lua require("replacer").run()<CR>', {nowait = true, noremap = true, silent = true})
+
+-- Targets
+vim.cmd("autocmd User targets#mappings#user call targets#mappings#extend({'a': {},})")
 

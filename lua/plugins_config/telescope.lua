@@ -47,9 +47,10 @@ require('telescope').setup{
 }
 
 require('telescope').load_extension('fzy_native')
+require('telescope').load_extension('projects')
 
 -- Bindings
-bind('n', '<Leader>pp', ":lua require'telescope'.extensions.project.project{}<CR>", opts)
+bind('n', '<Leader>pp', ':Telescope projects<CR>', opts)
 
 bind('n', "<Leader>fp", ":Telescope find_files find_command=rg,--files,--hidden,--no-ignore-vcs<CR>", opts)
 bind_picker('<Leader>ff', 'find_files')

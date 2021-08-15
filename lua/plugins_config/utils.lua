@@ -1,6 +1,6 @@
 local M = {}
 
--- Function to bind telescope picker to key combination
+-- Bind telescope picker to key combination
 function M.bind_picker(keys, picker_name, extension_name)
   if extension_name ~= nil then
     vim.api.nvim_set_keymap(
@@ -35,7 +35,7 @@ function M.buf_bind_picker(bufnr, keys, picker_name, extension_name)
   end
 end
 
--- Functions to modify highlight groups
+-- Modify highlight groups
 function M.return_highlight_term(group, term)
   local hl_id = vim.fn.hlID(group)
   local output = vim.fn.synIDattr(vim.fn.synIDtrans(hl_id), term)
@@ -60,6 +60,7 @@ function M.change_highlight_fg(group, color)
   vim.cmd("hi "..group.." guifg="..color..bg_option)
 end
 
+-- Diffview toggler
 function M.toggle_diff_view()
   -- DiffviewFiles,
   local bfr = vim.api.nvim_get_current_buf()
@@ -78,7 +79,6 @@ function M.toggle_diff_view()
     vim.cmd("silent DiffviewClose")
     vim.cmd("silent BufferCloseAllButCurrent")
   else
-    -- print('is not diffview')
     local option = vim.fn.input({prompt = 'Against which commit [enter/hash]? ', cancelreturn = '<canceled>'})
 
     if option == '<canceled>' then
@@ -95,6 +95,7 @@ function M.toggle_diff_view()
 
 end
 
+-- Esearch prompt
 function M.prompt_esearch()
   local option = vim.fn.input({prompt = 'Search in directory: [enter/dir]? ', cancelreturn = '<canceled>'})
   local path = "**/*"
@@ -109,6 +110,7 @@ function M.prompt_esearch()
 
 end
 
+-- Git compare file prompt
 function M.prompt_git_file()
   local option = vim.fn.input({prompt = 'Open file in which commit: [~(number)/hash]? ', cancelreturn = '<canceled>'})
 
@@ -125,22 +127,16 @@ function M.prompt_git_file()
   vim.cmd("echon ''")
 end
 
-function M.toggle_quickfix()
-  local windows = vim.fn.getwininfo()
-  local quickfix_open = false
-
-  for _, value in pairs(windows) do
-    if value['quickfix'] == 1 then
-      quickfix_open = true
-    end
-  end
-
-  if quickfix_open then
-    vim.cmd('cclose')
+-- Code runner
+function M.run_code()
+  local file_type = vim.api.nvim_buf_get_option(0, "filetype")
+  if file_type == 'python' then
+    vim.cmd('1TermExec cmd="python3 %" go_back=0')
+  elseif file_type == 'lua' then
+    vim.cmd('1TermExec cmd="lua %" go_back=0')
   else
-    vim.cmd('copen')
+    vim.notify("Filetype '" .. file_type .. "' not yet supported, expand run_code function.")
   end
-
 end
 
 return M
