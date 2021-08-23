@@ -81,14 +81,14 @@ wk.register({
           l = "Diff put right",
       },
       h = {
-          name = "hunk",
-          h = "Num highlight toggle",
-          p = "Preview",
-          q = "Send to quickfix",
-          r = "Reset current hunk",
-          R = "Reset all buffer hunks",
-          s = "Stage hunk",
-          u = "Undo stage hunk"
+          name = "hunk/highlight",
+          h = "Highlight changes",
+          p = "Hunk Preview",
+          q = "Hunk send to quickfix",
+          x = "Hunk reset current",
+          X = "Hunk reset buffer",
+          s = "Hunk stage",
+          u = "Hunk undo stage",
       },
     },
     s = {

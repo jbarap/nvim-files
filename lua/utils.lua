@@ -143,4 +143,10 @@ M.sudo_write = function(tmpfile, filepath)
   vim.fn.delete(tmpfile)
 end
 
+-- Search word under the cursor without moving it
+M.search_word = function ()
+  vim.cmd([[let @/='\<]] .. vim.fn.expand("<cword>") .. [[\>']])
+  M.set_opt("o", "hlsearch", true)
+end
+
 return M

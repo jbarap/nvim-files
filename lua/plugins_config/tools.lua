@@ -18,20 +18,21 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
     keymaps = {
       init_selection = "gnn",
-      node_incremental = "grn",
+      node_incremental = "n",
       scope_incremental = "grc",
-      node_decremental = "grm",
+      node_decremental = "N",
     },
   },
 
   indent = {
     enable = true,
-    disable = {"python"},
+    -- disable = {"python"},
   },
 
   textobjects = {
     select = {
       enable = true,
+      lookahead = true,
       keymaps = {
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
@@ -67,26 +68,12 @@ require'nvim-treesitter.configs'.setup {
 }
 
 -- Autopairs
-require "pears".setup(function(conf)
-
-  -- Compatibility with compe
-  conf.on_enter(function(pears_handle)
-    if vim.fn.pumvisible() == 1 and vim.fn.complete_info().selected ~= -1 then
-      return vim.fn["compe#confirm"]("<CR>")
-    else
-      pears_handle()
-    end
-  end)
-
-  conf.remove_pair_on_outer_backspace(false)
-  -- conf.remove_pair_on_inner_backspace(false)
-
-  -- Expand double underscore
-  conf.pair('__', {
-    close = '__'
-  })
-
-end)
+local autopairs = require('nvim-autopairs')
+local autopairs_rule = require('nvim-autopairs.rule')
+autopairs.setup({})
+autopairs.add_rule(autopairs_rule('"""', '"""', 'python'))
+autopairs.add_rule(autopairs_rule('__', '__', 'python'))
+-- see options in plugins_config.lsp for compe compatibility options
 
 -- Rooter
 require('project_nvim').setup({
@@ -129,10 +116,10 @@ bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>
 require('gitsigns').setup{
   signs = {
     add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
-    change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    change       = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
     delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
     topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
   },
   keymaps = {
     noremap = true,
@@ -141,12 +128,13 @@ require('gitsigns').setup{
     ['n ]h'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
     ['n [h'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
 
+    -- TODO: toggle word diff
     ['n <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
     ['n <leader>ghu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
-    ['n <leader>ghr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-    ['n <leader>ghR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
+    ['n <leader>ghx'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+    ['n <leader>ghX'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
     ['n <leader>ghp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
-    ['n <leader>ghh'] = '<cmd>lua require"gitsigns".toggle_numhl()<CR>',
+    ['n <leader>ghh'] = '<cmd>lua require"gitsigns".toggle_numhl()<CR><cmd>lua require"gitsigns".toggle_word_diff()<CR>',
     ['n <leader>ghq'] = '<cmd>lua require"gitsigns".setqflist("attached")<CR><cmd>copen<CR>',
     ['n <leader>gbl'] = '<cmd>lua require"gitsigns".blame_line()<CR>',
     ['n <leader>gbb'] = '<cmd>lua require"gitsigns".toggle_current_line_blame()<CR>',

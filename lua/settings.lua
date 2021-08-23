@@ -9,12 +9,13 @@ set_opt("o", "splitright", true)
 -- Resize sign column limit
 set_opt("w", "signcolumn", "yes:1")
 
--- Color column
+-- Color line/column
 set_opt("w", "colorcolumn", "90")
+set_opt("w", "cursorline", true)
 
 -- Completion menu
 set_opt("o", "pumheight", 20)
-set_opt("o", "pumblend", 15)
+set_opt("o", "pumblend", 10)
 
 -- Set encoding
 set_opt("o", "encoding", "utf-8")
@@ -57,9 +58,6 @@ set_opt("o", "smartcase", true)
 
 -- Faster update time
 set_opt("o", "updatetime", 200)
-
--- Highlight current line
-set_opt("w", "cursorline", true)
 
 -- Scroll offsets
 set_opt("o", "scrolloff", 7)

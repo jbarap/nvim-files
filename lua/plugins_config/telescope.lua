@@ -44,15 +44,24 @@ require('telescope').setup{
       },
     },
   },
+  extensions = {
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = false,
+      override_file_sorter = true,
+      case_mode = "smart_case",
+    }
+  }
 }
 
-require('telescope').load_extension('fzy_native')
+-- require('telescope').load_extension('fzy_native')
+require('telescope').load_extension('fzf')
 require('telescope').load_extension('projects')
 
 -- Bindings
 bind('n', '<Leader>pp', ':Telescope projects<CR>', opts)
 
-bind('n', "<Leader>fp", ":Telescope find_files find_command=rg,--files,--hidden,--no-ignore-vcs<CR>", opts)
+bind('n', "<Leader>fp", ":Telescope find_files hidden=true no_ignore=true <CR>", opts)
 bind_picker('<Leader>ff', 'find_files')
 bind_picker('<Leader>fg', 'live_grep')
 bind_picker('<Leader>fh', 'help_tags')

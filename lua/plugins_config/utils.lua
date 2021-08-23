@@ -92,8 +92,44 @@ function M.toggle_diff_view()
     vim.cmd("echon ''")
 
   end
-
 end
+
+
+function M.toggle_diff_view_2()
+  -- DiffviewFiles,
+  local bfr = vim.api.nvim_get_current_buf()
+  local win = vim.api.nvim_get_current_win()
+
+  local buf_type = vim.api.nvim_buf_get_option(bfr, 'filetype')
+  local win_diff = vim.api.nvim_win_get_option(win, 'diff')
+
+  local is_diffview = false
+
+  if buf_type == "DiffviewFiles" or win_diff == true then
+    is_diffview = true
+  end
+
+  if is_diffview then
+    vim.cmd("silent DiffviewClose")
+    vim.cmd("silent BufferCloseAllButCurrent")
+  else
+    vim.cmd(":DiffviewOpen ")
+
+    -- local option = vim.fn.input({prompt = 'Against which commit [enter/hash]? ', cancelreturn = '<canceled>'})
+
+    -- if option == '<canceled>' then
+    --   return nil
+    -- elseif option == '' then
+    --   vim.cmd("silent DiffviewOpen")
+    -- else
+    --   vim.cmd("silent DiffviewOpen " .. option)
+    -- end
+
+    -- vim.cmd("echon ''")
+
+  end
+end
+
 
 -- Esearch prompt
 function M.prompt_esearch()

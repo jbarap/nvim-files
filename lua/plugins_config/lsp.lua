@@ -126,9 +126,13 @@ require('lspkind').init({
 })
 
 ---- Language servers
--- Jedi (faster than pylsp, but no linting)
 local lsputil = require("lspconfig.util")
 local cwd = vim.loop.cwd()
+
+local project_nvim = require('project_nvim.project')
+if project_nvim ~= nil then
+  cwd = project_nvim.find_pattern_root() or vim.loop.cwd()
+end
 
 -- Python
 -- Use pyright if the config file exists, otherwise use jedi_language_server
@@ -138,15 +142,24 @@ if lsputil.path.exists(lsputil.path.join(cwd, "pyrightconfig.json")) then
 else
   nvim_lsp.jedi_language_server.setup {
     -- ideally, keep the pyenv version, but find a way to set system python as default
-    -- cmd = {"/home/john/.pyenv/versions/nvim-env/bin/jedi-language-server"},
+    -- cmd = {"~/.pyenv/versions/nvim-env/bin/jedi-language-server"},
     cmd = {"jedi-language-server"},
     on_attach = on_attach,
     flags = {
       debounce_text_changes = 1500,
       allow_incremental_sync = true,
     },
+    root_dir = lsputil.root_pattern(
+      {'.git', 'requirements.txt', 'poetry.lock', 'pyproject.toml'}
+    ),
+    before_init = function(initialize_params)
+      initialize_params['initializationOptions'] = {
+        jediSettings = {
+          autoImportModules = {'torch', 'numpy', 'pandas', 'tensorflow'}
+        },
+      }
+    end,
   }
-
 end
 
 -- Lua
@@ -218,14 +231,14 @@ local pylint = {
       end
 
       local end_col = col
-      local severity = 1  -- 1 (error), 2 (warning), 3 (information), 4 (hint)
+      local severity = null_helpers.diagnostics.severities['error']
 
       if vim.startswith(code, "E") or vim.startswith(code, "F") then
-        severity = 1
+        severity = null_helpers.diagnostics.severities['error']
       elseif vim.startswith(code, "W") then
-        severity = 2
+        severity = null_helpers.diagnostics.severities['warning']
       else
-        severity = 3
+        severity = null_helpers.diagnostics.severities['information']
       end
 
       return {
@@ -250,8 +263,8 @@ local mypy = {
     to_stderr = true,
     to_temp_file = true,
     args = {
-      "--hide-error-context", "--show-column-numbers",
-      "--strict", "$FILENAME"
+      "--hide-error-context", "--show-column-numbers", "--no-pretty",
+      "$FILENAME"
     },
     format = "line",
     check_exit_code = function(code)
@@ -270,7 +283,7 @@ local mypy = {
         return nil
       end
 
-      local severity = 3  -- 1 (error), 2 (warning), 3 (information), 4 (hint)
+      local severity = null_helpers.diagnostics.severities['information']
 
       return {
         message = message,
@@ -299,19 +312,19 @@ local flake8 = {
     end,
     on_output = function(line, params)
       local row, col, message = line:match(":(%d+):(%d+): (.*)")
-      local severity = 1
-      local code = string.match(message, "[EFWCN]%d+")
+      local severity = null_helpers.diagnostics.severities['error']
+      local code = string.match(message, "[EFWCND]%d+")
 
       if message == nil then
         return nil
       end
 
       if vim.startswith(code, "E") then
-          severity = 1
+          severity = null_helpers.diagnostics.severities['error']
       elseif vim.startswith(code, "W") then
-          severity = 2
+          severity = null_helpers.diagnostics.severities['warning']
       else
-          severity = 3
+          severity = null_helpers.diagnostics.severities['information']
       end
 
       return {
@@ -337,7 +350,7 @@ null_ls.config({
     flake8,  -- used instead of builtin to support the "naming" flake8 plugin error codes
 
     require("null-ls.helpers").conditional(function(utils)
-      return utils.root_has_file("mypy.ini") and mypy
+      return (utils.root_has_file("mypy.ini") or utils.root_has_file(".mypy.ini")) and mypy
     end),
 
     require("null-ls.helpers").conditional(function(utils)
@@ -440,3 +453,9 @@ vim.cmd("inoremap <silent><expr> <C-e>     compe#close('<C-e>')")
 vim.cmd("inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })")
 vim.cmd("inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })")
 
+-- Compe compatibility with autopairs
+require("nvim-autopairs.completion.compe").setup({
+  map_cr = true,
+  map_complete = true,
+  auto_select = false,
+})

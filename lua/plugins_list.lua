@@ -19,12 +19,14 @@ return require('packer').startup({function()
   -- Colors
   use 'norcalli/nvim-colorizer.lua'
   use 'folke/tokyonight.nvim'
+  use 'EdenEast/nightfox.nvim'
 
   -- LSP
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-compe'
-  -- Check https://github.com/ms-jpq/coq_nvim
+  -- Check: https://github.com/ms-jpq/coq_nvim
   use 'kabouzeid/nvim-lspinstall'
+  -- And: https://github.com/williamboman/nvim-lsp-installer
   use 'onsails/lspkind-nvim'
   use {'folke/lsp-trouble.nvim', requires = "kyazdani42/nvim-web-devicons"}
   use {'jose-elias-alvarez/null-ls.nvim', requires = {"nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"}}
@@ -42,13 +44,15 @@ return require('packer').startup({function()
     'nvim-telescope/telescope.nvim',
     requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   }
-  use 'nvim-telescope/telescope-fzy-native.nvim'
+  -- use 'nvim-telescope/telescope-fzy-native.nvim'
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   -- Tabs
   use 'romgrk/barbar.nvim'
 
   --Statusline
   use {'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
+  -- use {"SmiteshP/nvim-gps"}
 
   -- File tree
   use {'kyazdani42/nvim-tree.lua', opt = true, cmd = {'NvimTreeToggle', 'NvimTreeFindFile'}}
@@ -60,7 +64,7 @@ return require('packer').startup({function()
   use 'b3nj5m1n/kommentary'
 
   -- Autopairs
-  use 'steelsojka/pears.nvim'
+  use 'windwp/nvim-autopairs'
 
   -- Surround
   use 'tpope/vim-surround'

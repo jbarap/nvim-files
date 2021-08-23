@@ -25,7 +25,7 @@ bind("v", "<S-Tab>", "<", {})
 -- Don't leave visual mode after certain actions
 -- bind('v', '>', '>gv^', {noremap = true})
 -- bind('v', '<', '<gv^', {noremap = true})
-bind("v", "S", "Sgv^", { noremap = true })
+-- bind("v", "S", "Sgv^", { noremap = true })
 
 -- Clear search highlight and exit visual mode
 bind("n", "<Leader><CR>", ":nohlsearch<cr>", opts)
@@ -84,3 +84,7 @@ bind("n", "N", "Nzz", {silent = true})
 
 -- Save files with sudo
 vim.cmd("command! WSudo lua require'utils'.sudo_write()<CR>")
+
+-- Search word under the cursor
+bind("n", "<Leader>ww", ":lua require('utils').search_word()<CR>", opts)
+
