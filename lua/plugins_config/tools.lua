@@ -161,16 +161,6 @@ vim.cmd("vmap s <plug>(SubversiveSubstitute)")
 vim.cmd("nmap ss <plug>(SubversiveSubstituteLine)")
 vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
 
--- Esearch
-vim.g.esearch = {
-  adapter = 'ag',
-  default_mappings = 0,
-  win_map = {
-    {'n', '<C-q>', ':<c-u>call esearch#init(extend(copy(b:esearch), {"out": "qflist"}))<cr>'}
-  }
-}
-bind('n', '<c-f><c-f>', ':lua require("plugins_config.utils").prompt_esearch()<CR>', {silent = true})
-
 -- Doge
 vim.g.doge_doc_standard_python = 'google'
 vim.g.doge_mapping = '<Leader>cds'

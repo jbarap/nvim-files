@@ -25,8 +25,6 @@ return require('packer').startup({function()
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-compe'
   -- Check: https://github.com/ms-jpq/coq_nvim
-  use 'kabouzeid/nvim-lspinstall'
-  -- And: https://github.com/williamboman/nvim-lsp-installer
   use 'onsails/lspkind-nvim'
   use {'folke/lsp-trouble.nvim', requires = "kyazdani42/nvim-web-devicons"}
   use {'jose-elias-alvarez/null-ls.nvim', requires = {"nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"}}
@@ -35,6 +33,7 @@ return require('packer').startup({function()
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   use { 'nvim-treesitter/playground', opt = true, cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' }}
+  use {'SmiteshP/nvim-gps', requires = "nvim-treesitter/nvim-treesitter"}
 
   -- Smooth scrolling
   use 'karb94/neoscroll.nvim'
@@ -85,9 +84,6 @@ return require('packer').startup({function()
 
   -- Dashboard
   use 'glepnir/dashboard-nvim'
-
-  -- Search
-  use 'eugen0329/vim-esearch'
 
   -- Documentation generation
   use {'kkoomen/vim-doge', run=':call doge#install()', opt = true, cmd = {'DogeGenerate'}}

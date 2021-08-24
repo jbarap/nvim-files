@@ -149,4 +149,16 @@ M.search_word = function ()
   M.set_opt("o", "hlsearch", true)
 end
 
+-- Get a python executable within a virtualenv
+M.get_python_executable = function(bin_name)
+  local result = bin_name
+  if os.getenv('VIRTUAL_ENV') then
+    local venv_bin_name = os.getenv('VIRTUAL_ENV') .. '/bin/' .. bin_name
+    if vim.fn.executable(venv_bin_name) == 1 then
+      result = venv_bin_name
+    end
+  end
+  return result
+end
+
 return M

@@ -32,6 +32,9 @@ vim.g.nvim_tree_icons = {
 }
 
 -- Statusline
+local gps = require("nvim-gps")
+gps.setup({})
+
 require('lualine').setup{
   options = {
     theme = 'nightfox',
@@ -42,7 +45,8 @@ require('lualine').setup{
     lualine_a = {'mode'},
     lualine_b = {'branch'},
     lualine_c = {
-      {'filename', file_status = true, path = 1},
+      {'filename', file_status = true, path = 1, separator = '>'},
+      {gps.get_location, condition = gps.is_available}
     },
     lualine_x = {
       {'diagnostics', sources = {'nvim_lsp'}}, 'encoding', 'filetype'
@@ -110,11 +114,13 @@ vim.g.tokyonight_style = "night"
 vim.g.tokyonight_transparent = true
 vim.g.tokyonight_hide_inactive_statusline = true
 
-vim.g.nightfox_style = "nightfox"
-vim.g.nightfox_transparent = false
-
 -- vim.cmd('colorscheme tokyonight')
-require('nightfox').set()
+local nightfox = require('nightfox')
+nightfox.setup({
+  fox = "nightfox",
+  transparent = false,
+})
+nightfox.load()
 
 -- Colorscheme changes in after/plugin/colorscheme.lua
 
