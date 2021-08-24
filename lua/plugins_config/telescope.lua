@@ -6,7 +6,8 @@ local opts = { noremap = true, silent = true }
 local bind_picker = require('plugins_config.utils').bind_picker
 
 
--- Global remapping
+--       telescope setup
+-- ──────────────────────────────
 require('telescope').setup{
   defaults = {
     layout_strategy    = "flex",
@@ -57,7 +58,6 @@ require('telescope').setup{
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('projects')
 
--- Bindings
 bind('n', '<Leader>pp', ':Telescope projects<CR>', opts)
 
 bind('n', "<Leader>fp", ":Telescope find_files hidden=true no_ignore=true <CR>", opts)

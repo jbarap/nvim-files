@@ -1,4 +1,5 @@
----- Which-key
+--       which-key config
+-- ──────────────────────────────
 local wk = require('which-key')
 wk.setup{
   plugins = {

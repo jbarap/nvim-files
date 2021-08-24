@@ -3,7 +3,9 @@ local utils = require('utils')
 local null_ls = require('null-ls')
 local null_helpers = require('null-ls.helpers')
 
--- sources
+
+--           sources
+-- ──────────────────────────────
 local pylint = {
   method = null_ls.methods.DIAGNOSTICS,
   filetypes = {'python'},
@@ -181,7 +183,8 @@ local cfn_lint = {
   })
 }
 
--- config
+--         null-ls config
+-- ──────────────────────────────
 null_ls.config({
   debounce = 500,
   save_after_format = false,

@@ -2,7 +2,9 @@ local M = {}
 
 local types = { o = vim.o, b = vim.bo, w = vim.wo }
 
--- Unload modules described in 'unload_modules'
+
+--       reload functions
+-- ──────────────────────────────
 function M.UnloadAllModules()
   -- Lua patterns for the modules to unload
   local unload_modules = {
@@ -41,7 +43,9 @@ function M.Restart()
   vim.cmd("doautocmd VimEnter")
 end
 
--- Get option
+
+--        options utils
+-- ──────────────────────────────
 function M.get_opt(type, name)
   return types[type][name]
 end
@@ -73,7 +77,9 @@ function M.remove_opt(type, name, value)
   end
 end
 
--- Create an augroup
+
+--          autogroups
+-- ──────────────────────────────
 function M.create_augroup(autocmds, name)
   vim.cmd("augroup " .. name)
   vim.cmd("autocmd!")
@@ -85,6 +91,9 @@ function M.create_augroup(autocmds, name)
   vim.cmd("augroup END")
 end
 
+
+--          togglers
+-- ──────────────────────────────
 -- Toggle the quickfix list
 function M.toggle_quickfix()
   local windows = vim.fn.getwininfo()
@@ -104,6 +113,9 @@ function M.toggle_quickfix()
 
 end
 
+
+--           sudo
+-- ──────────────────────────────
 -- Use sudo to execute commands and write files
 -- from: https://github.com/ibhagwan/nvim-lua/blob/main/lua/utils.lua#L280
 M.sudo_exec = function(cmd, print_output)
@@ -143,12 +155,17 @@ M.sudo_write = function(tmpfile, filepath)
   vim.fn.delete(tmpfile)
 end
 
--- Search word under the cursor without moving it
+
+--           search
+-- ──────────────────────────────
 M.search_word = function ()
   vim.cmd([[let @/='\<]] .. vim.fn.expand("<cword>") .. [[\>']])
   M.set_opt("o", "hlsearch", true)
 end
 
+
+--            files
+-- ──────────────────────────────
 -- Get a python executable within a virtualenv
 M.get_python_executable = function(bin_name)
   local result = bin_name

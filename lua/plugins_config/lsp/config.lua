@@ -2,7 +2,9 @@ local language_servers = require('plugins_config.lsp.servers')
 
 local opts = {noremap=true, silent=true}
 
----- On Attach function
+
+--           on attach
+-- ──────────────────────────────
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -53,7 +55,8 @@ local on_attach = function(client, bufnr)
 end
 
 
----- Customize handlers
+--           handlers
+-- ──────────────────────────────
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
   function(_, _, params, client_id, _)
     local config = { -- your config
@@ -100,7 +103,9 @@ vim.lsp.handlers["textDocument/signatureHelp"] =
     }
   )
 
----- Visualize diagnostics
+
+--          diagnostics
+-- ──────────────────────────────
 vim.fn.sign_define('LspDiagnosticsSignError',
     { text = '☓', texthl = 'LspDiagnosticsSignError' })
 
@@ -131,7 +136,9 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   },
 }
 
----- Language servers
+ 
+--        language servers
+-- ──────────────────────────────
 -- obtain the cwd for conditional registering
 local lsputil = require("lspconfig.util")
 local cwd = vim.loop.cwd()
@@ -162,7 +169,9 @@ local common_lang_options = {
 -- Register servers
 language_servers.register(server_names, common_lang_options)
 
----- Autocompletion with nvim-cmp
+
+--            nvim-cmp
+-- ──────────────────────────────
 vim.o.completeopt = "menuone,noselect"
 
 local cmp = require('cmp')
@@ -206,6 +215,12 @@ cmp.setup({
 
   formatting = {
     format = function(entry, vim_item)
+      vim_item.menu = ({
+        nvim_lsp = '()',
+        buffer = '()',
+        path = '(/)',
+        nvim_lua = '()',
+        })[entry.source.name]
       vim_item.kind = lspkind.presets.default[vim_item.kind]
       return vim_item
     end

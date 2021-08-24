@@ -3,7 +3,10 @@ local lsputil = require("lspconfig.util")
 
 local servers_data_path = vim.fn.stdpath('data') .. '/language_servers/'
 
--- server specific steps
+M = {}
+
+--          preparation
+-- ──────────────────────────────
 -- lua:
 local sumneko_root_path = servers_data_path .. 'lua-language-server'
 local runtime_path = vim.split(package.path, ';')
@@ -11,7 +14,8 @@ table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
 
-M = {}
+--        server settings
+-- ──────────────────────────────
 
 M.configurations = {
   jedi_language_server = {
@@ -65,6 +69,8 @@ M.configurations = {
   },
 }
 
+--        server registration
+-- ──────────────────────────────
 M.register = function(server_names, common_options)
   local options = vim.tbl_extend('force', M.configurations, common_options or {})
 

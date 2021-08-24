@@ -1,6 +1,8 @@
 local M = {}
 
--- Bind telescope picker to key combination
+
+--     bind telescope picker
+-- ──────────────────────────────
 function M.bind_picker(keys, picker_name, extension_name)
   if extension_name ~= nil then
     vim.api.nvim_set_keymap(
@@ -35,7 +37,9 @@ function M.buf_bind_picker(bufnr, keys, picker_name, extension_name)
   end
 end
 
--- Modify highlight groups
+
+--          highlights
+-- ──────────────────────────────
 function M.return_highlight_term(group, term)
   local hl_id = vim.fn.hlID(group)
   local output = vim.fn.synIDattr(vim.fn.synIDtrans(hl_id), term)
@@ -60,7 +64,9 @@ function M.change_highlight_fg(group, color)
   vim.cmd("hi "..group.." guifg="..color..bg_option)
 end
 
--- Diffview toggler
+
+--          togglers
+-- ──────────────────────────────
 function M.toggle_diff_view()
   -- DiffviewFiles,
   local bfr = vim.api.nvim_get_current_buf()
@@ -79,55 +85,7 @@ function M.toggle_diff_view()
     vim.cmd("silent DiffviewClose")
     vim.cmd("silent BufferCloseAllButCurrent")
   else
-    local option = vim.fn.input({prompt = 'Against which commit [enter/hash]? ', cancelreturn = '<canceled>'})
-
-    if option == '<canceled>' then
-      return nil
-    elseif option == '' then
-      vim.cmd("silent DiffviewOpen")
-    else
-      vim.cmd("silent DiffviewOpen " .. option)
-    end
-
-    vim.cmd("echon ''")
-
-  end
-end
-
-
-function M.toggle_diff_view_2()
-  --- Use vim.fn.feedkeys
-  -- DiffviewFiles,
-  local bfr = vim.api.nvim_get_current_buf()
-  local win = vim.api.nvim_get_current_win()
-
-  local buf_type = vim.api.nvim_buf_get_option(bfr, 'filetype')
-  local win_diff = vim.api.nvim_win_get_option(win, 'diff')
-
-  local is_diffview = false
-
-  if buf_type == "DiffviewFiles" or win_diff == true then
-    is_diffview = true
-  end
-
-  if is_diffview then
-    vim.cmd("silent DiffviewClose")
-    vim.cmd("silent BufferCloseAllButCurrent")
-  else
-    vim.cmd(":DiffviewOpen ")
-
-    -- local option = vim.fn.input({prompt = 'Against which commit [enter/hash]? ', cancelreturn = '<canceled>'})
-
-    -- if option == '<canceled>' then
-    --   return nil
-    -- elseif option == '' then
-    --   vim.cmd("silent DiffviewOpen")
-    -- else
-    --   vim.cmd("silent DiffviewOpen " .. option)
-    -- end
-
-    -- vim.cmd("echon ''")
-
+    vim.fn.feedkeys(":DiffviewOpen ")
   end
 end
 
@@ -148,7 +106,9 @@ function M.prompt_git_file()
   vim.cmd("echon ''")
 end
 
--- Code runner
+
+--          code runner
+-- ──────────────────────────────
 function M.run_code()
   local file_type = vim.api.nvim_buf_get_option(0, "filetype")
   if file_type == 'python' then

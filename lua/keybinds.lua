@@ -1,6 +1,9 @@
 local bind = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
+
+--        general mappings
+-- ──────────────────────────────
 -- Exit insert mode
 bind("i", "jk", "<ESC>", opts)
 bind("i", "JK", "<ESC>", opts)

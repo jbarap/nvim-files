@@ -1,14 +1,17 @@
 local bind = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
-vim.o.termguicolors = true
 
--- Enable syntax highlighting
+--           options
+-- ──────────────────────────────
+vim.o.termguicolors = true
 vim.o.background = "dark"
 vim.cmd('syntax enable')
 vim.cmd('syntax on')
 
--- File Tree
+
+--           nvim-tree
+-- ──────────────────────────────
 bind('n', "<Leader>nn", ":NvimTreeToggle<CR>", opts)
 bind('n', "<Leader>nf", ":NvimTreeFindFile<CR>", opts)
 vim.g.nvim_tree_auto_open = 1
@@ -31,11 +34,15 @@ vim.g.nvim_tree_icons = {
   }
 }
 
--- Trouble
+
+--           trouble
+-- ──────────────────────────────
 require("trouble").setup({})
 vim.api.nvim_set_keymap("n", "<leader>cdd", "<cmd>LspTroubleToggle<cr>", opts)
 
--- Statusline
+
+--           lualine
+-- ──────────────────────────────
 local gps = require("nvim-gps")
 gps.setup({})
 
@@ -60,7 +67,9 @@ require('lualine').setup{
   }
 }
 
--- Dashboard
+
+--           dashboard
+-- ──────────────────────────────
 bind('n', '<Leader>ss', ':SessionSave<CR>', opts)
 bind('n', '<Leader>sl', ':SessionLoad<CR>', opts)
 vim.g.dashboard_default_executive = 'telescope'
@@ -83,7 +92,9 @@ vim.g.dashboard_custom_header = {
 }
 vim.g.dashboard_custom_footer = {"Better than yesterday."}
 
--- Barbar
+
+--           barbar
+-- ──────────────────────────────
 bind('n', '<A-,>', ':BufferPrevious<CR>', opts)
 bind('n', '<A-.>', ':BufferNext<CR>', opts)
 bind('n', '<A-<>', ':BufferMovePrevious<CR>', opts)
@@ -104,7 +115,9 @@ vim.g.bufferline = {
   maximum_length = 30,
 }
 
--- Indent lines
+
+--           indent-blankline
+-- ──────────────────────────────
 require('indent_blankline').setup({
   show_trailing_blankline_indent = false,
   use_treesitter = false,
@@ -113,7 +126,9 @@ require('indent_blankline').setup({
   filetype_exclude = {'dashboard', 'help', 'toggleterm', 'packer'},
 })
 
--- Colorscheme
+
+--           colorscheme
+-- ──────────────────────────────
 vim.g.tokyonight_style = "night"
 vim.g.tokyonight_transparent = true
 vim.g.tokyonight_hide_inactive_statusline = true

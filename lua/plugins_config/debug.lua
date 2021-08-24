@@ -3,7 +3,8 @@ local opts = { noremap = true, silent = true }
 
 M = {}
 
--- nvim-dap
+--        nvim-dap
+-- ──────────────────────────────
 local dap = require('dap')
 bind("n", "<Leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", opts)
 bind("n", "<Leader>dc", ":lua require'dap'.continue()<CR>", opts)
@@ -45,9 +46,8 @@ function M.pick_process()
   return procs[choice].pid
 end
 
----- nvim-dap configurations
-
--- adapters
+--          adapters
+-- ──────────────────────────────
 dap.adapters.python_launch = {
   type = 'executable',
   command = vim.fn.expand('python3'),
@@ -59,7 +59,8 @@ dap.adapters.python_attach = {
   port = '5678',
 }
 
--- configs
+--          configs
+-- ──────────────────────────────
 dap.configurations.python = {
   {
     name = 'Launch script',
@@ -87,7 +88,8 @@ dap.configurations.python = {
 }
 
 
--- nvim-dap-ui
+--          dapui
+-- ──────────────────────────────
 require("dapui").setup({
   icons = {
     expanded = "",

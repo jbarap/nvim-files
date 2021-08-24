@@ -1,7 +1,9 @@
 local bind = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
--- Tree-sitter
+
+--           tree sitter
+-- ──────────────────────────────
 require'nvim-treesitter.configs'.setup {
   ensure_installed = 'all',
 
@@ -67,7 +69,9 @@ require'nvim-treesitter.configs'.setup {
   }
 }
 
--- Autopairs
+
+--           autopairs
+-- ──────────────────────────────
 local autopairs = require('nvim-autopairs')
 local autopairs_rule = require('nvim-autopairs.rule')
 autopairs.setup({})
@@ -75,7 +79,9 @@ autopairs.add_rule(autopairs_rule('"""', '"""', 'python'))
 autopairs.add_rule(autopairs_rule('__', '__', 'python'))
 -- see options in plugins_config.lsp for compe compatibility options
 
--- Rooter
+
+--          project-nvim
+-- ──────────────────────────────
 require('project_nvim').setup({
   manual_mode = false,
   detection_methods = {'lsp', 'pattern'},
@@ -84,7 +90,9 @@ require('project_nvim').setup({
   silent_chdir = true,
 })
 
--- Tmux
+
+--             tmux
+-- ──────────────────────────────
 require("tmux").setup({
   copy_sync = {
     enable = false,
@@ -101,7 +109,9 @@ bind('n', '<Left>', [[<cmd>lua require("tmux").resize_left()<cr>]], opts)
 bind('n', '<Up>', [[<cmd>lua require("tmux").resize_top()<cr>]], opts)
 bind('n', '<Down>', [[<cmd>lua require("tmux").resize_bottom()<cr>]], opts)
 
--- NeoGit
+
+--            neogit
+-- ──────────────────────────────
 local neogit = require('neogit')
 neogit.setup {
   disable_context_highlighting = true,
@@ -112,7 +122,9 @@ neogit.setup {
 }
 bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts)
 
--- Gitsigns
+
+--           gitsigns
+-- ──────────────────────────────
 require('gitsigns').setup{
   signs = {
     add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
@@ -149,24 +161,32 @@ require('gitsigns').setup{
   update_debounce = 1000,
 }
 
--- Fugitive
+
+--            fugitive
+-- ──────────────────────────────
 -- bind('n', "<Leader>gs", ":Git<CR>", opts)
 bind('n', "<Leader>gdh", ":diffget //2<CR>", opts)
 bind('n', "<Leader>gdl", ":diffget //3<CR>", opts)
 bind('n', "<Leader>gf", ":lua require('plugins_config.utils').prompt_git_file()<CR>", opts)
 
--- Subsitution
+
+--           subversive
+-- ──────────────────────────────
 vim.cmd("nmap s <plug>(SubversiveSubstitute)")
 vim.cmd("vmap s <plug>(SubversiveSubstitute)")
 vim.cmd("nmap ss <plug>(SubversiveSubstituteLine)")
 vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
 
--- Doge
+
+--              doge
+-- ──────────────────────────────
 vim.g.doge_doc_standard_python = 'google'
 vim.g.doge_mapping = '<Leader>cds'
 bind('n', '<Leader>cds', ':DogeGenerate<CR>', opts)
 
--- Jupyter
+
+--             jupyter
+-- ──────────────────────────────
 require('jupyter-nvim').setup({})
 bind('n', '<Leader>mi', ':MagmaInit<CR>', opts)
 bind('n', '<Leader>mel', ':MagmaEvaluateLine<CR>', opts)
@@ -177,7 +197,9 @@ vim.cmd("hi def MagmaCell guibg=#202020 guifg=NONE")
 vim.g.magma_automatically_open_output = false
 vim.g.magma_cell_highlight_group = "MagmaCell"
 
--- Comments
+
+--            kommentary
+-- ──────────────────────────────
 require('kommentary.config').configure_language("default", {
   prefer_single_line_comments = true,
 })
@@ -187,10 +209,14 @@ bind('n', 'gc', '<Plug>kommentary_motion_default', {silent = true})
 bind('v', 'gc', '<Plug>kommentary_visual_default', {silent = true})
 bind('n', 'gcc', 'gcl', {silent = true})
 
--- Markdown preview
+
+--        markdown-preview
+-- ──────────────────────────────
 vim.g.mkdp_auto_close = 0
 
--- Ulttest
+
+--           ultest
+-- ──────────────────────────────
 require('ultest').setup({
   builders = {
     ['python#pytest'] = function (cmd)
@@ -230,7 +256,9 @@ vim.cmd("let test#python#runner = 'pytest'")
 vim.cmd('let test#enabled_runners = ["python#pytest"]')
 vim.cmd("nmap <Leader>tl <Plug>(ultest-output-jump)")
 
--- Diff view
+
+--           diffview
+-- ──────────────────────────────
 local cb = require'diffview.config'.diffview_callback
 
 require'diffview'.setup {
@@ -263,7 +291,9 @@ require'diffview'.setup {
 }
 bind('n', '<leader>dv', ':lua require("plugins_config.utils").toggle_diff_view()<CR>', opts)
 
--- Smooth scrolling
+
+--          neoscroll
+-- ──────────────────────────────
 require('neoscroll').setup{
   cursor_scrolls_alone = true,
 }
@@ -272,7 +302,9 @@ require('neoscroll.config').set_mappings({
   ['<C-d>'] = {'scroll', { 'vim.wo.scroll', 'true', '200'}}
 })
 
--- Toggle term
+
+--          toggleterm
+-- ──────────────────────────────
 require("toggleterm").setup{
   open_mapping = [[<c-_>]],
   direction = 'horizontal',
@@ -293,14 +325,20 @@ bind('n', '<Leader>tv', ':ToggleTerm direction=vertical<CR>', opts)
 
 bind('n', '<Leader>ce', ":lua require('plugins_config.utils').run_code()<CR>", opts)
 
--- Better quickfix
+
+--        better quickfix
+-- ──────────────────────────────
 require('bqf').setup({
   auto_resize_height = false
 })
 
--- Edit quickfix
+
+--          replacer
+-- ──────────────────────────────
 bind('n', '<leader>qe', ':lua require("replacer").run()<CR>', {nowait = true, noremap = true, silent = true})
 
--- Targets
+
+--          targets
+-- ──────────────────────────────
 vim.cmd("autocmd User targets#mappings#user call targets#mappings#extend({'a': {},})")
 
