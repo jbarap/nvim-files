@@ -96,6 +96,7 @@ end
 
 
 function M.toggle_diff_view_2()
+  --- Use vim.fn.feedkeys
   -- DiffviewFiles,
   local bfr = vim.api.nvim_get_current_buf()
   local win = vim.api.nvim_get_current_win()

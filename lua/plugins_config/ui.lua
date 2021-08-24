@@ -31,6 +31,10 @@ vim.g.nvim_tree_icons = {
   }
 }
 
+-- Trouble
+require("trouble").setup({})
+vim.api.nvim_set_keymap("n", "<leader>cdd", "<cmd>LspTroubleToggle<cr>", opts)
+
 -- Statusline
 local gps = require("nvim-gps")
 gps.setup({})

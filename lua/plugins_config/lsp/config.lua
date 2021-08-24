@@ -2,7 +2,7 @@ local language_servers = require('plugins_config.lsp.servers')
 
 local opts = {noremap=true, silent=true}
 
----- On Attach
+---- On Attach function
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -53,8 +53,7 @@ local on_attach = function(client, bufnr)
 end
 
 
----- Handlers
--- modify the diagnostics formatting to include source
+---- Customize handlers
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
   function(_, _, params, client_id, _)
     local config = { -- your config
@@ -101,8 +100,7 @@ vim.lsp.handlers["textDocument/signatureHelp"] =
     }
   )
 
-
----- Visualize Diagnostics
+---- Visualize diagnostics
 vim.fn.sign_define('LspDiagnosticsSignError',
     { text = '☓', texthl = 'LspDiagnosticsSignError' })
 
@@ -115,143 +113,109 @@ vim.fn.sign_define('LspDiagnosticsSignInformation',
 vim.fn.sign_define('LspDiagnosticsSignHint',
     { text = '', texthl = 'LspDiagnosticsSignHint' })
 
--- Diagnostic list
-require("trouble").setup {}
-vim.api.nvim_set_keymap("n", "<leader>cdd", "<cmd>LspTroubleToggle<cr>", opts)
+-- additional capabilities for autocompletion with nvim-cmp
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 
--- icons in autocomplete
-require('lspkind').init({
-  with_text = false
-})
-
----- Visualize Diagnostics
-vim.fn.sign_define('LspDiagnosticsSignError',
-    { text = '☓', texthl = 'LspDiagnosticsSignError' })
-
-vim.fn.sign_define('LspDiagnosticsSignWarning',
-    { text = '', texthl = 'LspDiagnosticsSignWarning' })
-
-vim.fn.sign_define('LspDiagnosticsSignInformation',
-    { text = '', texthl = 'LspDiagnosticsSignInformation' })
-
-vim.fn.sign_define('LspDiagnosticsSignHint',
-    { text = '', texthl = 'LspDiagnosticsSignHint' })
-
--- Diagnostic list
-require("trouble").setup {}
-vim.api.nvim_set_keymap("n", "<leader>cdd", "<cmd>LspTroubleToggle<cr>", opts)
-
--- icons in autocomplete
-require('lspkind').init({
-  with_text = false
-})
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.preselectSupport = true
+capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  },
+}
 
 ---- Language servers
-
 -- obtain the cwd for conditional registering
 local lsputil = require("lspconfig.util")
 local cwd = vim.loop.cwd()
-
 local project_nvim = require('project_nvim.project')
 if project_nvim ~= nil then
   cwd = project_nvim.find_pattern_root() or vim.loop.cwd()
 end
 
--- Use pyright if the config file exists, otherwise use jedi_language_server
-if lsputil.path.exists(lsputil.path.join(cwd, "pyrightconfig.json")) then
-  language_servers.register.pyright(on_attach)
-else
-  language_servers.register.jedi_language_server(on_attach)
-end
-
--- The rest
+-- Language servers to register
 local server_names = {'null-ls', 'sumneko_lua', 'dockerls'}
 
-for _, server in ipairs(server_names) do
-  language_servers.register[server](on_attach)
+-- register pyright if the config file exists, otherwise use jedi_language_server
+if lsputil.path.exists(lsputil.path.join(cwd, "pyrightconfig.json")) then
+  table.insert(server_names, 'pyright')
+else
+  table.insert(server_names, 'jedi_language_server')
 end
 
-
----- Completion with compe
-vim.o.completeopt = "menuone,noselect"
-
-require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = {
-    border = 'rounded',
-    winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
-    max_width = 120,
-    min_width = 60,
-    max_height = math.floor(vim.o.lines * 0.3),
-    min_height = 1,
-  };
-
-  source = {
-    path = true;
-    buffer = true;
-    calc = false;
-    nvim_lsp = true;
-    nvim_lua = true;
-    vsnip = false;
-  };
+-- common language server options
+local common_lang_options = {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  flags = {
+    debounce = 1000,
+  },
 }
 
--- Configure tab to navigate
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
+-- Register servers
+language_servers.register(server_names, common_lang_options)
 
-local check_back_space = function()
-  local col = vim.fn.col('.') - 1
-  if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-    return true
-  else
-    return false
-  end
-end
+---- Autocompletion with nvim-cmp
+vim.o.completeopt = "menuone,noselect"
 
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-n>"
-  elseif check_back_space() then
-    return t "<Tab>"
-  else
-    return vim.fn['compe#complete']()
-  end
-end
+local cmp = require('cmp')
+local lspkind = require('lspkind')
 
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-p>"
-  else
-    return t "<S-Tab>"
-  end
-end
+cmp.setup({
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm({
+      -- behavior = cmp.ConfirmBehavior.Insert,
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    }),
+    ['<Tab>'] = function(fallback)
+      if vim.fn.pumvisible() == 1 then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+      else
+        fallback()
+      end
+    end,
 
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+    ['<S-Tab>'] = function(fallback)
+      if vim.fn.pumvisible() == 1 then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
+      else
+        fallback()
+      end
+    end,
+  },
 
-vim.cmd("inoremap <silent><expr> <C-Space> compe#complete()")
-vim.cmd("inoremap <silent><expr> <CR>      compe#confirm('<CR>')")
-vim.cmd("inoremap <silent><expr> <C-e>     compe#close('<C-e>')")
-vim.cmd("inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })")
-vim.cmd("inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })")
+  sources = {
+    {name = 'nvim_lsp'},
+    {name = 'buffer'},
+    {name = 'path'},
+  },
 
--- Compe compatibility with autopairs
-require("nvim-autopairs.completion.compe").setup({
-  map_cr = true,
-  map_complete = true,
-  auto_select = false,
+  formatting = {
+    format = function(entry, vim_item)
+      vim_item.kind = lspkind.presets.default[vim_item.kind]
+      return vim_item
+    end
+  },
+
+  documentation = {
+    border = 'rounded',
+  }
 })
+
+-- TODO: split this into lines without an error
+vim.cmd("autocmd FileType lua lua require'cmp'.setup.buffer{sources={ {name = 'nvim_lsp'}, {name = 'nvim_lua'}, {name = 'buffer'}, {name = 'path'}, } } ")
+

@@ -9,6 +9,8 @@ if fn.empty(fn.glob(install_path)) > 0 then
   execute 'packadd packer.nvim'
 end
 
+local use = require('packer').use
+
 return require('packer').startup({function()
   -- Packer
   use {'wbthomason/packer.nvim'}
@@ -23,17 +25,22 @@ return require('packer').startup({function()
 
   -- LSP
   use 'neovim/nvim-lspconfig'
-  use 'hrsh7th/nvim-compe'
-  -- Check: https://github.com/ms-jpq/coq_nvim
-  use 'onsails/lspkind-nvim'
   use {'folke/lsp-trouble.nvim', requires = "kyazdani42/nvim-web-devicons"}
   use {'jose-elias-alvarez/null-ls.nvim', requires = {"nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"}}
+
+  -- LSP autocompletion
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-nvim-lua'  -- check functionality
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-path'
+  use 'onsails/lspkind-nvim'
+  -- Check: https://github.com/ms-jpq/coq_nvim
 
   -- Syntax
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   use { 'nvim-treesitter/playground', opt = true, cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' }}
-  use {'SmiteshP/nvim-gps', requires = "nvim-treesitter/nvim-treesitter"}
 
   -- Smooth scrolling
   use 'karb94/neoscroll.nvim'
@@ -43,7 +50,6 @@ return require('packer').startup({function()
     'nvim-telescope/telescope.nvim',
     requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   }
-  -- use 'nvim-telescope/telescope-fzy-native.nvim'
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   -- Tabs
@@ -51,7 +57,7 @@ return require('packer').startup({function()
 
   --Statusline
   use {'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
-  -- use {"SmiteshP/nvim-gps"}
+  use {'SmiteshP/nvim-gps', requires = "nvim-treesitter/nvim-treesitter"}
 
   -- File tree
   use {'kyazdani42/nvim-tree.lua', opt = true, cmd = {'NvimTreeToggle', 'NvimTreeFindFile'}}
