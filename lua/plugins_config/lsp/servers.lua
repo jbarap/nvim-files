@@ -23,7 +23,7 @@ M.configurations = {
     -- cmd = {"~/.pyenv/versions/nvim-env/bin/jedi-language-server"},
     cmd = {"jedi-language-server"},
     root_dir = lsputil.root_pattern(
-      {'.git', 'requirements.txt', 'poetry.lock', 'pyproject.toml', 'setup.py', 'setup.cfg', 'Pipfile'}
+      {'.git', 'poetry.lock', 'pyproject.toml', 'setup.py', 'setup.cfg', 'Pipfile'}
     ),
     before_init = function(initialize_params)
       initialize_params['initializationOptions'] = {
@@ -53,7 +53,8 @@ M.configurations = {
           globals = {'vim'},
         },
         workspace = {
-          library = vim.api.nvim_get_runtime_file("", true),
+          library = vim.api.nvim_get_runtime_file("", true),  -- reconsider doing this
+          preloadFileSize = 150,  -- in kb
         },
         telemetry = {
           enable = false,
@@ -72,13 +73,14 @@ M.configurations = {
 --        server registration
 -- ──────────────────────────────
 M.register = function(server_names, common_options)
-  local options = vim.tbl_extend('force', M.configurations, common_options or {})
+  local options
 
   if type(server_names) == 'string' then
     server_names = {server_names}
   end
 
   for _, name in ipairs(server_names) do
+    options = vim.tbl_extend('keep', M.configurations[name], common_options or {})
     lspconfig[name].setup(options)
   end
 end

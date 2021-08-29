@@ -1,6 +1,7 @@
 local utils = require('plugins_config.utils')
 
 ---- dark color palette
+local darker = "#111111"
 local dark = "#131313"
 local almost_dark = "#151515"
 local mid_dark = "#191919"
@@ -13,11 +14,16 @@ utils.change_highlight_bg("NormalNC", dark)
 utils.change_highlight_bg("Terminal", dark)
 utils.change_highlight_bg("EndOfBuffer", dark)
 utils.change_highlight_bg("TabLineFill", dark)
+utils.change_highlight_bg("DarkenedPanel", darker)
+utils.change_highlight_bg("DarkenedStatusline", darker)
+utils.change_highlight_bg("DarkenedStatuslineNC", darker)
 
 -- Syntax
 utils.change_highlight_fg("Normal", "#c9c9c9")
-utils.change_highlight_bg("Search", "#273866")
+utils.change_highlight_bg("Search", "#1c284a")
 utils.change_highlight_fg("Search", "NONE")
+utils.change_highlight_bg("IncSearch", "#42888a")
+utils.change_highlight_fg("IncSearch", "NONE")
 
 -- gitsigns
 utils.change_highlight_bg("GitSignsAdd", "NONE")
@@ -61,7 +67,10 @@ utils.change_highlight_fg("CompeDocumentationBorder", "#606060")
 utils.change_highlight_fg("DashboardHeader", "#6585ba")
 
 -- Telescope
-utils.change_highlight_bg("TelescopeSelection", "#1a2440")
+utils.change_highlight_fg("TelescopeMatching", "#6585ba")
+utils.change_highlight_bg("TelescopeSelection", "#12192b")
+utils.change_highlight_fg("TelescopeSelection", "#c9c9c9")
+utils.change_highlight_fg("TelescopeNormal", "#919191")
 
 -- Which-key
 utils.change_highlight_bg("WhichKeyFloat", mid_dark)

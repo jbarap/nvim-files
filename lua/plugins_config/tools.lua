@@ -17,7 +17,7 @@ require'nvim-treesitter.configs'.setup {
   },
 
   incremental_selection = {
-    enable = true,
+    enable = false,
     keymaps = {
       init_selection = "gnn",
       node_incremental = "n",
@@ -26,9 +26,10 @@ require'nvim-treesitter.configs'.setup {
     },
   },
 
+  -- indenting is really slow for some reason, look for alternatives
   indent = {
-    enable = true,
-    -- disable = {"python"},
+    enable = false,
+    disable = {"python"},
   },
 
   textobjects = {
@@ -77,7 +78,6 @@ local autopairs_rule = require('nvim-autopairs.rule')
 autopairs.setup({})
 autopairs.add_rule(autopairs_rule('"""', '"""', 'python'))
 autopairs.add_rule(autopairs_rule('__', '__', 'python'))
--- see options in plugins_config.lsp for compe compatibility options
 
 
 --          project-nvim

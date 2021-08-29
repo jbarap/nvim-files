@@ -1,5 +1,7 @@
-local M = {}
+local bind = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
 
+local M = {}
 
 --     bind telescope picker
 -- ──────────────────────────────
@@ -89,6 +91,26 @@ function M.toggle_diff_view()
   end
 end
 
+function M.buffer_performance_mode()
+  local option = vim.fn.input({prompt = 'extreme? [y/n] (default no)? ', cancelreturn = '<canceled>'})
+  vim.cmd("echon ' '")
+
+  if option == '<canceled>' then
+    return
+  end
+
+  if string.match(option, 'y') then
+    vim.fn.execute("TSBufDisable highlight")
+  end
+  vim.fn.execute("IndentBlanklineDisable")
+  vim.fn.execute("TSBufDisable indent")
+  vim.fn.execute("TSBufDisable incremental_selection")
+
+end
+
+
+--          prompts
+-- ──────────────────────────────
 -- Git compare file prompt
 function M.prompt_git_file()
   local option = vim.fn.input({prompt = 'Open file in which commit: [~(number)/hash]? ', cancelreturn = '<canceled>'})
@@ -106,6 +128,37 @@ function M.prompt_git_file()
   vim.cmd("echon ''")
 end
 
+-- Grep in a specific dir prompt
+function M.rg_dir()
+  require('telescope.builtin').find_files({
+    prompt_title = 'Dir to grep',
+    find_command = {"fdfind", "--type", "d"},
+
+    attach_mappings = function (prompt_bufnr, map)
+      local function select_dir()
+        local content = require('telescope.actions.state').get_selected_entry()
+        local grep_dir = content.cwd .. '/' .. content.value
+        require('telescope.actions').close(prompt_bufnr)
+
+        vim.schedule(function ()
+          require('telescope.builtin').live_grep({
+            prompt_title = 'Grep in: ' .. content.value,
+            initial_mode = 'insert',
+            search_dirs = {grep_dir},
+        })
+        end)
+
+      end
+
+      map('i', '<CR>', function (_)
+        select_dir()
+      end)
+
+      return true
+    end
+  })
+end
+
 
 --          code runner
 -- ──────────────────────────────
@@ -119,5 +172,10 @@ function M.run_code()
     vim.notify("Filetype '" .. file_type .. "' not yet supported, expand run_code function.")
   end
 end
+
+
+--      miscellaneous binds
+-- ──────────────────────────────
+bind("n", "<Leader>cp", ":lua require('plugins_config.utils').buffer_performance_mode()<CR>", opts)
 
 return M

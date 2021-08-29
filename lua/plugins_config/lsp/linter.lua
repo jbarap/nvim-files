@@ -106,7 +106,8 @@ local flake8 = {
     command = utils.get_python_executable("flake8"),
     to_stdin = true,
     to_stderr = true,
-    args = { "--stdin-display-name", "$FILENAME", "-" },
+    -- ignoring E203 due to false positives on list slicing
+    args = { "--stdin-display-name", "$FILENAME", "-", "--ignore=E203"},
     format = "line",
     check_exit_code = function(code)
       return code == 0 or code == 255

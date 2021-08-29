@@ -8,8 +8,11 @@ local opts = { noremap = true, silent = true }
 bind("i", "jk", "<ESC>", opts)
 bind("i", "JK", "<ESC>", opts)
 
--- Exit terminal insert
+-- Exit terminal insert mode
 bind("t", "<Esc>", "<C-\\><C-n>", opts)
+
+-- Redo with U
+bind("n", "U", "<C-r>", {silent = true})
 
 -- Paste to clipboard
 bind("v", "<Leader>y", '"+y', opts)

@@ -3,6 +3,9 @@ local cmd = vim.cmd
 -- Set mapleader to space
 vim.g.mapleader = " "
 
+-- setup 'require' improvements
+require('impatient')
+
 -- Add commands for reload and restart
 cmd("command! Reload lua require('utils').Reload()")
 cmd("command! Restart lua require('utils').Restart()")

@@ -15,6 +15,9 @@ return require('packer').startup({function()
   -- Packer
   use {'wbthomason/packer.nvim'}
 
+  -- Improve startup time until: https://github.com/neovim/neovim/pull/15436
+  use 'lewis6991/impatient.nvim'
+
   -- Icons
   use 'kyazdani42/nvim-web-devicons'
 
@@ -35,7 +38,10 @@ return require('packer').startup({function()
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-path'
   use 'onsails/lspkind-nvim'
-  -- Check: https://github.com/ms-jpq/coq_nvim
+
+  -- snippet support
+  use 'L3MON4D3/LuaSnip'
+  use 'saadparwaiz1/cmp_luasnip'
 
   -- Syntax
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
@@ -148,7 +154,7 @@ end,
 config = {
   profile = {
     enable = true,
-    threshold = 1
+    threshold = 1,
   }
 }
 

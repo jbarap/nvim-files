@@ -15,6 +15,7 @@ require('telescope').setup{
     layout_config = {
       height = 0.9,
       width = 0.9,
+      scroll_speed = 4,
       horizontal = {
         preview_width = 0.6,
       },
@@ -63,6 +64,7 @@ bind('n', '<Leader>pp', ':Telescope projects<CR>', opts)
 bind('n', "<Leader>fp", ":Telescope find_files hidden=true no_ignore=true <CR>", opts)
 bind_picker('<Leader>ff', 'find_files')
 bind_picker('<Leader>fg', 'live_grep')
+bind('n', '<Leader>f<C-g>', ":lua require('plugins_config.utils').rg_dir()<CR>", opts)
 bind_picker('<Leader>fh', 'help_tags')
 bind_picker('<Leader>ft', 'treesitter')
 bind_picker('<Leader>fq', 'quickfix')

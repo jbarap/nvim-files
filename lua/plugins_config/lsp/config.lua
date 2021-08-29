@@ -28,6 +28,7 @@ local on_attach = function(client, bufnr)
 
   -- Code actions
   buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
   -- Diagnostics
   buf_set_keymap('n', '<Leader>cdl', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border="single"})<CR>', opts)
@@ -120,23 +121,14 @@ vim.fn.sign_define('LspDiagnosticsSignHint',
 
 -- additional capabilities for autocompletion with nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(
+  capabilities,
+  {
+    snippetSupport = true,
+  }
+)
 
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.preselectSupport = true
-capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  },
-}
 
- 
 --        language servers
 -- ──────────────────────────────
 -- obtain the cwd for conditional registering
@@ -162,7 +154,7 @@ local common_lang_options = {
   on_attach = on_attach,
   capabilities = capabilities,
   flags = {
-    debounce = 1000,
+    debounce = 700,
   },
 }
 
@@ -178,18 +170,22 @@ local cmp = require('cmp')
 local lspkind = require('lspkind')
 
 cmp.setup({
+  snippet = {
+    expand = function(args)
+      require'luasnip'.lsp_expand(args.body)
+    end
+  },
   mapping = {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-h>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-l>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm({
-      -- behavior = cmp.ConfirmBehavior.Insert,
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    }),
+    -- ['<CR>'] = cmp.mapping.confirm({
+    --   behavior = cmp.ConfirmBehavior.Replace,
+    --   select = false,
+    -- }),
     ['<Tab>'] = function(fallback)
       if vim.fn.pumvisible() == 1 then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
@@ -211,6 +207,7 @@ cmp.setup({
     {name = 'nvim_lsp'},
     {name = 'buffer'},
     {name = 'path'},
+    {name = 'luasnip'},
   },
 
   formatting = {
@@ -228,9 +225,16 @@ cmp.setup({
 
   documentation = {
     border = 'rounded',
-  }
+  },
 })
 
 -- TODO: split this into lines without an error
 vim.cmd("autocmd FileType lua lua require'cmp'.setup.buffer{sources={ {name = 'nvim_lsp'}, {name = 'nvim_lua'}, {name = 'buffer'}, {name = 'path'}, } } ")
+
+-- autopairs support
+require("nvim-autopairs.completion.cmp").setup({
+  map_cr = true,
+  map_complete = true,
+  auto_select = false,
+})
 
