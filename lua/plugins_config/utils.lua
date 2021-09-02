@@ -69,7 +69,7 @@ end
 
 --          togglers
 -- ──────────────────────────────
-function M.toggle_diff_view()
+function M.toggle_diff_view(diff_type)
   -- DiffviewFiles,
   local bfr = vim.api.nvim_get_current_buf()
   local win = vim.api.nvim_get_current_win()
@@ -79,7 +79,7 @@ function M.toggle_diff_view()
 
   local is_diffview = false
 
-  if buf_type == "DiffviewFiles" or win_diff == true then
+  if string.match(buf_type, "Diffview") ~= nil or win_diff == true then
     is_diffview = true
   end
 
@@ -87,8 +87,13 @@ function M.toggle_diff_view()
     vim.cmd("silent DiffviewClose")
     vim.cmd("silent BufferCloseAllButCurrent")
   else
-    vim.fn.feedkeys(":DiffviewOpen ")
+    if diff_type == 'diff' then
+      vim.fn.feedkeys(":DiffviewOpen ")
+    elseif diff_type == 'file' then
+      vim.fn.feedkeys(":DiffviewFileHistory ")
+    end
   end
+  vim.cmd("echon ''")
 end
 
 function M.buffer_performance_mode()
@@ -132,7 +137,7 @@ end
 function M.rg_dir()
   require('telescope.builtin').find_files({
     prompt_title = 'Dir to grep',
-    find_command = {"fdfind", "--type", "d"},
+    find_command = {"fdfind", "--type", "d", "--hidden", "--exclude", ".git"},
 
     attach_mappings = function (prompt_bufnr, map)
       local function select_dir()
@@ -147,7 +152,6 @@ function M.rg_dir()
             search_dirs = {grep_dir},
         })
         end)
-
       end
 
       map('i', '<CR>', function (_)
@@ -159,23 +163,40 @@ function M.rg_dir()
   })
 end
 
+-- Lazygit toggle
+local Terminal  = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new({
+  cmd = "lazygit",
+  hidden = true,
+  direction = 'float',
+  on_open = function(term)
+    vim.api.nvim_buf_set_keymap(term.bufnr, 't', 'q', "<cmd>close<CR>", opts)
+    vim.api.nvim_buf_set_keymap(term.bufnr, 't', '<Esc>', '<Esc>', opts)
+    vim.api.nvim_buf_set_keymap(term.bufnr, 't', [[<c-_>]], "<cmd>close<CR>", opts)
+  end,
+})
+
+function M.lazygit_toggle()
+  lazygit:toggle()
+end
 
 --          code runner
 -- ──────────────────────────────
 function M.run_code()
   local file_type = vim.api.nvim_buf_get_option(0, "filetype")
   if file_type == 'python' then
-    vim.cmd('1TermExec cmd="python3 %" go_back=0')
+    vim.cmd('TermExec cmd="python3 %" go_back=0')
   elseif file_type == 'lua' then
-    vim.cmd('1TermExec cmd="lua %" go_back=0')
+    vim.cmd('TermExec cmd="lua %" go_back=0')
   else
     vim.notify("Filetype '" .. file_type .. "' not yet supported, expand run_code function.")
   end
 end
 
 
---      miscellaneous binds
+--        function binds
 -- ──────────────────────────────
 bind("n", "<Leader>cp", ":lua require('plugins_config.utils').buffer_performance_mode()<CR>", opts)
+-- bind("n", "<leader>gs", "<cmd>lua require('plugins_config.utils').lazygit_toggle()<CR>", opts)
 
 return M

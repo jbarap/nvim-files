@@ -25,6 +25,10 @@ utils.change_highlight_fg("Search", "NONE")
 utils.change_highlight_bg("IncSearch", "#42888a")
 utils.change_highlight_fg("IncSearch", "NONE")
 
+-- folds
+utils.change_highlight_bg("Folded", "#1c202e")
+utils.change_highlight_fg("Folded", "NONE")
+
 -- gitsigns
 utils.change_highlight_bg("GitSignsAdd", "NONE")
 utils.change_highlight_bg("GitSignsChange", "NONE")
@@ -79,7 +83,9 @@ utils.change_highlight_bg("WhichKeyFloat", mid_dark)
 utils.change_highlight_bg("LspTroubleNormal", dark)
 
 -- Nvim tree
-utils.change_highlight_bg("NvimTreeNormal", dark)
+utils.change_highlight_bg("NvimTreeNormal", almost_dark)
+utils.change_highlight_bg("NvimTreeEndOfBuffer", almost_dark)
+utils.change_highlight_fg("NvimTreeEndOfBuffer", almost_dark)
 
 -- Others
 utils.change_highlight_fg("VertSplit", light_dark)

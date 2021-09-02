@@ -58,9 +58,10 @@ end
 
 --           handlers
 -- ──────────────────────────────
+-- may break with: https://github.com/neovim/neovim/pull/15504
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
   function(_, _, params, client_id, _)
-    local config = { -- your config
+    local config = {
       underline = true,
       virtual_text = false,
       signs = true,
@@ -154,7 +155,7 @@ local common_lang_options = {
   on_attach = on_attach,
   capabilities = capabilities,
   flags = {
-    debounce = 700,
+    debounce_text_changes = 500,
   },
 }
 
@@ -186,21 +187,21 @@ cmp.setup({
     --   behavior = cmp.ConfirmBehavior.Replace,
     --   select = false,
     -- }),
-    ['<Tab>'] = function(fallback)
+    ['<Tab>'] = cmp.mapping(function(fallback)
       if vim.fn.pumvisible() == 1 then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
       else
         fallback()
       end
-    end,
+    end, {'i'}),
 
-    ['<S-Tab>'] = function(fallback)
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
       if vim.fn.pumvisible() == 1 then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
       else
         fallback()
       end
-    end,
+    end, {'i'}),
   },
 
   sources = {

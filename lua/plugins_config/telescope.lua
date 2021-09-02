@@ -17,7 +17,7 @@ require('telescope').setup{
       width = 0.9,
       scroll_speed = 4,
       horizontal = {
-        preview_width = 0.6,
+        preview_width = 0.5,
       },
       vertical = {
         preview_width = 0.6,

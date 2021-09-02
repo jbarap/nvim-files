@@ -120,7 +120,7 @@ neogit.setup {
     diffview = true,
   }
 }
-bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts)
+-- bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts)
 
 
 --           gitsigns
@@ -164,10 +164,13 @@ require('gitsigns').setup{
 
 --            fugitive
 -- ──────────────────────────────
--- bind('n', "<Leader>gs", ":Git<CR>", opts)
+bind('n', "<Leader>gs", ":Git<CR>", opts)
 bind('n', "<Leader>gdh", ":diffget //2<CR>", opts)
 bind('n', "<Leader>gdl", ":diffget //3<CR>", opts)
 bind('n', "<Leader>gf", ":lua require('plugins_config.utils').prompt_git_file()<CR>", opts)
+
+-- GV!
+bind('n', "<Leader>gl", "<cmd>GV<CR>", opts)
 
 
 --           subversive
@@ -263,9 +266,11 @@ local cb = require'diffview.config'.diffview_callback
 
 require'diffview'.setup {
   diff_binaries = false,
+  use_icons = true,
   file_panel = {
+    position = 'bottom',
     width = 35,
-    use_icons = true
+    height = 10,
   },
   key_bindings = {
     view = {
@@ -286,10 +291,11 @@ require'diffview'.setup {
       ["<s-tab>"]   = cb("select_prev_entry"),
       ["<leader>nf"] = cb("focus_files"),
       ["<leader>nn"] = cb("toggle_files"),
-    }
+    },
   }
 }
-bind('n', '<leader>dv', ':lua require("plugins_config.utils").toggle_diff_view()<CR>', opts)
+bind('n', '<leader>dv', ':lua require("plugins_config.utils").toggle_diff_view("diff")<CR>', opts)
+bind('n', '<leader>df', ':lua require("plugins_config.utils").toggle_diff_view("file")<CR>', opts)
 
 
 --          neoscroll

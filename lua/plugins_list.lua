@@ -89,6 +89,7 @@ return require('packer').startup({function()
   -- Git
   use 'lewis6991/gitsigns.nvim'
   use 'tpope/vim-fugitive'
+  use 'junegunn/gv.vim'
   use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim'}
 
   -- Change cwd to project
