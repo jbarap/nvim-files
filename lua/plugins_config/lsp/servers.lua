@@ -54,7 +54,7 @@ M.configurations = {
         },
         workspace = {
           library = vim.api.nvim_get_runtime_file("", true),  -- reconsider doing this
-          preloadFileSize = 150,  -- in kb
+          preloadFileSize = 350,  -- in kb
         },
         telemetry = {
           enable = false,

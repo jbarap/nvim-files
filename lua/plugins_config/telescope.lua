@@ -10,6 +10,22 @@ local bind_picker = require('plugins_config.utils').bind_picker
 -- ──────────────────────────────
 require('telescope').setup{
   defaults = {
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--column',
+      '--line-number',
+      '--no-heading',
+      '--smart-case',
+      '--with-filename',
+      '--hidden',
+      '--no-ignore',
+      '--glob',
+      '!*.git',
+    },
+    path_display = {
+      shorten = 5
+    },
     layout_strategy    = "flex",
     borderchars        = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
     layout_config = {

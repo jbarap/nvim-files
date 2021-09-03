@@ -183,13 +183,20 @@ end
 --          code runner
 -- ──────────────────────────────
 function M.run_code()
+
+  local all_commands = {
+    python = "python3",
+    lua = "lua"
+  }
+
   local file_type = vim.api.nvim_buf_get_option(0, "filetype")
-  if file_type == 'python' then
-    vim.cmd('TermExec cmd="python3 %" go_back=0')
-  elseif file_type == 'lua' then
-    vim.cmd('TermExec cmd="lua %" go_back=0')
+
+  local command = all_commands[file_type]
+
+  if command == nil then
+    vim.notify("Filetype '" .. file_type .. "' not yet supported.")
   else
-    vim.notify("Filetype '" .. file_type .. "' not yet supported, expand run_code function.")
+    vim.cmd("TermExec cmd='" .. command .. " %' go_back=0")
   end
 end
 
