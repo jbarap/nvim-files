@@ -60,6 +60,10 @@ utils.change_highlight_bg("BufferInactiveMod", mid_dark)
 utils.change_highlight_bg("LSPDiagnosticsDefaultHint", "NONE")
 utils.change_highlight_bg("LSPDiagnosticsDefaultWarning", "NONE")
 utils.change_highlight_bg("LSPDiagnosticsDefaultError", "NONE")
+utils.change_highlight_bg("LSPDiagnosticsVirtualTextInformation", mid_dark)
+utils.change_highlight_bg("LSPDiagnosticsVirtualTextWarning", mid_dark)
+utils.change_highlight_bg("LSPDiagnosticsVirtualTextError", mid_dark)
+utils.change_highlight_bg("LSPDiagnosticsVirtualTextHint", mid_dark)
 
 -- Compe documentation lines
 utils.change_highlight_bg("CompeDocumentation", utils.return_highlight_term('NormalFloat', 'bg'))

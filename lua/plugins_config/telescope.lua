@@ -84,7 +84,8 @@ bind('n', '<Leader>f<C-g>', ":lua require('plugins_config.utils').rg_dir()<CR>",
 bind_picker('<Leader>fh', 'help_tags')
 bind_picker('<Leader>ft', 'treesitter')
 bind_picker('<Leader>fq', 'quickfix')
-bind_picker('<Leader>fb', 'file_browser')
+bind_picker('<Leader>fb', 'buffers')
+bind_picker('<Leader>f<c-b>', 'file_browser')
 
 bind_picker('<M-x>', 'commands')
 

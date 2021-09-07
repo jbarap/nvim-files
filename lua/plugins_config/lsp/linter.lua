@@ -12,7 +12,7 @@ local pylint = {
   generator = null_helpers.generator_factory({
     command = utils.get_python_executable("pylint"),
     to_stdin = true,
-    to_stderr = true,
+    from_stderr = true,
     args = {
       "--output-format", "text",
       "--score", "no",
@@ -61,7 +61,7 @@ local mypy = {
   generator = null_helpers.generator_factory({
     command = utils.get_python_executable("mypy"),
     to_stdin = true,
-    to_stderr = true,
+    from_stderr = true,
     to_temp_file = true,
     args = {
       "--hide-error-context", "--show-column-numbers", "--no-pretty",
@@ -105,7 +105,7 @@ local flake8 = {
   generator = null_helpers.generator_factory({
     command = utils.get_python_executable("flake8"),
     to_stdin = true,
-    to_stderr = true,
+    from_stderr = true,
     -- ignoring E203 due to false positives on list slicing
     args = { "--stdin-display-name", "$FILENAME", "-", "--ignore=E203"},
     format = "line",
@@ -148,7 +148,7 @@ local cfn_lint = {
   generator = null_helpers.generator_factory({
     command = utils.get_python_executable("cfn-lint"),
     to_stdin = true,
-    to_stderr = true,
+    from_stderr = true,
     args = { "--format", "parseable", "-" },
     format = "line",
     check_exit_code = function(code)

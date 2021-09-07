@@ -16,6 +16,7 @@ table.insert(runtime_path, "lua/?/init.lua")
 
 --        server settings
 -- ──────────────────────────────
+-- See: https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
 
 M.configurations = {
   jedi_language_server = {
@@ -53,7 +54,7 @@ M.configurations = {
           globals = {'vim'},
         },
         workspace = {
-          library = vim.api.nvim_get_runtime_file("", true),  -- reconsider doing this
+          -- library = vim.api.nvim_get_runtime_file("", true),  -- reconsider doing this
           preloadFileSize = 350,  -- in kb
         },
         telemetry = {
@@ -68,6 +69,9 @@ M.configurations = {
 
   dockerls = {
   },
+
+  jsonls = {
+  }
 }
 
 --        server registration

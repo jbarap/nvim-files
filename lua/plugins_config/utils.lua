@@ -119,6 +119,7 @@ end
 -- Git compare file prompt
 function M.prompt_git_file()
   local option = vim.fn.input({prompt = 'Open file in which commit: [~(number)/hash]? ', cancelreturn = '<canceled>'})
+  -- read from another branch: :Gedit branchname:path/to/file
 
   if option == '<canceled>' then
     return nil

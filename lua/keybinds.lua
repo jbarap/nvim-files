@@ -88,6 +88,9 @@ bind("n", "<C-i>", "<C-i>zz", {silent = true})
 bind("n", "n", "nzz", {silent = true})
 bind("n", "N", "Nzz", {silent = true})
 
+-- <BS> in select mode will enter insert mode
+bind("s", "<BS>", "<BS>i", opts)
+
 -- Save files with sudo
 vim.cmd("command! WSudo lua require'utils'.sudo_write()<CR>")
 

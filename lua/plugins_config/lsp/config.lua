@@ -1,6 +1,7 @@
 local language_servers = require('plugins_config.lsp.servers')
 
 local opts = {noremap=true, silent=true}
+local aerial = require('aerial')
 
 
 --           on attach
@@ -8,6 +9,10 @@ local opts = {noremap=true, silent=true}
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- Aerial window
+  aerial.on_attach(client)
+  vim.api.nvim_buf_set_keymap(0, 'n', '<leader>a', '<cmd>AerialToggle<CR>', {})
 
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -58,23 +63,24 @@ end
 
 --           handlers
 -- ──────────────────────────────
--- may break with: https://github.com/neovim/neovim/pull/15504
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
-  function(_, _, params, client_id, _)
+  function(_, result, context, _)
+    local client_id = context.client_id
+
     local config = {
       underline = true,
       virtual_text = false,
       signs = true,
       update_in_insert = false,
     }
-    local uri = params.uri
+    local uri = result.uri
     local bufnr = vim.uri_to_bufnr(uri)
 
     if not bufnr then
       return
     end
 
-    local diagnostics = params.diagnostics
+    local diagnostics = result.diagnostics
 
     for i, v in ipairs(diagnostics) do
       diagnostics[i].message = string.format("%s (%s)", v.message, v.source)
@@ -141,7 +147,12 @@ if project_nvim ~= nil then
 end
 
 -- Language servers to register
-local server_names = {'null-ls', 'sumneko_lua', 'dockerls'}
+local server_names = {
+  'null-ls',
+  'sumneko_lua',
+  'dockerls',
+  'jsonls',
+}
 
 -- register pyright if the config file exists, otherwise use jedi_language_server
 if lsputil.path.exists(lsputil.path.join(cwd, "pyrightconfig.json")) then
@@ -170,6 +181,17 @@ vim.o.completeopt = "menuone,noselect"
 local cmp = require('cmp')
 local lspkind = require('lspkind')
 
+-- luasnip supertab helpers
+local check_back_space = function()
+  local col = vim.fn.col '.' - 1
+  return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s' ~= nil
+end
+local luasnip = require("luasnip")
+local t = function(str)
+    return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -190,18 +212,24 @@ cmp.setup({
     ['<Tab>'] = cmp.mapping(function(fallback)
       if vim.fn.pumvisible() == 1 then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+      elseif luasnip.expand_or_jumpable() then
+        vim.fn.feedkeys(t("<Plug>luasnip-expand-or-jump"), "")
+      elseif check_back_space() then
+        vim.fn.feedkeys(t("<Tab>"), "n")
       else
         fallback()
       end
-    end, {'i'}),
+    end, {'i', 's'}),
 
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if vim.fn.pumvisible() == 1 then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
+      elseif luasnip.jumpable(-1) then
+        vim.fn.feedkeys(t("<Plug>luasnip-jump-prev"), "")
       else
         fallback()
       end
-    end, {'i'}),
+    end, {'i', 's'}),
   },
 
   sources = {
@@ -229,8 +257,17 @@ cmp.setup({
   },
 })
 
--- TODO: split this into lines without an error
-vim.cmd("autocmd FileType lua lua require'cmp'.setup.buffer{sources={ {name = 'nvim_lsp'}, {name = 'nvim_lua'}, {name = 'buffer'}, {name = 'path'}, } } ")
+vim.api.nvim_exec(
+  "augroup CmpLuaFiletype " ..
+  "autocmd FileType lua lua require('cmp').setup.buffer{" ..
+    "sources = {" ..
+      "{name = 'nvim_lsp}', {name = 'nvim_lua'}, {name = 'buffer'}, {name = 'path'}, {name = 'luasnip'}" ..
+    "}" ..
+  "}" ..
+  "augroup END",
+  false
+)
+
 
 -- autopairs support
 require("nvim-autopairs.completion.cmp").setup({

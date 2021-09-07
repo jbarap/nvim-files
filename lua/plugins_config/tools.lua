@@ -140,7 +140,6 @@ require('gitsigns').setup{
     ['n ]h'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
     ['n [h'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
 
-    -- TODO: toggle word diff
     ['n <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
     ['n <leader>ghu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
     ['n <leader>ghx'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
@@ -266,6 +265,7 @@ local cb = require'diffview.config'.diffview_callback
 
 require'diffview'.setup {
   diff_binaries = false,
+  enhanced_diff_hl = true,
   use_icons = true,
   file_panel = {
     position = 'bottom',
@@ -347,4 +347,13 @@ bind('n', '<leader>qe', ':lua require("replacer").run()<CR>', {nowait = true, no
 --          targets
 -- ──────────────────────────────
 vim.cmd("autocmd User targets#mappings#user call targets#mappings#extend({'a': {},})")
+
+
+--          aerial
+-- ──────────────────────────────
+vim.g.aerial = {
+  highlight_on_jump = 300,
+  link_tree_to_folds = true,
+  link_folds_to_tree = true,
+}
 

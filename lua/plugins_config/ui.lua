@@ -123,7 +123,8 @@ require('indent_blankline').setup({
   use_treesitter = false,
   char = '▏',
   enabled = true,
-  filetype_exclude = {'dashboard', 'help', 'toggleterm', 'packer'},
+  filetype_exclude = {'dashboard', 'help', 'toggleterm', 'packer', 'aerial', 'alpha'},
+  max_indent_increase = 1,
 })
 
 

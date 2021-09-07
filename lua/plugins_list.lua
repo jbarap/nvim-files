@@ -30,6 +30,7 @@ return require('packer').startup({function()
   use 'neovim/nvim-lspconfig'
   use {'folke/lsp-trouble.nvim', requires = "kyazdani42/nvim-web-devicons"}
   use {'jose-elias-alvarez/null-ls.nvim', requires = {"nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"}}
+  use 'stevearc/aerial.nvim'
 
   -- LSP autocompletion
   use 'hrsh7th/nvim-cmp'
@@ -97,6 +98,7 @@ return require('packer').startup({function()
 
   -- Dashboard
   use 'glepnir/dashboard-nvim'
+  -- check: https://github.com/goolord/alpha-nvim it's slower due to VimEnter atm
 
   -- Documentation generation
   use {'kkoomen/vim-doge', run=':call doge#install()', opt = true, cmd = {'DogeGenerate'}}
@@ -134,7 +136,7 @@ return require('packer').startup({function()
   -- Terminal
   use 'akinsho/nvim-toggleterm.lua'
 
-  -- rsync
+  -- Remote
   use 'kenn7/vim-arsync'
   -- check: https://github.com/chipsenkbeil/distant.nvim
 
