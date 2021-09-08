@@ -24,7 +24,7 @@ require('telescope').setup{
       '!*.git',
     },
     path_display = {
-      shorten = 5
+      shorten = 10
     },
     layout_strategy    = "flex",
     borderchars        = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
