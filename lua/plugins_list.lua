@@ -32,7 +32,7 @@ return require('packer').startup({function()
   use {'jose-elias-alvarez/null-ls.nvim', requires = {"nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"}}
   use 'stevearc/aerial.nvim'
 
-  -- LSP autocompletion
+  -- Autocompletion
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-nvim-lua'  -- check functionality
@@ -40,7 +40,7 @@ return require('packer').startup({function()
   use 'hrsh7th/cmp-path'
   use 'onsails/lspkind-nvim'
 
-  -- snippet support
+  -- Snippet support
   use 'L3MON4D3/LuaSnip'
   use 'saadparwaiz1/cmp_luasnip'
 
@@ -62,7 +62,7 @@ return require('packer').startup({function()
   -- Tabs
   use 'romgrk/barbar.nvim'
 
-  --Statusline
+  -- Statusline
   use {'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
   use {'SmiteshP/nvim-gps', requires = "nvim-treesitter/nvim-treesitter"}
 
@@ -143,6 +143,9 @@ return require('packer').startup({function()
   -- Quickfix
   use 'kevinhwang91/nvim-bqf'
   use 'gabrielpoca/replacer.nvim'
+
+  -- Splits
+  use 'beauwilliams/focus.nvim'
 
   -- Refactoring
   -- use { "ThePrimeagen/refactoring.nvim",

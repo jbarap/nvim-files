@@ -36,7 +36,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
   -- Diagnostics
-  buf_set_keymap('n', '<Leader>cdl', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border="single"})<CR>', opts)
+  buf_set_keymap('n', '<Leader>cdl', '<cmd>lua require("utils").line_diag_with_source({border="single"})<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev({popup_opts={border="single"}})<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next({popup_opts={border="single"}})<CR>', opts)
 
@@ -64,8 +64,10 @@ end
 --           handlers
 -- ──────────────────────────────
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
-  function(_, result, context, _)
-    local client_id = context.client_id
+  function(_, params, ctx, _)
+    local uri = params.uri
+    local client_id = ctx.client_id
+    local bufnr = vim.uri_to_bufnr(uri)
 
     local config = {
       underline = true,
@@ -73,26 +75,24 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
       signs = true,
       update_in_insert = false,
     }
-    local uri = result.uri
-    local bufnr = vim.uri_to_bufnr(uri)
 
     if not bufnr then
       return
     end
 
-    local diagnostics = result.diagnostics
-
-    for i, v in ipairs(diagnostics) do
-      diagnostics[i].message = string.format("%s (%s)", v.message, v.source)
-    end
-
+    local diagnostics = params.diagnostics
     vim.lsp.diagnostic.save(diagnostics, bufnr, client_id)
 
     if not vim.api.nvim_buf_is_loaded(bufnr) then
       return
     end
 
-    vim.lsp.diagnostic.display(diagnostics, bufnr, client_id, config)
+    local prefixed_diagnostics = vim.deepcopy(diagnostics)
+    for i, v in ipairs(diagnostics) do
+      prefixed_diagnostics[i].message = string.format("%s (%s)", v.message, v.source)
+    end
+
+    vim.lsp.diagnostic.display(prefixed_diagnostics, bufnr, client_id, config)
   end
 
 vim.lsp.handlers["textDocument/hover"] =
@@ -183,11 +183,13 @@ local lspkind = require('lspkind')
 
 -- luasnip supertab helpers
 local luasnip = require("luasnip")
-local t = function(str)
-    return vim.api.nvim_replace_termcodes(str, true, true, true)
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
 end
 
 
+-- TODO: toggle completion with C-Space
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -199,17 +201,28 @@ cmp.setup({
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-h>'] = cmp.mapping.scroll_docs(-4),
     ['<C-l>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
+
+    -- Toggle completion menu with <C-Space>
+    ['<C-Space>'] = cmp.mapping(function (fallback)
+      local action
+      if vim.fn.pumvisible() == 0 then
+        action = cmp.complete
+      else
+        action = cmp.close
+      end
+
+      if not action() then
+        fallback()
+      end
+    end),
+
     ['<C-e>'] = cmp.mapping.close(),
-    -- ['<CR>'] = cmp.mapping.confirm({
-    --   behavior = cmp.ConfirmBehavior.Replace,
-    --   select = false,
-    -- }),
+
     ['<Tab>'] = cmp.mapping(function(fallback)
       if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(t("<C-n>"), "n")
-      elseif luasnip.expand_or_jumpable() then
-        vim.fn.feedkeys(t("<Plug>luasnip-expand-or-jump"), "")
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n', true)
+      elseif has_words_before() and luasnip.expand_or_jumpable() then
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '', true)
       else
         fallback()
       end
@@ -217,9 +230,9 @@ cmp.setup({
 
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(t("<C-p>"), "n")
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n', true)
       elseif luasnip.jumpable(-1) then
-        vim.fn.feedkeys(t("<Plug>luasnip-jump-prev"), "")
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '', true)
       else
         fallback()
       end

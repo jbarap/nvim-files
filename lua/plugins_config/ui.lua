@@ -110,6 +110,7 @@ bind('n', '<A-6>', ':BufferGoto 6<CR>', opts)
 bind('n', '<Leader>bp', ':BufferPick<CR>', opts)
 
 vim.g.bufferline = {
+  tabpages = true,
   exclude_ft = {'dashboard'},
   exclude_name = {''},
   maximum_length = 30,
@@ -123,7 +124,7 @@ require('indent_blankline').setup({
   use_treesitter = false,
   char = '▏',
   enabled = true,
-  filetype_exclude = {'dashboard', 'help', 'toggleterm', 'packer', 'aerial', 'alpha'},
+  filetype_exclude = {'dashboard', 'help', 'toggleterm', 'packer', 'aerial', 'alpha', 'man'},
   max_indent_increase = 1,
 })
 
@@ -131,7 +132,6 @@ require('indent_blankline').setup({
 --           colorscheme
 -- ──────────────────────────────
 vim.g.tokyonight_style = "night"
-vim.g.tokyonight_transparent = true
 vim.g.tokyonight_hide_inactive_statusline = true
 
 -- vim.cmd('colorscheme tokyonight')

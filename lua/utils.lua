@@ -178,4 +178,54 @@ M.get_python_executable = function(bin_name)
   return result
 end
 
+
+--             LSP
+-- ──────────────────────────────
+-- Show diagnostic source when viewing line diagnostics, copy of neovim's internal function
+-- This would have been a lot easier if vim.lsp.diagnostic.show_diagnostics was exposed
+function M.line_diag_with_source(opts, buf_nr, line_nr, client_id)
+  opts = opts or {}
+  opts.focus_id = "line_diagnostics"
+  line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
+
+  local diagnostics = vim.lsp.diagnostic.get_line_diagnostics(buf_nr, line_nr, opts, client_id)
+  local prefixed_diagnostics = vim.deepcopy(diagnostics)
+  for i, v in ipairs(diagnostics) do
+    prefixed_diagnostics[i].message = string.format("%s (%s)", v.message, v.source)
+  end
+
+  if vim.tbl_isempty(diagnostics) then return end
+  local lines = {}
+  local highlights = {}
+  local show_header = vim.F.if_nil(opts.show_header, true)
+  if show_header then
+    table.insert(lines, "Diagnostics:")
+    table.insert(highlights, {0, "Bold"})
+  end
+
+  for i, diagnostic in ipairs(prefixed_diagnostics) do
+    local prefix = string.format("%d. ", i)
+    local hiname = vim.lsp.diagnostic._get_floating_severity_highlight_name(diagnostic.severity)
+    assert(hiname, 'unknown severity: ' .. tostring(diagnostic.severity))
+
+    local message_lines = vim.split(diagnostic.message, '\n', true)
+    table.insert(lines, prefix..message_lines[1])
+    table.insert(highlights, {#prefix, hiname})
+    for j = 2, #message_lines do
+      table.insert(lines, string.rep(' ', #prefix) .. message_lines[j])
+      table.insert(highlights, {0, hiname})
+    end
+  end
+
+  local popup_bufnr, winnr = require('vim.lsp.util').open_floating_preview(lines, 'plaintext', opts)
+  for i, hi in ipairs(highlights) do
+    local prefixlen, hiname = unpack(hi)
+    -- Start highlight after the prefix
+    vim.api.nvim_buf_add_highlight(popup_bufnr, -1, hiname, i-1, prefixlen, -1)
+  end
+
+  return popup_bufnr, winnr
+end
+
+
 return M

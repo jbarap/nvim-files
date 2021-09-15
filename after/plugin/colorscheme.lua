@@ -25,6 +25,12 @@ utils.change_highlight_fg("Search", "NONE")
 utils.change_highlight_bg("IncSearch", "#42888a")
 utils.change_highlight_fg("IncSearch", "NONE")
 
+-- Diffs
+utils.change_highlight_bg("DiffAdd", "#212f25")
+utils.change_highlight_bg("DiffText", "#394b70")
+utils.change_highlight_bg("DiffChange", "#1F2231")
+utils.change_highlight_bg("DiffDelete", "#37222C")
+
 -- folds
 utils.change_highlight_bg("Folded", "#1c202e")
 utils.change_highlight_fg("Folded", "NONE")

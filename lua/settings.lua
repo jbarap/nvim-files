@@ -68,6 +68,9 @@ opt.fillchars = "diff:╱"
 opt.list = true
 opt.listchars = {tab = "  "}
 
+-- Jumplist
+opt.jumpoptions = "stack"
+
 -- Enable filetype plugin
 cmd("filetype plugin on")
 

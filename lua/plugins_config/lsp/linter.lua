@@ -192,7 +192,6 @@ null_ls.config({
   default_timeout = 20000,
   sources = {
     ---- Linters
-    -- null_ls.builtins.diagnostics.markdownlint,
     flake8,  -- used instead of builtin to support the "naming" flake8 plugin error codes
 
     require("null-ls.helpers").conditional(function(util)

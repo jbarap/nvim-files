@@ -26,6 +26,7 @@ require('telescope').setup{
     path_display = {
       shorten = 10
     },
+    -- path_display = {'smart'},
     layout_strategy    = "flex",
     borderchars        = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
     layout_config = {
@@ -77,7 +78,14 @@ require('telescope').load_extension('projects')
 
 bind('n', '<Leader>pp', ':Telescope projects<CR>', opts)
 
-bind('n', "<Leader>fp", ":Telescope find_files hidden=true no_ignore=true <CR>", opts)
+local find_command = "{'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '.git'}"
+bind(
+  'n',
+  "<Leader>fp",
+  ":lua require('telescope.builtin').find_files({ find_command =  " .. find_command .. "}) <CR>",
+  opts
+)
+
 bind_picker('<Leader>ff', 'find_files')
 bind_picker('<Leader>fg', 'live_grep')
 bind('n', '<Leader>f<C-g>', ":lua require('plugins_config.utils').rg_dir()<CR>", opts)

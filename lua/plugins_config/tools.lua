@@ -43,6 +43,10 @@ require'nvim-treesitter.configs'.setup {
         ["ic"] = "@class.inner",
         ["aa"] = "@parameter.outer",
         ["ia"] = "@parameter.inner",
+        ["aF"] = "@call.outer",
+        ["iF"] = "@call.inner",
+        ["ab"] = "@block.outer",
+        ["ib"] = "@block.inner",
       },
     },
     move = {
@@ -120,7 +124,7 @@ neogit.setup {
     diffview = true,
   }
 }
--- bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts)
+bind('n', "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts)
 
 
 --           gitsigns
@@ -163,7 +167,7 @@ require('gitsigns').setup{
 
 --            fugitive
 -- ──────────────────────────────
-bind('n', "<Leader>gs", ":Git<CR>", opts)
+-- bind('n', "<Leader>gs", ":Git<CR>", opts)
 bind('n', "<Leader>gdh", ":diffget //2<CR>", opts)
 bind('n', "<Leader>gdl", ":diffget //3<CR>", opts)
 bind('n', "<Leader>gf", ":lua require('plugins_config.utils').prompt_git_file()<CR>", opts)
@@ -356,4 +360,12 @@ vim.g.aerial = {
   link_tree_to_folds = true,
   link_folds_to_tree = true,
 }
+
+--          focus
+-- ──────────────────────────────
+require("focus").setup({
+  signcolumn = false,
+  cursorline = false,
+  excluded_filetypes = {"toggleterm"},
+})
 

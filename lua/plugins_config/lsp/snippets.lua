@@ -6,7 +6,7 @@ local i = ls.insert_node
 
 ls.snippets = {
   python = {
-    s({trig = "inim", name = "If name is main"}, {
+    s({trig = "ifnameis", name = "If name is main"}, {
       t({"if __name__ == '__main__':", "\t"}), i(1)
     }),
 
