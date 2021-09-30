@@ -14,6 +14,7 @@ vim.cmd('syntax on')
 -- ──────────────────────────────
 bind('n', "<Leader>nn", ":lua require('plugins_config.utils').toggle_tree_offset_tabline('tree')<CR>", opts)
 bind('n', "<Leader>nf", ":lua require('plugins_config.utils').toggle_tree_offset_tabline('file')<CR>", opts)
+vim.g.nvim_tree_width = 40
 vim.g.nvim_tree_gitignore = 0
 vim.g.nvim_tree_auto_ignore_ft = {'startify', 'dashboard'}
 vim.g.nvim_tree_indent_markers = 1

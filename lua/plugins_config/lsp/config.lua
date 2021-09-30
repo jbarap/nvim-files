@@ -36,9 +36,13 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
   -- Diagnostics
-  buf_set_keymap('n', '<Leader>cdl', '<cmd>lua require("utils").line_diag_with_source({border="single"})<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev({popup_opts={border="single"}})<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next({popup_opts={border="single"}})<CR>', opts)
+  buf_set_keymap('n', '<Leader>cdl', '<cmd>lua vim.diagnostic.show_line_diagnostics({'..
+    'format = function (diagnostic)'..
+      'return string.format("%s (%s)", diagnostic.message, diagnostic.source)'..
+    'end,'..
+    'border="rounded"})<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next({popup_opts={border="rounded"}})<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev({popup_opts={border="rounded"}})<CR>', opts)
 
   -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then
@@ -64,42 +68,27 @@ end
 --           handlers
 -- ──────────────────────────────
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
-  function(_, params, ctx, _)
-    local uri = params.uri
-    local client_id = ctx.client_id
-    local bufnr = vim.uri_to_bufnr(uri)
-
-    local config = {
+  vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics,
+    {
       underline = true,
       virtual_text = false,
+      -- virtual_text = {
+      --   format = function (diagnostic)
+      --     return string.format("%s (%s)", diagnostic.message, diagnostic.source)
+      --   end
+      -- },
       signs = true,
       update_in_insert = false,
+      severity_sort = true,
     }
-
-    if not bufnr then
-      return
-    end
-
-    local diagnostics = params.diagnostics
-    vim.lsp.diagnostic.save(diagnostics, bufnr, client_id)
-
-    if not vim.api.nvim_buf_is_loaded(bufnr) then
-      return
-    end
-
-    local prefixed_diagnostics = vim.deepcopy(diagnostics)
-    for i, v in ipairs(diagnostics) do
-      prefixed_diagnostics[i].message = string.format("%s (%s)", v.message, v.source)
-    end
-
-    vim.lsp.diagnostic.display(prefixed_diagnostics, bufnr, client_id, config)
-  end
+  )
 
 vim.lsp.handlers["textDocument/hover"] =
   vim.lsp.with(
     vim.lsp.handlers.hover,
     {
-      border = "single"
+      border = "rounded"
     }
   )
 
@@ -107,25 +96,28 @@ vim.lsp.handlers["textDocument/signatureHelp"] =
   vim.lsp.with(
     vim.lsp.handlers.signature_help,
     {
-     border = "single"
+     border = "rounded"
     }
   )
 
 
 --          diagnostics
 -- ──────────────────────────────
-vim.fn.sign_define('LspDiagnosticsSignError',
-    { text = '☓', texthl = 'LspDiagnosticsSignError' })
+vim.fn.sign_define('DiagnosticSignError',
+    { text = '☓', texthl = 'DiagnosticSignError' })
 
-vim.fn.sign_define('LspDiagnosticsSignWarning',
-    { text = '', texthl = 'LspDiagnosticsSignWarning' })
+vim.fn.sign_define('DiagnosticSignWarn',
+    { text = '', texthl = 'DiagnosticSignWarn' })
 
-vim.fn.sign_define('LspDiagnosticsSignInformation',
-    { text = '', texthl = 'LspDiagnosticsSignInformation' })
+vim.fn.sign_define('DiagnosticSignInfo',
+    { text = '', texthl = 'DiagnosticSignInfo' })
 
-vim.fn.sign_define('LspDiagnosticsSignHint',
-    { text = '', texthl = 'LspDiagnosticsSignHint' })
+vim.fn.sign_define('DiagnosticSignHint',
+    { text = '', texthl = 'DiagnosticSignHint' })
 
+
+--        language servers
+-- ──────────────────────────────
 -- additional capabilities for autocompletion with nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(
@@ -135,9 +127,6 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(
   }
 )
 
-
---        language servers
--- ──────────────────────────────
 -- obtain the cwd for conditional registering
 local lsputil = require("lspconfig.util")
 local cwd = vim.loop.cwd()
