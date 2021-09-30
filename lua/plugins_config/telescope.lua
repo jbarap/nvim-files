@@ -23,10 +23,10 @@ require('telescope').setup{
       '--glob',
       '!*.git',
     },
-    path_display = {
-      shorten = 10
-    },
-    -- path_display = {'smart'},
+    -- path_display = {
+    --   shorten = 10
+    -- },
+    path_display = {'truncate'},
     layout_strategy    = "flex",
     borderchars        = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
     layout_config = {

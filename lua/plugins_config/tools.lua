@@ -88,8 +88,12 @@ autopairs.add_rule(autopairs_rule('__', '__', 'python'))
 -- ──────────────────────────────
 require('project_nvim').setup({
   manual_mode = false,
-  detection_methods = {'lsp', 'pattern'},
-  patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+  detection_methods = {'pattern'},
+  patterns = {
+    ".project", ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json",
+    "pyproject.toml", "poetry.lock", "setup.py", "setup.cfg", "Pipfile", "requirements.txt",
+    "pyrightconfig.json",
+},
   ignore_lsp = {'null-ls'},
   silent_chdir = true,
 })
@@ -120,6 +124,7 @@ local neogit = require('neogit')
 neogit.setup {
   disable_context_highlighting = true,
   disable_commit_confirmation = false,
+  disable_insert_on_commit = false,
   integrations = {
     diffview = true,
   }
@@ -145,8 +150,10 @@ require('gitsigns').setup{
     ['n [h'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
 
     ['n <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
+    ['v <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
     ['n <leader>ghu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
     ['n <leader>ghx'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+    ['v <leader>ghx'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
     ['n <leader>ghX'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
     ['n <leader>ghp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
     ['n <leader>ghh'] = '<cmd>lua require"gitsigns".toggle_numhl()<CR><cmd>lua require"gitsigns".toggle_word_diff()<CR>',
@@ -158,7 +165,7 @@ require('gitsigns').setup{
     ['o ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
     ['x ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
   },
-  watch_index = {
+  watch_gitdir = {
     interval = 2000
   },
   update_debounce = 1000,
@@ -306,6 +313,7 @@ bind('n', '<leader>df', ':lua require("plugins_config.utils").toggle_diff_view("
 -- ──────────────────────────────
 require('neoscroll').setup{
   cursor_scrolls_alone = true,
+  hide_cursor = false,
 }
 require('neoscroll.config').set_mappings({
   ['<C-u>'] = {'scroll', {'-vim.wo.scroll', 'true', '200'}},
@@ -360,12 +368,4 @@ vim.g.aerial = {
   link_tree_to_folds = true,
   link_folds_to_tree = true,
 }
-
---          focus
--- ──────────────────────────────
-require("focus").setup({
-  signcolumn = false,
-  cursorline = false,
-  excluded_filetypes = {"toggleterm"},
-})
 

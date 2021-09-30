@@ -12,11 +12,9 @@ vim.cmd('syntax on')
 
 --           nvim-tree
 -- ──────────────────────────────
-bind('n', "<Leader>nn", ":NvimTreeToggle<CR>", opts)
-bind('n', "<Leader>nf", ":NvimTreeFindFile<CR>", opts)
-vim.g.nvim_tree_auto_open = 1
+bind('n', "<Leader>nn", ":lua require('plugins_config.utils').toggle_tree_offset_tabline('tree')<CR>", opts)
+bind('n', "<Leader>nf", ":lua require('plugins_config.utils').toggle_tree_offset_tabline('file')<CR>", opts)
 vim.g.nvim_tree_gitignore = 0
-vim.g.nvim_tree_width = 40
 vim.g.nvim_tree_auto_ignore_ft = {'startify', 'dashboard'}
 vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_ignore = {'.git'}
@@ -34,6 +32,19 @@ vim.g.nvim_tree_icons = {
   }
 }
 
+require('nvim-tree').setup({
+  update_cwd = true,
+  update_focused_file = {
+    enable = true,
+    update_cwd = true
+  },
+  auto_open = 1,
+  hijack_cursor = true,
+  view = {
+    width = 40,
+  }
+})
+
 
 --           trouble
 -- ──────────────────────────────
@@ -44,7 +55,15 @@ vim.api.nvim_set_keymap("n", "<leader>cdd", "<cmd>LspTroubleToggle<cr>", opts)
 --           lualine
 -- ──────────────────────────────
 local gps = require("nvim-gps")
-gps.setup({})
+gps.setup({
+  icons = {
+    ["class-name"] = ' ',
+    ["function-name"] = ' ',
+    ["method-name"] = ' ',
+    ["container-name"] = '◱ ',
+    ["tag-name"] = '➨ '
+  }
+})
 
 require('lualine').setup{
   options = {
@@ -125,7 +144,7 @@ require('indent_blankline').setup({
   char = '▏',
   enabled = true,
   filetype_exclude = {'dashboard', 'help', 'toggleterm', 'packer', 'aerial', 'alpha', 'man'},
-  max_indent_increase = 1,
+  max_indent_increase = 10,
 })
 
 
@@ -134,15 +153,13 @@ require('indent_blankline').setup({
 vim.g.tokyonight_style = "night"
 vim.g.tokyonight_hide_inactive_statusline = true
 
--- vim.cmd('colorscheme tokyonight')
-local nightfox = require('nightfox')
-nightfox.setup({
+require('nightfox').setup({
   fox = "nightfox",
   transparent = false,
 })
-nightfox.load()
 
--- Colorscheme changes in after/plugin/colorscheme.lua
+vim.cmd('colorscheme nightfox')
+-- Colorscheme highlight changes in after/plugin/colorscheme.lua
 
 -- Load icons highlights AFTER the coloscheme to avoid overrides
 require('nvim-web-devicons').setup({})

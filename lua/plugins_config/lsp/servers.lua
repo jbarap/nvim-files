@@ -1,5 +1,4 @@
 local lspconfig = require('lspconfig')
-local lsputil = require("lspconfig.util")
 
 local servers_data_path = vim.fn.stdpath('data') .. '/language_servers/'
 
@@ -17,15 +16,11 @@ table.insert(runtime_path, "lua/?/init.lua")
 --        server settings
 -- ──────────────────────────────
 -- See: https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
-
 M.configurations = {
   jedi_language_server = {
     -- ideally, keep the pyenv version, but find a way to set system python as default
     -- cmd = {"~/.pyenv/versions/nvim-env/bin/jedi-language-server"},
     cmd = {"jedi-language-server"},
-    root_dir = lsputil.root_pattern(
-      {'.git', 'poetry.lock', 'pyproject.toml', 'setup.py', 'setup.cfg', 'Pipfile'}
-    ),
     before_init = function(initialize_params)
       initialize_params['initializationOptions'] = {
         jediSettings = {
@@ -54,7 +49,7 @@ M.configurations = {
           globals = {'vim'},
         },
         workspace = {
-          -- library = vim.api.nvim_get_runtime_file("", true),  -- reconsider doing this
+          -- library = vim.api.nvim_get_runtime_file("", true),
           preloadFileSize = 350,  -- in kb
         },
         telemetry = {

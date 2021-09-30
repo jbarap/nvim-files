@@ -17,6 +17,7 @@ bind("n", "U", "<C-r>", {silent = true})
 -- Paste to clipboard
 bind("v", "<Leader>y", '"+y', opts)
 bind("n", "<Leader>y", '"+y', opts)
+bind("n", "<Leader>Y", '"+y$', opts)
 
 -- Paste anything (e.g. lines) to cursor
 bind("n", "gp", "a<CR><Esc>PkJJxx", opts)

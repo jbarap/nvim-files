@@ -69,7 +69,7 @@ end
 
 --          togglers
 -- ──────────────────────────────
-function M.toggle_diff_view(diff_type)
+function M.toggle_diff_view(mode)
   -- DiffviewFiles,
   local bfr = vim.api.nvim_get_current_buf()
   local win = vim.api.nvim_get_current_win()
@@ -87,13 +87,36 @@ function M.toggle_diff_view(diff_type)
     vim.cmd("silent DiffviewClose")
     vim.cmd("silent BufferCloseAllButCurrent")
   else
-    if diff_type == 'diff' then
+    if mode == 'diff' then
       vim.fn.feedkeys(":DiffviewOpen ")
-    elseif diff_type == 'file' then
+    elseif mode == 'file' then
       vim.fn.feedkeys(":DiffviewFileHistory ")
     end
   end
   vim.cmd("echon ''")
+end
+
+function M.toggle_tree_offset_tabline(mode)
+  local windows = vim.api.nvim_tabpage_list_wins(0)
+
+  for _, win_nr in ipairs(windows) do
+    local buf_nr = vim.api.nvim_win_get_buf(win_nr)
+    local is_tree = vim.api.nvim_buf_get_option(buf_nr, 'filetype') == 'NvimTree'
+
+    if is_tree then
+      require('bufferline.state').set_offset(0)
+      require('nvim-tree').close()
+      return
+    end
+  end
+
+  require('bufferline.state').set_offset(vim.g.nvim_tree_width , 'FileTree')
+
+  if mode == 'file' then
+    require('nvim-tree').find_file(true)
+  elseif mode == 'tree' then
+    require('nvim-tree').open()
+  end
 end
 
 function M.buffer_performance_mode()

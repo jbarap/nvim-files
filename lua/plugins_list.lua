@@ -67,7 +67,7 @@ return require('packer').startup({function()
   use {'SmiteshP/nvim-gps', requires = "nvim-treesitter/nvim-treesitter"}
 
   -- File tree
-  use {'kyazdani42/nvim-tree.lua', opt = true, cmd = {'NvimTreeToggle', 'NvimTreeFindFile'}}
+  use 'kyazdani42/nvim-tree.lua'
 
   -- Indent lines
   use 'lukas-reineke/indent-blankline.nvim'
@@ -85,7 +85,7 @@ return require('packer').startup({function()
   use 'svermeulen/vim-subversive'
 
   -- Tmux navigation
-  use 'aserowy/tmux.nvim'
+  use {'aserowy/tmux.nvim', disable = false}
 
   -- Git
   use 'lewis6991/gitsigns.nvim'
@@ -144,8 +144,8 @@ return require('packer').startup({function()
   use 'kevinhwang91/nvim-bqf'
   use 'gabrielpoca/replacer.nvim'
 
-  -- Splits
-  use 'beauwilliams/focus.nvim'
+  -- Startup time
+  use 'dstein64/vim-startuptime'
 
   -- Refactoring
   -- use { "ThePrimeagen/refactoring.nvim",
@@ -160,8 +160,8 @@ end,
 config = {
   profile = {
     enable = true,
-    threshold = 1,
-  }
+    threshold = 0.1,
+  },
 }
 
 })
