@@ -43,7 +43,13 @@ require('nvim-tree').setup({
   hijack_cursor = true,
   view = {
     width = 40,
-  }
+  },
+  disable_netrw = false,
+  hijack_netrw = true,
+  update_to_buf_dir = {
+    enable = true,
+    auto_open = true,
+  },
 })
 
 

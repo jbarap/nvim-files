@@ -98,3 +98,7 @@ vim.cmd("command! WSudo lua require'utils'.sudo_write()<CR>")
 -- Search word under the cursor
 bind("n", "<Leader>ww", ":lua require('utils').search_word()<CR>", opts)
 
+-- Replace
+bind("n", "<Leader>cs", ":%s/", opts)
+bind("v", "<Leader>cs", ":s/", opts)
+

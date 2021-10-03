@@ -24,6 +24,8 @@ utils.change_highlight_bg("Search", "#1c284a")
 utils.change_highlight_fg("Search", "NONE")
 utils.change_highlight_bg("IncSearch", "#42888a")
 utils.change_highlight_fg("IncSearch", "NONE")
+utils.change_highlight_bg("Substitute", "#4d1d28")
+utils.change_highlight_fg("Substitute", "#c9c9c9")
 
 -- Diffs
 utils.change_highlight_bg("DiffAdd", "#212f25")
