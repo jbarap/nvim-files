@@ -246,16 +246,12 @@ cmp.setup({
   },
 
   formatting = {
-    format = function(entry, vim_item)
-      vim_item.menu = ({
-        nvim_lsp = '()',
-        buffer = '()',
-        path = '(/)',
-        nvim_lua = '()',
-        })[entry.source.name]
-      vim_item.kind = lspkind.presets.default[vim_item.kind]
-      return vim_item
-    end
+    format = require('lspkind').cmp_format({with_text = false, menu = ({
+      nvim_lsp = '()',
+      buffer = '()',
+      path = '(/)',
+      nvim_lua = '()',
+    })}),
   },
 
   documentation = {

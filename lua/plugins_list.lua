@@ -73,7 +73,7 @@ return require('packer').startup({function()
   use 'lukas-reineke/indent-blankline.nvim'
 
   -- Commenting
-  use 'b3nj5m1n/kommentary'
+  use 'numToStr/Comment.nvim'
 
   -- Autopairs
   use 'windwp/nvim-autopairs'

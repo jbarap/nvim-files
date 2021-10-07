@@ -211,16 +211,9 @@ vim.g.magma_automatically_open_output = false
 vim.g.magma_cell_highlight_group = "MagmaCell"
 
 
---            kommentary
+--            Comment
 -- ──────────────────────────────
-require('kommentary.config').configure_language("default", {
-  prefer_single_line_comments = true,
-})
-vim.g.kommentary_create_default_mappings = false
-
-bind('n', 'gc', '<Plug>kommentary_motion_default', {silent = true})
-bind('v', 'gc', '<Plug>kommentary_visual_default', {silent = true})
-bind('n', 'gcc', 'gcl', {silent = true})
+require('Comment').setup()
 
 
 --        markdown-preview
