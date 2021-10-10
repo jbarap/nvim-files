@@ -8,6 +8,10 @@ local mid_dark = "#191919"
 local light_dark = "#202020"
 local lighter_dark = "#252525"
 
+
+--            neovim
+-- ──────────────────────────────
+
 -- Backgrounds
 utils.change_highlight_bg("Normal", dark)
 utils.change_highlight_bg("NormalNC", dark)
@@ -52,17 +56,10 @@ utils.change_highlight_bg("CursorLine", almost_dark)
 
 -- floating windows
 utils.change_highlight_bg("Pmenu", light_dark)
+utils.change_highlight_bg("PmenuSbar", lighter_dark)
+utils.change_highlight_fg("PmenuSbar", "#ffffff")
 utils.change_highlight_bg("NormalFloat", mid_dark)
 utils.change_highlight_bg("FloatBorder", mid_dark)
-
--- Barbar
-utils.change_highlight_bg("BufferTabpageFill", almost_dark)
-utils.change_highlight_bg("BufferCurrent", lighter_dark)
-utils.change_highlight_bg("BufferCurrentSign", lighter_dark)
-utils.change_highlight_bg("BufferCurrentMod", lighter_dark)
-utils.change_highlight_bg("BufferInactive", mid_dark)
-utils.change_highlight_bg("BufferInactiveSign", mid_dark)
-utils.change_highlight_bg("BufferInactiveMod", mid_dark)
 
 -- Lsp colors
 utils.change_highlight_bg("DiagnosticDefaultHint", "NONE")
@@ -72,6 +69,22 @@ utils.change_highlight_bg("DiagnosticVirtualTextInformation", mid_dark)
 utils.change_highlight_bg("DiagnosticVirtualTextWarning", mid_dark)
 utils.change_highlight_bg("DiagnosticVirtualTextError", mid_dark)
 utils.change_highlight_bg("DiagnosticVirtualTextHint", mid_dark)
+
+-- Others
+utils.change_highlight_fg("VertSplit", light_dark)
+
+
+--            plugins
+-- ──────────────────────────────
+
+-- Barbar
+utils.change_highlight_bg("BufferTabpageFill", almost_dark)
+utils.change_highlight_bg("BufferCurrent", lighter_dark)
+utils.change_highlight_bg("BufferCurrentSign", lighter_dark)
+utils.change_highlight_bg("BufferCurrentMod", lighter_dark)
+utils.change_highlight_bg("BufferInactive", mid_dark)
+utils.change_highlight_bg("BufferInactiveSign", mid_dark)
+utils.change_highlight_bg("BufferInactiveMod", mid_dark)
 
 -- Compe documentation lines
 utils.change_highlight_bg("CompeDocumentation", utils.return_highlight_term('NormalFloat', 'bg'))
@@ -99,6 +112,9 @@ utils.change_highlight_bg("NvimTreeNormal", almost_dark)
 utils.change_highlight_bg("NvimTreeEndOfBuffer", almost_dark)
 utils.change_highlight_fg("NvimTreeEndOfBuffer", almost_dark)
 
--- Others
-utils.change_highlight_fg("VertSplit", light_dark)
+-- Nvim cmp
+utils.change_highlight_bg("CmpItemMenu", light_dark)
+utils.change_highlight_fg("CmpItemMenu", "#c9c9c9")
+utils.change_highlight_bg("CmpItemAbbr", light_dark)
+utils.change_highlight_fg("CmpItemAbbr", "#939393")
 

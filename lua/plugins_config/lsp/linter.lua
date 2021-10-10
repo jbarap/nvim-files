@@ -115,7 +115,10 @@ local flake8 = {
     on_output = function(line, params)
       local row, col, message = line:match(":(%d+):(%d+): (.*)")
       local severity = null_helpers.diagnostics.severities['error']
-      local code = string.match(message, "[EFWCND]%d+")
+      -- local code = string.match(message, "[EFWCND]%d+")
+      local code = string.match(message, "%u%d+")
+
+      col = col + 1
 
       if message == nil then
         return nil
@@ -193,6 +196,7 @@ null_ls.config({
   sources = {
     ---- Linters
     flake8,  -- used instead of builtin to support the "naming" flake8 plugin error codes
+    -- null_ls.builtins.diagnostics.flake8,
 
     require("null-ls.helpers").conditional(function(util)
       return (util.root_has_file("mypy.ini") or util.root_has_file(".mypy.ini")) and mypy

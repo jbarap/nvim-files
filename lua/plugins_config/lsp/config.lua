@@ -169,7 +169,6 @@ language_servers.register(server_names, common_lang_options)
 vim.o.completeopt = "menuone,noselect"
 
 local cmp = require('cmp')
-local lspkind = require('lspkind')
 
 -- luasnip supertab helpers
 local luasnip = require("luasnip")
@@ -181,11 +180,6 @@ local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
-
-local feedkey = function(key)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), "n", true)
-end
-
 
 cmp.setup({
   snippet = {
@@ -202,7 +196,7 @@ cmp.setup({
     -- Toggle completion menu with <C-Space>
     ['<C-Space>'] = cmp.mapping(function (fallback)
       local action
-      if vim.fn.pumvisible() == 0 then
+      if not cmp.visible() then
         action = cmp.complete
       else
         action = cmp.close
@@ -216,8 +210,8 @@ cmp.setup({
     ['<C-e>'] = cmp.mapping.close(),
 
     ['<Tab>'] = cmp.mapping(function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        feedkey("<C-n>")
+      if cmp.visible() then
+        cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
       elseif has_words_before() then
@@ -228,8 +222,8 @@ cmp.setup({
     end, {'i', 's'}),
 
     ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        feedkey("<C-p>")
+      if cmp.visible() then
+        cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
         luasnip.jump(-1)
       else
@@ -257,6 +251,7 @@ cmp.setup({
   documentation = {
     border = 'rounded',
   },
+
 })
 
 vim.api.nvim_exec(

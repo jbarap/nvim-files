@@ -18,6 +18,9 @@ return require('packer').startup({function()
   -- Improve startup time until: https://github.com/neovim/neovim/pull/15436
   use 'lewis6991/impatient.nvim'
 
+  -- Diverse tools
+  use "nvim-lua/plenary.nvim"
+
   -- Icons
   use 'kyazdani42/nvim-web-devicons'
 
