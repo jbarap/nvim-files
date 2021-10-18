@@ -1,4 +1,5 @@
 local lspconfig = require('lspconfig')
+local lsputils = require('lspconfig.util')
 
 local servers_data_path = vim.fn.stdpath('data') .. '/language_servers/'
 
@@ -31,6 +32,17 @@ M.configurations = {
   },
 
   pyright = {
+    -- automatically identify virtualenvs set with pyenv
+    on_init = function (client)
+      local python_path
+      local virtual_env = vim.env.VIRTUAL_ENV
+      if virtual_env then
+        python_path = lsputils.path.join(virtual_env, "bin", "python")
+      else
+        python_path = "python"
+      end
+      client.config.settings.python.pythonPath = python_path
+    end
   },
 
   sumneko_lua = {

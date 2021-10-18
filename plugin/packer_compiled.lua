@@ -229,6 +229,7 @@ _G.packer_plugins = {
     commands = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
     loaded = false,
     needs_bufread = true,
+    only_cond = false,
     path = "/home/john/.local/share/nvim/site/pack/packer/opt/playground"
   },
   ["plenary.nvim"] = {
@@ -275,6 +276,7 @@ _G.packer_plugins = {
     commands = { "DogeGenerate" },
     loaded = false,
     needs_bufread = true,
+    only_cond = false,
     path = "/home/john/.local/share/nvim/site/pack/packer/opt/vim-doge"
   },
   ["vim-fugitive"] = {
@@ -327,9 +329,9 @@ time([[Defining packer_plugins]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file DogeGenerate lua require("packer.load")({'vim-doge'}, { cmd = "DogeGenerate", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file TSPlaygroundToggle lua require("packer.load")({'playground'}, { cmd = "TSPlaygroundToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file TSHighlightCapturesUnderCursor lua require("packer.load")({'playground'}, { cmd = "TSHighlightCapturesUnderCursor", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file DogeGenerate lua require("packer.load")({'vim-doge'}, { cmd = "DogeGenerate", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 time([[Defining lazy-load commands]], false)
 
 if should_profile then save_profiles(0) end

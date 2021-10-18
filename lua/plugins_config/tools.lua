@@ -55,6 +55,7 @@ require'nvim-treesitter.configs'.setup {
       goto_next_start = {
         ["]f"] = "@function.outer",
         ["]c"] = "@class.outer",
+        ["]b"] = "@block.outer",
         ["]a"] = "@parameter.inner",
       },
       goto_next_end = {
@@ -64,6 +65,7 @@ require'nvim-treesitter.configs'.setup {
       goto_previous_start = {
         ["[f"] = "@function.outer",
         ["[c"] = "@class.outer",
+        ["[b"] = "@block.outer",
         ["[a"] = "@parameter.inner",
       },
       goto_previous_end = {
@@ -125,6 +127,7 @@ neogit.setup {
   disable_context_highlighting = true,
   disable_commit_confirmation = false,
   disable_insert_on_commit = false,
+  disable_hint = true,
   integrations = {
     diffview = true,
   }
@@ -169,6 +172,7 @@ require('gitsigns').setup{
     interval = 2000
   },
   update_debounce = 1000,
+  trouble = false,
 }
 
 

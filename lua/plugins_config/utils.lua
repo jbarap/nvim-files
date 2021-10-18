@@ -206,6 +206,7 @@ end
 
 --          code runner
 -- ──────────────────────────────
+-- Alternatively look at: https://github.com/pianocomposer321/yabs.nvim
 function M.run_code()
 
   local all_commands = {

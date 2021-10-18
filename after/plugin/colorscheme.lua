@@ -96,6 +96,7 @@ utils.change_highlight_fg("CompeDocumentationBorder", "#606060")
 utils.change_highlight_fg("DashboardHeader", "#6585ba")
 
 -- Telescope
+vim.cmd("hi TelescopeMatching gui=bold")
 utils.change_highlight_fg("TelescopeMatching", "#6585ba")
 utils.change_highlight_bg("TelescopeSelection", "#12192b")
 utils.change_highlight_fg("TelescopeSelection", "#c9c9c9")
@@ -117,4 +118,8 @@ utils.change_highlight_bg("CmpItemMenu", light_dark)
 utils.change_highlight_fg("CmpItemMenu", "#c9c9c9")
 utils.change_highlight_bg("CmpItemAbbr", light_dark)
 utils.change_highlight_fg("CmpItemAbbr", "#939393")
+
+-- Diffview
+-- utils.change_highlight_bg("FilePanelFileName", lighter_dark)
+utils.change_highlight_bg("FilePanelFileName", darker)
 

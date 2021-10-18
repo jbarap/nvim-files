@@ -102,3 +102,10 @@ bind("n", "<Leader>ww", ":lua require('utils').search_word()<CR>", opts)
 bind("n", "<Leader>cs", ":%s/", opts)
 bind("v", "<Leader>cs", ":s/", opts)
 
+-- Convenience mappings for ^ and $
+bind("n", "<S-h>", "^", opts)
+bind("n", "<S-l>", "$", opts)
+
+-- Convenience mappings for <C-^>
+bind("n", "<M-o>", "<cmd>keepjumps normal <C-^><CR>", opts)
+
