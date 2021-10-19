@@ -217,7 +217,9 @@ vim.g.magma_cell_highlight_group = "MagmaCell"
 
 --            Comment
 -- ──────────────────────────────
-require('Comment').setup()
+require('Comment').setup({
+  ignore = "^$",
+})
 
 
 --        markdown-preview

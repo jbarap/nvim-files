@@ -40,33 +40,6 @@ function M.buf_bind_picker(bufnr, keys, picker_name, extension_name)
 end
 
 
---          highlights
--- ──────────────────────────────
-function M.return_highlight_term(group, term)
-  local hl_id = vim.fn.hlID(group)
-  local output = vim.fn.synIDattr(vim.fn.synIDtrans(hl_id), term)
-  return output
-end
-
-function M.change_highlight_bg(group, color)
-  local fg_color = M.return_highlight_term(group, 'fg')
-  local fg_option = ""
-  if fg_color ~= nil and fg_color ~= '' then
-    fg_option = " guifg="..fg_color
-  end
-  vim.cmd("hi "..group..fg_option.." guibg="..color)
-end
-
-function M.change_highlight_fg(group, color)
-  local bg_color = M.return_highlight_term(group, 'bg') or "NONE"
-  local bg_option = ""
-  if bg_color ~= nil and bg_color ~= '' then
-    bg_option = " guibg="..bg_color
-  end
-  vim.cmd("hi "..group.." guifg="..color..bg_option)
-end
-
-
 --          togglers
 -- ──────────────────────────────
 function M.toggle_diff_view(mode)

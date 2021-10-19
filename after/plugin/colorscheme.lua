@@ -1,4 +1,5 @@
-local utils = require('plugins_config.utils')
+local utils = require('utils')
+local Highlight = utils.Highlight
 
 ---- dark color palette
 local darker = "#111111"
@@ -13,113 +14,91 @@ local lighter_dark = "#252525"
 -- ──────────────────────────────
 
 -- Backgrounds
-utils.change_highlight_bg("Normal", dark)
-utils.change_highlight_bg("NormalNC", dark)
-utils.change_highlight_bg("Terminal", dark)
-utils.change_highlight_bg("EndOfBuffer", dark)
-utils.change_highlight_bg("TabLineFill", dark)
-utils.change_highlight_bg("DarkenedPanel", darker)
-utils.change_highlight_bg("DarkenedStatusline", darker)
-utils.change_highlight_bg("DarkenedStatuslineNC", darker)
+Highlight:new("Normal"):set("guibg", dark):set("guifg", "#c9c9c9")
+Highlight:new("NormalNC"):set("guibg", dark)
+Highlight:new("EndOfBuffer"):set("guibg", dark)
+Highlight:new("TabLineFill"):set("guibg", dark)
+Highlight:new("DarkenedPanel"):set("guibg", darker)
+Highlight:new("DarkenedStatusline"):set("guibg", darker)
+Highlight:new("DarkenedStatuslineNC"):set("guibg", darker)
 
 -- Syntax
-utils.change_highlight_fg("Normal", "#c9c9c9")
-utils.change_highlight_bg("Search", "#1c284a")
-utils.change_highlight_fg("Search", "NONE")
-utils.change_highlight_bg("IncSearch", "#42888a")
-utils.change_highlight_fg("IncSearch", "NONE")
-utils.change_highlight_bg("Substitute", "#4d1d28")
-utils.change_highlight_fg("Substitute", "#c9c9c9")
+Highlight:new("Search"):set("guibg", "#1c284a"):set("guifg", "NONE")
+Highlight:new("IncSearch"):set("guibg", "#42888a"):set("guifg", "NONE")
+Highlight:new("Substitute"):set("guibg", "#4d1d28"):set("guifg", "#c9c9c9")
 
 -- Diffs
-utils.change_highlight_bg("DiffAdd", "#212f25")
-utils.change_highlight_bg("DiffText", "#394b70")
-utils.change_highlight_bg("DiffChange", "#1F2231")
-utils.change_highlight_bg("DiffDelete", "#37222C")
+Highlight:new("DiffAdd"):set("guibg", "#212f25")
+Highlight:new("DiffText"):set("guibg", "#394b70")
+Highlight:new("DiffChange"):set("guibg", "#1F2231")
+Highlight:new("DiffDelete"):set("guibg", "#37222C")
 
 -- folds
-utils.change_highlight_bg("Folded", "#1c202e")
-utils.change_highlight_fg("Folded", "NONE")
+Highlight:new("Folded"):set("guibg", "#1c202e"):set("guifg", "NONE")
 
 -- gitsigns
-utils.change_highlight_bg("GitSignsAdd", "NONE")
-utils.change_highlight_bg("GitSignsChange", "NONE")
-utils.change_highlight_bg("GitSignsDelete", "NONE")
+Highlight:new("GitSignsAdd"):set("guibg", "NONE")
+Highlight:new("GitSignsChange"):set("guibg", "NONE")
+Highlight:new("GitSignsDelete"):set("guibg", "NONE")
 
 -- Sign column
-utils.change_highlight_bg("SignColumn", "NONE")
-utils.change_highlight_bg("LineNr", "NONE")
+Highlight:new("SignColumn"):set("guibg", "NONE")
+Highlight:new("LineNr"):set("guibg", "NONE")
 
 -- Color column
-utils.change_highlight_bg("ColorColumn", almost_dark)
-utils.change_highlight_bg("CursorLine", almost_dark)
+Highlight:new("ColorColumn"):set("guibg", almost_dark)
+Highlight:new("CursorLine"):set("guibg", almost_dark)
 
 -- floating windows
-utils.change_highlight_bg("Pmenu", light_dark)
-utils.change_highlight_bg("PmenuSbar", lighter_dark)
-utils.change_highlight_fg("PmenuSbar", "#ffffff")
-utils.change_highlight_bg("NormalFloat", mid_dark)
-utils.change_highlight_bg("FloatBorder", mid_dark)
+Highlight:new("Pmenu"):set("guibg", light_dark)
+Highlight:new("PmenuSbar"):set("guibg", lighter_dark):set("guifg", "#ffffff")
+Highlight:new("NormalFloat"):set("guibg", mid_dark)
+Highlight:new("FloatBorder"):set("guibg", mid_dark)
 
 -- Lsp colors
-utils.change_highlight_bg("DiagnosticDefaultHint", "NONE")
-utils.change_highlight_bg("DiagnosticDefaultWarning", "NONE")
-utils.change_highlight_bg("DiagnosticDefaultError", "NONE")
-utils.change_highlight_bg("DiagnosticVirtualTextInformation", mid_dark)
-utils.change_highlight_bg("DiagnosticVirtualTextWarning", mid_dark)
-utils.change_highlight_bg("DiagnosticVirtualTextError", mid_dark)
-utils.change_highlight_bg("DiagnosticVirtualTextHint", mid_dark)
+Highlight:new("DiagnosticDefaultHint"):set("guibg", "NONE")
+Highlight:new("DiagnosticDefaultWarning"):set("guibg", "NONE")
+Highlight:new("DiagnosticDefaultError"):set("guibg", "NONE")
+Highlight:new("DiagnosticVirtualTextInformation"):set("guibg", mid_dark)
+Highlight:new("DiagnosticVirtualTextWarning"):set("guibg", mid_dark)
+Highlight:new("DiagnosticVirtualTextError"):set("guibg", mid_dark)
+Highlight:new("DiagnosticVirtualTextHint"):set("guibg", mid_dark)
 
 -- Others
-utils.change_highlight_fg("VertSplit", light_dark)
+Highlight:new("VertSplit"):set("guifg", light_dark)
 
 
 --            plugins
 -- ──────────────────────────────
 
 -- Barbar
-utils.change_highlight_bg("BufferTabpageFill", almost_dark)
-utils.change_highlight_bg("BufferCurrent", lighter_dark)
-utils.change_highlight_bg("BufferCurrentSign", lighter_dark)
-utils.change_highlight_bg("BufferCurrentMod", lighter_dark)
-utils.change_highlight_bg("BufferInactive", mid_dark)
-utils.change_highlight_bg("BufferInactiveSign", mid_dark)
-utils.change_highlight_bg("BufferInactiveMod", mid_dark)
-
--- Compe documentation lines
-utils.change_highlight_bg("CompeDocumentation", utils.return_highlight_term('NormalFloat', 'bg'))
-utils.change_highlight_fg("CompeDocumentation", "#aaaaaa")
-utils.change_highlight_bg("CompeDocumentationBorder", utils.return_highlight_term('NormalFloat', 'bg'))
-utils.change_highlight_fg("CompeDocumentationBorder", "#606060")
+Highlight:new("BufferTabpageFill"):set("guibg", almost_dark)
+Highlight:new("BufferCurrent"):set("guibg", lighter_dark)
+Highlight:new("BufferCurrentSign"):set("guibg", lighter_dark)
+Highlight:new("BufferCurrentMod"):set("guibg", lighter_dark)
+Highlight:new("BufferInactive"):set("guibg", mid_dark)
+Highlight:new("BufferInactiveSign"):set("guibg", mid_dark)
+Highlight:new("BufferInactiveMod"):set("guibg", mid_dark)
 
 -- Dashboard
-utils.change_highlight_fg("DashboardHeader", "#6585ba")
+Highlight:new("DashboardHeader"):set("guifg", "#6585ba")
 
 -- Telescope
-vim.cmd("hi TelescopeMatching gui=bold")
-utils.change_highlight_fg("TelescopeMatching", "#6585ba")
-utils.change_highlight_bg("TelescopeSelection", "#12192b")
-utils.change_highlight_fg("TelescopeSelection", "#c9c9c9")
-utils.change_highlight_fg("TelescopeNormal", "#919191")
+Highlight:new("TelescopeMatching"):set("guifg", "#6585ba"):set("gui", "bold")
+Highlight:new("TelescopeSelection"):set("guibg", "#12192b"):set("guifg", "#c9c9c9")
+Highlight:new("TelescopeNormal"):set("guifg", "#919191")
 
 -- Which-key
-utils.change_highlight_bg("WhichKeyFloat", mid_dark)
+Highlight:new("WhichKeyFloat"):set("guibg", mid_dark)
 
 -- LSP Trouble
-utils.change_highlight_bg("LspTroubleNormal", dark)
+Highlight:new("LspTroubleNormal"):set("guibg", dark)
 
 -- Nvim tree
-utils.change_highlight_bg("NvimTreeNormal", almost_dark)
-utils.change_highlight_bg("NvimTreeEndOfBuffer", almost_dark)
-utils.change_highlight_fg("NvimTreeEndOfBuffer", almost_dark)
+Highlight:new("NvimTreeNormal"):set("guibg", almost_dark)
+Highlight:new("NvimTreeEndOfBuffer"):set("guibg", almost_dark):set("guifg", almost_dark)
 
 -- Nvim cmp
-utils.change_highlight_bg("CmpItemMenu", light_dark)
-utils.change_highlight_fg("CmpItemMenu", "#c9c9c9")
-utils.change_highlight_bg("CmpItemAbbr", light_dark)
-utils.change_highlight_fg("CmpItemAbbr", "#939393")
-
--- Diffview
--- utils.change_highlight_bg("FilePanelFileName", lighter_dark)
-utils.change_highlight_bg("FilePanelFileName", darker)
+Highlight:new("CmpItemMenu"):set("guibg", light_dark):set("guifg", "#c9c9c9")
+Highlight:new("CmpItemAbbr"):set("guibg", light_dark):set("guifg", "#939393")
 

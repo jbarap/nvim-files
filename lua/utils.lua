@@ -179,4 +179,106 @@ M.get_python_executable = function(bin_name)
 end
 
 
+--       highlight interface
+-- ──────────────────────────────
+M.Highlight = {
+  id = 0,
+  name = "",
+  highlights = {
+    cterm = "NONE",
+    ctermfg = "NONE",
+    ctermbg = "NONE",
+    gui = "NONE",
+    guifg = "NONE",
+    guibg = "NONE",
+  },
+  attributes = {
+    "bold",
+    "italic",
+    "reverse",
+    "inverse",
+    "standout",
+    "underline",
+    "undercurl",
+    "strikethrough",
+  }
+}
+
+M.Highlight._init = function (self)
+  self.id = vim.fn.hlID(self.name)
+  if self.id == 0 then
+    error(string.format("Highlight '%s' not defined", self.name))
+  end
+  self.id = vim.fn.synIDtrans(self.id)
+
+  self.highlights = {}
+  for hl_name, _ in pairs(M.Highlight.highlights) do
+    local hl = self:_get_highlight(hl_name)
+    if hl == "" then
+      hl = "NONE"
+    end
+    self.highlights[hl_name] = hl
+  end
+
+  return self
+end
+
+M.Highlight._get_highlight = function (self, hl_name)
+  hl_name = string.lower(hl_name)
+
+  local highlight_value = ""
+  local hl_type = string.match(hl_name, "gui") or string.match(hl_name, "cterm")
+
+  if not hl_type then
+    error(string.format("Highlight option %s not supported", hl_type))
+  end
+
+  hl_name = string.gsub(hl_name, hl_type, "")
+  if hl_name ~= "" then
+    -- fg/bg/sp highlights
+    highlight_value = vim.fn.synIDattr(self.id, hl_name, hl_type)
+  else
+    -- attributes
+    for _, attr_name in ipairs(self.attributes) do
+      if vim.fn.synIDattr(self.id, attr_name, hl_type) == "1" then
+        if highlight_value == "" then
+          highlight_value = attr_name
+        else
+          highlight_value = string.format("%s,%s", highlight_value, attr_name)
+        end
+      end
+    end
+  end
+
+  return highlight_value
+end
+
+M.Highlight._update = function (self)
+  local formatted_hl = string.format("hi %s", self.name)
+  for hl_name, hl_value in pairs(self.highlights) do
+    formatted_hl = string.format("%s %s=%s", formatted_hl, hl_name, hl_value)
+  end
+  vim.cmd(formatted_hl)
+end
+
+M.Highlight.new = function (self, name)
+  local obj = {name = name}
+  setmetatable(obj, self)
+  self.__index = self
+  obj:_init()
+  return obj
+end
+
+M.Highlight.set = function (self, hl_name, value)
+  self.highlights[hl_name] = value
+  self:_update()
+  return self
+end
+
+M.Highlight.clear = function (self)
+  self.highlights = M.Highlight.highlights
+  self:_update()
+end
+
+
 return M
