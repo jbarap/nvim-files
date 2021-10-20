@@ -111,9 +111,7 @@ wk.register({
     },
     v = {
         name = "vim",
-        r = "Reload",
         e = "Edit init.lua",
-        R = "Restart",
         v = "Version",
     },
     q = {

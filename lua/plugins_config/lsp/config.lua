@@ -99,7 +99,7 @@ vim.diagnostic.config({
   virtual_text = false,
   signs = true,
   update_in_insert = false,
-  severity_sort = true,
+  severity_sort = false,
   float = {
     show_header = true,
     border = 'rounded',
@@ -226,6 +226,7 @@ cmp.setup({
     end, {'i', 's'}),
   },
 
+  -- TODO: disable buffer source in really big files
   sources = {
     {name = 'nvim_lsp'},
     {name = 'buffer'},

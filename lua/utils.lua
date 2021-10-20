@@ -1,86 +1,9 @@
 local M = {}
 
-local types = { o = vim.o, b = vim.bo, w = vim.wo }
-
-
---       reload functions
--- ──────────────────────────────
-function M.UnloadAllModules()
-  -- Lua patterns for the modules to unload
-  local unload_modules = {
-    "^utils$",
-    "^settings$",
-    "^plugins_list$",
-    "^keybinds$",
-    "^plugins_config$",
-  }
-
-  for k, _ in pairs(package.loaded) do
-    for _, v in ipairs(unload_modules) do
-      if k:match(v) then
-        package.loaded[k] = nil
-        break
-      end
-    end
-  end
-end
-
--- Reload Vim configuration
-function M.Reload()
-  vim.cmd("lua vim.lsp.stop_client(vim.lsp.get_active_clients())")
-
-  M.UnloadAllModules()
-
-  -- Source init.lua
-  vim.cmd("luafile $MYVIMRC")
-end
-
--- Restart Vim without having to close and run again
-function M.Restart()
-  M.Reload()
-
-  -- Manually run VimEnter autocmd to emulate a new run of Vim
-  vim.cmd("doautocmd VimEnter")
-end
-
-
---        options utils
--- ──────────────────────────────
-function M.get_opt(type, name)
-  return types[type][name]
-end
-
--- Set option
-function M.set_opt(type, name, value)
-  types[type][name] = value
-
-  if type ~= "o" then
-    types["o"][name] = value
-  end
-end
-
--- Append option to a list of options
-function M.append_opt(type, name, value)
-  local current_value = M.get_opt(type, name)
-
-  if not string.match(current_value, value) then
-    M.set_opt(type, name, current_value .. value)
-  end
-end
-
--- Remove option from a list of options
-function M.remove_opt(type, name, value)
-  local current_value = M.get_opt(type, name)
-
-  if string.match(current_value, value) then
-    M.set_opt(type, name, string.gsub(current_value, value, ""))
-  end
-end
-
 
 --          autogroups
 -- ──────────────────────────────
-function M.create_augroup(autocmds, name)
+function M.create_augroup(name, autocmds)
   vim.cmd("augroup " .. name)
   vim.cmd("autocmd!")
 
@@ -206,9 +129,11 @@ M.Highlight = {
 
 M.Highlight._init = function (self)
   self.id = vim.fn.hlID(self.name)
+
   if self.id == 0 then
-    error(string.format("Highlight '%s' not defined", self.name))
+    vim.notify(string.format("Highlight '%s' not defined", self.name), vim.log.levels.WARN)
   end
+
   self.id = vim.fn.synIDtrans(self.id)
 
   self.highlights = {}
@@ -230,7 +155,7 @@ M.Highlight._get_highlight = function (self, hl_name)
   local hl_type = string.match(hl_name, "gui") or string.match(hl_name, "cterm")
 
   if not hl_type then
-    error(string.format("Highlight option %s not supported", hl_type))
+    vim.notify(string.format("Highlight option %s not supported", hl_type), vim.log.levels.WARN)
   end
 
   hl_name = string.gsub(hl_name, hl_type, "")
@@ -254,6 +179,10 @@ M.Highlight._get_highlight = function (self, hl_name)
 end
 
 M.Highlight._update = function (self)
+  if self.id == 0 then
+    return self
+  end
+
   local formatted_hl = string.format("hi %s", self.name)
   for hl_name, hl_value in pairs(self.highlights) do
     formatted_hl = string.format("%s %s=%s", formatted_hl, hl_name, hl_value)
