@@ -36,13 +36,9 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
   -- Diagnostics
-  buf_set_keymap('n', '<Leader>cdl', '<cmd>lua vim.diagnostic.show_line_diagnostics({'..
-    'format = function (diagnostic)'..
-      'return string.format("%s (%s)", diagnostic.message, diagnostic.source)'..
-    'end,'..
-    'border="rounded"})<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next({popup_opts={border="rounded"}})<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev({popup_opts={border="rounded"}})<CR>', opts)
+  buf_set_keymap('n', '<Leader>cdl', "<cmd>lua vim.diagnostic.open_float(0, {scope='line'})<CR>", opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 
   -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then
@@ -67,23 +63,6 @@ end
 
 --           handlers
 -- ──────────────────────────────
-vim.lsp.handlers["textDocument/publishDiagnostics"] =
-  vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics,
-    {
-      underline = true,
-      virtual_text = false,
-      -- virtual_text = {
-      --   format = function (diagnostic)
-      --     return string.format("%s (%s)", diagnostic.message, diagnostic.source)
-      --   end
-      -- },
-      signs = true,
-      update_in_insert = false,
-      severity_sort = true,
-    }
-  )
-
 vim.lsp.handlers["textDocument/hover"] =
   vim.lsp.with(
     vim.lsp.handlers.hover,
@@ -114,6 +93,21 @@ vim.fn.sign_define('DiagnosticSignInfo',
 
 vim.fn.sign_define('DiagnosticSignHint',
     { text = '', texthl = 'DiagnosticSignHint' })
+
+vim.diagnostic.config({
+  underline = true,
+  virtual_text = false,
+  signs = true,
+  update_in_insert = false,
+  severity_sort = true,
+  float = {
+    show_header = true,
+    border = 'rounded',
+    format = function (diagnostic)
+      return string.format("%s (%s)", diagnostic.message, diagnostic.source)
+    end,
+  },
+})
 
 
 --        language servers
@@ -154,10 +148,10 @@ end
 local common_lang_options = {
   on_attach = on_attach,
   capabilities = capabilities,
+  root_dir = require('project_nvim.project').find_pattern_root,
   flags = {
     debounce_text_changes = 200,
   },
-  root_dir = require('project_nvim.project').find_pattern_root
 }
 
 -- Register servers
@@ -271,5 +265,6 @@ require("nvim-autopairs.completion.cmp").setup({
   map_cr = true,
   map_complete = true,
   auto_select = false,
+  insert = false,
 })
 
