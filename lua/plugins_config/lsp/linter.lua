@@ -212,11 +212,7 @@ null_ls.config({
     }),
 
     null_ls.builtins.formatting.isort,
-
-    null_ls.builtins.formatting.stylua.with({
-      args = {"--column-width", "90", "--indent-type", "Spaces", "--indent-width", "2", "-s", "-"}
-    }),
-
+    null_ls.builtins.formatting.stylua,
   },
   debug = false,
 })

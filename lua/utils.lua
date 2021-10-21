@@ -83,7 +83,7 @@ end
 -- ──────────────────────────────
 M.search_word = function ()
   vim.cmd([[let @/='\<]] .. vim.fn.expand("<cword>") .. [[\>']])
-  M.set_opt("o", "hlsearch", true)
+  vim.o["hlsearch"] = true
 end
 
 
@@ -118,7 +118,7 @@ M.Highlight = {
   attributes = {
     "bold",
     "italic",
-    "reverse",
+    "reverse",  -- same as inverse
     "inverse",
     "standout",
     "underline",
@@ -164,15 +164,14 @@ M.Highlight._get_highlight = function (self, hl_name)
     highlight_value = vim.fn.synIDattr(self.id, hl_name, hl_type)
   else
     -- attributes
+    local attrs = {}
     for _, attr_name in ipairs(self.attributes) do
       if vim.fn.synIDattr(self.id, attr_name, hl_type) == "1" then
-        if highlight_value == "" then
-          highlight_value = attr_name
-        else
-          highlight_value = string.format("%s,%s", highlight_value, attr_name)
-        end
+        table.insert(attrs, attr_name)
       end
     end
+
+    highlight_value = table.concat(attrs, ",") or highlight_value
   end
 
   return highlight_value
