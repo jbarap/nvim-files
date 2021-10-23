@@ -4,8 +4,8 @@ vim.g.mapleader = " "
 -- setup 'require' improvements
 require('impatient')
 
--- General Settings
-require("settings")
+-- General options
+require("options")
 
 -- Load plugins
 require("plugins_list")
