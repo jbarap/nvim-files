@@ -163,24 +163,15 @@ language_servers.register(server_names, common_lang_options)
 vim.o.completeopt = "menuone,noselect"
 
 local cmp = require('cmp')
-
--- luasnip supertab helpers
 local luasnip = require("luasnip")
 
+-- luasnip supertab helper
 local has_words_before = function()
-  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
-    return false
-  end
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
 cmp.setup({
-  snippet = {
-    expand = function(args)
-      require'luasnip'.lsp_expand(args.body)
-    end
-  },
   mapping = {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -226,12 +217,12 @@ cmp.setup({
     end, {'i', 's'}),
   },
 
-  -- TODO: disable buffer source in really big files
   sources = {
+    {name = "nvim_lua"},
     {name = 'nvim_lsp'},
-    {name = 'buffer'},
-    {name = 'path'},
     {name = 'luasnip'},
+    {name = 'path'},
+    {name = 'buffer', keyword_length = 5, max_item_count = 20},
   },
 
   formatting = {
@@ -247,18 +238,12 @@ cmp.setup({
     border = 'rounded',
   },
 
+  snippet = {
+    expand = function(args)
+      require'luasnip'.lsp_expand(args.body)
+    end
+  },
 })
-
-vim.api.nvim_exec(
-  "augroup CmpLuaFiletype " ..
-  "autocmd FileType lua lua require('cmp').setup.buffer{" ..
-    "sources = {" ..
-      "{name = 'nvim_lsp}', {name = 'nvim_lua'}, {name = 'buffer'}, {name = 'path'}, {name = 'luasnip'}" ..
-    "}" ..
-  "}" ..
-  "augroup END",
-  false
-)
 
 
 -- autopairs support

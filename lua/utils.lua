@@ -104,7 +104,7 @@ end
 
 --       highlight interface
 -- ──────────────────────────────
-M.Highlight = {
+local Highlight = {
   id = 0,
   name = "",
   highlights = {
@@ -127,7 +127,7 @@ M.Highlight = {
   }
 }
 
-M.Highlight._init = function (self)
+function Highlight:_init()
   self.id = vim.fn.hlID(self.name)
 
   if self.id == 0 then
@@ -148,7 +148,7 @@ M.Highlight._init = function (self)
   return self
 end
 
-M.Highlight._get_highlight = function (self, hl_name)
+function Highlight:_get_highlight(hl_name)
   hl_name = string.lower(hl_name)
 
   local highlight_value = ""
@@ -177,7 +177,7 @@ M.Highlight._get_highlight = function (self, hl_name)
   return highlight_value
 end
 
-M.Highlight._update = function (self)
+function Highlight:_update()
   if self.id == 0 then
     return self
   end
@@ -189,7 +189,7 @@ M.Highlight._update = function (self)
   vim.cmd(formatted_hl)
 end
 
-M.Highlight.new = function (self, name)
+function Highlight:new(name)
   local obj = {name = name}
   setmetatable(obj, self)
   self.__index = self
@@ -197,16 +197,18 @@ M.Highlight.new = function (self, name)
   return obj
 end
 
-M.Highlight.set = function (self, hl_name, value)
+function Highlight:set(hl_name, value)
   self.highlights[hl_name] = value
   self:_update()
   return self
 end
 
-M.Highlight.clear = function (self)
+function Highlight:clear()
   self.highlights = M.Highlight.highlights
   self:_update()
 end
+
+M.Highlight = Highlight
 
 
 return M

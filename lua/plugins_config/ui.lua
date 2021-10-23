@@ -72,9 +72,14 @@ gps.setup({
   }
 })
 
+local lualine_theme = require("lualine.utils.loader").load_theme("iceberg_dark")
+lualine_theme.normal.c = {fg = "#6b7089", bg = "#0f1117"}
+
 require('lualine').setup{
   options = {
-    theme = 'nightfox',
+    -- theme = 'nightfox',
+    -- theme = 'iceberg_dark',
+    theme = lualine_theme,
     section_separators = '',
     component_separators = '❘',
   },
@@ -90,7 +95,7 @@ require('lualine').setup{
     },
     lualine_y = {'progress'},
     lualine_z = {'location'}
-  }
+  },
 }
 
 

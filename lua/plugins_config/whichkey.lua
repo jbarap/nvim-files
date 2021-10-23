@@ -3,6 +3,8 @@
 local wk = require('which-key')
 wk.setup{
   plugins = {
+    marks = false,
+    registers = false,
     presets = {
       operators = false,
       motions = false,
@@ -12,6 +14,10 @@ wk.setup{
       z = true,
       g = true,
     },
+  },
+  window = {
+    border = "none",
+    winblend = 15,
   }
 }
 

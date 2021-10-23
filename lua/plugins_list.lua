@@ -66,7 +66,7 @@ return require('packer').startup({function()
   use 'romgrk/barbar.nvim'
 
   -- Statusline
-  use {'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
+  use { 'nvim-lualine/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true} }
   use {'SmiteshP/nvim-gps', requires = "nvim-treesitter/nvim-treesitter"}
 
   -- File tree
