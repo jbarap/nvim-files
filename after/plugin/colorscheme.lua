@@ -37,9 +37,9 @@ Highlight:new("DiffDelete"):set("guibg", "#37222C")
 Highlight:new("Folded"):set("guibg", "#1c202e"):set("guifg", "NONE")
 
 -- gitsigns
-Highlight:new("GitSignsAdd"):set("guibg", "NONE")
-Highlight:new("GitSignsChange"):set("guibg", "NONE")
-Highlight:new("GitSignsDelete"):set("guibg", "NONE")
+Highlight:new("GitSignsAdd"):set("guibg", "NONE"):set("gui", "bold")
+Highlight:new("GitSignsChange"):set("guibg", "NONE"):set("gui", "bold")
+Highlight:new("GitSignsDelete"):set("guibg", "NONE"):set("gui", "bold")
 
 -- Sign column
 Highlight:new("SignColumn"):set("guibg", "NONE")

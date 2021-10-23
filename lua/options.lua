@@ -36,16 +36,10 @@ opt.autoread = true
 opt.laststatus = 2
 
 -- Indent
--- help page for general tab information: 'tabstop'
--- summary:
---  - tabstop: Number of spaces that a <Tab> in the file counts for. Changing the value
---    from the default 8 may screw up printing
---  - softtabstop: Number of spaces that a <Tab> counts for while performing editing operations
---  - shiftwidth: Number of spaces to use for each step of (auto)indent.
---  - expandtab: In Insert mode: Use the appropriate number of spaces to insert a <Tab>
-opt.softtabstop = 4
-opt.shiftwidth = 4
-opt.expandtab = true
+opt.tabstop = 4  -- visual spaces that a tab represents
+opt.softtabstop = 4  -- editing spaces that a tab (and its backspace) represent
+opt.shiftwidth = 4  -- spaces used in autoindent (<< and >>)
+opt.expandtab = true  -- turn spaces into tabs?
 opt.autoindent = true
 opt.smartindent = true
 
