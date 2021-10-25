@@ -27,8 +27,9 @@ require('telescope').setup{
     --   shorten = 10
     -- },
     path_display = {'truncate'},
-    layout_strategy    = "flex",
-    borderchars        = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+    layout_strategy = "flex",
+    borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+    -- winblend = 10, -- cursor disappears if I set winblend
     layout_config = {
       height = 0.9,
       width = 0.9,

@@ -147,7 +147,7 @@ function M.rg_dir()
             prompt_title = 'Grep in: ' .. content.value,
             initial_mode = 'insert',
             search_dirs = {grep_dir},
-        })
+          })
         end)
       end
 

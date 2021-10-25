@@ -1,6 +1,3 @@
--- Set mapleader to space
-vim.g.mapleader = " "
-
 -- setup 'require' improvements
 require('impatient')
 

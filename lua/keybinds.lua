@@ -1,6 +1,9 @@
 local bind = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
+-- Set mapleader to space
+vim.g.mapleader = " "
+
 
 --        general mappings
 -- ──────────────────────────────

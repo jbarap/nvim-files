@@ -124,7 +124,7 @@ local Highlight = {
     "underline",
     "undercurl",
     "strikethrough",
-  }
+  },
 }
 
 function Highlight:_init()
@@ -207,6 +207,8 @@ function Highlight:clear()
   self.highlights = M.Highlight.highlights
   self:_update()
 end
+
+setmetatable(Highlight, {__call = function (self, ...) return self:new(...) end})
 
 M.Highlight = Highlight
 

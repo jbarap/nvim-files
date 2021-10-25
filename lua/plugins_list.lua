@@ -19,14 +19,14 @@ return require('packer').startup({function()
   use 'lewis6991/impatient.nvim'
 
   -- Diverse tools
-  use "nvim-lua/plenary.nvim"
+  use 'nvim-lua/plenary.nvim'
 
   -- Icons
   use 'kyazdani42/nvim-web-devicons'
 
   -- Colors
-  use 'norcalli/nvim-colorizer.lua'
-  use 'folke/tokyonight.nvim'
+  use {'norcalli/nvim-colorizer.lua', cmd = {"ColorizerToggle"}}
+  -- use 'folke/tokyonight.nvim'
   use 'EdenEast/nightfox.nvim'
 
   -- LSP
@@ -38,7 +38,7 @@ return require('packer').startup({function()
   -- Autocompletion
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-nvim-lua'  -- check functionality
+  use 'hrsh7th/cmp-nvim-lua'
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-path'
   use 'onsails/lspkind-nvim'
@@ -94,7 +94,7 @@ return require('packer').startup({function()
   use 'lewis6991/gitsigns.nvim'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-rhubarb'
-  use 'junegunn/gv.vim'
+  use {'junegunn/gv.vim', cmd = {"GV"}}
   use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim'}
 
   -- Change cwd to project
@@ -120,7 +120,7 @@ return require('packer').startup({function()
   -- Python
   use 'Vimjas/vim-python-pep8-indent'
   use {'ahmedkhalf/jupyter-nvim', run = ":UpdateRemotePlugins"}
-  use { 'dccsillag/magma-nvim', run = ':UpdateRemotePlugins' }
+  use {'dccsillag/magma-nvim', run = ':UpdateRemotePlugins'}
 
   -- Markdown preview
   use {'iamcco/markdown-preview.nvim', run=':call mkdp#util#install()'}
@@ -146,10 +146,10 @@ return require('packer').startup({function()
 
   -- Quickfix
   use 'kevinhwang91/nvim-bqf'
-  use 'gabrielpoca/replacer.nvim'
+  use {'gabrielpoca/replacer.nvim', module = "replacer"}
 
   -- Startup time
-  use 'dstein64/vim-startuptime'
+  use {'dstein64/vim-startuptime', cmd = {"StartupTime"}}
 
   -- Refactoring
   -- use { "ThePrimeagen/refactoring.nvim",
