@@ -7,6 +7,7 @@ local null_helpers = require('null-ls.helpers')
 --           sources
 -- ──────────────────────────────
 local pylint = {
+  name = "pylint",
   method = null_ls.methods.DIAGNOSTICS,
   filetypes = {'python'},
   generator = null_helpers.generator_factory({
@@ -56,6 +57,7 @@ local pylint = {
 }
 
 local mypy = {
+  name = "mypy",
   method = null_ls.methods.DIAGNOSTICS,
   filetypes = {'python'},
   generator = null_helpers.generator_factory({
@@ -63,10 +65,17 @@ local mypy = {
     to_stdin = true,
     from_stderr = true,
     to_temp_file = true,
-    args = {
-      "--hide-error-context", "--show-column-numbers", "--no-pretty",
-      "$FILENAME"
-    },
+    args = function (params)
+      return {
+        "--hide-error-context",
+        "--show-column-numbers",
+        "--no-pretty",
+        "--shadow-file",
+        params.bufname,
+        params.temp_path,
+        params.bufname,
+      }
+    end,
     format = "line",
     check_exit_code = function(code)
       return code == 0
@@ -100,6 +109,7 @@ local mypy = {
 }
 
 local flake8 = {
+  name = "flake8",
   method = null_ls.methods.DIAGNOSTICS,
   filetypes = {'python'},
   generator = null_helpers.generator_factory({
@@ -146,6 +156,7 @@ local flake8 = {
 }
 
 local cfn_lint = {
+  name = "cfn_lint",
   method = null_ls.methods.DIAGNOSTICS,
   filetypes = {'yaml'},
   generator = null_helpers.generator_factory({
@@ -195,8 +206,8 @@ null_ls.config({
   default_timeout = 20000,
   sources = {
     ---- Linters
-    flake8,  -- used instead of builtin to support the "naming" flake8 plugin error codes
-    -- null_ls.builtins.diagnostics.flake8,
+    -- flake8,  -- used instead of builtin to support the "naming" flake8 plugin error codes
+    null_ls.builtins.diagnostics.flake8,
 
     require("null-ls.helpers").conditional(function(util)
       return (util.root_has_file("mypy.ini") or util.root_has_file(".mypy.ini")) and mypy

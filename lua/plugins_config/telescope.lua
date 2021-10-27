@@ -29,7 +29,7 @@ require('telescope').setup{
     path_display = {'truncate'},
     layout_strategy = "flex",
     borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-    -- winblend = 10, -- cursor disappears if I set winblend
+    -- winblend = 10, -- cursor disappears if I set winblend (only on alacritty)
     layout_config = {
       height = 0.9,
       width = 0.9,
@@ -47,8 +47,8 @@ require('telescope').setup{
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
 
-        ["<C-h>"] = actions.preview_scrolling_up,
-        ["<C-l>"] = actions.preview_scrolling_down,
+        ["<M-k>"] = actions.preview_scrolling_up,
+        ["<M-j>"] = actions.preview_scrolling_down,
 
         -- Send to quickfix
         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,

@@ -173,10 +173,10 @@ end
 
 cmp.setup({
   mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-h>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-l>'] = cmp.mapping.scroll_docs(4),
+    ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), {'i', 'c'}),
+    ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), {'i', 'c'}),
+    ['<M-k>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i', 'c'}),
+    ['<M-j>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i', 'c'}),
 
     -- Toggle completion menu with <C-Space>
     ['<C-Space>'] = cmp.mapping(function (fallback)
@@ -192,7 +192,7 @@ cmp.setup({
       end
     end),
 
-    ['<C-e>'] = cmp.mapping.close(),
+    ['<C-e>'] = cmp.mapping(cmp.mapping.close(), {'i', 'c'}),
 
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -244,6 +244,10 @@ cmp.setup({
     end
   },
 })
+
+-- cmp.setup.cmdline(':', {
+--   sources = cmp.config.sources({ { name = 'path' } }, { { name = 'cmdline' } })
+-- })
 
 
 -- autopairs support

@@ -41,6 +41,9 @@ return require('packer').startup({function()
   use 'hrsh7th/cmp-nvim-lua'
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-path'
+  -- use 'hrsh7th/cmp-cmdline'
+
+  -- Code icons
   use 'onsails/lspkind-nvim'
 
   -- Snippet support

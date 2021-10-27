@@ -36,8 +36,8 @@ vim.g.nvim_tree_icons = {
 require('nvim-tree').setup({
   update_cwd = true,
   update_focused_file = {
-    enable = true,
-    update_cwd = true
+    enable = false,
+    update_cwd = true,
   },
   auto_open = 1,
   hijack_cursor = true,
@@ -166,7 +166,8 @@ require('indent_blankline').setup({
     'alpha',
     'man',
     'TelescopePrompt',
-    'TelescopeResults'
+    'TelescopeResults',
+    'NeogitCommitView',
   },
   max_indent_increase = 10,
 })
