@@ -1,5 +1,6 @@
-data/*
+data/installables/*
 scrap/*
 sessions/*
 pains.md
 start_time*
+*__pycache__*

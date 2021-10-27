@@ -1,0 +1,122 @@
+{
+    "paths": {
+        "base": "data/installables/",
+        "go": "go",
+        "pip": "python/bin/",
+        "npm": "npm",
+        "github_repo": "github_repo",
+        "github_releases": "github_releases"
+    },
+
+    "installables": {
+        "jedi_language_server": {
+            "cmd": ["jedi-language-server"],
+            "install_method": {
+                "method": "pip",
+                "name": "jedi-language-server"
+            }
+        },
+        "pyright": {
+            "cmd": ["pyright-langserver", "--stdio"],
+            "install_method": {
+                "method": "npm",
+                "name": "pyright"
+            }
+        },
+        "dockerls": {
+            "cmd": ["docker-langserver", "--stdio"],
+            "install_method": {
+                "method": "npm",
+                "name": "dockerfile-language-server-nodejs"
+            }
+        },
+        "jsonls": {
+            "cmd": ["vscode-json-language-server"],
+            "install_method": {
+                "method": "npm",
+                "name": "vscode-langservers-extracted"
+            }
+        },
+        "sumneko_lua": {
+            "cmd": [
+                {
+                    "with_params": "extensions/server/bin/{os_param}/lua-language-server",
+                    "os_param": {
+                        "windows": "win64",
+                        "linux": "linux",
+                        "mac": "macos"
+                    }
+                },
+                "-E",
+                "extensions/server/main.lua"
+            ],
+            "install_method": {
+                "method": "github_releases",
+                "name": "JohnnyMorganz/StyLua/lua-*"
+            }
+        },
+        "flake8": {
+            "cmd": ["flake8"],
+            "install_method": {
+                "method": "pip",
+                "name": "flake8"
+            }
+        },
+        "mypy": {
+            "cmd": ["mypy"],
+            "install_method": {
+                "method": "pip",
+                "name": "mypy"
+            }
+        },
+        "pylint": {
+            "cmd": ["pylint"],
+            "install_method": {
+                "method": "pip",
+                "name": "pylint"
+            }
+        },
+        "black": {
+            "cmd": ["black"],
+            "install_method": {
+                "method": "pip",
+                "name": "black"
+            }
+        },
+        "isort": {
+            "cmd": ["isort"],
+            "install_method": {
+                "method": "pip",
+                "name": "isort"
+            }
+        },
+        "stylua": {
+            "cmd": ["stylua"],
+            "install_method": {
+                "method": "github_releases",
+                "name": {
+                    "with_params": "JohnnyMorganz/StyLua/{os_param}",
+                    "os_param": {
+                        "windows": "*win64*",
+                        "linux": "*linux*",
+                        "mac": "*macos*"
+                    }
+                }
+            }
+        }
+    },
+
+    "requirements": {
+        "required": [
+            "curl",
+            "git",
+            "go",
+            "pip3",
+            "npm"
+        ],
+        "optional": [
+            ["fd-find", "fd", "fdfind"],
+            "rg"
+        ]
+    }
+}
