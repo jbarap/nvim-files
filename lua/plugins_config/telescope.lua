@@ -5,6 +5,16 @@ local opts = { noremap = true, silent = true }
 
 local bind_picker = require('plugins_config.utils').bind_picker
 
+-- Helper functions for path_display
+local Path = require("plenary.path")
+local get_status = require("telescope.state").get_status
+
+local calc_result_length = function(truncate_len)
+  local status = get_status(vim.api.nvim_get_current_buf())
+  local len = vim.api.nvim_win_get_width(status.results_win) - status.picker.selection_caret:len() - 2
+  return type(truncate_len) == "number" and len - truncate_len or len
+end
+
 
 --       telescope setup
 -- ──────────────────────────────
@@ -23,10 +33,34 @@ require('telescope').setup{
       '--glob',
       '!*.git',
     },
-    -- path_display = {
-    --   shorten = 10
-    -- },
-    path_display = {'truncate'},
+    path_display = function (ctx, path)
+      local cwd
+      if ctx.cwd then
+        cwd = ctx.cwd
+        if not vim.in_fast_event() then
+          cwd = vim.fn.expand(ctx.cwd)
+        end
+      else
+        cwd = vim.loop.cwd()
+      end
+
+      if not ctx.__length then
+        ctx.__length = calc_result_length()
+      end
+
+      local name = require('telescope.utils').path_tail(path)
+      local directory = Path:new(path):parent():make_relative(cwd)
+
+      -- compensate for both parenthesis (2) and the space (1) characters
+      directory = require("plenary.strings").truncate(
+        directory,
+        math.max(ctx.__length - name:len() - 3, 0),
+        nil,
+        -1
+      )
+
+      return string.format("%s (%s)", name, directory)
+    end,
     layout_strategy = "flex",
     borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
     -- winblend = 10, -- cursor disappears if I set winblend (only on alacritty)
