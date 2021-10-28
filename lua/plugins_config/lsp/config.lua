@@ -215,6 +215,14 @@ cmp.setup({
         fallback()
       end
     end, {'i', 's'}),
+
+    ['<CR>'] = cmp.mapping(
+      cmp.mapping.confirm({
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = true,
+      },
+      {'i', 'c'})
+    )
   },
 
   sources = {
@@ -251,10 +259,6 @@ cmp.setup({
 
 
 -- autopairs support
-require("nvim-autopairs.completion.cmp").setup({
-  map_cr = true,
-  map_complete = true,
-  auto_select = false,
-  insert = false,
-})
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done())
 

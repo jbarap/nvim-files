@@ -1,15 +1,14 @@
--- setup 'require' improvements
-require('impatient')
+local modules = {
+  "impatient", -- setup 'require' improvements
+  "options", -- General options
+  "plugins_list", -- Load plugins
+  "keybinds", -- Load keybinds
+  "plugins_config", -- Load configuration
+}
 
--- General options
-require("options")
-
--- Load plugins
-require("plugins_list")
-
--- Load keybinds
-require("keybinds")
-
--- Load configuration
-require("plugins_config")
-
+for _, mod in ipairs(modules) do
+  local ok = pcall(require, mod)
+  if not ok then
+    vim.notify(string.format("Module '%s' failed to load", mod), vim.log.levels.ERROR)
+  end
+end
