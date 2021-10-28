@@ -1,4 +1,18 @@
 {
+    "requirements": {
+        "required": [
+            "curl",
+            "git",
+            "go",
+            "pip3",
+            "npm"
+        ],
+        "optional": [
+            ["fd-find", "fd", "fdfind"],
+            "rg"
+        ]
+    },
+
     "paths": {
         "base": "data/installables/",
         "go": "go",
@@ -104,19 +118,5 @@
                 }
             }
         }
-    },
-
-    "requirements": {
-        "required": [
-            "curl",
-            "git",
-            "go",
-            "pip3",
-            "npm"
-        ],
-        "optional": [
-            ["fd-find", "fd", "fdfind"],
-            "rg"
-        ]
     }
 }
