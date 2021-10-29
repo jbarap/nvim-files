@@ -7,18 +7,15 @@ import venv
 from argparse import ArgumentParser, Namespace
 from asyncio import run
 
-from deps import utils
+from deps import utils, paths
 from deps.installers import run_installers
-from deps.constants import CONFIG_PATH, JSON_PATH
-from deps.installables_spec import ParamInstallablesSpec
+from deps.typing import ParamInstallablesSpec
 
 
-with open(JSON_PATH) as f:
+with open(paths.JSON) as f:
     param_installables_data: ParamInstallablesSpec = json.load(f)
 
 installables_data = utils.resolve_parameters(param_installables_data)
-paths = installables_data['paths']
-INSTALLABLES_PATH = CONFIG_PATH / paths['base']
 
 
 def main(args: Namespace):
@@ -27,18 +24,21 @@ def main(args: Namespace):
         utils.assert_requirements(installables_data['requirements'])
 
         print("Creating directories...")
-        utils.assert_paths(paths, base_path=INSTALLABLES_PATH)
+        utils.assert_paths(
+            installables_data['paths']['install_methods'].values(),  # type: ignore
+            base_path=paths.INSTALLABLES
+        )
 
         print("Python venv: ", end="")
-        if not utils.is_exec(INSTALLABLES_PATH / paths['pip'] / "python3"):
+        if not utils.is_exec(paths.PYTHON):
             print("Creating...")
             env_builder = venv.EnvBuilder(with_pip=True)
-            env_builder.create(INSTALLABLES_PATH / "python")
+            env_builder.create(paths.PYTHON_BASE)
         else:
             print("Found!")
 
     elif args.command == 'install':
-        print("Installing: ", [i for i in installables_data["installables"]])
+        print("Installing: ", [i for i in installables_data['installables']])
         run(run_installers(installables_data))
 
     else:
@@ -48,11 +48,11 @@ def main(args: Namespace):
 if __name__ == '__main__':
     arg_parser = ArgumentParser()
 
-    subparsers = arg_parser.add_subparsers(dest="command")
+    subparsers = arg_parser.add_subparsers(dest='command')
 
-    subparsers.add_parser("setup")
-    subparsers.add_parser("install")
-    subparsers.add_parser("update")
+    subparsers.add_parser('setup')
+    subparsers.add_parser('install')
+    subparsers.add_parser('update')
 
     args = arg_parser.parse_args()
 

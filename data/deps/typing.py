@@ -7,17 +7,11 @@ class RequirementsSpec(TypedDict):
     optional: List[Union[str, List[str]]]
 
 
-# paths
-class PathSpec(TypedDict):
-    base: str
-    go: str
-    pip: str
-    npm: str
-    github_repo: str
-    github_releases: str
+# installable components
+InstallMethod = Literal['go', 'pip', 'npm', 'github_repo', 'github_releases']
 
 
-# installable components with params
+# with params
 class OSParam(TypedDict):
     windows: str
     linux: str
@@ -32,39 +26,45 @@ class Parameterized(TypedDict):
 Parameterizable = Union[str, Parameterized]
 
 
-class ParamInstallMethod(TypedDict):
-    method: Literal['go', 'pip', 'npm', 'github_repo', 'github_releases']
+class ParamInstallInfo(TypedDict):
+    method: InstallMethod
     name: Parameterizable
     version: Parameterizable
 
 
 class ParamInstallable(TypedDict):
     cmd: List[Parameterizable]
-    install_method: ParamInstallMethod
+    install_info: ParamInstallInfo
 
 
-# installable components without params
-class InstallMethod(TypedDict):
-    method: Literal['go', 'pip', 'npm', 'github_repo', 'github_releases']
+# without params
+class InstallInfo(TypedDict):
+    method: InstallMethod
     name: str
     version: str
 
 
 class Installable(TypedDict):
     cmd: List[str]
-    install_method: InstallMethod
+    install_info: InstallInfo
+
+
+# paths
+class PathSpec(TypedDict):
+    base: Dict[str, str]
+    install_methods: Dict[InstallMethod, str]
 
 
 # final spec with params
 class ParamInstallablesSpec(TypedDict):
-    paths: PathSpec
     requirements: RequirementsSpec
     installables: Dict[str, ParamInstallable]
+    paths: PathSpec
 
 
 # final spec
 class InstallablesSpec(TypedDict):
-    paths: PathSpec
     requirements: RequirementsSpec
     installables: Dict[str, Installable]
+    paths: PathSpec
 

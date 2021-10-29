@@ -13,40 +13,31 @@
         ]
     },
 
-    "paths": {
-        "base": "data/installables/",
-        "go": "go",
-        "pip": "python/bin/",
-        "npm": "npm",
-        "github_repo": "github_repo",
-        "github_releases": "github_releases"
-    },
-
     "installables": {
         "jedi_language_server": {
             "cmd": ["jedi-language-server"],
-            "install_method": {
+            "install_info": {
                 "method": "pip",
                 "name": "jedi-language-server"
             }
         },
         "pyright": {
             "cmd": ["pyright-langserver", "--stdio"],
-            "install_method": {
+            "install_info": {
                 "method": "npm",
                 "name": "pyright"
             }
         },
         "dockerls": {
             "cmd": ["docker-langserver", "--stdio"],
-            "install_method": {
+            "install_info": {
                 "method": "npm",
                 "name": "dockerfile-language-server-nodejs"
             }
         },
         "jsonls": {
             "cmd": ["vscode-json-language-server"],
-            "install_method": {
+            "install_info": {
                 "method": "npm",
                 "name": "vscode-langservers-extracted"
             }
@@ -64,49 +55,49 @@
                 "-E",
                 "extensions/server/main.lua"
             ],
-            "install_method": {
+            "install_info": {
                 "method": "github_releases",
                 "name": "JohnnyMorganz/StyLua/lua-*"
             }
         },
         "flake8": {
             "cmd": ["flake8"],
-            "install_method": {
+            "install_info": {
                 "method": "pip",
                 "name": "flake8"
             }
         },
         "mypy": {
             "cmd": ["mypy"],
-            "install_method": {
+            "install_info": {
                 "method": "pip",
                 "name": "mypy"
             }
         },
         "pylint": {
             "cmd": ["pylint"],
-            "install_method": {
+            "install_info": {
                 "method": "pip",
                 "name": "pylint"
             }
         },
         "black": {
             "cmd": ["black"],
-            "install_method": {
+            "install_info": {
                 "method": "pip",
                 "name": "black"
             }
         },
         "isort": {
             "cmd": ["isort"],
-            "install_method": {
+            "install_info": {
                 "method": "pip",
                 "name": "isort"
             }
         },
         "stylua": {
             "cmd": ["stylua"],
-            "install_method": {
+            "install_info": {
                 "method": "github_releases",
                 "name": {
                     "with_params": "JohnnyMorganz/StyLua/{os_param}",
@@ -117,6 +108,19 @@
                     }
                 }
             }
+        }
+    },
+
+    "paths": {
+        "base": {
+            "installables": "data/installables/"
+        },
+        "install_methods": {
+            "go": "go",
+            "pip": "python",
+            "npm": "npm",
+            "github_repo": "github_repo",
+            "github_releases": "github_releases"
         }
     }
 }
