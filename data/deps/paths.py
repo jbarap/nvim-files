@@ -25,3 +25,5 @@ GO_BINS = GO_BASE / "bin"
 
 NPM_BASE = INSTALLABLES / paths['install_methods']['npm']
 NPM_BINS = NPM_BASE / "node_modules" / ".bin"
+
+GITHUB_RELEASES_BASE = INSTALLABLES / paths['install_methods']['github_releases']

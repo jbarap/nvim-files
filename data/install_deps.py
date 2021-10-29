@@ -38,7 +38,6 @@ def main(args: Namespace):
             print("Found!")
 
     elif args.command == 'install':
-        print("Installing: ", [i for i in installables_data['installables']])
         run(run_installers(installables_data))
 
     else:
