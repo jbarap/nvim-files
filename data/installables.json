@@ -45,11 +45,11 @@
         "sumneko_lua": {
             "cmd": [
                 {
-                    "with_params": "extensions/server/bin/{os_param}/lua-language-server",
+                    "with_params": "extension/server/bin/{os_param}/lua-language-server",
                     "os_param": {
-                        "windows": "win64",
-                        "linux": "linux",
-                        "mac": "macos"
+                        "windows": "Windows",
+                        "linux": "Linux",
+                        "mac": "macOS"
                     }
                 },
                 "-E",
@@ -57,7 +57,7 @@
             ],
             "install_info": {
                 "method": "github_releases",
-                "name": "JohnnyMorganz/StyLua/lua-*"
+                "name": "sumneko/vscode-lua/lua-"
             }
         },
         "flake8": {
@@ -102,9 +102,9 @@
                 "name": {
                     "with_params": "JohnnyMorganz/StyLua/{os_param}",
                     "os_param": {
-                        "windows": "*win64*",
-                        "linux": "*linux*",
-                        "mac": "*macos*"
+                        "windows": "win64",
+                        "linux": "linux",
+                        "mac": "macos"
                     }
                 }
             }
