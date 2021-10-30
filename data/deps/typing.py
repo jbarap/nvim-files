@@ -1,4 +1,8 @@
-from typing import Dict, List, Literal, TypedDict, Union
+from pathlib import Path
+from typing import Dict, List, Literal, TypedDict, Union, TypeVar
+
+
+TPathLike = TypeVar('TPathLike', str, Path)
 
 
 # requirements

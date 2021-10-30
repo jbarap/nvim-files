@@ -2,7 +2,7 @@ import os
 import sys
 import shutil
 from pathlib import Path
-from typing import List, Optional, Union, TypeVar, Dict
+from typing import List, Optional, Union, Dict
 
 from deps.typing import (
     InstallMethod,
@@ -10,10 +10,8 @@ from deps.typing import (
     Installable,
     ParamInstallablesSpec,
     RequirementsSpec,
+    TPathLike
 )
-
-
-TPathLike = TypeVar('TPathLike', str, Path)
 
 
 def is_exec(path: Union[TPathLike, List[TPathLike]]) -> bool:
@@ -108,3 +106,9 @@ def resolve_parameters(data: ParamInstallablesSpec) -> InstallablesSpec:
 
     return _resolve(data)  # type: ignore
 
+
+def box_print(text: str, box_char: str = '-'):
+    term_width = shutil.get_terminal_size().columns
+    print(box_char * term_width)
+    print(text)
+    print(box_char * term_width)
