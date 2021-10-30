@@ -138,11 +138,14 @@ local server_names = {
 }
 
 -- register pyright if the config file exists, otherwise use jedi_language_server
-if lsputil.path.exists(lsputil.path.join(cwd, "pyrightconfig.json")) then
-  table.insert(server_names, 'pyright')
-else
-  table.insert(server_names, 'jedi_language_server')
-end
+-- if lsputil.path.exists(lsputil.path.join(cwd, "pyrightconfig.json")) then
+--   table.insert(server_names, 'pyright')
+-- else
+--   table.insert(server_names, 'jedi_language_server')
+-- end
+
+-- NOTE: For now I'm testing out pyright only
+table.insert(server_names, 'pyright')
 
 -- common language server options
 local common_lang_options = {
@@ -219,7 +222,7 @@ cmp.setup({
     ['<CR>'] = cmp.mapping(
       cmp.mapping.confirm({
         behavior = cmp.ConfirmBehavior.Replace,
-        select = true,
+        select = false,
       },
       {'i', 'c'})
     )
@@ -260,5 +263,5 @@ cmp.setup({
 
 -- autopairs support
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done())
+cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
 
