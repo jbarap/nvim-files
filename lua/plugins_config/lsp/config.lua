@@ -1,44 +1,47 @@
-local language_servers = require('plugins_config.lsp.servers')
+local language_servers = require("plugins_config.lsp.servers")
 
-local opts = {noremap=true, silent=true}
-local aerial = require('aerial')
-
+local opts = { noremap = true, silent = true }
+local aerial = require("aerial")
 
 --           on attach
 -- ──────────────────────────────
 local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  local function buf_set_keymap(...)
+    vim.api.nvim_buf_set_keymap(bufnr, ...)
+  end
+  local function buf_set_option(...)
+    vim.api.nvim_buf_set_option(bufnr, ...)
+  end
 
   -- Aerial window
   aerial.on_attach(client)
-  vim.api.nvim_buf_set_keymap(0, 'n', '<leader>a', '<cmd>AerialToggle<CR>', {})
+  vim.api.nvim_buf_set_keymap(0, "n", "<leader>a", "<cmd>AerialToggle<CR>", {})
 
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
   -- Get/Go
   -- See telescope for definition and references
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+  buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+  buf_set_keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
 
   -- Information
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+  buf_set_keymap("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 
   -- Workspace
-  buf_set_keymap('n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<Leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap("n", "<Leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
+  buf_set_keymap("n", "<Leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
+  buf_set_keymap("n", "<Leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
 
   -- Code actions
-  buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  buf_set_keymap("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 
   -- Diagnostics
-  buf_set_keymap('n', '<Leader>cdl', "<cmd>lua vim.diagnostic.open_float(0, {scope='line'})<CR>", opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap("n", "<Leader>cdl", "<cmd>lua vim.diagnostic.open_float(0, {scope='line'})<CR>", opts)
+  buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+  buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 
   -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then
@@ -49,50 +52,35 @@ local on_attach = function(client, bufnr)
 
   -- Telescope LSP
   local function buf_bind_picker(...)
-    require('plugins_config.utils').buf_bind_picker(bufnr, ...)
+    require("plugins_config.utils").buf_bind_picker(bufnr, ...)
   end
-  buf_bind_picker('<Leader>fs', 'lsp_document_symbols')
-  buf_bind_picker('<Leader>fS', 'lsp_workspace_symbols')
-  buf_bind_picker('<Leader>fd', 'lsp_document_diagnostics')
-  buf_bind_picker('<Leader>fD', 'lsp_workspace_diagnostics')
-  buf_bind_picker('gd', 'lsp_definitions')
-  buf_bind_picker('gr', 'lsp_references')
-
+  buf_bind_picker("<Leader>fs", "lsp_document_symbols")
+  buf_bind_picker("<Leader>fS", "lsp_workspace_symbols")
+  buf_bind_picker("<Leader>fd", "lsp_document_diagnostics")
+  buf_bind_picker("<Leader>fD", "lsp_workspace_diagnostics")
+  buf_bind_picker("gd", "lsp_definitions")
+  buf_bind_picker("gr", "lsp_references")
 end
-
 
 --           handlers
 -- ──────────────────────────────
-vim.lsp.handlers["textDocument/hover"] =
-  vim.lsp.with(
-    vim.lsp.handlers.hover,
-    {
-      border = "rounded"
-    }
-  )
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = "rounded",
+})
 
-vim.lsp.handlers["textDocument/signatureHelp"] =
-  vim.lsp.with(
-    vim.lsp.handlers.signature_help,
-    {
-     border = "rounded"
-    }
-  )
-
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+  border = "rounded",
+})
 
 --          diagnostics
 -- ──────────────────────────────
-vim.fn.sign_define('DiagnosticSignError',
-  { text = '☓', texthl = 'DiagnosticSignError' })
+vim.fn.sign_define("DiagnosticSignError", { text = "☓", texthl = "DiagnosticSignError" })
 
-vim.fn.sign_define('DiagnosticSignWarn',
-  { text = '❕', texthl = 'DiagnosticSignWarn' })  -- renders badly on alacritty
+vim.fn.sign_define("DiagnosticSignWarn", { text = "❕", texthl = "DiagnosticSignWarn" }) -- renders badly on alacritty
 
-vim.fn.sign_define('DiagnosticSignInfo',
-  { text = 'ℹ', texthl = 'DiagnosticSignInfo' })
+vim.fn.sign_define("DiagnosticSignInfo", { text = "ℹ", texthl = "DiagnosticSignInfo" })
 
-vim.fn.sign_define('DiagnosticSignHint',
-  { text = '', texthl = 'DiagnosticSignHint' })
+vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
 
 vim.diagnostic.config({
   underline = true,
@@ -102,39 +90,35 @@ vim.diagnostic.config({
   severity_sort = false,
   float = {
     show_header = true,
-    border = 'rounded',
-    format = function (diagnostic)
+    border = "rounded",
+    format = function(diagnostic)
       return string.format("%s (%s)", diagnostic.message, diagnostic.source)
     end,
   },
 })
 
-
 --        language servers
 -- ──────────────────────────────
 -- additional capabilities for autocompletion with nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(
-  capabilities,
-  {
-    snippetSupport = true,
-  }
-)
+capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities, {
+  snippetSupport = true,
+})
 
 -- obtain the cwd for conditional registering
 local lsputil = require("lspconfig.util")
 local cwd = vim.loop.cwd()
-local project_nvim = require('project_nvim.project')
+local project_nvim = require("project_nvim.project")
 if project_nvim ~= nil then
   cwd = project_nvim.find_pattern_root() or vim.loop.cwd()
 end
 
 -- Language servers to register
 local server_names = {
-  'null-ls',
-  'sumneko_lua',
-  'dockerls',
-  'jsonls',
+  "null-ls",
+  "sumneko_lua",
+  "dockerls",
+  "jsonls",
 }
 
 -- register pyright if the config file exists, otherwise use jedi_language_server
@@ -144,13 +128,13 @@ local server_names = {
 --   table.insert(server_names, 'jedi_language_server')
 -- end
 -- NOTE: For now I'm testing out pyright only
-table.insert(server_names, 'pyright')
+table.insert(server_names, "pyright")
 
 -- common language server options
 local common_lang_options = {
   on_attach = on_attach,
   capabilities = capabilities,
-  root_dir = require('project_nvim.project').find_pattern_root,
+  root_dir = require("project_nvim.project").find_pattern_root,
   flags = {
     debounce_text_changes = 200,
   },
@@ -159,12 +143,11 @@ local common_lang_options = {
 -- Register servers
 language_servers.register(server_names, common_lang_options)
 
-
 --            nvim-cmp
 -- ──────────────────────────────
 vim.o.completeopt = "menuone,noselect"
 
-local cmp = require('cmp')
+local cmp = require("cmp")
 local luasnip = require("luasnip")
 
 -- luasnip supertab helper
@@ -175,13 +158,13 @@ end
 
 cmp.setup({
   mapping = {
-    ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), {'i', 'c'}),
-    ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), {'i', 'c'}),
-    ['<M-k>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i', 'c'}),
-    ['<M-j>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i', 'c'}),
+    ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+    ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
+    ["<M-k>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+    ["<M-j>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
 
     -- Toggle completion menu with <C-Space>
-    ['<C-Space>'] = cmp.mapping(function (fallback)
+    ["<C-Space>"] = cmp.mapping(function(fallback)
       local action
       if not cmp.visible() then
         action = cmp.complete
@@ -194,9 +177,9 @@ cmp.setup({
       end
     end),
 
-    ['<C-e>'] = cmp.mapping(cmp.mapping.close(), {'i', 'c'}),
+    ["<C-e>"] = cmp.mapping(cmp.mapping.close(), { "i", "c" }),
 
-    ['<Tab>'] = cmp.mapping(function(fallback)
+    ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
@@ -206,9 +189,12 @@ cmp.setup({
       else
         fallback()
       end
-    end, {'i', 's'}),
+    end, {
+      "i",
+      "s",
+    }),
 
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
@@ -216,46 +202,51 @@ cmp.setup({
       else
         fallback()
       end
-    end, {'i', 's'}),
+    end, {
+      "i",
+      "s",
+    }),
 
-    ['<CR>'] = cmp.mapping(
-      cmp.mapping.confirm({
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = false,
-      },
-      {'i', 'c'})
-    )
+    ["<CR>"] = cmp.mapping(cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = false,
+    }, {
+      "i",
+      "c",
+    })),
   },
 
   sources = {
-    {name = "nvim_lua"},
-    {name = 'nvim_lsp'},
-    {name = 'luasnip'},
-    {name = 'path'},
-    {name = 'buffer', keyword_length = 5, max_item_count = 20},
+    { name = "nvim_lua" },
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
+    { name = "path" },
+    { name = "buffer", keyword_length = 5, max_item_count = 20 },
   },
 
   formatting = {
-    format = require('lspkind').cmp_format({with_text = false, menu = ({
-      nvim_lsp = '()',
-      buffer = '()',
-      path = '(/)',
-      nvim_lua = '()',
-    })}),
+    format = require("lspkind").cmp_format({
+      with_text = false,
+      menu = {
+        nvim_lsp = "()",
+        buffer = "()",
+        path = "(/)",
+        nvim_lua = "()",
+      },
+    }),
   },
 
   documentation = {
-    border = 'rounded',
+    border = "rounded",
   },
 
   snippet = {
     expand = function(args)
-      require'luasnip'.lsp_expand(args.body)
-    end
+      require("luasnip").lsp_expand(args.body)
+    end,
   },
 })
 
 -- autopairs support
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
-
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = "" } }))

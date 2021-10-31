@@ -1,9 +1,9 @@
-local actions = require('telescope.actions')
+local actions = require("telescope.actions")
 
 local bind = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
-local bind_picker = require('plugins_config.utils').bind_picker
+local bind_picker = require("plugins_config.utils").bind_picker
 
 -- Helper functions for path_display
 local Path = require("plenary.path")
@@ -15,25 +15,24 @@ local calc_result_length = function(truncate_len)
   return type(truncate_len) == "number" and len - truncate_len or len
 end
 
-
 --       telescope setup
 -- ──────────────────────────────
-require('telescope').setup{
+require("telescope").setup({
   defaults = {
     vimgrep_arguments = {
-      'rg',
-      '--color=never',
-      '--column',
-      '--line-number',
-      '--no-heading',
-      '--smart-case',
-      '--with-filename',
-      '--hidden',
-      '--no-ignore',
-      '--glob',
-      '!*.git',
+      "rg",
+      "--color=never",
+      "--column",
+      "--line-number",
+      "--no-heading",
+      "--smart-case",
+      "--with-filename",
+      "--hidden",
+      "--no-ignore",
+      "--glob",
+      "!*.git",
     },
-    path_display = function (ctx, path)
+    path_display = function(ctx, path)
       local cwd
       if ctx.cwd then
         cwd = ctx.cwd
@@ -48,16 +47,11 @@ require('telescope').setup{
         ctx.__length = calc_result_length()
       end
 
-      local name = require('telescope.utils').path_tail(path)
+      local name = require("telescope.utils").path_tail(path)
       local directory = Path:new(path):parent():make_relative(cwd)
 
       -- compensate for both parenthesis (2) and the space (1) characters
-      directory = require("plenary.strings").truncate(
-        directory,
-        math.max(ctx.__length - name:len() - 3, 0),
-        nil,
-        -1
-      )
+      directory = require("plenary.strings").truncate(directory, math.max(ctx.__length - name:len() - 3, 0), nil, -1)
 
       return string.format("%s (%s)", name, directory)
     end,
@@ -104,31 +98,31 @@ require('telescope').setup{
       override_generic_sorter = false,
       override_file_sorter = true,
       case_mode = "smart_case",
-    }
-  }
-}
+    },
+  },
+})
 
-require('telescope').load_extension('fzf')
-require('telescope').load_extension('projects')
+require("telescope").load_extension("fzf")
+require("telescope").load_extension("projects")
 
-bind('n', '<Leader>pp', ':Telescope projects<CR>', opts)
+bind("n", "<Leader>pp", ":Telescope projects<CR>", opts)
 
-local find_command = "{'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '{.git,.mypy_cache,__pycache__}'}"
+local find_command =
+  "{'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '{.git,.mypy_cache,__pycache__}'}"
 bind(
-  'n',
+  "n",
   "<Leader>fa",
   ":lua require('telescope.builtin').find_files({ find_command =  " .. find_command .. "}) <CR>",
   opts
 )
 
-bind_picker('<Leader>ff', 'find_files')
-bind_picker('<Leader>fg', 'live_grep')
-bind('n', '<Leader>f<C-g>', ":lua require('plugins_config.utils').rg_dir()<CR>", opts)
-bind_picker('<Leader>fh', 'help_tags')
-bind_picker('<Leader>ft', 'treesitter')
-bind_picker('<Leader>fq', 'quickfix')
-bind_picker('<Leader>fb', 'buffers')
-bind_picker('<Leader>f<c-b>', 'file_browser')
+bind_picker("<Leader>ff", "find_files")
+bind_picker("<Leader>fg", "live_grep")
+bind("n", "<Leader>f<C-g>", ":lua require('plugins_config.utils').rg_dir()<CR>", opts)
+bind_picker("<Leader>fh", "help_tags")
+bind_picker("<Leader>ft", "treesitter")
+bind_picker("<Leader>fq", "quickfix")
+bind_picker("<Leader>fb", "buffers")
+bind_picker("<Leader>f<c-b>", "file_browser")
 
-bind_picker('<M-x>', 'commands')
-
+bind_picker("<M-x>", "commands")

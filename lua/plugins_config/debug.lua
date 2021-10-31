@@ -5,7 +5,7 @@ M = {}
 
 --        nvim-dap
 -- ──────────────────────────────
-local dap = require('dap')
+local dap = require("dap")
 bind("n", "<Leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", opts)
 bind("n", "<Leader>dc", ":lua require'dap'.continue()<CR>", opts)
 bind("n", "<Leader>dj", ":lua require'dap'.step_over()<CR>", opts)
@@ -15,27 +15,27 @@ bind("n", "<Leader>dr", ":lua require'dap'.repl.open()<CR>", opts)
 bind("n", "<Leader>ds", ":lua require'dap'.close()<CR>:lua require('dapui').close()<CR>", opts)
 
 vim.cmd("au FileType dap-repl lua require('dap.ext.autocompl').attach()")
-vim.fn.sign_define('DapBreakpoint', {text='🔺', texthl='', linehl='', numhl=''})
+vim.fn.sign_define("DapBreakpoint", { text = "🔺", texthl = "", linehl = "", numhl = "" })
 
 -- nvim-dap convenience functions
 function M.pick_process()
-  local output = vim.fn.system({'ps', 'a'})
-  local lines = vim.split(output, '\n')
+  local output = vim.fn.system({ "ps", "a" })
+  local lines = vim.split(output, "\n")
   local procs = {}
   for _, line in pairs(lines) do
     -- output format
     --    " 107021 pts/4    Ss     0:00 /bin/zsh <args>"
-    local parts = vim.fn.split(vim.fn.trim(line), ' \\+')
+    local parts = vim.fn.split(vim.fn.trim(line), " \\+")
     local pid = parts[1]
-    local name = table.concat({unpack(parts, 5)}, ' ')
-    if pid and pid ~= 'PID' then
+    local name = table.concat({ unpack(parts, 5) }, " ")
+    if pid and pid ~= "PID" then
       pid = tonumber(pid)
       if pid ~= vim.fn.getpid() then
         table.insert(procs, { pid = tonumber(pid), name = name })
       end
     end
   end
-  local choices = {'Select process'}
+  local choices = { "Select process" }
   for i, proc in ipairs(procs) do
     table.insert(choices, string.format("%d: pid=%d name=%s", i, proc.pid, proc.name))
   end
@@ -49,54 +49,53 @@ end
 --          adapters
 -- ──────────────────────────────
 dap.adapters.python_launch = {
-  type = 'executable',
-  command = vim.fn.expand('python3'),
-  args = {'-m', 'debugpy.adapter'}
+  type = "executable",
+  command = vim.fn.expand("python3"),
+  args = { "-m", "debugpy.adapter" },
 }
 dap.adapters.python_attach = {
-  type = 'server',
-  host = '127.0.0.1',
-  port = '5678',
+  type = "server",
+  host = "127.0.0.1",
+  port = "5678",
 }
 
 --          configs
 -- ──────────────────────────────
 dap.configurations.python = {
   {
-    name = 'Launch script',
-    type = 'python_launch',
-    request = 'launch',
-    program = '${file}',
-    cwd = '${workspaceFolder}',
-    pythonPath = 'python3',
+    name = "Launch script",
+    type = "python_launch",
+    request = "launch",
+    program = "${file}",
+    cwd = "${workspaceFolder}",
+    pythonPath = "python3",
   },
   {
-    name = 'Launch module',
-    type = 'python_launch',
-    request = 'launch',
-    cwd = '${workspaceFolder}',
-    module = function ()
-      return vim.fn.input('Module name: ')
+    name = "Launch module",
+    type = "python_launch",
+    request = "launch",
+    cwd = "${workspaceFolder}",
+    module = function()
+      return vim.fn.input("Module name: ")
     end,
-    pythonPath = 'python3',
+    pythonPath = "python3",
   },
   {
-    name = 'Attach',
-    type = 'python_attach',
-    request = 'attach',
+    name = "Attach",
+    type = "python_attach",
+    request = "attach",
   },
 }
-
 
 --          dapui
 -- ──────────────────────────────
 require("dapui").setup({
   icons = {
     expanded = "",
-    collapsed = ""
+    collapsed = "",
   },
   mappings = {
-    expand = {"<CR>", "<2-LeftMouse>"},
+    expand = { "<CR>", "<2-LeftMouse>" },
     open = "o",
     remove = "d",
     edit = "e",
@@ -107,23 +106,22 @@ require("dapui").setup({
       "scopes",
       "breakpoints",
       "stacks",
-      "watches"
+      "watches",
     },
     size = 40,
-    position = "left" -- Can be "left" or "right"
+    position = "left", -- Can be "left" or "right"
   },
   tray = {
     elements = {
-      "repl"
+      "repl",
     },
     size = 10,
-    position = "bottom" -- Can be "bottom" or "top"
+    position = "bottom", -- Can be "bottom" or "top"
   },
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.
-    max_width = nil   -- Floats will be treated as percentage of your screen.
-  }
+    max_width = nil, -- Floats will be treated as percentage of your screen.
+  },
 })
 
 return M
-

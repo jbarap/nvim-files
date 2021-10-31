@@ -1,4 +1,4 @@
-local utils = require('utils')
+local utils = require("utils")
 local Highlight = utils.Highlight
 
 ---- dark color palette
@@ -8,7 +8,6 @@ local almost_dark = "#151515"
 local mid_dark = "#191919"
 local light_dark = "#202020"
 local lighter_dark = "#252525"
-
 
 --            neovim
 -- ──────────────────────────────
@@ -67,7 +66,6 @@ Highlight("DiagnosticVirtualTextHint"):set("guibg", mid_dark)
 -- Others
 Highlight("VertSplit"):set("guifg", light_dark)
 
-
 --            plugins
 -- ──────────────────────────────
 
@@ -101,4 +99,3 @@ Highlight("NvimTreeEndOfBuffer"):set("guibg", almost_dark):set("guifg", almost_d
 -- Nvim cmp
 Highlight("CmpItemMenu"):set("guibg", light_dark):set("guifg", "#c9c9c9")
 Highlight("CmpItemAbbr"):set("guibg", light_dark):set("guifg", "#939393")
-

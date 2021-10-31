@@ -36,10 +36,10 @@ opt.autoread = true
 opt.laststatus = 2
 
 -- Indent
-opt.tabstop = 4  -- visual spaces that a tab represents
-opt.softtabstop = 4  -- editing spaces that a tab (and its backspace) represent
-opt.shiftwidth = 4  -- spaces used in autoindent (<< and >>)
-opt.expandtab = true  -- turn spaces into tabs?
+opt.tabstop = 4 -- visual spaces that a tab represents
+opt.softtabstop = 4 -- editing spaces that a tab (and its backspace) represent
+opt.shiftwidth = 4 -- spaces used in autoindent (<< and >>)
+opt.expandtab = true -- turn spaces into tabs?
 opt.autoindent = true
 opt.smartindent = true
 
@@ -70,7 +70,7 @@ opt.sidescrolloff = 4
 -- Fillchars
 opt.fillchars = "diff:╱"
 opt.list = true
-opt.listchars = {tab = "  "}
+opt.listchars = { tab = "  " }
 
 -- Jumplist
 opt.jumpoptions = "stack"
@@ -86,16 +86,12 @@ opt.diffopt = "filler,vertical,closeoff,internal,indent-heuristic,algorithm:pati
 -- Folds
 function _G.custom_fold_expr()
   local line = vim.fn.getline(vim.v.foldstart)
-  local sub = vim.fn.substitute(line, [[/*|*/|{{{\d=]], '', 'g')
-  return sub .. ' (' .. tostring(vim.v.foldend - vim.v.foldstart) .. ' lines)'
+  local sub = vim.fn.substitute(line, [[/*|*/|{{{\d=]], "", "g")
+  return sub .. " (" .. tostring(vim.v.foldend - vim.v.foldstart) .. " lines)"
 end
 opt.foldtext = "v:lua.custom_fold_expr()"
 
 -- Highlight text on yank
-utils.create_augroup(
-  "highlight_on_yank",
-  {
-    { "TextYankPost", "*", "silent!", "lua vim.highlight.on_yank()" },
-  }
-)
-
+utils.create_augroup("highlight_on_yank", {
+  { "TextYankPost", "*", "silent!", "lua vim.highlight.on_yank()" },
+})

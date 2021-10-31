@@ -1,31 +1,35 @@
-local utils = require('utils')
+local utils = require("utils")
 
-local null_ls = require('null-ls')
-local null_helpers = require('null-ls.helpers')
+local null_ls = require("null-ls")
+local null_helpers = require("null-ls.helpers")
 
-local paths = require('plugins_config.paths')
+local paths = require("plugins_config.paths")
 
 local function get_string_cmd(installable_name)
   return table.concat(paths.get_cmd(installable_name), " ")
 end
-
 
 --           sources
 -- ──────────────────────────────
 local pylint = {
   name = "pylint",
   method = null_ls.methods.DIAGNOSTICS,
-  filetypes = {'python'},
+  filetypes = { "python" },
   generator = null_helpers.generator_factory({
     command = get_string_cmd("pylint"),
     to_stdin = true,
     from_stderr = true,
     args = {
-      "--output-format", "text",
-      "--score", "no",
-      "--disable", "import-error,line-too-long",
-      "--msg-template", [["{line}:{column}:{msg_id}:{msg}:{symbol}"]],
-      "--from-stdin", "$FILENAME"
+      "--output-format",
+      "text",
+      "--score",
+      "no",
+      "--disable",
+      "import-error,line-too-long",
+      "--msg-template",
+      [["{line}:{column}:{msg_id}:{msg}:{symbol}"]],
+      "--from-stdin",
+      "$FILENAME",
     },
     format = "line",
     check_exit_code = function(code)
@@ -39,14 +43,14 @@ local pylint = {
       end
 
       local end_col = col
-      local severity = null_helpers.diagnostics.severities['error']
+      local severity = null_helpers.diagnostics.severities["error"]
 
       if vim.startswith(code, "E") or vim.startswith(code, "F") then
-        severity = null_helpers.diagnostics.severities['error']
+        severity = null_helpers.diagnostics.severities["error"]
       elseif vim.startswith(code, "W") then
-        severity = null_helpers.diagnostics.severities['warning']
+        severity = null_helpers.diagnostics.severities["warning"]
       else
-        severity = null_helpers.diagnostics.severities['information']
+        severity = null_helpers.diagnostics.severities["information"]
       end
 
       return {
@@ -59,19 +63,19 @@ local pylint = {
         source = "pylint",
       }
     end,
-  })
+  }),
 }
 
 local mypy = {
   name = "mypy",
   method = null_ls.methods.DIAGNOSTICS,
-  filetypes = {'python'},
+  filetypes = { "python" },
   generator = null_helpers.generator_factory({
     command = get_string_cmd("mypy"),
     to_stdin = true,
     from_stderr = true,
     to_temp_file = true,
-    args = function (params)
+    args = function(params)
       return {
         "--hide-error-context",
         "--show-column-numbers",
@@ -99,7 +103,7 @@ local mypy = {
         return nil
       end
 
-      local severity = null_helpers.diagnostics.severities['information']
+      local severity = null_helpers.diagnostics.severities["information"]
 
       return {
         message = message,
@@ -111,26 +115,26 @@ local mypy = {
         source = "mypy",
       }
     end,
-  })
+  }),
 }
 
 local flake8 = {
   name = "flake8",
   method = null_ls.methods.DIAGNOSTICS,
-  filetypes = {'python'},
+  filetypes = { "python" },
   generator = null_helpers.generator_factory({
     command = utils.get_python_executable("flake8"),
     to_stdin = true,
     from_stderr = true,
     -- ignoring E203 due to false positives on list slicing
-    args = { "--stdin-display-name", "$FILENAME", "-", "--ignore=E203"},
+    args = { "--stdin-display-name", "$FILENAME", "-", "--ignore=E203" },
     format = "line",
     check_exit_code = function(code)
       return code == 0 or code == 255
     end,
     on_output = function(line, params)
       local row, col, message = line:match(":(%d+):(%d+): (.*)")
-      local severity = null_helpers.diagnostics.severities['error']
+      local severity = null_helpers.diagnostics.severities["error"]
       -- local code = string.match(message, "[EFWCND]%d+")
       local code = string.match(message, "%u%d+")
 
@@ -141,11 +145,11 @@ local flake8 = {
       end
 
       if vim.startswith(code, "E") then
-          severity = null_helpers.diagnostics.severities['error']
+        severity = null_helpers.diagnostics.severities["error"]
       elseif vim.startswith(code, "W") then
-          severity = null_helpers.diagnostics.severities['warning']
+        severity = null_helpers.diagnostics.severities["warning"]
       else
-          severity = null_helpers.diagnostics.severities['information']
+        severity = null_helpers.diagnostics.severities["information"]
       end
 
       return {
@@ -158,13 +162,13 @@ local flake8 = {
         source = "flake8",
       }
     end,
-  })
+  }),
 }
 
 local cfn_lint = {
   name = "cfn_lint",
   method = null_ls.methods.DIAGNOSTICS,
-  filetypes = {'yaml'},
+  filetypes = { "yaml" },
   generator = null_helpers.generator_factory({
     command = utils.get_python_executable("cfn-lint"),
     to_stdin = true,
@@ -176,18 +180,18 @@ local cfn_lint = {
     end,
     on_output = function(line, params)
       local row, col, end_row, end_col, code, message = line:match(":(%d+):(%d+):(%d+):(%d+):(.*):(.*)")
-      local severity = null_helpers.diagnostics.severities['error']
+      local severity = null_helpers.diagnostics.severities["error"]
 
       if message == nil then
         return nil
       end
 
       if vim.startswith(code, "E") then
-          severity = null_helpers.diagnostics.severities['error']
+        severity = null_helpers.diagnostics.severities["error"]
       elseif vim.startswith(code, "W") then
-          severity = null_helpers.diagnostics.severities['warning']
+        severity = null_helpers.diagnostics.severities["warning"]
       else
-          severity = null_helpers.diagnostics.severities['information']
+        severity = null_helpers.diagnostics.severities["information"]
       end
 
       return {
@@ -201,7 +205,7 @@ local cfn_lint = {
         source = "cfn-lint",
       }
     end,
-  })
+  }),
 }
 
 --         null-ls config
@@ -231,7 +235,7 @@ null_ls.config({
     ---- Fixers
     null_ls.builtins.formatting.black.with({
       command = get_string_cmd("black"),
-      args = {"--quiet", "--fast", "--skip-string-normalization", "-"}
+      args = { "--quiet", "--fast", "--skip-string-normalization", "-" },
     }),
 
     null_ls.builtins.formatting.isort.with({
@@ -243,4 +247,3 @@ null_ls.config({
   },
   debug = false,
 })
-

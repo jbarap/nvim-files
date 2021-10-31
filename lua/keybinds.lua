@@ -4,7 +4,6 @@ local opts = { noremap = true, silent = true }
 -- Set mapleader to space
 vim.g.mapleader = " "
 
-
 --        general mappings
 -- ──────────────────────────────
 -- Exit insert mode
@@ -15,7 +14,7 @@ bind("i", "JK", "<ESC>", opts)
 bind("t", "<Esc>", "<C-\\><C-n>", opts)
 
 -- Redo with U
-bind("n", "U", "<C-r>", {silent = true})
+bind("n", "U", "<C-r>", { silent = true })
 
 -- Paste to clipboard
 bind("v", "<Leader>y", '"+y', opts)
@@ -84,10 +83,10 @@ bind("v", "<C-j>", ":m '>+1<CR>gv=gv", { noremap = true })
 bind("v", "<C-k>", ":m '<-2<CR>gv=gv", { noremap = true })
 
 -- Center screen on cursor move
-bind("n", "<C-o>", "<C-o>zz", {silent = true})
-bind("n", "<C-i>", "<C-i>zz", {silent = true})
-bind("n", "n", "nzz", {silent = true})
-bind("n", "N", "Nzz", {silent = true})
+bind("n", "<C-o>", "<C-o>zz", { silent = true })
+bind("n", "<C-i>", "<C-i>zz", { silent = true })
+bind("n", "n", "nzz", { silent = true })
+bind("n", "N", "Nzz", { silent = true })
 
 -- <BS> in select mode will enter insert mode
 bind("s", "<BS>", "<BS>i", opts)
@@ -110,4 +109,3 @@ bind("v", "<S-l>", "$", opts)
 
 -- Convenience mappings for <C-^>
 bind("n", "<M-o>", "<cmd>keepjumps normal <C-^><CR>", opts)
-

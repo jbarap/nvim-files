@@ -1,7 +1,7 @@
 --       which-key config
 -- ──────────────────────────────
-local wk = require('which-key')
-wk.setup{
+local wk = require("which-key")
+wk.setup({
   plugins = {
     marks = false,
     registers = false,
@@ -18,8 +18,8 @@ wk.setup{
   window = {
     border = "none",
     winblend = 15,
-  }
-}
+  },
+})
 
 wk.register({
   ["<leader>"] = {
@@ -35,17 +35,17 @@ wk.register({
       d = "Buffer delete",
       p = "Buffer pick",
       ["."] = "Buffer next",
-      [","] = "Buffer previous"
+      [","] = "Buffer previous",
     },
     c = {
       name = "code",
       f = "Format buffer",
       d = {
-          name = "diagnostics/docs",
-          d = "Diagnostic list toggle",
-          l = "Diagnostic line show",
-          s = "Docstring generate"
-      }
+        name = "diagnostics/docs",
+        d = "Diagnostic list toggle",
+        l = "Diagnostic line show",
+        s = "Docstring generate",
+      },
     },
     d = {
       name = "debugging/diff",
@@ -61,10 +61,10 @@ wk.register({
     f = {
       name = "find/files",
       b = "Find buffers",
-      ['C-b'] = "File browser",
+      ["C-b"] = "File browser",
       f = "File find (exclude hidden)",
       g = "File grep (all)",
-      ['<C-g>'] = "File grep (select directory)",
+      ["<C-g>"] = "File grep (select directory)",
       a = "File find (all)",
       h = "Find help",
       d = "Find diagnostics",
@@ -79,55 +79,54 @@ wk.register({
       s = "Status",
       f = "File open",
       b = {
-          name = "blame",
-          b = "Toggle line blame",
-          l = "Blame line",
+        name = "blame",
+        b = "Toggle line blame",
+        l = "Blame line",
       },
       d = {
-          name = "diff",
-          h = "Diff put left",
-          l = "Diff put right",
+        name = "diff",
+        h = "Diff put left",
+        l = "Diff put right",
       },
       h = {
-          name = "hunk/highlight",
-          h = "Highlight changes",
-          p = "Hunk Preview",
-          q = "Hunk send to quickfix",
-          x = "Hunk reset current",
-          X = "Hunk reset buffer",
-          s = "Hunk stage",
-          u = "Hunk undo stage",
+        name = "hunk/highlight",
+        h = "Highlight changes",
+        p = "Hunk Preview",
+        q = "Hunk send to quickfix",
+        x = "Hunk reset current",
+        X = "Hunk reset buffer",
+        s = "Hunk stage",
+        u = "Hunk undo stage",
       },
     },
     s = {
-        name = "session",
-        l = "Load directory session",
-        s = "Save directory session",
+      name = "session",
+      l = "Load directory session",
+      s = "Save directory session",
     },
     t = {
-        name = "test/terminal",
-        t = "Test suite run",
-        n = "Test nearest function",
-        p = "Test summary",
-        s = "Test stop",
-        l = "Test jump to window",
-        f = "Terminal float",
-        v = "Terminal vertical",
-        h = "Terminal horizontal",
+      name = "test/terminal",
+      t = "Test suite run",
+      n = "Test nearest function",
+      p = "Test summary",
+      s = "Test stop",
+      l = "Test jump to window",
+      f = "Terminal float",
+      v = "Terminal vertical",
+      h = "Terminal horizontal",
     },
     v = {
-        name = "vim",
-        e = "Edit init.lua",
-        v = "Version",
+      name = "vim",
+      e = "Edit init.lua",
+      v = "Version",
     },
     q = {
-        name = "quickfix",
-        q = "Toggle",
+      name = "quickfix",
+      q = "Toggle",
     },
     r = {
-        name = "re",
-        n = "Rename",
+      name = "re",
+      n = "Rename",
     },
-  }
+  },
 })
-
