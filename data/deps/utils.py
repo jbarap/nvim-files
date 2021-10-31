@@ -2,7 +2,7 @@ import os
 import sys
 import shutil
 from pathlib import Path
-from typing import List, Optional, Union, Dict
+from typing import Any, List, Optional, Union, Dict
 
 from deps.typing import (
     InstallMethod,
@@ -75,6 +75,17 @@ def lookup_by_installer(
     return lookup_table
 
 
+def replace_vars(value: Any):
+    vars_table = {
+        "{$HOME}": os.path.expanduser("~"),
+    }
+
+    if isinstance(value, str):
+        for var, replacement in vars_table.items():
+            value = value.replace(var, replacement)
+    return value
+
+
 def resolve_parameters(data: ParamInstallablesSpec) -> InstallablesSpec:
     data = data.copy()
 
@@ -93,7 +104,7 @@ def resolve_parameters(data: ParamInstallablesSpec) -> InstallablesSpec:
 
         elif isinstance(_data, dict):
             if 'with_params' in _data:
-                return _data['with_params'].replace(
+                _data = _data['with_params'].replace(
                     '{os_param}',
                     _data['os_param'][platform]
                 )
@@ -102,7 +113,7 @@ def resolve_parameters(data: ParamInstallablesSpec) -> InstallablesSpec:
                 for key, value in _data.items():
                     _data[key] = _resolve(value)
 
-        return _data
+        return replace_vars(_data)
 
     return _resolve(data)  # type: ignore
 

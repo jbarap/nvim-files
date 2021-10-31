@@ -11,9 +11,7 @@ local installables_data = vim.fn.json_decode(
   vim.fn.readfile(tostring(config_path / "data" / "installables_resolved.json"))
 )
 
-local base_path = Path:new(vim.fn.stdpath('config'))  -- TODO: change to nvim's 'data' path
-
-local installables_path = base_path / installables_data['paths']['base']['installables']
+local installables_path = Path:new(installables_data['paths']['base']['installables'])
 local install_methods_bins = installables_data['paths']['bins']
 
 

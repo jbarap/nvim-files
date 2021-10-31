@@ -2,6 +2,7 @@ import json
 
 from pathlib import Path
 
+from deps import utils
 from deps.typing import ParamInstallablesSpec, PathSpec
 
 
@@ -12,7 +13,8 @@ JSON = CONFIG / "data" / "installables.json"
 # paths inferred from the json file
 with open(JSON) as f:
     param_installables_data: ParamInstallablesSpec = json.load(f)
-    paths: PathSpec = param_installables_data['paths']
+    installables_data = utils.resolve_parameters(param_installables_data)
+    paths: PathSpec = installables_data['paths']
 
 INSTALLABLES = CONFIG / paths['base']['installables']
 

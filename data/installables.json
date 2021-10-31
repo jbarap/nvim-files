@@ -113,7 +113,14 @@
 
     "paths": {
         "base": {
-            "installables": "data/installables",
+            "installables": {
+                "with_params": "{os_param}/installables",
+                "os_param": {
+                    "windows": "{$HOME}/AppData/Local/nvim-data",
+                    "linux": "{$HOME}/.local/share/nvim",
+                    "mac": "{$HOME}/.local/share/nvim"
+                }
+            },
             "go": "go",
             "pip": "python",
             "npm": "npm",
