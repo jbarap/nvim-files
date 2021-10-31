@@ -83,16 +83,16 @@ vim.lsp.handlers["textDocument/signatureHelp"] =
 --          diagnostics
 -- ──────────────────────────────
 vim.fn.sign_define('DiagnosticSignError',
-    { text = '☓', texthl = 'DiagnosticSignError' })
+  { text = '☓', texthl = 'DiagnosticSignError' })
 
 vim.fn.sign_define('DiagnosticSignWarn',
-    { text = '', texthl = 'DiagnosticSignWarn' })
+  { text = '❕', texthl = 'DiagnosticSignWarn' })  -- renders badly on alacritty
 
 vim.fn.sign_define('DiagnosticSignInfo',
-    { text = '', texthl = 'DiagnosticSignInfo' })
+  { text = 'ℹ', texthl = 'DiagnosticSignInfo' })
 
 vim.fn.sign_define('DiagnosticSignHint',
-    { text = '', texthl = 'DiagnosticSignHint' })
+  { text = '', texthl = 'DiagnosticSignHint' })
 
 vim.diagnostic.config({
   underline = true,
@@ -143,7 +143,6 @@ local server_names = {
 -- else
 --   table.insert(server_names, 'jedi_language_server')
 -- end
-
 -- NOTE: For now I'm testing out pyright only
 table.insert(server_names, 'pyright')
 

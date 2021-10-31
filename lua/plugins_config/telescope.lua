@@ -63,7 +63,7 @@ require('telescope').setup{
     end,
     layout_strategy = "flex",
     borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-    -- winblend = 10, -- cursor disappears if I set winblend (only on alacritty)
+    winblend = 10, -- cursor disappears if I set winblend (only on alacritty)
     layout_config = {
       height = 0.9,
       width = 0.9,

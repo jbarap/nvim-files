@@ -138,6 +138,8 @@ function M.rg_dir()
 
     attach_mappings = function (prompt_bufnr, map)
       local function select_dir()
+        -- TODO: when https://github.com/nvim-telescope/telescope.nvim/issues/416 is merged,
+        -- support grepping in multiple dirs
         local content = require('telescope.actions.state').get_selected_entry()
         local grep_dir = content.cwd .. '/' .. content.value
         require('telescope.actions').close(prompt_bufnr)
