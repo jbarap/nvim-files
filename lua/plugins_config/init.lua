@@ -10,8 +10,11 @@ local modules = {
 }
 
 for _, mod in ipairs(modules) do
-  local ok = pcall(require, string.format("plugins_config.%s", mod))
+  local ok, err = pcall(require, string.format("plugins_config.%s", mod))
   if not ok then
-    vim.notify(string.format("Module '%s' failed to load", mod), vim.log.levels.ERROR)
+    vim.notify(
+      string.format("--- Module '%s' failed to load due to error: %s", mod, err),
+      vim.log.levels.ERROR
+    )
   end
 end

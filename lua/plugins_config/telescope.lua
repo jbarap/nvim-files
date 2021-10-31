@@ -113,7 +113,7 @@ require('telescope').load_extension('projects')
 
 bind('n', '<Leader>pp', ':Telescope projects<CR>', opts)
 
-local find_command = "{'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '.git'}"
+local find_command = "{'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '{.git,.mypy_cache,__pycache__}'}"
 bind(
   'n',
   "<Leader>fa",
