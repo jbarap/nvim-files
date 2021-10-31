@@ -56,7 +56,7 @@ class Installable(TypedDict):
 # paths
 class PathSpec(TypedDict):
     base: Dict[str, str]
-    install_methods: Dict[InstallMethod, str]
+    bins: Dict[InstallMethod, str]
 
 
 # final spec with params

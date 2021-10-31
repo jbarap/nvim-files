@@ -3,6 +3,12 @@ local utils = require('utils')
 local null_ls = require('null-ls')
 local null_helpers = require('null-ls.helpers')
 
+local paths = require('plugins_config.paths')
+
+local function get_string_cmd(installable_name)
+  return table.concat(paths.get_cmd(installable_name), " ")
+end
+
 
 --           sources
 -- ──────────────────────────────
@@ -11,7 +17,7 @@ local pylint = {
   method = null_ls.methods.DIAGNOSTICS,
   filetypes = {'python'},
   generator = null_helpers.generator_factory({
-    command = utils.get_python_executable("pylint"),
+    command = get_string_cmd("pylint"),
     to_stdin = true,
     from_stderr = true,
     args = {
@@ -61,7 +67,7 @@ local mypy = {
   method = null_ls.methods.DIAGNOSTICS,
   filetypes = {'python'},
   generator = null_helpers.generator_factory({
-    command = utils.get_python_executable("mypy"),
+    command = get_string_cmd("mypy"),
     to_stdin = true,
     from_stderr = true,
     to_temp_file = true,
@@ -207,7 +213,12 @@ null_ls.config({
   sources = {
     ---- Linters
     -- flake8,  -- used instead of builtin to support the "naming" flake8 plugin error codes
-    null_ls.builtins.diagnostics.flake8,
+
+    -- FIXME: it doesn't respect my ~/.config/flake8
+    null_ls.builtins.diagnostics.flake8.with({
+      name = "flake8",
+      command = get_string_cmd("flake8"),
+    }),
 
     require("null-ls.helpers").conditional(function(util)
       return (util.root_has_file("mypy.ini") or util.root_has_file(".mypy.ini")) and mypy
@@ -219,11 +230,16 @@ null_ls.config({
 
     ---- Fixers
     null_ls.builtins.formatting.black.with({
+      command = get_string_cmd("black"),
       args = {"--quiet", "--fast", "--skip-string-normalization", "-"}
     }),
 
-    null_ls.builtins.formatting.isort,
-    null_ls.builtins.formatting.stylua,
+    null_ls.builtins.formatting.isort.with({
+      command = get_string_cmd("isort"),
+    }),
+    null_ls.builtins.formatting.stylua.with({
+      command = get_string_cmd("stylua"),
+    }),
   },
   debug = false,
 })

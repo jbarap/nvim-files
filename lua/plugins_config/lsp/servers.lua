@@ -1,14 +1,12 @@
 local lspconfig = require('lspconfig')
 local lsputils = require('lspconfig.util')
 
-local servers_data_path = vim.fn.stdpath('data') .. '/language_servers/'
+local paths = require('plugins_config.paths')
 
 M = {}
 
 --          preparation
 -- ──────────────────────────────
--- lua:
-local sumneko_root_path = servers_data_path .. 'lua-language-server'
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
@@ -19,11 +17,19 @@ table.insert(runtime_path, "lua/?/init.lua")
 -- See: https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
 M.configurations = {
   jedi_language_server = {
-    -- ideally, keep the pyenv version, but find a way to set system python as default
-    -- cmd = {"~/.pyenv/versions/nvim-env/bin/jedi-language-server"},
-    cmd = {"jedi-language-server"},
-    before_init = function(initialize_params)
+    cmd = paths.get_cmd("jedi_language_server"),
+    before_init = function(initialize_params, config)
+      -- if no virtualenv is activated, jedi uses python's packages from the virtualenv in
+      -- which it was installed. This makes it use the system's packages instead
+      local env = vim.env.PYENV_VERSION
+      if not env then
+        config.cmd[1] = "VIRTUAL_ENV=python3 PYENV_VIRTUAL_ENV=python3 " .. config.cmd[1]
+      end
+
       initialize_params['initializationOptions'] = {
+        executable = {
+          command = config.cmd[1],
+        },
         jediSettings = {
           autoImportModules = {'torch', 'numpy', 'pandas', 'tensorflow'}
         },
@@ -32,6 +38,7 @@ M.configurations = {
   },
 
   pyright = {
+    cmd = paths.get_cmd("pyright"),
     -- automatically identify virtualenvs set with pyenv
     on_init = function (client)
       local python_path
@@ -46,11 +53,7 @@ M.configurations = {
   },
 
   sumneko_lua = {
-    cmd = {
-      sumneko_root_path .. '/bin/Linux/lua-language-server',
-      "-E",
-      sumneko_root_path .. "/main.lua"
-    },
+    cmd = paths.get_cmd("sumneko_lua"),
     settings = {
       Lua = {
         runtime = {
@@ -75,10 +78,12 @@ M.configurations = {
   },
 
   dockerls = {
+    cmd = paths.get_cmd('dockerls'),
   },
 
   jsonls = {
-  }
+    cmd = paths.get_cmd('jsonls'),
+  },
 }
 
 --        server registration

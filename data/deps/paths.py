@@ -16,14 +16,15 @@ with open(JSON) as f:
 
 INSTALLABLES = CONFIG / paths['base']['installables']
 
-PYTHON_BASE = INSTALLABLES / paths['install_methods']['pip']
-PYTHON_BINS = PYTHON_BASE / "bin"
+PYTHON_BASE = INSTALLABLES / paths['base']['pip']
+PYTHON_BINS = INSTALLABLES / paths['bins']['pip']
 PYTHON = PYTHON_BINS / "python3"
 
-GO_BASE = INSTALLABLES / paths['install_methods']['go']
-GO_BINS = GO_BASE / "bin"
+GO_BASE = INSTALLABLES / paths['base']['go']
+GO_BINS = INSTALLABLES / paths['bins']['go']
 
-NPM_BASE = INSTALLABLES / paths['install_methods']['npm']
-NPM_BINS = NPM_BASE / "node_modules" / ".bin"
+NPM_BASE = INSTALLABLES / paths['base']['npm']
+NPM_BINS = INSTALLABLES / paths['bins']['npm']
 
-GITHUB_RELEASES_BASE = INSTALLABLES / paths['install_methods']['github_releases']
+GITHUB_RELEASES_BASE = INSTALLABLES / paths['base']['github_releases']
+GITHUB_RELEASES_BINS = INSTALLABLES / paths['bins']['github_releases']

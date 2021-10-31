@@ -1,4 +1,5 @@
 data/installables/*
+data/installables_resolved.json
 scrap/*
 sessions/*
 pains.md

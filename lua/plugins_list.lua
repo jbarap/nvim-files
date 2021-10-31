@@ -55,8 +55,9 @@ return require('packer').startup({function()
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   use { 'nvim-treesitter/playground', opt = true, cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' }}
 
-  -- Smooth scrolling
+  -- Navigation
   use 'karb94/neoscroll.nvim'
+  -- check: https://github.com/ThePrimeagen/harpoon
 
   -- Fuzzy finding
   use {

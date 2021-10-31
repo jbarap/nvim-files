@@ -14,11 +14,10 @@ vim.cmd('syntax on')
 -- ──────────────────────────────
 bind('n', "<Leader>nn", ":lua require('plugins_config.utils').toggle_tree_offset_tabline('tree')<CR>", opts)
 bind('n', "<Leader>nf", ":lua require('plugins_config.utils').toggle_tree_offset_tabline('file')<CR>", opts)
-vim.g.nvim_tree_width = 40
+vim.g.nvim_tree_width = 40  -- kept global for access in utils toggle function
 vim.g.nvim_tree_gitignore = 0
 vim.g.nvim_tree_auto_ignore_ft = {'startify', 'dashboard'}
 vim.g.nvim_tree_indent_markers = 1
-vim.g.nvim_tree_ignore = {'.git'}
 vim.g.nvim_tree_special_files = {}
 vim.g.nvim_tree_show_icons = {
   git = 0,
@@ -49,6 +48,9 @@ require('nvim-tree').setup({
   update_to_buf_dir = {
     enable = true,
     auto_open = true,
+  },
+  filters = {
+    custom = {'.git'}
   },
 })
 

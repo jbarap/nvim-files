@@ -12,10 +12,14 @@ from deps.installers import run_installers
 from deps.typing import ParamInstallablesSpec
 
 
+# read, resolve, and save the json file
 with open(paths.JSON) as f:
     param_installables_data: ParamInstallablesSpec = json.load(f)
 
 installables_data = utils.resolve_parameters(param_installables_data)
+
+with open(paths.JSON.with_name("installables_resolved.json"), 'w') as f:
+    json.dump(installables_data, f)
 
 
 def main(args: Namespace):
@@ -25,7 +29,7 @@ def main(args: Namespace):
 
         print("Creating directories...")
         utils.assert_paths(
-            installables_data['paths']['install_methods'].values(),  # type: ignore
+            installables_data['paths']['bins'].values(),  # type: ignore
             base_path=paths.INSTALLABLES
         )
 

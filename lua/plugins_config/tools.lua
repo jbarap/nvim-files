@@ -189,6 +189,7 @@ require('gitsigns').setup{
 bind('n', "<Leader>gdh", ":diffget //2<CR>", opts)
 bind('n', "<Leader>gdl", ":diffget //3<CR>", opts)
 bind('n', "<Leader>gf", ":lua require('plugins_config.utils').prompt_git_file()<CR>", opts)
+vim.cmd("autocmd User FugitiveIndex nmap <buffer> <Tab> =")
 
 -- GV!
 bind('n', "<Leader>gl", "<cmd>GV<CR>", opts)

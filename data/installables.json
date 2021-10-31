@@ -36,7 +36,7 @@
             }
         },
         "jsonls": {
-            "cmd": ["vscode-json-language-server"],
+            "cmd": ["vscode-json-language-server", "--stdio"],
             "install_info": {
                 "method": "npm",
                 "name": "vscode-langservers-extracted"
@@ -53,7 +53,7 @@
                     }
                 },
                 "-E",
-                "extensions/server/main.lua"
+                "extension/server/main.lua"
             ],
             "install_info": {
                 "method": "github_releases",
@@ -113,12 +113,17 @@
 
     "paths": {
         "base": {
-            "installables": "data/installables/"
-        },
-        "install_methods": {
+            "installables": "data/installables",
             "go": "go",
             "pip": "python",
             "npm": "npm",
+            "github_repo": "github_repo",
+            "github_releases": "github_releases"
+        },
+        "bins": {
+            "go": "go/bin",
+            "pip": "python/bin",
+            "npm": "npm/node_modules/.bin",
             "github_repo": "github_repo",
             "github_releases": "github_releases"
         }

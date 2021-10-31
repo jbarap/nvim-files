@@ -65,7 +65,7 @@ wk.register({
       f = "File find (exclude hidden)",
       g = "File grep (all)",
       ['<C-g>'] = "File grep (select directory)",
-      p = "File find (all)",
+      a = "File find (all)",
       h = "Find help",
       d = "Find diagnostics",
       D = "Find workspace diagnostics",

@@ -116,7 +116,7 @@ bind('n', '<Leader>pp', ':Telescope projects<CR>', opts)
 local find_command = "{'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '.git'}"
 bind(
   'n',
-  "<Leader>fp",
+  "<Leader>fa",
   ":lua require('telescope.builtin').find_files({ find_command =  " .. find_command .. "}) <CR>",
   opts
 )
