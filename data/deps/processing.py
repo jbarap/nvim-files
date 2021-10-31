@@ -37,6 +37,12 @@ class Context:
         return context[self.key]
 
 
+# TODO: maybe implement hooks as python functions stored in a dict, where you specify
+# the key to the function in the json. Hooks could then be specified as a Hook object
+# passed to pipeline as a step. e.g.:
+# pipeline(steps=[some_step, Hook('event1'), another_step], hooks={'event1': 'func_key'})
+# the function with key 'func_key' would then be executed as a @pipeline_step, receiving
+# context as a kwarg
 async def pipeline(
     steps: List[Callable[..., Any]],
     name: str = "",
@@ -163,6 +169,7 @@ def assert_path(path: TPathLike, **kwargs):
     Path(path).mkdir(parents=True, exist_ok=True)
 
 
+# TODO: support .gz, .tar.gz
 @pipeline_step
 def unzip_file(
     file_path: Union[str, Path],

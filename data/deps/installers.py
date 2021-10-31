@@ -189,6 +189,10 @@ def github_repo():
     pass
 
 
+def rust():
+    pass
+
+
 async def run_installers(installables_data: InstallablesSpec):
     max_tasks = os.cpu_count() or 1
     task_limiter = asyncio.Semaphore(max(max_tasks - 1, 1))

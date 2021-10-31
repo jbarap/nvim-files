@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 
-"""Dependency installer, a la https://github.com/cyproterone/nvim2"""
+"""
+Dependency installer.
+
+A la https://github.com/cyproterone/nvim2
+and https://github.com/williamboman/nvim-lsp-installer
+"""
 
 import json
 import venv
