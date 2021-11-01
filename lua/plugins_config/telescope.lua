@@ -59,8 +59,8 @@ require("telescope").setup({
     borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
     winblend = 10, -- cursor disappears if I set winblend (only on alacritty)
     layout_config = {
-      height = 0.9,
-      width = 0.9,
+      height = 0.95,
+      width = 0.95,
       scroll_speed = 4,
       horizontal = {
         preview_width = 0.5,
@@ -104,9 +104,11 @@ require("telescope").setup({
 
 require("telescope").load_extension("fzf")
 require("telescope").load_extension("projects")
-
 require("plugins_config.telescope_custom") -- require for caching
 
+--            keybinds
+-- ──────────────────────────────
+-- projects
 bind("n", "<Leader>pp", ":Telescope projects<CR>", opts)
 
 -- find all files
@@ -130,8 +132,18 @@ bind(
   opts
 )
 
-bind_picker("<Leader>fg", "live_grep")
+-- grep
+bind(
+  "n",
+  "<Leader>fg",
+  ":lua require('telescope.builtin').live_grep({entry_maker = "
+    .. "require('plugins_config.telescope_custom').grep_displayer()}) <CR>",
+  opts
+)
+
+-- grep in directory
 bind("n", "<Leader>f<C-g>", ":lua require('plugins_config.utils').rg_dir()<CR>", opts)
+
 bind_picker("<Leader>fh", "help_tags")
 bind_picker("<Leader>ft", "treesitter")
 bind_picker("<Leader>fq", "quickfix")
