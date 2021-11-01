@@ -64,7 +64,7 @@ opt.smartcase = true
 opt.updatetime = 200
 
 -- Scroll offsets
-opt.scrolloff = 7
+opt.scrolloff = 5
 opt.sidescrolloff = 4
 
 -- Fillchars

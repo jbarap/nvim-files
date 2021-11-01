@@ -105,18 +105,31 @@ require("telescope").setup({
 require("telescope").load_extension("fzf")
 require("telescope").load_extension("projects")
 
+require("plugins_config.telescope_custom") -- require for caching
+
 bind("n", "<Leader>pp", ":Telescope projects<CR>", opts)
 
+-- find all files
 local find_command =
   "{'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '{.git,.mypy_cache,__pycache__}'}"
 bind(
   "n",
   "<Leader>fa",
-  ":lua require('telescope.builtin').find_files({ find_command =  " .. find_command .. "}) <CR>",
+  ":lua require('telescope.builtin').find_files({ find_command =  "
+    .. find_command
+    .. ", entry_maker = require('plugins_config.telescope_custom').file_displayer()}) <CR>",
   opts
 )
 
-bind_picker("<Leader>ff", "find_files")
+-- find files
+bind(
+  "n",
+  "<Leader>ff",
+  ":lua require('telescope.builtin').find_files({entry_maker = "
+    .. "require('plugins_config.telescope_custom').file_displayer()}) <CR>",
+  opts
+)
+
 bind_picker("<Leader>fg", "live_grep")
 bind("n", "<Leader>f<C-g>", ":lua require('plugins_config.utils').rg_dir()<CR>", opts)
 bind_picker("<Leader>fh", "help_tags")

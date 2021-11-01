@@ -163,6 +163,30 @@ function M.rg_dir()
   })
 end
 
+-- todo comments searcher
+function M.todo_comments()
+  local all_comments = {
+    "FIX",
+    "FIXME",
+    "BUG",
+    "FIXIT",
+    "ISSUE",
+    "TODO",
+    "HACK",
+    "WARN",
+    "PERF",
+    "NOTE",
+  }
+  require("telescope.builtin").live_grep({
+    default_text = table.concat(all_comments, ":|"),
+    _completion_callbacks = {
+      send_to_qf = function ()
+        require("telescope.actions").smart_send_to_qflist()
+      end
+    },
+  })
+end
+
 -- Lazygit toggle
 local Terminal = require("toggleterm.terminal").Terminal
 local lazygit = Terminal:new({

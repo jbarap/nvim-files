@@ -166,6 +166,7 @@ require("indent_blankline").setup({
     "TelescopePrompt",
     "TelescopeResults",
     "NeogitCommitView",
+    "dockerfile",
   },
   max_indent_increase = 10,
 })
