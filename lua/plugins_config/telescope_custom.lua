@@ -1,7 +1,7 @@
 -- based on: https://github.com/nvim-telescope/telescope.nvim/wiki/Configuration-Recipes#customize-buffers-display-to-look-like-leaderf
 
-local entry_display = require('telescope.pickers.entry_display')
-local devicons = require('nvim-web-devicons')
+local entry_display = require("telescope.pickers.entry_display")
+local devicons = require("nvim-web-devicons")
 
 local Path = require("plenary.path")
 local get_status = require("telescope.state").get_status
@@ -27,16 +27,16 @@ M.file_displayer = function(opts)
     opts.cwd = vim.loop.cwd()
   end
 
-  local default_icons, _ = devicons.get_icon('file', '', {default = true})
+  local default_icons, _ = devicons.get_icon("file", "", { default = true })
 
-  local displayer = entry_display.create {
+  local displayer = entry_display.create({
     separator = " ",
     items = {
       { width = vim.fn.strwidth(default_icons) },
-      { width = 20 },  -- width of the file name column
+      { width = 20 }, -- width of the file name column
       { remaining = true },
     },
-  }
+  })
 
   local make_display = function(entry)
     local cwd = opts.cwd
@@ -52,11 +52,11 @@ M.file_displayer = function(opts)
     -- compensate for both spacing chars (2) and the icons column (1) characters
     directory = require("plenary.strings").truncate(directory, math.max(opts.__length - name:len() - 3, 0), nil, -1)
 
-    return displayer {
-      {entry.devicons, entry.devicons_highlight},
+    return displayer({
+      { entry.devicons, entry.devicons_highlight },
       name,
-      {directory, "Comment"},
-    }
+      { directory, "Comment" },
+    })
   end
 
   return function(entry)
@@ -67,7 +67,7 @@ M.file_displayer = function(opts)
       retpath = entry
     end
 
-    local icons, highlight = devicons.get_icon(entry, string.match(entry, '%a+$'), { default = true })
+    local icons, highlight = devicons.get_icon(entry, string.match(entry, "%a+$"), { default = true })
 
     return {
       value = entry,
@@ -116,21 +116,25 @@ M.grep_displayer = function(opts)
   opts = opts or {}
   opts.cwd = vim.fn.expand(opts.cwd or vim.loop.cwd())
 
-  local default_icons, _ = devicons.get_icon('file', '', {default = true})
+  local default_icons, _ = devicons.get_icon("file", "", { default = true })
 
-  local displayer = entry_display.create {
+  local displayer = entry_display.create({
     separator = " ",
     items = {
       { width = vim.fn.strwidth(default_icons) },
-      { width = 20 },  -- width of the file name column + (line:col) info
+      { width = 20 }, -- width of the file name column + (line:col) info
       { remaining = true }, -- width of directory + line info
     },
-  }
+  })
 
   local make_display = function(entry)
     -- TODO: trim the filename, then add (line:col)
     local cwd = entry.cwd
-    local icon, icon_highlight = devicons.get_icon(entry.filename, string.match(entry.filename, '%a+$'), { default = true })
+    local icon, icon_highlight = devicons.get_icon(
+      entry.filename,
+      string.match(entry.filename, "%a+$"),
+      { default = true }
+    )
 
     if not opts.__length then
       opts.__length = calc_result_length()
@@ -146,11 +150,11 @@ M.grep_displayer = function(opts)
     local file_display = string.format("%s |%s:%s", name, entry.lnum, entry.col)
     local dir_display = string.format("%s |%s", directory, entry.text)
 
-    return displayer {
-      {icon, icon_highlight},
+    return displayer({
+      { icon, icon_highlight },
       file_display,
-      {dir_display, "Comment"},
-    }
+      { dir_display, "Comment" },
+    })
   end
 
   local execute_keys = {
@@ -204,7 +208,7 @@ M.grep_displayer = function(opts)
     end,
   }
 
-  return function (line)
+  return function(line)
     return setmetatable({ line }, entry_metatable)
   end
 end
