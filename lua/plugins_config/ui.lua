@@ -61,6 +61,7 @@ vim.api.nvim_set_keymap("n", "<leader>cdd", "<cmd>LspTroubleToggle<cr>", opts)
 -- ──────────────────────────────
 local gps = require("nvim-gps")
 gps.setup({
+  depth = 0,
   icons = {
     ["class-name"] = " ",
     ["function-name"] = " ",
@@ -181,8 +182,8 @@ require("nightfox").setup({
   transparent = false,
 })
 
-vim.cmd("colorscheme nightfox")
 -- Colorscheme highlight changes in after/plugin/colorscheme.lua
+vim.cmd("colorscheme nightfox")
 
 -- Load icons highlights AFTER the coloscheme to avoid overrides
 require("nvim-web-devicons").setup({})

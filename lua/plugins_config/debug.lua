@@ -67,6 +67,11 @@ dap.configurations.python = {
     type = "python_launch",
     request = "launch",
     program = "${file}",
+    args = function ()
+      local args = vim.fn.input({ prompt = "Script args: "})
+      args = vim.fn.split(args, " ")
+      return args
+    end,
     cwd = "${workspaceFolder}",
     pythonPath = "python3",
   },
@@ -76,7 +81,15 @@ dap.configurations.python = {
     request = "launch",
     cwd = "${workspaceFolder}",
     module = function()
-      return vim.fn.input("Module name: ")
+      local name = vim.fn.expand("%:r")
+      name = string.gsub(name, "/", ".")
+      name = string.gsub(name, "\\", ".")
+      return name
+    end,
+    args = function ()
+      local args = vim.fn.input({ prompt = "Module args: "})
+      args = vim.fn.split(args, " ")
+      return args
     end,
     pythonPath = "python3",
   },
@@ -91,13 +104,13 @@ dap.configurations.python = {
 -- ──────────────────────────────
 require("dapui").setup({
   icons = {
-    expanded = "",
-    collapsed = "",
+    expanded = "―",
+    collapsed = "=",
   },
   mappings = {
-    expand = { "<CR>", "<2-LeftMouse>" },
-    open = "o",
-    remove = "d",
+    expand = { "<Tab>", "<2-LeftMouse>" },
+    open = "<CR>",
+    remove = "dd",
     edit = "e",
   },
   sidebar = {
@@ -123,5 +136,10 @@ require("dapui").setup({
     max_width = nil, -- Floats will be treated as percentage of your screen.
   },
 })
+
+-- start ui automatically
+dap.listeners.after["event_initialized"]["custom_dapui"] = function()
+  require("dapui").open()
+end
 
 return M

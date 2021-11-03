@@ -76,7 +76,7 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 -- ──────────────────────────────
 vim.fn.sign_define("DiagnosticSignError", { text = "☓", texthl = "DiagnosticSignError" })
 
-vim.fn.sign_define("DiagnosticSignWarn", { text = "❕", texthl = "DiagnosticSignWarn" }) -- renders badly on alacritty
+vim.fn.sign_define("DiagnosticSignWarn", { text = "!", texthl = "DiagnosticSignWarn" })
 
 vim.fn.sign_define("DiagnosticSignInfo", { text = "ℹ", texthl = "DiagnosticSignInfo" })
 

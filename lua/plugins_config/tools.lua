@@ -146,6 +146,14 @@ neogit.setup({
   integrations = {
     diffview = true,
   },
+  sections = {
+    stashes = {
+      folded = true
+    },
+    recent = {
+      folded = true,
+    },
+  }
 })
 bind("n", "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts)
 
