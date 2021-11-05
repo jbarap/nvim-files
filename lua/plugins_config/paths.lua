@@ -4,8 +4,9 @@ M = {}
 
 --        base paths
 -- ──────────────────────────────
--- check performance impact of this file loading
+-- TODO: check performance impact of this file loading
 local config_path = Path:new(vim.fn.stdpath("config"))
+local cache_path = Path:new(vim.fn.stdpath("cache"))
 local installables_data = vim.fn.json_decode(
   vim.fn.readfile(tostring(config_path / "data" / "installables_resolved.json"))
 )
@@ -39,6 +40,12 @@ M.get_cmd = function(installable_name)
   end
 
   return cmd
+end
+
+-- Get command to rocks managed by packer
+M.get_luarock_cmd = function(rock_name)
+  local jit_version = string.gsub(jit.version, "LuaJIT ", "")
+  return tostring(cache_path / "packer_hererocks" / jit_version / "bin" / rock_name)
 end
 
 return M

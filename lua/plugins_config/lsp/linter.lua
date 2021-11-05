@@ -4,6 +4,7 @@ local null_ls = require("null-ls")
 local null_helpers = require("null-ls.helpers")
 
 local paths = require("plugins_config.paths")
+local Path = require("plenary.path")
 
 local function get_string_cmd(installable_name)
   return table.concat(paths.get_cmd(installable_name), " ")
@@ -217,8 +218,6 @@ null_ls.config({
   sources = {
     ---- Linters
     -- flake8,  -- used instead of builtin to support the "naming" flake8 plugin error codes
-
-    -- FIXME: it doesn't respect my ~/.config/flake8
     null_ls.builtins.diagnostics.flake8.with({
       name = "flake8",
       command = get_string_cmd("flake8"),
@@ -231,6 +230,12 @@ null_ls.config({
     require("null-ls.helpers").conditional(function(util)
       return util.root_has_file("pylintrc") and pylint
     end),
+
+    null_ls.builtins.diagnostics.luacheck.with({
+      name = "luacheck",
+      command = paths.get_luarock_cmd("luacheck"),
+      extra_args = { "--globals", "vim", "--no-self" },
+    }),
 
     ---- Fixers
     null_ls.builtins.formatting.black.with({

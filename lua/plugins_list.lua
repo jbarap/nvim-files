@@ -33,7 +33,8 @@ return require("packer").startup({
     -- LSP
     use("neovim/nvim-lspconfig")
     use({ "folke/lsp-trouble.nvim", requires = "kyazdani42/nvim-web-devicons" })
-    use({ "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" } })
+    use({ "jose-elias-alvarez/null-ls.nvim",
+    requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" }, rocks = {"luacheck"}})
     use("stevearc/aerial.nvim")
 
     -- Autocompletion
