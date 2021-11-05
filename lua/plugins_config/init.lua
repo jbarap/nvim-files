@@ -1,6 +1,5 @@
 local modules = {
   "ui",
-  "telescope",
   "tools",
   "lsp.linter",
   "lsp.config",

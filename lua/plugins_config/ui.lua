@@ -54,8 +54,8 @@ require("nvim-tree").setup({
 
 --           trouble
 -- ──────────────────────────────
-require("trouble").setup({})
-vim.api.nvim_set_keymap("n", "<leader>cdd", "<cmd>LspTroubleToggle<cr>", opts)
+-- lazy loaded setup
+vim.api.nvim_set_keymap("n", "<leader>cdd", "<cmd>TroubleToggle<cr>", opts)
 
 --           lualine
 -- ──────────────────────────────

@@ -109,45 +109,45 @@ require("plugins_config.telescope_custom") -- require for caching
 --            keybinds
 -- ──────────────────────────────
 -- projects
-bind("n", "<Leader>pp", ":Telescope projects<CR>", opts)
+-- bind("n", "<Leader>pp", ":Telescope projects<CR>", opts)
 
--- find all files
-local find_command =
-  "{'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '{.git,.mypy_cache,__pycache__}'}"
-bind(
-  "n",
-  "<Leader>fa",
-  ":lua require('telescope.builtin').find_files({ find_command =  "
-    .. find_command
-    .. ", entry_maker = require('plugins_config.telescope_custom').file_displayer()}) <CR>",
-  opts
-)
+-- -- find all files
+-- local find_command =
+--   "{'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '{.git,.mypy_cache,__pycache__}'}"
+-- bind(
+--   "n",
+--   "<Leader>fa",
+--   ":lua require('telescope.builtin').find_files({ find_command =  "
+--     .. find_command
+--     .. ", entry_maker = require('plugins_config.telescope_custom').file_displayer()}) <CR>",
+--   opts
+-- )
 
--- find files
-bind(
-  "n",
-  "<Leader>ff",
-  ":lua require('telescope.builtin').find_files({entry_maker = "
-    .. "require('plugins_config.telescope_custom').file_displayer()}) <CR>",
-  opts
-)
+-- -- find files
+-- bind(
+--   "n",
+--   "<Leader>ff",
+--   ":lua require('telescope.builtin').find_files({entry_maker = "
+--     .. "require('plugins_config.telescope_custom').file_displayer()}) <CR>",
+--   opts
+-- )
 
--- grep
-bind(
-  "n",
-  "<Leader>fg",
-  ":lua require('telescope.builtin').live_grep({entry_maker = "
-    .. "require('plugins_config.telescope_custom').grep_displayer()}) <CR>",
-  opts
-)
+-- -- grep
+-- bind(
+--   "n",
+--   "<Leader>fg",
+--   ":lua require('telescope.builtin').live_grep({entry_maker = "
+--     .. "require('plugins_config.telescope_custom').grep_displayer()}) <CR>",
+--   opts
+-- )
 
--- grep in directory
-bind("n", "<Leader>f<C-g>", ":lua require('plugins_config.utils').rg_dir()<CR>", opts)
+-- -- grep in directory
+-- bind("n", "<Leader>f<C-g>", ":lua require('plugins_config.utils').rg_dir()<CR>", opts)
 
-bind_picker("<Leader>fh", "help_tags")
-bind_picker("<Leader>ft", "treesitter")
-bind_picker("<Leader>fq", "quickfix")
-bind_picker("<Leader>fb", "buffers")
-bind_picker("<Leader>f<c-b>", "file_browser")
+-- bind_picker("<Leader>fh", "help_tags")
+-- bind_picker("<Leader>ft", "treesitter")
+-- bind_picker("<Leader>fq", "quickfix")
+-- bind_picker("<Leader>fb", "buffers")
+-- bind_picker("<Leader>f<c-b>", "file_browser")
 
-bind_picker("<M-x>", "commands")
+-- bind_picker("<M-x>", "commands")

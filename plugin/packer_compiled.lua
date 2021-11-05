@@ -124,6 +124,11 @@ _G.packer_plugins = {
     path = "/home/john/.local/share/nvim/site/pack/packer/start/diffview.nvim",
     url = "https://github.com/sindrets/diffview.nvim"
   },
+  ["filetype.nvim"] = {
+    loaded = true,
+    path = "/home/john/.local/share/nvim/site/pack/packer/start/filetype.nvim",
+    url = "https://github.com/nathom/filetype.nvim"
+  },
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
@@ -151,11 +156,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/jupyter-nvim",
     url = "https://github.com/ahmedkhalf/jupyter-nvim"
-  },
-  ["lsp-trouble.nvim"] = {
-    loaded = true,
-    path = "/home/john/.local/share/nvim/site/pack/packer/start/lsp-trouble.nvim",
-    url = "https://github.com/folke/lsp-trouble.nvim"
   },
   ["lspkind-nvim"] = {
     loaded = true,
@@ -311,14 +311,27 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
   },
   ["telescope.nvim"] = {
-    loaded = true,
-    path = "/home/john/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    commands = { "Telescope" },
+    config = { "\27LJ\2\n8\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\29plugins_config.telescope\frequire\0" },
+    loaded = false,
+    needs_bufread = true,
+    only_cond = false,
+    path = "/home/john/.local/share/nvim/site/pack/packer/opt/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ["tmux.nvim"] = {
     loaded = true,
     path = "/home/john/.local/share/nvim/site/pack/packer/start/tmux.nvim",
     url = "https://github.com/aserowy/tmux.nvim"
+  },
+  ["trouble.nvim"] = {
+    commands = { "TroubleToggle" },
+    config = { "\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ftrouble\frequire\0" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/john/.local/share/nvim/site/pack/packer/opt/trouble.nvim",
+    url = "https://github.com/folke/trouble.nvim"
   },
   ["vim-arsync"] = {
     loaded = true,
@@ -395,7 +408,8 @@ _G.packer_plugins = {
 
 time([[Defining packer_plugins]], false)
 local module_lazy_loads = {
-  ["^replacer"] = "replacer.nvim"
+  ["^replacer"] = "replacer.nvim",
+  ["^telescope"] = "telescope.nvim"
 }
 local lazy_load_called = {['packer.load'] = true}
 local function lazy_load_module(module_name)
@@ -425,12 +439,14 @@ end
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file GV lua require("packer.load")({'gv.vim'}, { cmd = "GV", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file StartupTime lua require("packer.load")({'vim-startuptime'}, { cmd = "StartupTime", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file TSPlaygroundToggle lua require("packer.load")({'playground'}, { cmd = "TSPlaygroundToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file TSHighlightCapturesUnderCursor lua require("packer.load")({'playground'}, { cmd = "TSHighlightCapturesUnderCursor", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file DogeGenerate lua require("packer.load")({'vim-doge'}, { cmd = "DogeGenerate", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file ColorizerToggle lua require("packer.load")({'nvim-colorizer.lua'}, { cmd = "ColorizerToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file TSHighlightCapturesUnderCursor lua require("packer.load")({'playground'}, { cmd = "TSHighlightCapturesUnderCursor", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file StartupTime lua require("packer.load")({'vim-startuptime'}, { cmd = "StartupTime", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file TroubleToggle lua require("packer.load")({'trouble.nvim'}, { cmd = "TroubleToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Telescope lua require("packer.load")({'telescope.nvim'}, { cmd = "Telescope", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file DogeGenerate lua require("packer.load")({'vim-doge'}, { cmd = "DogeGenerate", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file GV lua require("packer.load")({'gv.vim'}, { cmd = "GV", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 time([[Defining lazy-load commands]], false)
 
 if should_profile then save_profiles(0) end

@@ -18,6 +18,7 @@ return require("packer").startup({
 
     -- Improve startup time until: https://github.com/neovim/neovim/pull/15436
     use("lewis6991/impatient.nvim")
+    use("nathom/filetype.nvim")
 
     -- Diverse tools
     use("nvim-lua/plenary.nvim")
@@ -32,9 +33,17 @@ return require("packer").startup({
 
     -- LSP
     use("neovim/nvim-lspconfig")
-    use({ "folke/lsp-trouble.nvim", requires = "kyazdani42/nvim-web-devicons" })
-    use({ "jose-elias-alvarez/null-ls.nvim",
-    requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" }, rocks = {"luacheck"}})
+    use({
+      "folke/trouble.nvim",
+      requires = "kyazdani42/nvim-web-devicons",
+      config = function() require("trouble").setup({}) end,
+      cmd = "TroubleToggle",
+    })
+    use({
+      "jose-elias-alvarez/null-ls.nvim",
+      requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+      rocks = {"luacheck"},
+    })
     use("stevearc/aerial.nvim")
 
     -- Autocompletion
@@ -65,6 +74,9 @@ return require("packer").startup({
     use({
       "nvim-telescope/telescope.nvim",
       requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" } },
+      cmd = "Telescope",
+      module = "telescope",
+      config = function () require("plugins_config.telescope") end,
     })
     use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 
