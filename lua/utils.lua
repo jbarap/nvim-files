@@ -128,8 +128,12 @@ local Highlight = {
   },
 }
 
-function Highlight:_init()
-  self.id = vim.fn.hlID(self.name)
+function Highlight:_init(create_if_missing)
+  if create_if_missing then
+    self.id = vim.api.nvim_get_hl_id_by_name(self.name)
+  else
+    self.id = vim.fn.hlID(self.name)
+  end
 
   if self.id == 0 then
     vim.notify(string.format("Highlight '%s' not defined", self.name), vim.log.levels.WARN)
@@ -190,11 +194,11 @@ function Highlight:_update()
   vim.cmd(formatted_hl)
 end
 
-function Highlight:new(name)
+function Highlight:new(name, create_if_missing)
   local obj = { name = name }
   setmetatable(obj, self)
   self.__index = self
-  obj:_init()
+  obj:_init(create_if_missing)
   return obj
 end
 

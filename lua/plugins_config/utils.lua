@@ -5,42 +5,22 @@ local M = {}
 
 --     bind telescope picker
 -- ──────────────────────────────
-function M.bind_picker(keys, picker_name, extension_name)
-  if extension_name ~= nil then
-    -- stylua: ignore
-    vim.api.nvim_set_keymap(
-      'n', keys,
-      "<cmd>lua require('telescope').extensions['" .. extension_name .. "']"
-      .. "['" .. picker_name .. "']()<CR>",
-      {}
-    )
-  else
-    -- stylua: ignore
-    vim.api.nvim_set_keymap(
-      'n', keys,
-      "<cmd>lua require('telescope.builtin')['" .. picker_name .. "']()<CR>",
+function M.bind_picker(keys, picker_name, options)
+  -- stylua: ignore
+  vim.api.nvim_set_keymap(
+    'n', keys,
+    string.format("<cmd>lua require('telescope.builtin')['%s'](%s)<CR>", picker_name, options),
     {}
-    )
-  end
+  )
 end
 
-function M.buf_bind_picker(bufnr, keys, picker_name, extension_name)
-  if extension_name ~= nil then
-    -- stylua: ignore
-    vim.api.nvim_buf_set_keymap(
-        bufnr, 'n', keys,
-        "<cmd>lua require('telescope').extensions['" .. extension_name .. "']"
-        .. "['" .. picker_name .. "']()<CR>",
-        {}
-    )
-  else
-    -- stylua: ignore
-    vim.api.nvim_buf_set_keymap(
-      bufnr, 'n', keys,
-      "<cmd>lua require('telescope.builtin')['" .. picker_name .. "']()<CR>",
+function M.buf_bind_picker(bufnr, keys, picker_name, options)
+  -- stylua: ignore
+  vim.api.nvim_buf_set_keymap(
+    bufnr, 'n', keys,
+    string.format("<cmd>lua require('telescope.builtin')['%s'](%s)<CR>", picker_name, options),
     {}
-    )
-  end
+  )
 end
 
 --          togglers

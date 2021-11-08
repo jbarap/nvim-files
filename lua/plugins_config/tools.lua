@@ -77,40 +77,30 @@ require("nvim-treesitter.configs").setup({
 
 --       telescope keybinds
 -- ──────────────────────────────
+-- see full config at: plugins_config/telescope.lua
 local bind_picker = require("plugins_config.utils").bind_picker
+
+local find_all_command =
+  "{'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '{.git,.mypy_cache,__pycache__}'}"
+
+local file_displayer = "require('plugins_config.telescope_custom').file_displayer()"
+local grep_displayer = "require('plugins_config.telescope_custom').grep_displayer()"
 
 -- projects
 bind("n", "<Leader>pp", ":Telescope projects<CR>", opts)
 
 -- find all files
-local find_command =
-  "{'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '{.git,.mypy_cache,__pycache__}'}"
-bind(
-  "n",
+bind_picker(
   "<Leader>fa",
-  ":lua require('telescope.builtin').find_files({ find_command =  "
-    .. find_command
-    .. ", entry_maker = require('plugins_config.telescope_custom').file_displayer()}) <CR>",
-  opts
+  "find_files",
+  string.format("{find_command=%s, entry_maker=%s}", find_all_command, file_displayer)
 )
 
 -- find files
-bind(
-  "n",
-  "<Leader>ff",
-  ":lua require('telescope.builtin').find_files({entry_maker = "
-    .. "require('plugins_config.telescope_custom').file_displayer()}) <CR>",
-  opts
-)
+bind_picker("<Leader>ff", "find_files", string.format("{entry_maker=%s}", file_displayer))
 
 -- grep
-bind(
-  "n",
-  "<Leader>fg",
-  ":lua require('telescope.builtin').live_grep({entry_maker = "
-    .. "require('plugins_config.telescope_custom').grep_displayer()}) <CR>",
-  opts
-)
+bind_picker("<Leader>fg", "live_grep", string.format("{entry_maker=%s}", grep_displayer))
 
 -- grep in directory
 bind("n", "<Leader>f<C-g>", ":lua require('plugins_config.utils').rg_dir()<CR>", opts)

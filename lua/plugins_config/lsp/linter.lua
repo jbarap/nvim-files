@@ -234,7 +234,7 @@ null_ls.config({
     null_ls.builtins.diagnostics.luacheck.with({
       name = "luacheck",
       command = paths.get_luarock_cmd("luacheck"),
-      extra_args = { "--globals", "vim", "--no-self" },
+      extra_args = { "--globals", "vim", "--allow-defined" },
     }),
 
     ---- Fixers
