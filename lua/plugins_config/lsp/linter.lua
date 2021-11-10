@@ -4,7 +4,6 @@ local null_ls = require("null-ls")
 local null_helpers = require("null-ls.helpers")
 
 local paths = require("plugins_config.paths")
-local Path = require("plenary.path")
 
 local function get_string_cmd(installable_name)
   return table.concat(paths.get_cmd(installable_name), " ")
@@ -169,7 +168,7 @@ local flake8 = {
 local cfn_lint = {
   name = "cfn_lint",
   method = null_ls.methods.DIAGNOSTICS,
-  filetypes = { "yaml" },
+  filetypes = { "yaml", "json"},
   generator = null_helpers.generator_factory({
     command = utils.get_python_executable("cfn-lint"),
     to_stdin = true,
@@ -217,14 +216,17 @@ null_ls.config({
   default_timeout = 20000,
   sources = {
     ---- Linters
-    -- flake8,  -- used instead of builtin to support the "naming" flake8 plugin error codes
     null_ls.builtins.diagnostics.flake8.with({
       name = "flake8",
       command = get_string_cmd("flake8"),
     }),
 
     require("null-ls.helpers").conditional(function(util)
-      return (util.root_has_file("mypy.ini") or util.root_has_file(".mypy.ini")) and mypy
+      local builtin_mypy = null_ls.builtins.diagnostics.mypy.with({
+        name = "mypy",
+        command = get_string_cmd("mypy")
+      })
+      return (util.root_has_file("mypy.ini") or util.root_has_file(".mypy.ini")) and builtin_mypy
     end),
 
     require("null-ls.helpers").conditional(function(util)

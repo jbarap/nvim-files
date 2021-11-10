@@ -83,6 +83,10 @@ M.configurations = {
   jsonls = {
     cmd = paths.get_cmd("jsonls"),
   },
+
+  yamlls = {
+    cmd = paths.get_cmd("yamlls"),
+  },
 }
 
 --        server registration

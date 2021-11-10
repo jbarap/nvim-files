@@ -5,6 +5,7 @@ M = {}
 --        base paths
 -- ──────────────────────────────
 -- TODO: check performance impact of this file loading
+-- check how: https://github.com/b0o/SchemaStore.nvim converts json to lua
 local config_path = Path:new(vim.fn.stdpath("config"))
 local cache_path = Path:new(vim.fn.stdpath("cache"))
 local installables_data = vim.fn.json_decode(

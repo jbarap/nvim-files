@@ -60,6 +60,13 @@
                 "name": "sumneko/vscode-lua/lua-"
             }
         },
+        "yamlls": {
+            "cmd": ["yaml-language-server", "--stdio"],
+            "install_info": {
+                "method": "npm",
+                "name": "yaml-language-server"
+            }
+        },
         "flake8": {
             "cmd": ["flake8"],
             "install_info": {

@@ -119,6 +119,7 @@ local server_names = {
   "sumneko_lua",
   "dockerls",
   "jsonls",
+  "yamlls",
 }
 
 -- register pyright if the config file exists, otherwise use jedi_language_server
