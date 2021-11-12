@@ -3,7 +3,7 @@ local utils = require("utils")
 local opt = vim.opt
 
 -- Variables
-vim.g.python3_host_prog = "/home/john/.pyenv/versions/nvim-env/bin/python3"
+vim.g.python3_host_prog = "~/.pyenv/versions/nvim-env/bin/python3"
 
 -- Split direction
 opt.splitbelow = true

@@ -1,6 +1,6 @@
 data/installables/*
 data/installables_resolved.json
-scrap/*
+scratch/*
 sessions/*
 pains.md
 start_time*

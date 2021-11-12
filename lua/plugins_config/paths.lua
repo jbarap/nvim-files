@@ -17,7 +17,9 @@ local install_methods_bins = installables_data["paths"]["bins"]
 
 --        get commands
 -- ──────────────────────────────
-M.get_cmd = function(installable_name)
+M.get_cmd = function(installable_name, opts)
+  opts = opts or {}
+
   local installable = installables_data["installables"][installable_name]
 
   local install_method = installable["install_info"]["method"]
@@ -38,6 +40,10 @@ M.get_cmd = function(installable_name)
 
   if vim.fn.executable(cmd[1]) == 0 then
     vim.notify(string.format("Executable %s not found", cmd[1]), vim.log.levels.WARN)
+  end
+
+  if opts.as_string then
+    cmd = table.concat(cmd, " ")
   end
 
   return cmd

@@ -141,6 +141,8 @@ bind("n", "<A-5>", ":BufferGoto 5<CR>", opts)
 bind("n", "<A-6>", ":BufferGoto 6<CR>", opts)
 
 bind("n", "<Leader>bp", ":BufferPick<CR>", opts)
+bind("n", "<Leader>bd", ":BufferClose<CR>", opts)
+bind("n", "<Leader>bo", ":BufferCloseAllButCurrent<CR>", opts)
 
 vim.g.bufferline = {
   tabpages = true,

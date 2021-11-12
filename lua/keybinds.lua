@@ -43,7 +43,7 @@ bind("v", "<Leader><CR>", "<Esc>", opts)
 -- Buffer settings
 bind("n", "<Leader>b.", ":bnext<CR>", opts)
 bind("n", "<Leader>b,", ":bprev<CR>", opts)
-bind("n", "<Leader>bd", ":BufferClose<CR>", opts)
+-- buffer delete in ui.lua as part of Barbar
 
 -- Goto window above/below/left/right
 bind("n", "<C-h>", ":wincmd h<CR>", opts)

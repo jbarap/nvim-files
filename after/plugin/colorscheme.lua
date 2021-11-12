@@ -28,7 +28,7 @@ Highlight("Substitute"):set("guibg", "#4d1d28"):set("guifg", "#c9c9c9")
 
 -- Diffs
 Highlight("DiffAdd"):set("guibg", "#212f25")
-Highlight("DiffText"):set("guibg", "#394b70")
+Highlight("DiffText"):set("guibg", "#342917")
 Highlight("DiffChange"):set("guibg", "#1F2231")
 Highlight("DiffDelete"):set("guibg", "#37222C")
 
@@ -84,7 +84,7 @@ Highlight("DashboardHeader"):set("guifg", "#6585ba")
 -- Telescope
 Highlight("TelescopeMatching"):set("guifg", "#6585ba"):set("gui", "bold")
 Highlight("TelescopeSelection"):set("guibg", "#12192b"):set("guifg", "#c9c9c9")
-Highlight("TelescopeNormal"):set("guifg", "#919191")
+Highlight("TelescopeNormal", true):set("guifg", "#919191")
 
 -- Which-key
 Highlight("WhichKeyFloat"):set("guibg", mid_dark)

@@ -5,10 +5,6 @@ local null_helpers = require("null-ls.helpers")
 
 local paths = require("plugins_config.paths")
 
-local function get_string_cmd(installable_name)
-  return table.concat(paths.get_cmd(installable_name), " ")
-end
-
 --           sources
 -- ──────────────────────────────
 local pylint = {
@@ -16,7 +12,7 @@ local pylint = {
   method = null_ls.methods.DIAGNOSTICS,
   filetypes = { "python" },
   generator = null_helpers.generator_factory({
-    command = get_string_cmd("pylint"),
+    command = paths.get_cmd("pylint", {as_string = true}),
     to_stdin = true,
     from_stderr = true,
     args = {
@@ -71,7 +67,7 @@ local mypy = {
   method = null_ls.methods.DIAGNOSTICS,
   filetypes = { "python" },
   generator = null_helpers.generator_factory({
-    command = get_string_cmd("mypy"),
+    command = paths.get_cmd("mypy", {as_string = true}),
     to_stdin = true,
     from_stderr = true,
     to_temp_file = true,
@@ -218,13 +214,13 @@ null_ls.config({
     ---- Linters
     null_ls.builtins.diagnostics.flake8.with({
       name = "flake8",
-      command = get_string_cmd("flake8"),
+      command = paths.get_cmd("flake8", {as_string = true}),
     }),
 
     require("null-ls.helpers").conditional(function(util)
       local builtin_mypy = null_ls.builtins.diagnostics.mypy.with({
         name = "mypy",
-        command = get_string_cmd("mypy")
+        command = paths.get_cmd("mypy", {as_string = true}),
       })
       return (util.root_has_file("mypy.ini") or util.root_has_file(".mypy.ini")) and builtin_mypy
     end),
@@ -241,15 +237,15 @@ null_ls.config({
 
     ---- Fixers
     null_ls.builtins.formatting.black.with({
-      command = get_string_cmd("black"),
+      command = paths.get_cmd("black", {as_string = true}),
       args = { "--quiet", "--fast", "--skip-string-normalization", "-" },
     }),
 
     null_ls.builtins.formatting.isort.with({
-      command = get_string_cmd("isort"),
+      command = paths.get_cmd("isort", {as_string = true}),
     }),
     null_ls.builtins.formatting.stylua.with({
-      command = get_string_cmd("stylua"),
+      command = paths.get_cmd("stylua", {as_string = true}),
     }),
   },
   debug = false,
