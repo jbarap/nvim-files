@@ -1,9 +1,9 @@
 local lspconfig = require("lspconfig")
 local lsputils = require("lspconfig.util")
 
-local paths = require("plugins_config.paths")
+local paths = require("paths")
 
-M = {}
+local M = {}
 
 --          preparation
 -- ──────────────────────────────

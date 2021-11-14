@@ -3,7 +3,7 @@ local utils = require("utils")
 local null_ls = require("null-ls")
 local null_helpers = require("null-ls.helpers")
 
-local paths = require("plugins_config.paths")
+local paths = require("paths")
 
 --           sources
 -- ──────────────────────────────
@@ -231,7 +231,7 @@ null_ls.config({
 
     null_ls.builtins.diagnostics.luacheck.with({
       name = "luacheck",
-      command = paths.get_luarock_cmd("luacheck"),
+      command = paths.get_luarock_cmd("luacheck", { as_string = true }),
       extra_args = { "--globals", "vim", "--allow-defined" },
     }),
 

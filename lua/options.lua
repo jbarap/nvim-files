@@ -2,8 +2,18 @@ local cmd = vim.cmd
 local utils = require("utils")
 local opt = vim.opt
 
+local paths = require("paths")
+
 -- Variables
-vim.g.python3_host_prog = "~/.pyenv/versions/nvim-env/bin/python3"
+vim.g.python3_host_prog = paths.join_path(
+  {
+    vim.fn.stdpath("data"),
+    "installables",
+    "python",
+    "bin",
+    "python3"
+  }
+)
 
 -- Split direction
 opt.splitbelow = true

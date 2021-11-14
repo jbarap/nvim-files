@@ -1,7 +1,7 @@
 local bind = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
-M = {}
+local M = {}
 
 --        nvim-dap
 -- ──────────────────────────────

@@ -12,7 +12,7 @@ local calc_result_length = function(truncate_len)
   return type(truncate_len) == "number" and len - truncate_len or len
 end
 
-M = {}
+local M = {}
 
 -- file displayer with two sections; the name and the directory, instead of just the path.
 -- Both sections are highlighted differently and the dir is trimmed to fit on the window.

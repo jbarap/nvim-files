@@ -14,7 +14,73 @@
     },
 
     "installables": {
+        "pynvim": {
+            "notes": "Neovim dependency.",
+            "cmd": ["python ", "-m", "pynvim"],
+            "install_info": {
+                "method": "pip",
+                "name": "pynvim"
+            }
+        },
+        "jupyter_client": {
+            "notes": "magma-nvim dependency.",
+            "cmd": ["python ", "-m", "jupyter-client"],
+            "install_info": {
+                "method": "pip",
+                "name": "jupyter-client"
+            }
+        },
+        "ueberzug": {
+            "notes": "magma-nvim dependency.",
+            "cmd": ["python ", "-m", "ueberzug"],
+            "install_info": {
+                "method": "pip",
+                "name": "ueberzug"
+            }
+        },
+        "pillow": {
+            "notes": "magma-nvim dependency.",
+            "cmd": ["python ", "-m", "PIL"],
+            "install_info": {
+                "method": "pip",
+                "name": "Pillow"
+            }
+        },
+        "cairosvg": {
+            "notes": "magma-nvim dependency.",
+            "cmd": ["python ", "-m", "cairosvg"],
+            "install_info": {
+                "method": "pip",
+                "name": "cairosvg"
+            }
+        },
+        "pnglatex": {
+            "notes": "magma-nvim dependency.",
+            "cmd": ["python ", "-m", "pnglatex"],
+            "install_info": {
+                "method": "pip",
+                "name": "pnglatex"
+            }
+        },
+        "plotly": {
+            "notes": "magma-nvim dependency.",
+            "cmd": ["python ", "-m", "plotly"],
+            "install_info": {
+                "method": "pip",
+                "name": "plotly"
+            }
+        },
+        "kaleido": {
+            "notes": "magma-nvim dependency.",
+            "cmd": ["python ", "-m", "kaleido"],
+            "install_info": {
+                "method": "pip",
+                "name": "kaleido"
+            }
+        },
+
         "jedi_language_server": {
+            "notes": "Python lsp.",
             "cmd": ["jedi-language-server"],
             "install_info": {
                 "method": "pip",
@@ -22,6 +88,7 @@
             }
         },
         "pyright": {
+            "notes": "Python lsp.",
             "cmd": ["pyright-langserver", "--stdio"],
             "install_info": {
                 "method": "npm",
@@ -29,6 +96,7 @@
             }
         },
         "dockerls": {
+            "notes": "Docker lsp.",
             "cmd": ["docker-langserver", "--stdio"],
             "install_info": {
                 "method": "npm",
@@ -36,6 +104,7 @@
             }
         },
         "jsonls": {
+            "notes": "Json lsp.",
             "cmd": ["vscode-json-language-server", "--stdio"],
             "install_info": {
                 "method": "npm",
@@ -43,6 +112,7 @@
             }
         },
         "sumneko_lua": {
+            "notes": "Lua lsp.",
             "cmd": [
                 {
                     "with_params": "extension/server/bin/{os_param}/lua-language-server",
@@ -61,13 +131,16 @@
             }
         },
         "yamlls": {
+            "notes": "Yaml lsp.",
             "cmd": ["yaml-language-server", "--stdio"],
             "install_info": {
                 "method": "npm",
                 "name": "yaml-language-server"
             }
         },
+
         "flake8": {
+            "notes": "Python linter.",
             "cmd": ["flake8"],
             "install_info": {
                 "method": "pip",
@@ -75,6 +148,7 @@
             }
         },
         "mypy": {
+            "notes": "Python linter.",
             "cmd": ["mypy"],
             "install_info": {
                 "method": "pip",
@@ -82,13 +156,16 @@
             }
         },
         "pylint": {
+            "notes": "Python linter.",
             "cmd": ["pylint"],
             "install_info": {
                 "method": "pip",
                 "name": "pylint"
             }
         },
+
         "black": {
+            "notes": "Python fixer.",
             "cmd": ["black"],
             "install_info": {
                 "method": "pip",
@@ -96,6 +173,7 @@
             }
         },
         "isort": {
+            "notes": "Python fixer.",
             "cmd": ["isort"],
             "install_info": {
                 "method": "pip",
@@ -103,6 +181,7 @@
             }
         },
         "stylua": {
+            "notes": "Lua fixer.",
             "cmd": ["stylua"],
             "install_info": {
                 "method": "github_releases",

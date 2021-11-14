@@ -37,6 +37,7 @@ class ParamInstallInfo(TypedDict):
 
 
 class ParamInstallable(TypedDict):
+    notes: str
     cmd: List[Parameterizable]
     install_info: ParamInstallInfo
 
@@ -49,6 +50,7 @@ class InstallInfo(TypedDict):
 
 
 class Installable(TypedDict):
+    notes: str
     cmd: List[str]
     install_info: InstallInfo
 
