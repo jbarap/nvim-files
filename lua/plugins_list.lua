@@ -8,6 +8,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
   packer_bootstrap = fn.system({
     'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path
   })
+  vim.api.nvim_command("packadd packer.nvim")
 end
 
 local use = require("packer").use
@@ -64,7 +65,7 @@ return require("packer").startup({
 
     -- Syntax
     use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-    use("nvim-treesitter/nvim-treesitter-textobjects")
+    use({ "nvim-treesitter/nvim-treesitter-textobjects", requires = "nvim-treesitter/nvim-treesitter" })
     use({ "nvim-treesitter/playground", opt = true, cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" } })
 
     -- Navigation
