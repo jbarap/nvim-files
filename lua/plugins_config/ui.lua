@@ -170,6 +170,7 @@ require("indent_blankline").setup({
     "TelescopeResults",
     "NeogitCommitView",
     "dockerfile",
+    "NvimTree",
   },
   max_indent_increase = 10,
 })

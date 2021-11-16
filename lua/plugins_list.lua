@@ -1,12 +1,13 @@
-local execute = vim.api.nvim_command
 local fn = vim.fn
 
--- If Packer is not installed, download and install it
+-- if Packer is not installed, download and install it
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+local packer_bootstrap
 
 if fn.empty(fn.glob(install_path)) > 0 then
-  execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
-  execute("packadd packer.nvim")
+  packer_bootstrap = fn.system({
+    'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path
+  })
 end
 
 local use = require("packer").use
@@ -159,7 +160,7 @@ return require("packer").startup({
     use("akinsho/nvim-toggleterm.lua")
 
     -- Remote
-    use("kenn7/vim-arsync")
+    use({ "kenn7/vim-arsync", cmd = { "ARshowConf", "ARsyncUp" } })
     -- check: https://github.com/chipsenkbeil/distant.nvim
 
     -- Quickfix
@@ -176,6 +177,10 @@ return require("packer").startup({
     --     {"nvim-treesitter/nvim-treesitter"}
     --   }
     -- }
+
+    if packer_bootstrap then
+      require('packer').sync()
+    end
   end,
 
   config = {
