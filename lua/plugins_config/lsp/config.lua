@@ -15,7 +15,6 @@ local on_attach = function(client, bufnr)
 
   -- Aerial window
   aerial.on_attach(client)
-  vim.api.nvim_buf_set_keymap(0, "n", "<leader>a", "<cmd>AerialToggle<CR>", {})
 
   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -89,7 +88,7 @@ vim.diagnostic.config({
   update_in_insert = false,
   severity_sort = false,
   float = {
-    show_header = true,
+    -- header = true,
     border = "rounded",
     format = function(diagnostic)
       return string.format("%s (%s)", diagnostic.message, diagnostic.source)

@@ -16,12 +16,12 @@ require("nvim-treesitter.configs").setup({
   },
 
   incremental_selection = {
-    enable = false,
+    enable = true,
     keymaps = {
-      init_selection = "gnn",
-      node_incremental = "n",
-      scope_incremental = "grc",
-      node_decremental = "N",
+      init_selection = '<CR>',
+      scope_incremental = '<CR>',
+      node_incremental = '<TAB>',
+      node_decremental = '<S-TAB>',
     },
   },
 
@@ -221,7 +221,7 @@ require("gitsigns").setup({
     ["n <leader>ghp"] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
     ["n <leader>ghh"] = '<cmd>lua require"gitsigns".toggle_numhl()<CR><cmd>lua require"gitsigns".toggle_word_diff()<CR>',
     ["n <leader>ghq"] = '<cmd>lua require"gitsigns".setqflist("attached")<CR><cmd>copen<CR>',
-    ["n <leader>gbl"] = '<cmd>lua require"gitsigns".blame_line()<CR>',
+    ["n <leader>gbl"] = '<cmd>lua require"gitsigns".blame_line({full=true})<CR>',
     ["n <leader>gbb"] = '<cmd>lua require"gitsigns".toggle_current_line_blame()<CR>',
 
     -- Text objects
@@ -248,10 +248,10 @@ bind("n", "<Leader>gl", "<cmd>GV<CR>", opts)
 
 --           subversive
 -- ──────────────────────────────
-vim.cmd("nmap s <plug>(SubversiveSubstitute)")
-vim.cmd("vmap s <plug>(SubversiveSubstitute)")
-vim.cmd("nmap ss <plug>(SubversiveSubstituteLine)")
-vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
+-- vim.cmd("nmap s <plug>(SubversiveSubstitute)")
+-- vim.cmd("vmap s <plug>(SubversiveSubstitute)")
+-- vim.cmd("nmap ss <plug>(SubversiveSubstituteLine)")
+-- vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
 
 --              doge
 -- ──────────────────────────────
@@ -414,7 +414,9 @@ vim.cmd("autocmd User targets#mappings#user call targets#mappings#extend({'a': {
 --          aerial
 -- ──────────────────────────────
 vim.g.aerial = {
+  backends = { "lsp", "treesitter", "markdown" },
   highlight_on_jump = 300,
   link_tree_to_folds = true,
   link_folds_to_tree = true,
 }
+bind("n", "<Leader>a", "<cmd>AerialToggle<CR>", opts)

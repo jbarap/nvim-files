@@ -13,13 +13,12 @@ vim.cmd("syntax on")
 bind("n", "<Leader>nn", ":lua require('plugins_config.utils').toggle_tree_offset_tabline('tree')<CR>", opts)
 bind("n", "<Leader>nf", ":lua require('plugins_config.utils').toggle_tree_offset_tabline('file')<CR>", opts)
 vim.g.nvim_tree_width = 40 -- kept global for access in utils toggle function
-vim.g.nvim_tree_gitignore = 0
 vim.g.nvim_tree_auto_ignore_ft = { "startify", "dashboard" }
 vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_special_files = {}
 vim.g.nvim_tree_show_icons = {
   git = 0,
-  folders = 1,
+ folders = 1,
   files = 1,
 }
 vim.g.nvim_tree_icons = {
@@ -36,6 +35,7 @@ require("nvim-tree").setup({
     enable = false,
     update_cwd = true,
   },
+  respect_buf_cwd = 1,
   auto_open = 1,
   hijack_cursor = true,
   view = {
@@ -50,6 +50,7 @@ require("nvim-tree").setup({
   filters = {
     custom = { ".git" },
   },
+  gitignore = 0,
 })
 
 --           trouble
@@ -149,6 +150,7 @@ vim.g.bufferline = {
   exclude_ft = { "dashboard" },
   exclude_name = { "" },
   maximum_length = 30,
+  auto_hide = true,
 }
 
 --           indent-blankline
@@ -171,6 +173,7 @@ require("indent_blankline").setup({
     "NeogitCommitView",
     "dockerfile",
     "NvimTree",
+    "NeovitStatus",
   },
   max_indent_increase = 10,
 })

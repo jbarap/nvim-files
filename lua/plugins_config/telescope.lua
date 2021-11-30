@@ -1,4 +1,5 @@
 local actions = require("telescope.actions")
+local layout_actions = require("telescope.actions.layout")
 
 -- Helper functions for path_display
 local Path = require("plenary.path")
@@ -66,9 +67,10 @@ require("telescope").setup({
     },
     mappings = {
       i = {
-        -- You can perform as many actions in a row as you like
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
+
+        ["<C-p>"] = layout_actions.toggle_preview,
 
         ["<M-k>"] = actions.preview_scrolling_up,
         ["<M-j>"] = actions.preview_scrolling_down,
