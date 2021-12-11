@@ -57,6 +57,16 @@ M.join_path = function(paths)
   return table.concat(paths, M.path_sep)
 end
 
+M.get_name = function(path)
+  local match_string = "[^" .. M.path_sep .. "]*$"
+  return string.match(path, match_string)
+end
+
+M.get_parent = function(path)
+  local formatted = string.format("^(.+)%s[^%s]+", M.path_sep, M.path_sep)
+  return path:match(formatted)
+end
+
 M.path_rocks = M.join_path({ M.path_cache, "packer_hererocks", jit_version, "bin" })
 
 --        get commands

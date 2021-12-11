@@ -28,13 +28,8 @@ bind("n", "gp", "a<CR><Esc>PkJJxx", opts)
 bind("n", "Y", "y$", { noremap = true })
 
 -- Indent with Tab and Shift-Tab
-bind("v", "<Tab>", ">", {})
-bind("v", "<S-Tab>", "<", {})
-
--- Don't leave visual mode after certain actions
--- bind('v', '>', '>gv^', {noremap = true})
--- bind('v', '<', '<gv^', {noremap = true})
--- bind("v", "S", "Sgv^", { noremap = true })
+-- bind("v", "<Tab>", ">", {})
+-- bind("v", "<S-Tab>", "<", {})
 
 -- Clear search highlight and exit visual mode
 bind("n", "<Leader><CR>", ":nohlsearch<cr>", opts)

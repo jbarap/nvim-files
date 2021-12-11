@@ -52,6 +52,7 @@ dap.adapters.python_launch = {
   type = "executable",
   command = vim.fn.expand("python3"),
   args = { "-m", "debugpy.adapter" },
+  initialize_timeout_sec = 5,
 }
 dap.adapters.python_attach = {
   type = "server",

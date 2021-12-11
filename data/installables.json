@@ -5,6 +5,7 @@
             "git",
             "go",
             "pip3",
+            "python3",
             "npm"
         ],
         "optional": [

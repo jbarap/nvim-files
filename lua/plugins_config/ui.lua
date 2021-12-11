@@ -90,7 +90,7 @@ require("lualine").setup({
       { gps.get_location, cond = gps.is_available },
     },
     lualine_x = {
-      { "diagnostics", sources = { "nvim_lsp" } },
+      { "diagnostics", sources = { "nvim_diagnostic" } },
       "encoding",
       "filetype",
     },
@@ -176,6 +176,14 @@ require("indent_blankline").setup({
     "NeovitStatus",
   },
   max_indent_increase = 10,
+})
+
+--           dressing
+-- ──────────────────────────────
+require('dressing').setup({
+  select = {
+    backend = { "telescope", "builtin" },
+  }
 })
 
 --           colorscheme

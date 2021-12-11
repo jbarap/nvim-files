@@ -40,15 +40,15 @@ M.configurations = {
   pyright = {
     cmd = paths.get_cmd("pyright"),
     -- automatically identify virtualenvs set with pyenv
-    on_init = function(client)
+    on_new_config = function (config, _)
       local python_path
-      local virtual_env = vim.env.VIRTUAL_ENV
+      local virtual_env = vim.env.VIRTUAL_ENV or vim.env.PYENV_VIRTUAL_ENV
       if virtual_env then
         python_path = lsputils.path.join(virtual_env, "bin", "python")
       else
         python_path = "python"
       end
-      client.config.settings.python.pythonPath = python_path
+      config.settings.python.pythonPath = python_path
     end,
   },
 

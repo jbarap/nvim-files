@@ -63,6 +63,7 @@ require("telescope").setup({
       },
       vertical = {
         preview_width = 0.6,
+        preview_cutoff = 30,
       },
     },
     mappings = {
