@@ -58,7 +58,7 @@ local on_attach = function(client, bufnr)
   buf_bind_picker("<Leader>fd", "lsp_document_diagnostics")
   buf_bind_picker("<Leader>fD", "lsp_workspace_diagnostics")
 
-  buf_bind_picker("gd", "lsp_definitions", "{jump_type='never', ignore_filename=false}")
+  buf_bind_picker("gd", "lsp_definitions", "{ignore_filename=false}")
   buf_bind_picker("gr", "lsp_references")
 end
 

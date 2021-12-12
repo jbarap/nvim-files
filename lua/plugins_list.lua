@@ -70,6 +70,8 @@ return require("packer").startup({
 
     -- Navigation
     use("karb94/neoscroll.nvim")
+    use("aserowy/tmux.nvim")
+    -- check: https://github.com/ggandor/lightspeed.nvim
     -- check: https://github.com/ThePrimeagen/harpoon
 
     -- Fuzzy finding
@@ -106,9 +108,6 @@ return require("packer").startup({
 
     -- Substitution
     use("svermeulen/vim-subversive")
-
-    -- Tmux navigation
-    use({ "aserowy/tmux.nvim", disable = false })
 
     -- Git
     use("lewis6991/gitsigns.nvim")
@@ -170,6 +169,9 @@ return require("packer").startup({
 
     -- Startup time
     use({ "dstein64/vim-startuptime", cmd = { "StartupTime" } })
+
+    -- UI sugar
+    use({ 'stevearc/dressing.nvim' })
 
     -- Refactoring
     -- use { "ThePrimeagen/refactoring.nvim",

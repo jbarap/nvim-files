@@ -72,6 +72,14 @@ require("nvim-treesitter.configs").setup({
         ["[C"] = "@class.outer",
       },
     },
+
+    lsp_interop = {
+      enable = true,
+      border = "rounded",
+      peek_definition_code = {
+        ["<leader>pd"] = "@function.outer",
+      },
+    }
   },
 })
 
@@ -248,10 +256,10 @@ bind("n", "<Leader>gl", "<cmd>GV<CR>", opts)
 
 --           subversive
 -- ──────────────────────────────
--- vim.cmd("nmap s <plug>(SubversiveSubstitute)")
--- vim.cmd("vmap s <plug>(SubversiveSubstitute)")
--- vim.cmd("nmap ss <plug>(SubversiveSubstituteLine)")
--- vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
+vim.cmd("nmap s <plug>(SubversiveSubstitute)")
+vim.cmd("vmap s <plug>(SubversiveSubstitute)")
+vim.cmd("nmap ss <plug>(SubversiveSubstituteLine)")
+vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
 
 --              doge
 -- ──────────────────────────────
