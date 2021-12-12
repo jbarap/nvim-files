@@ -60,9 +60,6 @@ bind("n", "<Leader>vv", ":version<CR>", opts)
 -- Exit whichkey with one esc press instead of two
 bind("n", "<Leader><Esc>", "<Esc>", opts)
 
--- Insert debugging snippet for quick python debugging
-bind("n", "<Leader>dt", ":append<CR>import pdb; pdb.set_trace()<CR>.<CR>", opts)
-
 -- Move the screen
 bind("n", "<A-j>", "<C-d>", {})
 bind("n", "<A-k>", "<C-u>", {})
@@ -90,7 +87,7 @@ bind("s", "<BS>", "<BS>i", opts)
 vim.cmd("command! WSudo lua require'utils'.sudo_write()<CR>")
 
 -- Search word under the cursor
-bind("n", "<Leader>ww", ":lua require('utils').search_word()<CR>", opts)
+bind("n", "<Leader>fw", ":lua require('utils').search_word()<CR>", opts)
 
 -- Replace
 bind("n", "<Leader>cs", ":%s/", opts)

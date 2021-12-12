@@ -95,7 +95,7 @@ local file_displayer = "require('plugins_config.telescope_custom').file_displaye
 local grep_displayer = "require('plugins_config.telescope_custom').grep_displayer()"
 
 -- projects
-bind("n", "<Leader>pp", ":Telescope projects<CR>", opts)
+bind("n", "<Leader>pl", ":Telescope projects<CR>", opts)
 
 -- find all files
 bind_picker(
@@ -115,7 +115,6 @@ bind("n", "<Leader>f<C-g>", ":lua require('plugins_config.utils').rg_dir()<CR>",
 
 bind_picker("<Leader>fh", "help_tags")
 bind_picker("<Leader>ft", "treesitter")
-bind_picker("<Leader>fq", "quickfix")
 bind_picker("<Leader>fb", "buffers")
 bind_picker("<Leader>f<c-b>", "file_browser")
 
@@ -271,9 +270,9 @@ bind("n", "<Leader>cds", ":DogeGenerate<CR>", opts)
 -- ──────────────────────────────
 require("jupyter-nvim").setup({})
 bind("n", "<Leader>mi", ":MagmaInit<CR>", opts)
-bind("n", "<Leader>mel", ":MagmaEvaluateLine<CR>", opts)
+bind("n", "<Leader>ml", ":MagmaEvaluateLine<CR>", opts)
 bind("v", "<Leader>m<CR>", ":<C-u>MagmaEvaluateVisual<CR>", opts)
-bind("n", "<Leader>mec", ":MagmaReevaluateCell<CR>", opts)
+bind("n", "<Leader>mc", ":MagmaReevaluateCell<CR>", opts)
 bind("n", "<Leader>m<CR>", ":MagmaShowOutput<CR>", opts)
 vim.cmd("hi def MagmaCell guibg=#202020 guifg=NONE")
 vim.g.magma_automatically_open_output = false

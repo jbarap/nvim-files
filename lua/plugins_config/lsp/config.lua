@@ -55,8 +55,6 @@ local on_attach = function(client, bufnr)
   end
   buf_bind_picker("<Leader>fs", "lsp_document_symbols")
   buf_bind_picker("<Leader>fS", "lsp_workspace_symbols")
-  buf_bind_picker("<Leader>fd", "lsp_document_diagnostics")
-  buf_bind_picker("<Leader>fD", "lsp_workspace_diagnostics")
 
   buf_bind_picker("gd", "lsp_definitions", "{ignore_filename=false}")
   buf_bind_picker("gr", "lsp_references")
