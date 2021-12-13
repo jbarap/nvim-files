@@ -35,6 +35,9 @@ require("nvim-tree").setup({
     enable = false,
     update_cwd = true,
   },
+  git = {
+    ignore = false,
+  },
   respect_buf_cwd = 1,
   auto_open = 1,
   hijack_cursor = true,
@@ -49,6 +52,7 @@ require("nvim-tree").setup({
   },
   filters = {
     custom = { ".git" },
+    dotfiles = false,
   },
   gitignore = 0,
 })
