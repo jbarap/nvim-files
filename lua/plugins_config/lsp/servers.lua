@@ -74,8 +74,6 @@ M.configurations = {
     },
   },
 
-  ["null-ls"] = {},
-
   dockerls = {
     cmd = paths.get_cmd("dockerls"),
   },

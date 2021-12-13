@@ -1,7 +1,6 @@
 local modules = {
   "ui",
   "tools",
-  "lsp.linter",
   "lsp.config",
   "lsp.snippets",
   "debug",

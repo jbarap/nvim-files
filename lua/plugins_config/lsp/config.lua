@@ -113,7 +113,6 @@ end
 
 -- Language servers to register
 local server_names = {
-  "null-ls",
   "sumneko_lua",
   "dockerls",
   "jsonls",
@@ -141,6 +140,10 @@ local common_lang_options = {
 
 -- Register servers
 language_servers.register(server_names, common_lang_options)
+
+--           null-ls setup
+-- ──────────────────────────────
+require("plugins_config.lsp.linter").setup_linter(on_attach)
 
 --            nvim-cmp
 -- ──────────────────────────────

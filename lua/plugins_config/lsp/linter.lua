@@ -5,6 +5,8 @@ local null_helpers = require("null-ls.helpers")
 
 local paths = require("paths")
 
+local M = {}
+
 --           sources
 -- ──────────────────────────────
 local pylint = {
@@ -206,47 +208,52 @@ local cfn_lint = {
 
 --         null-ls config
 -- ──────────────────────────────
-null_ls.config({
-  debounce = 500,
-  save_after_format = false,
-  default_timeout = 20000,
-  sources = {
-    ---- Linters
-    null_ls.builtins.diagnostics.flake8.with({
-      name = "flake8",
-      command = paths.get_cmd("flake8", {as_string = true}),
-    }),
+M.setup_linter = function(on_attach)
+  null_ls.setup({
+    debounce = 500,
+    debug = false,
+    default_timeout = 20000,
+    on_attach = on_attach,
+    save_after_format = false,
+    sources = {
+      ---- Linters
+      null_ls.builtins.diagnostics.flake8.with({
+        name = "flake8",
+        command = paths.get_cmd("flake8", {as_string = true}),
+      }),
 
-    require("null-ls.helpers").conditional(function(util)
-      local builtin_mypy = null_ls.builtins.diagnostics.mypy.with({
-        name = "mypy",
-        command = paths.get_cmd("mypy", {as_string = true}),
-      })
-      return (util.root_has_file("mypy.ini") or util.root_has_file(".mypy.ini")) and builtin_mypy
-    end),
+      require("null-ls.helpers").conditional(function(util)
+        local builtin_mypy = null_ls.builtins.diagnostics.mypy.with({
+          name = "mypy",
+          command = paths.get_cmd("mypy", {as_string = true}),
+        })
+        return (util.root_has_file("mypy.ini") or util.root_has_file(".mypy.ini")) and builtin_mypy
+      end),
 
-    require("null-ls.helpers").conditional(function(util)
-      return util.root_has_file("pylintrc") and pylint
-    end),
+      require("null-ls.helpers").conditional(function(util)
+        return util.root_has_file("pylintrc") and pylint
+      end),
 
-    null_ls.builtins.diagnostics.luacheck.with({
-      name = "luacheck",
-      command = paths.get_luarock_cmd("luacheck", { as_string = true }),
-      extra_args = { "--globals", "vim", "--allow-defined" },
-    }),
+      null_ls.builtins.diagnostics.luacheck.with({
+        name = "luacheck",
+        command = paths.get_luarock_cmd("luacheck", { as_string = true }),
+        extra_args = { "--globals", "vim", "--allow-defined" },
+      }),
 
-    ---- Fixers
-    null_ls.builtins.formatting.black.with({
-      command = paths.get_cmd("black", {as_string = true}),
-      args = { "--quiet", "--fast", "--skip-string-normalization", "-" },
-    }),
+      ---- Fixers
+      null_ls.builtins.formatting.black.with({
+        command = paths.get_cmd("black", {as_string = true}),
+        args = { "--quiet", "--fast", "--skip-string-normalization", "-" },
+      }),
 
-    null_ls.builtins.formatting.isort.with({
-      command = paths.get_cmd("isort", {as_string = true}),
-    }),
-    null_ls.builtins.formatting.stylua.with({
-      command = paths.get_cmd("stylua", {as_string = true}),
-    }),
-  },
-  debug = false,
-})
+      null_ls.builtins.formatting.isort.with({
+        command = paths.get_cmd("isort", {as_string = true}),
+      }),
+      null_ls.builtins.formatting.stylua.with({
+        command = paths.get_cmd("stylua", {as_string = true}),
+      }),
+    },
+  })
+end
+
+return M
