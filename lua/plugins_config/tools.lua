@@ -427,3 +427,7 @@ vim.g.aerial = {
   link_folds_to_tree = true,
 }
 bind("n", "<Leader>a", "<cmd>AerialToggle<CR>", opts)
+
+--          matchparen
+-- ──────────────────────────────
+require('matchparen').setup()

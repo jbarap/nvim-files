@@ -214,6 +214,7 @@ M.setup_linter = function(on_attach)
     debug = false,
     default_timeout = 20000,
     on_attach = on_attach,
+    root_dir = require("project_nvim.project").find_pattern_root,
     save_after_format = false,
     sources = {
       ---- Linters

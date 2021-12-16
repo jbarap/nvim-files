@@ -18,9 +18,11 @@ return require("packer").startup({
     -- Packer
     use({ "wbthomason/packer.nvim" })
 
-    -- Improve startup time until: https://github.com/neovim/neovim/pull/15436
-    use("lewis6991/impatient.nvim")
+    -- Improve perf
+    use("lewis6991/impatient.nvim") -- until: https://github.com/neovim/neovim/pull/15436
     use("nathom/filetype.nvim")
+    -- check: use("monkoose/matchparen.nvim"), currently slower than vanilla
+    use("monkoose/matchparen.nvim")
 
     -- Diverse tools
     use("nvim-lua/plenary.nvim")
@@ -43,7 +45,7 @@ return require("packer").startup({
     })
     use({
       "jose-elias-alvarez/null-ls.nvim",
-      requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+      requires = { "nvim-lua/plenary.nvim" },
       rocks = {"luacheck"},
     })
     use("stevearc/aerial.nvim")

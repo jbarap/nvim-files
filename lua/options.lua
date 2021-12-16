@@ -93,6 +93,8 @@ cmd("filetype plugin on")
 -- oddly enough, this option isn't set as a table
 opt.diffopt = "filler,vertical,closeoff,internal,indent-heuristic,algorithm:patience"
 
+vim.g.loaded_matchparen = 1
+
 -- Folds
 function _G.custom_fold_expr()
   local line = vim.fn.getline(vim.v.foldstart)
