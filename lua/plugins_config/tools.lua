@@ -342,6 +342,11 @@ require("diffview").setup({
     width = 35,
     height = 10,
   },
+  file_history_panel = {
+    log_options = {
+      follow = true,
+    },
+  },
   key_bindings = {
     view = {
       ["<tab>"] = cb("select_next_entry"),

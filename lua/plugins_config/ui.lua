@@ -178,6 +178,7 @@ require("indent_blankline").setup({
     "dockerfile",
     "NvimTree",
     "NeovitStatus",
+    "tsplayground",
   },
   max_indent_increase = 10,
 })
