@@ -179,6 +179,7 @@ require("indent_blankline").setup({
     "NvimTree",
     "NeovitStatus",
     "tsplayground",
+    "startup",
   },
   max_indent_increase = 10,
 })
@@ -191,7 +192,7 @@ require('dressing').setup({
   }
 })
 
---           colorscheme
+--           colorschemes
 -- ──────────────────────────────
 vim.g.tokyonight_style = "night"
 vim.g.tokyonight_hide_inactive_statusline = true
@@ -201,8 +202,43 @@ require("nightfox").setup({
   transparent = false,
 })
 
+require('kanagawa').setup({
+  undercurl = true,           -- enable undercurls
+  commentStyle = "italic",
+  functionStyle = "NONE",
+  keywordStyle = "italic",
+  statementStyle = "bold",
+  typeStyle = "NONE",
+  variablebuiltinStyle = "italic",
+  specialReturn = true,
+  specialException = true,
+  transparent = false,
+  colors = {
+    sumiInk0 = "#131313",
+    sumiInk1 = "#151515",
+  },
+  overrides = {
+    -- Syntax
+    Normal = { fg = "#c9c9c9"},
+    -- Cursor
+    ColorColumn = { bg = "#141414" },
+    CursorLine = { bg = "#141414" },
+    -- Floats
+    FloatBorder = { bg = "#131313" },
+    -- Search
+    Search = { bg = "#1c284a" },
+    Substitute = { bg = "#4d1d28" },
+    -- Telescope
+    TelescopeSelection = { bg = "#202020" },
+    -- Cmp
+    Pmenu = { bg = "#202020" },
+    PmenuSbar = { bg = "#252525" },
+  },
+})
+
 -- Colorscheme highlight changes in after/plugin/colorscheme.lua
-vim.cmd("colorscheme nightfox")
+vim.g._colorscheme = "kanagawa"
+vim.cmd(string.format("colorscheme %s", vim.g._colorscheme))
 
 -- Load icons highlights AFTER the coloscheme to avoid overrides
 require("nvim-web-devicons").setup({})

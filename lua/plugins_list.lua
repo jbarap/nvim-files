@@ -34,6 +34,7 @@ return require("packer").startup({
     use({ "norcalli/nvim-colorizer.lua", cmd = { "ColorizerToggle" } })
     -- use 'folke/tokyonight.nvim'
     use("EdenEast/nightfox.nvim")
+    use("rebelot/kanagawa.nvim")
 
     -- LSP
     use("neovim/nvim-lspconfig")
