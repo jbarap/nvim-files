@@ -96,6 +96,14 @@
                 "name": "pyright"
             }
         },
+        "gopls": {
+            "notes": "Go lsp.",
+            "cmd": ["gopls"],
+            "install_info": {
+                "method": "go",
+                "name": "golang.org/x/tools/gopls@latest"
+            }
+        },
         "dockerls": {
             "notes": "Docker lsp.",
             "cmd": ["docker-langserver", "--stdio"],
@@ -162,6 +170,14 @@
             "install_info": {
                 "method": "pip",
                 "name": "pylint"
+            }
+        },
+        "staticcheck": {
+            "notes": "Go linter.",
+            "cmd": ["staticcheck"],
+            "install_info": {
+                "method": "go",
+                "name": "honnef.co/go/tools/cmd/staticcheck@latest"
             }
         },
 

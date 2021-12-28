@@ -253,6 +253,8 @@ M.setup_linter = function(on_attach)
       null_ls.builtins.formatting.stylua.with({
         command = paths.get_cmd("stylua", {as_string = true}),
       }),
+
+      null_ls.builtins.formatting.gofmt, -- gofmt executable comes with go
     },
   })
 end

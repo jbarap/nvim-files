@@ -36,6 +36,7 @@ wk.register({
     },
     c = {
       name = "code",
+      a = "Actions",
       e = "Execute",
       f = "Format",
       p = "Performance mode",

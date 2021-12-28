@@ -192,6 +192,7 @@ function M.run_code()
   local all_commands = {
     python = "python3",
     lua = "lua",
+    go = "go run"
   }
 
   local file_type = vim.api.nvim_buf_get_option(0, "filetype")

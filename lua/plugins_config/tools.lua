@@ -25,7 +25,7 @@ require("nvim-treesitter.configs").setup({
     },
   },
 
-  -- indenting is really slow for some reason, look for alternatives
+  -- indenting with TS is really slow for some reason, look for alternatives
   indent = {
     enable = false,
     disable = { "python" },
@@ -141,21 +141,22 @@ require("project_nvim").setup({
   manual_mode = false,
   detection_methods = { "pattern" },
   patterns = {
-    ".project",
-    ".git",
     "_darcs",
-    ".hg",
+    ".project",
     ".bzr",
+    ".git",
+    ".hg",
     ".svn",
+    "go.mod",
     "Makefile",
     "package.json",
-    "pyproject.toml",
-    "poetry.lock",
-    "setup.py",
-    "setup.cfg",
     "Pipfile",
-    "requirements.txt",
+    "poetry.lock",
     "pyrightconfig.json",
+    "pyproject.toml",
+    "requirements.txt",
+    "setup.cfg",
+    "setup.py",
   },
   ignore_lsp = { "null-ls" },
   silent_chdir = true,
@@ -428,6 +429,7 @@ vim.cmd("autocmd User targets#mappings#user call targets#mappings#extend({'a': {
 vim.g.aerial = {
   backends = { "lsp", "treesitter", "markdown" },
   highlight_on_jump = 300,
+  manage_folds = false, -- really nice functionality, but hangs in big files
   link_tree_to_folds = true,
   link_folds_to_tree = true,
 }

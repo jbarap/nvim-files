@@ -52,6 +52,10 @@ M.configurations = {
     end,
   },
 
+  gopls = {
+    cmd = paths.get_cmd("gopls"),
+  },
+
   sumneko_lua = {
     cmd = paths.get_cmd("sumneko_lua"),
     settings = {

@@ -115,6 +115,7 @@ end
 local server_names = {
   "sumneko_lua",
   "dockerls",
+  "gopls",
   "jsonls",
   "yamlls",
 }
@@ -125,7 +126,7 @@ local server_names = {
 -- else
 --   table.insert(server_names, 'jedi_language_server')
 -- end
--- NOTE: For now I'm testing out pyright only
+
 table.insert(server_names, "pyright")
 
 -- common language server options
@@ -223,7 +224,15 @@ cmp.setup({
     { name = "nvim_lsp" },
     { name = "luasnip" },
     { name = "path" },
-    { name = "buffer", keyword_length = 5, max_item_count = 20 },
+    {
+      -- TODO: check the proximity sorter
+      name = "buffer",
+      option = {
+        keyword_length = 5,
+      },
+      keyword_length = 5,
+      max_item_count = 20,
+    },
   },
 
   formatting = {
@@ -237,6 +246,8 @@ cmp.setup({
       },
     }),
   },
+
+  preselect = cmp.PreselectMode.None,
 
   documentation = {
     border = "rounded",

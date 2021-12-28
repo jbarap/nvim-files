@@ -51,6 +51,12 @@ bind("n", "]q", ":cn<CR>", opts)
 bind("n", "[q", ":cp<CR>", opts)
 bind("n", "<Leader>qq", ":lua require('utils').toggle_quickfix()<CR>", opts)
 
+-- Diff
+bind("n", "<Leader>dp", ":diffput<CR>", opts)
+bind("v", "<Leader>dp", ":diffput<CR>", opts)
+bind("n", "<Leader>dg", ":diffget<CR>", opts)
+bind("v", "<Leader>dg", ":diffget<CR>", opts)
+
 -- Resize windows (See plugins_config.tools for resize with tmux)
 
 -- Keybinds for editing vim config
