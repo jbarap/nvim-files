@@ -52,6 +52,31 @@ M.configurations = {
     end,
   },
 
+  pylsp = {
+    cmd = paths.get_cmd("pylsp"),
+    settings = {
+      pylsp = {
+        plugins = {
+          mccabe = {
+            enabled = false,
+          },
+          pycodestyle = {
+            enabled = false,
+          },
+          pyflakes = {
+            enabled = false,
+          },
+          rope_completion = {
+            enabled = false,
+          },
+          yapf = {
+            enabled = false,
+          },
+        }
+      }
+    }
+  },
+
   gopls = {
     cmd = paths.get_cmd("gopls"),
   },

@@ -88,6 +88,14 @@
                 "name": "jedi-language-server"
             }
         },
+        "pylsp": {
+            "notes": "Python lsp.",
+            "cmd": ["pylsp"],
+            "install_info": {
+                "method": "pip",
+                "name": "python-lsp-server"
+            }
+        },
         "pyright": {
             "notes": "Python lsp.",
             "cmd": ["pyright-langserver", "--stdio"],
