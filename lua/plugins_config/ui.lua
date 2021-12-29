@@ -221,8 +221,8 @@ require('kanagawa').setup({
     -- Syntax
     Normal = { fg = "#c9c9c9"},
     -- Cursor
-    ColorColumn = { bg = "#141414" },
-    CursorLine = { bg = "#141414" },
+    ColorColumn = { bg = "#131414" },
+    CursorLine = { bg = "#131414" },
     -- Floats
     FloatBorder = { bg = "#131313" },
     -- Search

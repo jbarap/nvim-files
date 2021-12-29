@@ -21,7 +21,6 @@ return require("packer").startup({
     -- Improve perf
     use("lewis6991/impatient.nvim") -- until: https://github.com/neovim/neovim/pull/15436
     use("nathom/filetype.nvim")
-    -- check: use("monkoose/matchparen.nvim"), currently slower than vanilla
     use("monkoose/matchparen.nvim")
 
     -- Diverse tools
@@ -117,6 +116,7 @@ return require("packer").startup({
     use("tpope/vim-fugitive")
     use("tpope/vim-rhubarb")
     use({ "junegunn/gv.vim", cmd = { "GV" } })
+    -- check ThePrimeagen/git-worktree.nvim
     use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
 
     -- Change cwd to project
@@ -125,6 +125,7 @@ return require("packer").startup({
     -- Dashboard
     use("glepnir/dashboard-nvim")
     -- check: https://github.com/goolord/alpha-nvim it's slower due to VimEnter atm
+    -- check: https://github.com/startup-nvim/startup.nvim
 
     -- Documentation generation
     use({ "kkoomen/vim-doge", run = ":call doge#install()", opt = true, cmd = { "DogeGenerate" } })

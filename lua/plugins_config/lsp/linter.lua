@@ -241,6 +241,11 @@ M.setup_linter = function(on_attach)
         extra_args = { "--globals", "vim", "--allow-defined" },
       }),
 
+      -- null_ls.builtins.diagnostics.staticcheck.with({
+      --   name = "staticcheck",
+      --   command = paths.get_cmd("staticcheck", { as_string = true }),
+      -- }),
+
       ---- Fixers
       null_ls.builtins.formatting.black.with({
         command = paths.get_cmd("black", {as_string = true}),
