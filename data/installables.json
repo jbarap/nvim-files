@@ -131,20 +131,20 @@
         "sumneko_lua": {
             "notes": "Lua lsp.",
             "cmd": [
-                {
-                    "with_params": "extension/server/bin/{os_param}/lua-language-server",
-                    "os_param": {
-                        "windows": "Windows",
-                        "linux": "Linux",
-                        "mac": "macOS"
-                    }
-                },
+                "extension/server/bin/lua-language-server",
                 "-E",
                 "extension/server/main.lua"
             ],
             "install_info": {
                 "method": "github_releases",
-                "name": "sumneko/vscode-lua/lua-"
+                "name": {
+                    "with_params": "sumneko/vscode-lua/{os_param}",
+                    "os_param": {
+                        "windows": "win32-x64",
+                        "linux": "linux-x64",
+                        "mac": "darwin-x64"
+                    }
+                }
             }
         },
         "yamlls": {
