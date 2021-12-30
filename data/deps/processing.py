@@ -1,5 +1,6 @@
 import asyncio
 import os
+import traceback
 import zipfile
 
 from asyncio.subprocess import PIPE
@@ -63,8 +64,8 @@ async def pipeline(
                 context = step(_ctx=context)
     except EarlySuccess:
         success = True
-    except Exception as e:
-        print(f"Error at pipeline {name}: {e.__repr__()}")
+    except Exception:
+        print(f"Error at pipeline {name}: {traceback.format_exc()}")
         success = False
 
     return success

@@ -1,5 +1,13 @@
 from pathlib import Path
-from typing import Dict, List, Literal, TypedDict, Union, TypeVar
+from typing import Dict, List, Union, TypeVar
+
+try:
+    # python >= 3.8
+    from typing import Literal, TypedDict
+except ImportError:
+    # python < 3.8
+    # NOTE: this produces: "Argument to class must be a base class"
+    from typing_extensions import Literal, TypedDict
 
 
 TPathLike = TypeVar('TPathLike', str, Path)
@@ -73,4 +81,3 @@ class InstallablesSpec(TypedDict):
     requirements: RequirementsSpec
     installables: Dict[str, Installable]
     paths: PathSpec
-

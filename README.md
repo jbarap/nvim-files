@@ -8,6 +8,15 @@ workflow.
 - Hererocks fails to install with python 3.9, use pyenv shell 3.8.10 before running nvim
   for the first time
 
+- If using anything < python 3.8, do `pip install typing_extensions` to avoid problems.
+
+## Requirements
+
+Some dependencies currently require external packages (at least in linux), so make
+sure you have them.
+
+`sudo apt install libffi-dev libjpeg-dev zlib1g-dev`
+
 ## Dependencies
 
 Dependency manager is in progress, but should work by calling `setup`:

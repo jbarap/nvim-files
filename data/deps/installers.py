@@ -26,7 +26,7 @@ def pip(
         success = await prc.pipeline(
             [
                 prc.call(
-                    paths.PYTHON,
+                    str(paths.PYTHON),
                     '-m',
                     'pip',
                     'install',
