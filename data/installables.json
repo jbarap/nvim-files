@@ -197,6 +197,14 @@
                 "name": "black"
             }
         },
+        "prettier": {
+            "notes": "Markdown/JS/vue/... fixer.",
+            "cmd": ["prettier"],
+            "install_info": {
+                "method": "npm",
+                "name": "prettier"
+            }
+        },
         "isort": {
             "notes": "Python fixer.",
             "cmd": ["isort"],

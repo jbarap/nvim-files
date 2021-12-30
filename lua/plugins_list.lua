@@ -16,7 +16,7 @@ local use = require("packer").use
 return require("packer").startup({
   function()
     -- Packer
-    use({ "wbthomason/packer.nvim" })
+    use("wbthomason/packer.nvim")
 
     -- Improve perf
     use("lewis6991/impatient.nvim") -- until: https://github.com/neovim/neovim/pull/15436
@@ -31,8 +31,6 @@ return require("packer").startup({
 
     -- Colors
     use({ "norcalli/nvim-colorizer.lua", cmd = { "ColorizerToggle" } })
-    -- use 'folke/tokyonight.nvim'
-    use("EdenEast/nightfox.nvim")
     use("rebelot/kanagawa.nvim")
 
     -- LSP
@@ -46,7 +44,7 @@ return require("packer").startup({
     use({
       "jose-elias-alvarez/null-ls.nvim",
       requires = { "nvim-lua/plenary.nvim" },
-      rocks = {"luacheck"},
+      rocks = { "luacheck" },
     })
     use("stevearc/aerial.nvim")
 
@@ -56,7 +54,6 @@ return require("packer").startup({
     use("hrsh7th/cmp-nvim-lua")
     use("hrsh7th/cmp-nvim-lsp")
     use("hrsh7th/cmp-path")
-    -- use 'hrsh7th/cmp-cmdline'
 
     -- Code icons
     use("onsails/lspkind-nvim")
@@ -74,7 +71,6 @@ return require("packer").startup({
     use("karb94/neoscroll.nvim")
     use("aserowy/tmux.nvim")
     -- check: https://github.com/ggandor/lightspeed.nvim
-    -- check: https://github.com/ThePrimeagen/harpoon
 
     -- Fuzzy finding
     use({
