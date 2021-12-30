@@ -194,50 +194,55 @@ require('dressing').setup({
 
 --           colorschemes
 -- ──────────────────────────────
-vim.g.tokyonight_style = "night"
-vim.g.tokyonight_hide_inactive_statusline = true
+vim.g._colorscheme = "kanagawa"
 
-require("nightfox").setup({
-  fox = "nightfox",
-  transparent = false,
-})
+if vim.g._colorscheme == "tokyonight" then
+  vim.g.tokyonight_style = "night"
+  vim.g.tokyonight_hide_inactive_statusline = true
 
-require('kanagawa').setup({
-  undercurl = true,           -- enable undercurls
-  commentStyle = "italic",
-  functionStyle = "NONE",
-  keywordStyle = "italic",
-  statementStyle = "bold",
-  typeStyle = "NONE",
-  variablebuiltinStyle = "italic",
-  specialReturn = true,
-  specialException = true,
-  transparent = false,
-  colors = {
-    sumiInk0 = "#131313",
-    sumiInk1 = "#151515",
-  },
-  overrides = {
-    -- Syntax
-    Normal = { fg = "#c9c9c9"},
-    -- Cursor
-    ColorColumn = { bg = "#131414" },
-    CursorLine = { bg = "#131414" },
-    -- Floats
-    FloatBorder = { bg = "#131313" },
-    -- Search
-    Search = { bg = "#1c284a" },
-    Substitute = { bg = "#4d1d28" },
-    -- Telescope
-    TelescopeSelection = { bg = "#202020" },
-    -- Cmp
-    Pmenu = { bg = "#202020" },
-    PmenuSbar = { bg = "#252525" },
-  },
-})
+elseif vim.g._colorscheme == "nightfox" then
+  require("nightfox").setup({
+    fox = "nightfox",
+    transparent = false,
+  })
+
+elseif vim.g._colorscheme == "kanagawa" then
+  require('kanagawa').setup({
+    undercurl = true,           -- enable undercurls
+    commentStyle = "italic",
+    functionStyle = "NONE",
+    keywordStyle = "italic",
+    statementStyle = "bold",
+    typeStyle = "NONE",
+    variablebuiltinStyle = "italic",
+    specialReturn = true,
+    specialException = true,
+    transparent = false,
+    colors = {
+      sumiInk0 = "#131313",
+      sumiInk1 = "#151515",
+    },
+    overrides = {
+      -- Syntax
+      Normal = { fg = "#c9c9c9"},
+      -- Cursor
+      ColorColumn = { bg = "#131414" },
+      CursorLine = { bg = "#131414" },
+      -- Floats
+      FloatBorder = { bg = "#131313" },
+      -- Search
+      Search = { bg = "#1c284a" },
+      Substitute = { bg = "#4d1d28" },
+      -- Telescope
+      TelescopeSelection = { bg = "#202020" },
+      -- Cmp
+      Pmenu = { bg = "#202020" },
+      PmenuSbar = { bg = "#252525" },
+    },
+  })
+end
 
 -- Colorscheme highlight changes in after/plugin/colorscheme.lua
-vim.g._colorscheme = "kanagawa"
 vim.cmd(string.format("colorscheme %s", vim.g._colorscheme))
 
 -- Load icons highlights AFTER the coloscheme to avoid overrides
