@@ -426,14 +426,22 @@ vim.cmd("autocmd User targets#mappings#user call targets#mappings#extend({'a': {
 
 --          aerial
 -- ──────────────────────────────
-vim.g.aerial = {
+require("aerial").setup({
   backends = { "lsp", "treesitter", "markdown" },
   highlight_on_jump = 300,
-  manage_folds = false, -- really nice functionality, but hangs in big files
+  manage_folds = false, -- TODO: test on big files
   link_tree_to_folds = true,
   link_folds_to_tree = true,
-}
-bind("n", "<Leader>a", "<cmd>AerialToggle<CR>", opts)
+  disable_max_lines = 10000,
+  on_attach = function(bufnr)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>a', '<cmd>AerialToggle!<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrev<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNext<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<cmd>AerialPrevUp<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
+  end
+})
+bind("n", "<Leader>a", "<cmd>AerialToggle<CR>", opts) -- for TS support without LSP
 
 --          matchparen
 -- ──────────────────────────────

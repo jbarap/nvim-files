@@ -32,4 +32,22 @@ ls.snippets = {
       t(")"),
     }),
   },
+
+  json = {
+    s({ trig = "debugpython", name = "Python debug" }, {
+      t({ "{" }),
+      t({ "", '\t"configurations": [' }),
+      t({ "", '\t\t{' }),
+      t({ "", '\t\t\t"name": ' }), i(1, '"Project launch"'), t(","),
+      t({ "", '\t\t\t"type": ' }), i(2, '"python_launch"'), t(","),
+      t({ "", '\t\t\t"request": ' }), i(3, '"launch"'), t(","),
+      t({ "", '\t\t\t"program": ' }), i(4, '"${workspaceFolder}/${file}"'), t(","),
+      t({ "", '\t\t\t"args": [' }), i(5), t({ "]" }), t(","),
+      t({ "", '\t\t\t"cwd": ' }), i(6, '"${workspaceFolder}"'), t(","),
+      t({ "", '\t\t\t"env": {' }), i(0), t({ "}" }),
+      t({ "", '\t\t}' }),
+      t({ "", '\t]' }),
+      t({ "", "}" }),
+    }),
+  }
 }

@@ -138,6 +138,9 @@ require("dapui").setup({
   },
 })
 
+-- load launch.json
+require('dap.ext.vscode').load_launchjs(vim.fn.getcwd() .. '/launch.json')
+
 -- start ui automatically
 dap.listeners.after["event_initialized"]["custom_dapui"] = function()
   require("dapui").open()

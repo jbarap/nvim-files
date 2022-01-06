@@ -159,7 +159,7 @@ function M.todo_comments()
     "NOTE",
   }
   require("telescope.builtin").live_grep({
-    default_text = table.concat(all_comments, ":|"),
+    default_text = table.concat(all_comments, ":|") .. ":",
     _completion_callbacks = {
       send_to_qf = function ()
         require("telescope.actions").smart_send_to_qflist()
@@ -167,6 +167,7 @@ function M.todo_comments()
     },
   })
 end
+bind("n", "<Leader>ct", ":lua require('plugins_config.utils').todo_comments()<CR>", opts)
 
 -- Lazygit toggle
 local Terminal = require("toggleterm.terminal").Terminal

@@ -13,7 +13,6 @@ local function custom_cmd_source(type, name, opts, is_luarock)
   local command_getter = (is_luarock == nil and paths.get_cmd) or paths.get_luarock_cmd
 
   local custom_opts = {
-    name = name,
     command = command_getter(name, { as_string = true })
   }
 

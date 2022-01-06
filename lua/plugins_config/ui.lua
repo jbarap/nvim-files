@@ -180,6 +180,7 @@ require("indent_blankline").setup({
     "NeovitStatus",
     "tsplayground",
     "startup",
+    "dap-repl",
   },
   max_indent_increase = 10,
 })
@@ -208,7 +209,7 @@ elseif vim.g._colorscheme == "nightfox" then
 
 elseif vim.g._colorscheme == "kanagawa" then
   require('kanagawa').setup({
-    undercurl = true,           -- enable undercurls
+    undercurl = true,
     commentStyle = "italic",
     functionStyle = "NONE",
     keywordStyle = "italic",
@@ -218,6 +219,7 @@ elseif vim.g._colorscheme == "kanagawa" then
     specialReturn = true,
     specialException = true,
     transparent = false,
+    dimInactive = false,
     colors = {
       sumiInk0 = "#131313",
       sumiInk1 = "#151515",
@@ -225,6 +227,7 @@ elseif vim.g._colorscheme == "kanagawa" then
     overrides = {
       -- Syntax
       Normal = { fg = "#c9c9c9"},
+      NormalNC = { bg = "#131313" },
       -- Cursor
       ColorColumn = { bg = "#131414" },
       CursorLine = { bg = "#131414" },

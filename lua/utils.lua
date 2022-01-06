@@ -2,6 +2,7 @@ local M = {}
 
 --          autogroups
 -- ──────────────────────────────
+
 function M.create_augroup(name, autocmds)
   vim.cmd("augroup " .. name)
   vim.cmd("autocmd!")
@@ -15,6 +16,7 @@ end
 
 --          togglers
 -- ──────────────────────────────
+
 -- Toggle the quickfix list
 function M.toggle_quickfix()
   local windows = vim.fn.getwininfo()
@@ -35,6 +37,7 @@ end
 
 --           sudo
 -- ──────────────────────────────
+
 -- Use sudo to execute commands and write files
 -- from: https://github.com/ibhagwan/nvim-lua/blob/main/lua/utils.lua#L280
 M.sudo_exec = function(cmd, print_output)
@@ -84,6 +87,7 @@ end
 
 --           search
 -- ──────────────────────────────
+
 M.search_word = function()
   vim.cmd([[let @/='\<]] .. vim.fn.expand("<cword>") .. [[\>']])
   vim.o["hlsearch"] = true
@@ -91,6 +95,7 @@ end
 
 --            files
 -- ──────────────────────────────
+
 -- Get a python executable within a virtualenv
 M.get_python_executable = function(bin_name)
   local result = bin_name
@@ -103,8 +108,33 @@ M.get_python_executable = function(bin_name)
   return result
 end
 
+
+--            keybinds
+-- ──────────────────────────────
+
+-- Wrapper around vim.api.nvim_set_keymap with default options
+-- The default options are: { noremap = true, silent = true }
+-- Any options passed as the fourth argument will override them
+---@param modes string | table #mode(s) under which this keymap applies.
+---@param lhs string #left hand side of the mapping.
+---@param rhs string #right hand side of the mapping.
+---@param opts table #additional options.
+M.set_keybind = function (modes, lhs, rhs, opts)
+  if type(modes) == "string" then
+    modes = { modes }
+  end
+
+  opts = opts or {}
+  opts = vim.tbl_extend("force", { noremap = true, silent = true }, opts)
+
+  for _, m in ipairs(modes) do
+    vim.api.nvim_set_keymap(m, lhs, rhs, opts)
+  end
+end
+
 --       highlight interface
 -- ──────────────────────────────
+
 local Highlight = {
   id = 0,
   name = "",

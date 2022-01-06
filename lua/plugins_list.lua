@@ -11,16 +11,26 @@ if fn.empty(fn.glob(install_path)) > 0 then
   vim.api.nvim_command("packadd packer.nvim")
 end
 
-local use = require("packer").use
+local ok, packer = pcall(require, "packer")
+if not ok then
+  return
+end
 
-return require("packer").startup({
-  function()
+packer.init({
+  display = {
+    open_fn = function()
+      return require("packer.util").float({ border = "rounded" })
+    end
+  }
+})
+
+return packer.startup({
+  function(use)
     -- Packer
     use("wbthomason/packer.nvim")
 
     -- Improve perf
     use("lewis6991/impatient.nvim") -- until: https://github.com/neovim/neovim/pull/15436
-    use("nathom/filetype.nvim")
     use("monkoose/matchparen.nvim")
 
     -- Diverse tools
@@ -120,8 +130,6 @@ return require("packer").startup({
 
     -- Dashboard
     use("glepnir/dashboard-nvim")
-    -- check: https://github.com/goolord/alpha-nvim it's slower due to VimEnter atm
-    -- check: https://github.com/startup-nvim/startup.nvim
 
     -- Documentation generation
     use({ "kkoomen/vim-doge", run = ":call doge#install()", opt = true, cmd = { "DogeGenerate" } })

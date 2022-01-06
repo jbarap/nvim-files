@@ -1,7 +1,6 @@
 local language_servers = require("plugins_config.lsp.servers")
 
 local opts = { noremap = true, silent = true }
-local aerial = require("aerial")
 
 --           on attach
 -- ──────────────────────────────
@@ -14,7 +13,7 @@ local on_attach = function(client, bufnr)
   end
 
   -- Aerial window
-  aerial.on_attach(client)
+  require("aerial").on_attach(client)
 
   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 

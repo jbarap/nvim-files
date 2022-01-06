@@ -1,4 +1,3 @@
-local cmd = vim.cmd
 local utils = require("utils")
 local opt = vim.opt
 
@@ -85,8 +84,9 @@ opt.listchars = { tab = "  " }
 -- Jumplist
 opt.jumpoptions = "stack"
 
--- Enable filetype plugin
-cmd("filetype plugin on")
+-- Use filetype in lua
+vim.g.do_filetype_lua = 1
+vim.g.did_load_filetypes = 0
 
 -- Diff options
 -- waiting on: https://github.com/neovim/neovim/pull/14537
