@@ -4,7 +4,7 @@ local modules = {
   "lsp.config",
   "lsp.snippets",
   "debug",
-  "whichkey",
+  -- "whichkey",
 }
 
 for _, mod in ipairs(modules) do

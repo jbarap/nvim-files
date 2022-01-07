@@ -1,18 +1,19 @@
-local bind = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
+local set_keymap = vim.keymap.set
 
 local M = {}
 
 --        nvim-dap
 -- ──────────────────────────────
 local dap = require("dap")
-bind("n", "<Leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", opts)
-bind("n", "<Leader>dc", ":lua require'dap'.continue()<CR>", opts)
-bind("n", "<Leader>dj", ":lua require'dap'.step_over()<CR>", opts)
-bind("n", "<Leader>dl", ":lua require'dap'.step_into()<CR>", opts)
-bind("n", "<Leader>dh", ":lua require'dap'.step_out()<CR>", opts)
-bind("n", "<Leader>dr", ":lua require'dap'.repl.open()<CR>", opts)
-bind("n", "<Leader>ds", ":lua require'dap'.close()<CR>:lua require('dapui').close()<CR>", opts)
+local dapui = require("dapui")
+
+set_keymap("n", "<Leader>db", dap.toggle_breakpoint)
+set_keymap("n", "<Leader>dc", dap.continue)
+set_keymap("n", "<Leader>dj", dap.step_over)
+set_keymap("n", "<Leader>dl", dap.step_into)
+set_keymap("n", "<Leader>dh", dap.step_out)
+set_keymap("n", "<Leader>dr", dap.repl.open)
+set_keymap("n", "<Leader>ds", function() dap.close(); dapui.close() end)
 
 vim.cmd("au FileType dap-repl lua require('dap.ext.autocompl').attach()")
 vim.fn.sign_define("DapBreakpoint", { text = "🔺", texthl = "", linehl = "", numhl = "" })
@@ -103,7 +104,7 @@ dap.configurations.python = {
 
 --          dapui
 -- ──────────────────────────────
-require("dapui").setup({
+dapui.setup({
   icons = {
     expanded = "―",
     collapsed = "=",
@@ -143,7 +144,7 @@ require('dap.ext.vscode').load_launchjs(vim.fn.getcwd() .. '/launch.json')
 
 -- start ui automatically
 dap.listeners.after["event_initialized"]["custom_dapui"] = function()
-  require("dapui").open()
+  dapui.open()
 end
 
 return M

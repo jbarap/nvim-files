@@ -1,5 +1,6 @@
 local language_servers = require("plugins_config.lsp.servers")
 
+-- TODO: change to keybind
 local opts = { noremap = true, silent = true }
 
 --           on attach

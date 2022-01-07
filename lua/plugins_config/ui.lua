@@ -1,5 +1,4 @@
-local bind = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
+local set_keymap = vim.keymap.set
 
 --           options
 -- ──────────────────────────────
@@ -10,8 +9,9 @@ vim.cmd("syntax on")
 
 --           nvim-tree
 -- ──────────────────────────────
-bind("n", "<Leader>nn", ":lua require('plugins_config.utils').toggle_tree_offset_tabline('tree')<CR>", opts)
-bind("n", "<Leader>nf", ":lua require('plugins_config.utils').toggle_tree_offset_tabline('file')<CR>", opts)
+set_keymap("n", "<Leader>nn", function() require("plugins_config.utils").toggle_tree_offset_tabline("tree") end)
+set_keymap("n", "<Leader>nf", function() require("plugins_config.utils").toggle_tree_offset_tabline("file") end)
+
 vim.g.nvim_tree_width = 40 -- kept global for access in utils toggle function
 vim.g.nvim_tree_auto_ignore_ft = { "startify", "dashboard" }
 vim.g.nvim_tree_indent_markers = 1
@@ -60,7 +60,7 @@ require("nvim-tree").setup({
 --           trouble
 -- ──────────────────────────────
 -- lazy loaded setup
-vim.api.nvim_set_keymap("n", "<leader>cdd", "<cmd>TroubleToggle<cr>", opts)
+set_keymap("n", "<leader>cdd", "<cmd>TroubleToggle<cr>")
 
 --           lualine
 -- ──────────────────────────────
@@ -109,8 +109,8 @@ require("lualine").setup({
 
 --           dashboard
 -- ──────────────────────────────
-bind("n", "<Leader>ss", ":SessionSave<CR>", opts)
-bind("n", "<Leader>sl", ":SessionLoad<CR>", opts)
+set_keymap("n", "<Leader>ss", "<cmd>SessionSave<CR>")
+set_keymap("n", "<Leader>sl", "<cmd>SessionLoad<CR>")
 vim.g.dashboard_default_executive = "telescope"
 
 vim.g.dashboard_custom_section = {
@@ -133,21 +133,21 @@ vim.g.dashboard_custom_footer = { "Better than yesterday." }
 
 --           barbar
 -- ──────────────────────────────
-bind("n", "<A-,>", ":BufferPrevious<CR>", opts)
-bind("n", "<A-.>", ":BufferNext<CR>", opts)
-bind("n", "<A-<>", ":BufferMovePrevious<CR>", opts)
-bind("n", "<A->>", ":BufferMoveNext<CR>", opts)
+set_keymap("n", "<A-,>", "<cmd>BufferPrevious<CR>")
+set_keymap("n", "<A-.>", "<cmd>BufferNext<CR>")
+set_keymap("n", "<A-<>", "<cmd>BufferMovePrevious<CR>")
+set_keymap("n", "<A->>", "<cmd>BufferMoveNext<CR>")
 
-bind("n", "<A-1>", ":BufferGoto 1<CR>", opts)
-bind("n", "<A-2>", ":BufferGoto 2<CR>", opts)
-bind("n", "<A-3>", ":BufferGoto 3<CR>", opts)
-bind("n", "<A-4>", ":BufferGoto 4<CR>", opts)
-bind("n", "<A-5>", ":BufferGoto 5<CR>", opts)
-bind("n", "<A-6>", ":BufferGoto 6<CR>", opts)
+set_keymap("n", "<A-1>", "<cmd>BufferGoto 1<CR>")
+set_keymap("n", "<A-2>", "<cmd>BufferGoto 2<CR>")
+set_keymap("n", "<A-3>", "<cmd>BufferGoto 3<CR>")
+set_keymap("n", "<A-4>", "<cmd>BufferGoto 4<CR>")
+set_keymap("n", "<A-5>", "<cmd>BufferGoto 5<CR>")
+set_keymap("n", "<A-6>", "<cmd>BufferGoto 6<CR>")
 
-bind("n", "<Leader>bp", ":BufferPick<CR>", opts)
-bind("n", "<Leader>bd", ":BufferClose<CR>", opts)
-bind("n", "<Leader>bo", ":BufferCloseAllButCurrent<CR>", opts)
+set_keymap("n", "<Leader>bp", "<cmd>BufferPick<CR>")
+set_keymap("n", "<Leader>bd", "<cmd>BufferClose<CR>")
+set_keymap("n", "<Leader>bo", "<cmd>BufferCloseAllButCurrent<CR>")
 
 vim.g.bufferline = {
   tabpages = true,

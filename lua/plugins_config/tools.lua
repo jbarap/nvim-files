@@ -1,5 +1,4 @@
-local bind = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
+local set_keymap = vim.keymap.set
 
 --           tree sitter
 -- ──────────────────────────────
@@ -86,39 +85,46 @@ require("nvim-treesitter.configs").setup({
 --       telescope keybinds
 -- ──────────────────────────────
 -- see full config at: plugins_config/telescope.lua
-local bind_picker = require("plugins_config.utils").bind_picker
-
-local find_all_command =
-  "{'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '{.git,.mypy_cache,__pycache__}'}"
-
-local file_displayer = "require('plugins_config.telescope_custom').file_displayer()"
-local grep_displayer = "require('plugins_config.telescope_custom').grep_displayer()"
-
 -- projects
-bind("n", "<Leader>pl", ":Telescope projects<CR>", opts)
+set_keymap("n", "<Leader>pl", "<cmd>Telescope projects<CR>")
 
 -- find all files
-bind_picker(
-  "<Leader>fa",
-  "find_files",
-  string.format("{find_command=%s, entry_maker=%s}", find_all_command, file_displayer)
-)
+set_keymap("n", "<Leader>fa", function ()
+  require("telescope.builtin").find_files(
+    {
+      find_command = {'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '{.git,.mypy_cache,__pycache__}'},
+      entry_maker = require("plugins_config.telescope_custom").file_displayer(),
+    }
+  )
+end)
 
 -- find files
-bind_picker("<Leader>ff", "find_files", string.format("{entry_maker=%s}", file_displayer))
+set_keymap("n", "<Leader>ff", function ()
+  require("telescope.builtin").find_files(
+    {
+      entry_maker = require("plugins_config.telescope_custom").file_displayer(),
+    }
+  )
+end)
 
 -- grep
-bind_picker("<Leader>fg", "live_grep", string.format("{entry_maker=%s}", grep_displayer))
+set_keymap("n", "<Leader>fg", function ()
+  require("telescope.builtin").live_grep(
+    {
+      entry_maker = require("plugins_config.telescope_custom").grep_displayer(),
+    }
+  )
+end)
 
 -- grep in directory
-bind("n", "<Leader>f<C-g>", ":lua require('plugins_config.utils').rg_dir()<CR>", opts)
+set_keymap("n", "<Leader>f<C-g>", function() require("plugins_config.utils").rg_dir() end)
 
-bind_picker("<Leader>fh", "help_tags")
-bind_picker("<Leader>ft", "treesitter")
-bind_picker("<Leader>fb", "buffers")
-bind_picker("<Leader>f<c-b>", "file_browser")
+set_keymap("n", "<Leader>fh", function() require("telescope.builtin").help_tags() end)
+set_keymap("n", "<Leader>ft", function() require("telescope.builtin").treesitter() end)
+set_keymap("n", "<Leader>fb", function() require("telescope.builtin").buffers() end)
+set_keymap("n", "<Leader>f<C-b>", function() require("telescope.builtin").file_browser() end)
 
-bind_picker("<M-x>", "commands")
+set_keymap("n", "<M-x>", function() require("telescope.builtin").commands() end)
 
 --           autopairs
 -- ──────────────────────────────
@@ -175,10 +181,10 @@ require("tmux").setup({
     enable_default_keybindings = false,
   },
 })
-bind("n", "<Right>", [[<cmd>lua require("tmux").resize_right()<cr>]], opts)
-bind("n", "<Left>", [[<cmd>lua require("tmux").resize_left()<cr>]], opts)
-bind("n", "<Up>", [[<cmd>lua require("tmux").resize_top()<cr>]], opts)
-bind("n", "<Down>", [[<cmd>lua require("tmux").resize_bottom()<cr>]], opts)
+set_keymap("n", "<Right>", require("tmux").resize_right)
+set_keymap("n", "<Left>", require("tmux").resize_left)
+set_keymap("n", "<Up>", require("tmux").resize_top)
+set_keymap("n", "<Down>", require("tmux").resize_bottom)
 
 --            neogit
 -- ──────────────────────────────
@@ -201,7 +207,7 @@ neogit.setup({
     },
   }
 })
-bind("n", "<Leader>gs", "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", opts)
+set_keymap("n", "<Leader>gs", function() neogit.open( {kind = "split"}) end)
 
 --           gitsigns
 -- ──────────────────────────────
@@ -245,14 +251,14 @@ require("gitsigns").setup({
 
 --            fugitive
 -- ──────────────────────────────
--- bind('n', "<Leader>gs", ":Git<CR>", opts)
-bind("n", "<Leader>gdh", ":diffget //2<CR>", opts)
-bind("n", "<Leader>gdl", ":diffget //3<CR>", opts)
-bind("n", "<Leader>gf", ":lua require('plugins_config.utils').prompt_git_file()<CR>", opts)
+-- set_keymap("n", "<Leader>gs", "<cmd>Git<CR>")
+set_keymap("n", "<Leader>gdh", "<cmd>diffget //2<CR>")
+set_keymap("n", "<Leader>gdl", "<cmd>diffget //3<CR>")
+set_keymap("n", "<Leader>gf", require("plugins_config.utils").prompt_git_file)
 vim.cmd("autocmd User FugitiveIndex nmap <buffer> <Tab> =")
 
 -- GV!
-bind("n", "<Leader>gl", "<cmd>GV<CR>", opts)
+set_keymap("n", "<Leader>gl", "<cmd>GV<CR>")
 
 --           subversive
 -- ──────────────────────────────
@@ -265,16 +271,18 @@ vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
 -- ──────────────────────────────
 vim.g.doge_doc_standard_python = "google"
 vim.g.doge_mapping = "<Leader>cds"
-bind("n", "<Leader>cds", ":DogeGenerate<CR>", opts)
+set_keymap("n", "<Leader>cds", "<cmd>DogeGenerate<CR>")
 
 --             jupyter
 -- ──────────────────────────────
 require("jupyter-nvim").setup({})
-bind("n", "<Leader>mi", ":MagmaInit<CR>", opts)
-bind("n", "<Leader>ml", ":MagmaEvaluateLine<CR>", opts)
-bind("v", "<Leader>m<CR>", ":<C-u>MagmaEvaluateVisual<CR>", opts)
-bind("n", "<Leader>mc", ":MagmaReevaluateCell<CR>", opts)
-bind("n", "<Leader>m<CR>", ":MagmaShowOutput<CR>", opts)
+
+set_keymap("n", "<Leader>mi", "<cmd>MagmaInit<CR>")
+set_keymap("n", "<Leader>ml", "<cmd>MagmaEvaluateLine<CR>")
+set_keymap("v", "<Leader>m<CR>", ":<C-u>MagmaEvaluateVisual<CR>")
+set_keymap("n", "<Leader>mc", "<cmd>MagmaReevaluateCell<CR>")
+set_keymap("n", "<Leader>m<CR>", "<cmd>MagmaShowOutput<CR>")
+
 vim.cmd("hi def MagmaCell guibg=#202020 guifg=NONE")
 vim.g.magma_automatically_open_output = false
 vim.g.magma_cell_highlight_group = "MagmaCell"
@@ -319,11 +327,11 @@ require("ultest").setup({
     end,
   },
 })
-bind("n", "<Leader>tt", ":Ultest<CR>", opts)
-bind("n", "<Leader>tn", ":UltestNearest<CR>", opts)
-bind("n", "<Leader>ts", ":UltestStop<CR>", opts)
-bind("n", "<Leader>tp", ":UltestSummary<CR>", opts)
-bind("n", "<Leader>td", ":UltestDebugNearest<CR>", opts)
+set_keymap("n", "<Leader>tt", "<cmd>Ultest<CR>")
+set_keymap("n", "<Leader>tn", "<cmd>UltestNearest<CR>")
+set_keymap("n", "<Leader>ts", "<cmd>UltestStop<CR>")
+set_keymap("n", "<Leader>tp", "<cmd>UltestSummary<CR>")
+set_keymap("n", "<Leader>td", "<cmd>UltestDebugNearest<CR>")
 
 vim.g.ultest_output_on_line = 0
 vim.cmd("let test#python#runner = 'pytest'")
@@ -370,8 +378,8 @@ require("diffview").setup({
     },
   },
 })
-bind("n", "<leader>dv", ':lua require("plugins_config.utils").toggle_diff_view("diff")<CR>', opts)
-bind("n", "<leader>df", ':lua require("plugins_config.utils").toggle_diff_view("file")<CR>', opts)
+set_keymap("n", "<leader>dv", function() require("plugins_config.utils").toggle_diff_view("diff") end)
+set_keymap("n", "<leader>df", function() require("plugins_config.utils").toggle_diff_view("file") end)
 
 --          neoscroll
 -- ──────────────────────────────
@@ -400,11 +408,11 @@ require("toggleterm").setup({
   end,
   persist_size = true,
 })
-bind("n", "<Leader>tf", ":ToggleTerm direction=float<CR>", opts)
-bind("n", "<Leader>th", ":ToggleTerm direction=horizontal<CR>", opts)
-bind("n", "<Leader>tv", ":ToggleTerm direction=vertical<CR>", opts)
+set_keymap("n", "<Leader>tf", "<cmd>ToggleTerm direction=float<CR>")
+set_keymap("n", "<Leader>th", "<cmd>ToggleTerm direction=horizontal<CR>")
+set_keymap("n", "<Leader>tv", "<cmd>ToggleTerm direction=vertical<CR>")
 
-bind("n", "<Leader>ce", ":lua require('plugins_config.utils').run_code()<CR>", opts)
+set_keymap("n", "<Leader>ce", require("plugins_config.utils").run_code)
 
 --        better quickfix
 -- ──────────────────────────────
@@ -418,7 +426,7 @@ require("bqf").setup({
 
 --          replacer
 -- ──────────────────────────────
-bind("n", "<leader>qe", ':lua require("replacer").run()<CR>', { nowait = true, noremap = true, silent = true })
+set_keymap("n", "<leader>qe", function() require("replacer").run() end, { nowait = true })
 
 --          targets
 -- ──────────────────────────────
@@ -441,7 +449,7 @@ require("aerial").setup({
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
   end
 })
-bind("n", "<Leader>a", "<cmd>AerialToggle<CR>", opts) -- for TS support without LSP
+set_keymap("n", "<Leader>a", "<cmd>AerialToggle<CR>")
 
 --          matchparen
 -- ──────────────────────────────

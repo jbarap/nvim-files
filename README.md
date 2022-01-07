@@ -10,6 +10,8 @@ workflow.
 
 - If using anything < python 3.8, do `pip install typing_extensions` to avoid problems.
 
+- This config targets nightly.
+
 ## Requirements
 
 Some dependencies currently require external packages (at least in linux), so make

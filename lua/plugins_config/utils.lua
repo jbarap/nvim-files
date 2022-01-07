@@ -1,4 +1,5 @@
-local bind = vim.api.nvim_set_keymap
+local set_keymap = vim.keymap.set
+
 local opts = { noremap = true, silent = true }
 
 local M = {}
@@ -167,7 +168,7 @@ function M.todo_comments()
     },
   })
 end
-bind("n", "<Leader>ct", ":lua require('plugins_config.utils').todo_comments()<CR>", opts)
+set_keymap("n", "<Leader>ct", M.todo_comments)
 
 -- Lazygit toggle
 local Terminal = require("toggleterm.terminal").Terminal
@@ -209,7 +210,7 @@ end
 
 --        function binds
 -- ──────────────────────────────
-bind("n", "<Leader>cp", ":lua require('plugins_config.utils').buffer_performance_mode()<CR>", opts)
--- bind("n", "<leader>gs", "<cmd>lua require('plugins_config.utils').lazygit_toggle()<CR>", opts)
+set_keymap("n", "<Leader>cp", M.buffer_performance_mode)
+-- set_keymap("n", "<Leader>gs", M.lazygit_toggle)
 
 return M
