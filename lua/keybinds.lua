@@ -37,7 +37,7 @@ set_keymap("v", "<Leader><CR>", "<Esc>")
 -- Buffer settings
 set_keymap("n", "<Leader>b.", "<cmd>bnext<CR>")
 set_keymap("n", "<Leader>b,", "<cmd>bprev<CR>")
--- buffer delete in ui.lua as part of Barbar
+set_keymap("n", "<Leader>bd", require("utils").buffer_delete)
 
 -- Goto window above/below/left/right
 set_keymap("n", "<C-h>", "<cmd>wincmd h<CR>")

@@ -109,26 +109,70 @@ M.get_python_executable = function(bin_name)
 end
 
 
---            keybinds
+--          buffer delete
 -- ──────────────────────────────
 
--- Wrapper around vim.api.nvim_set_keymap with default options
--- The default options are: { noremap = true, silent = true }
--- Any options passed as the fourth argument will override them
----@param modes string | table #mode(s) under which this keymap applies.
----@param lhs string #left hand side of the mapping.
----@param rhs string #right hand side of the mapping.
----@param opts table #additional options.
-M.set_keybind = function (modes, lhs, rhs, opts)
-  if type(modes) == "string" then
-    modes = { modes }
+-- From: https://github.com/nyngwang/NeoNoName.lua/blob/main/lua/neo-no-name.lua
+M.buffer_delete = function()
+  if (vim.bo.filetype == 'dashboard') then
+    vim.cmd('bd')
+    return
   end
+  local buffers = vim.tbl_filter(function(buf)
+    return vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_get_option(buf, 'buflisted')
+  end, vim.api.nvim_list_bufs())
+  if (vim.api.nvim_tabpage_get_number(0) == 1) then
+    if (#buffers > 1) then
+      vim.cmd('bn')
+      vim.cmd('bd #')
+    else
+      vim.cmd('bd')
+    end
+    return
+  end
+  local win_from_non_hidden_buf = {}
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    win_from_non_hidden_buf[vim.api.nvim_win_get_buf(win)] = win
+  end
+  -- find a No-Name buffer from the existing ones in `:ls`.
+  local first_no_name_buf = nil
+  for _, buf in ipairs(buffers) do
+    if (vim.api.nvim_buf_get_name(buf) == '') then
+      first_no_name_buf = buf
+      break
+    end
+  end
+  -- if this is the first No Name buffer, then create one and done.
+  if (first_no_name_buf == nil) then
+    vim.cmd('enew')
+    return
+  end
+  -- make the current buffer No Name without `:enew`, so both `buffers`, and `win_from_non_hidden_buf` are valid.
+  vim.api.nvim_set_current_buf(first_no_name_buf)
+  -- set all the other No Name buffers to be the same one.
+  for _, buf in ipairs(buffers) do
+    if (vim.api.nvim_buf_get_name(buf) == '' and win_from_non_hidden_buf[buf] ~= nil) then
+      vim.api.nvim_win_set_buf(win_from_non_hidden_buf[buf], first_no_name_buf)
+    end
+  end
+  -- delete all the other No-Name buffers.
+  for _, buf in ipairs(buffers) do
+    if (vim.api.nvim_buf_get_name(buf) == '' and buf ~= first_no_name_buf) then
+      vim.cmd('bd ' .. buf)
+    end
+  end
+end
 
-  opts = opts or {}
-  opts = vim.tbl_extend("force", { noremap = true, silent = true }, opts)
+M.buffer_close_all_but_current = function()
+  -- require("bufferline").close_in_direction("left")
+  -- require("bufferline").close_in_direction("right")
 
-  for _, m in ipairs(modes) do
-    vim.api.nvim_set_keymap(m, lhs, rhs, opts)
+  local current_buf = vim.api.nvim_get_current_buf()
+  local all_bufs = vim.api.nvim_list_bufs()
+  for _, buf in ipairs(all_bufs) do
+    if buf ~= current_buf and vim.api.nvim_buf_is_loaded(buf) then
+      vim.cmd(string.format("bdelete %s", buf))
+    end
   end
 end
 

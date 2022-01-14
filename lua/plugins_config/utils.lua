@@ -42,7 +42,7 @@ function M.toggle_diff_view(mode)
 
   if is_diffview then
     vim.cmd("silent DiffviewClose")
-    vim.cmd("silent BufferCloseAllButCurrent")
+    require("utils").buffer_close_all_but_current()
   else
     if mode == "diff" then
       vim.fn.feedkeys(":DiffviewOpen ")

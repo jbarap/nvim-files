@@ -5,12 +5,11 @@ local set_keymap = vim.keymap.set
 vim.o.termguicolors = true
 vim.o.background = "dark"
 vim.cmd("syntax enable")
-vim.cmd("syntax on")
 
 --           nvim-tree
 -- ──────────────────────────────
-set_keymap("n", "<Leader>nn", function() require("plugins_config.utils").toggle_tree_offset_tabline("tree") end)
-set_keymap("n", "<Leader>nf", function() require("plugins_config.utils").toggle_tree_offset_tabline("file") end)
+set_keymap("n", "<Leader>nn", function() require("nvim-tree").toggle() end)
+set_keymap("n", "<Leader>nf", function() require("nvim-tree").find_file(true) end)
 
 vim.g.nvim_tree_width = 40 -- kept global for access in utils toggle function
 vim.g.nvim_tree_auto_ignore_ft = { "startify", "dashboard" }
@@ -131,31 +130,41 @@ vim.g.dashboard_custom_header = {
 }
 vim.g.dashboard_custom_footer = { "Better than yesterday." }
 
---           barbar
+--          bufferline
 -- ──────────────────────────────
-set_keymap("n", "<A-,>", "<cmd>BufferPrevious<CR>")
-set_keymap("n", "<A-.>", "<cmd>BufferNext<CR>")
-set_keymap("n", "<A-<>", "<cmd>BufferMovePrevious<CR>")
-set_keymap("n", "<A->>", "<cmd>BufferMoveNext<CR>")
+set_keymap("n", "<A-,>", "<cmd>keepjumps BufferLineCyclePrev<CR>")
+set_keymap("n", "<A-.>", "<cmd>keepjumps BufferLineCycleNext<CR>")
+set_keymap("n", "<A-<>", "<cmd>BufferLineMovePrev<CR>")
+set_keymap("n", "<A->>", "<cmd>BufferLineMoveNext<CR>")
 
-set_keymap("n", "<A-1>", "<cmd>BufferGoto 1<CR>")
-set_keymap("n", "<A-2>", "<cmd>BufferGoto 2<CR>")
-set_keymap("n", "<A-3>", "<cmd>BufferGoto 3<CR>")
-set_keymap("n", "<A-4>", "<cmd>BufferGoto 4<CR>")
-set_keymap("n", "<A-5>", "<cmd>BufferGoto 5<CR>")
-set_keymap("n", "<A-6>", "<cmd>BufferGoto 6<CR>")
+set_keymap("n", "<A-1>", "<cmd>BufferLineGoToBuffer 1<CR>")
+set_keymap("n", "<A-2>", "<cmd>BufferLineGoToBuffer 2<CR>")
+set_keymap("n", "<A-3>", "<cmd>BufferLineGoToBuffer 3<CR>")
+set_keymap("n", "<A-4>", "<cmd>BufferLineGoToBuffer 4<CR>")
+set_keymap("n", "<A-5>", "<cmd>BufferLineGoToBuffer 5<CR>")
+set_keymap("n", "<A-6>", "<cmd>BufferLineGoToBuffer 6<CR>")
 
-set_keymap("n", "<Leader>bp", "<cmd>BufferPick<CR>")
-set_keymap("n", "<Leader>bd", "<cmd>BufferClose<CR>")
-set_keymap("n", "<Leader>bo", "<cmd>BufferCloseAllButCurrent<CR>")
+set_keymap("n", "<Leader>bp", "<cmd>BufferLinePick<CR>")
+set_keymap("n", "<Leader>bo", require("utils").buffer_close_all_but_current)
 
-vim.g.bufferline = {
-  tabpages = true,
-  exclude_ft = { "dashboard" },
-  exclude_name = { "" },
-  maximum_length = 30,
-  auto_hide = true,
-}
+
+require("bufferline").setup({
+  options = {
+    max_name_length = 18,
+    max_prefix_length = 15,
+    tab_size = 18,
+    offsets = {{ filetype = "NvimTree", text = "Tree", text_align = "center" }},
+    show_buffer_close_icons = false,
+    show_close_icon = false,
+    separator_style = "thick",
+    always_show_bufferline = false,
+  },
+  highlights = {
+    buffer_selected = { gui = "bold" },
+    close_button = { guifg = "#000000", guibg = "#000000"},
+    modified = { guifg = "NONE", guibg = "NONE", },
+  },
+})
 
 --           indent-blankline
 -- ──────────────────────────────

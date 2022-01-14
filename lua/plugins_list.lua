@@ -93,7 +93,7 @@ return packer.startup({
     use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 
     -- Tabs
-    use("romgrk/barbar.nvim")
+    use({ 'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons' })
 
     -- Statusline
     use({ "nvim-lualine/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true } })
