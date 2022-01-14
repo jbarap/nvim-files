@@ -22,6 +22,10 @@ ls.snippets = {
       t({ "import pdb; pdb.set_trace()" }),
     }),
 
+    s("ipdb", {
+      t({ "import ipdb; ipdb.set_trace(context=5)" }),
+    }),
+
     s("pudb", {
       t({ "import pudb; pudb.set_trace()" }),
     }),

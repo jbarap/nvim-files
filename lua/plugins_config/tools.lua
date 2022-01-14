@@ -258,7 +258,7 @@ set_keymap("n", "<Leader>gf", require("plugins_config.utils").prompt_git_file)
 vim.cmd("autocmd User FugitiveIndex nmap <buffer> <Tab> =")
 
 -- GV!
-set_keymap("n", "<Leader>gl", "<cmd>GV<CR>")
+set_keymap("n", "<Leader>gl", "<cmd>GV --all<CR>")
 
 --           subversive
 -- ──────────────────────────────

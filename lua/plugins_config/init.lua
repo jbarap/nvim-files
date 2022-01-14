@@ -8,7 +8,7 @@ local modules = {
 }
 
 for _, mod in ipairs(modules) do
-  local ok, err = pcall(require, string.format("plugins_config.%s", mod))
+  local ok, err = xpcall(require, debug.traceback, string.format("plugins_config.%s", mod))
   if not ok then
     -- stylua: ignore
     vim.notify(
