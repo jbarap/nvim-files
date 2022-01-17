@@ -252,8 +252,8 @@ require("gitsigns").setup({
 --            fugitive
 -- ──────────────────────────────
 -- set_keymap("n", "<Leader>gs", "<cmd>Git<CR>")
-set_keymap("n", "<Leader>gdh", "<cmd>diffget //2<CR>")
-set_keymap("n", "<Leader>gdl", "<cmd>diffget //3<CR>")
+set_keymap({ "n", "v" }, "<Leader>gdh", "<cmd>diffget //2<CR>")
+set_keymap({ "n", "v" }, "<Leader>gdl", "<cmd>diffget //3<CR>")
 set_keymap("n", "<Leader>gf", require("plugins_config.utils").prompt_git_file)
 vim.cmd("autocmd User FugitiveIndex nmap <buffer> <Tab> =")
 
