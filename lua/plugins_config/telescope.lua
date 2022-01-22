@@ -55,11 +55,11 @@ require("telescope").setup({
     borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
     winblend = 10, -- cursor disappears if I set winblend (only on alacritty)
     layout_config = {
-      height = 0.95,
-      width = 0.95,
+      height = 0.97,
+      width = 0.97,
       scroll_speed = 4,
       horizontal = {
-        preview_width = 0.5,
+        preview_width = 0.4,
       },
       vertical = {
         preview_height = 0.6,
