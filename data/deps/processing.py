@@ -1,5 +1,6 @@
 import asyncio
 import os
+import tarfile
 import traceback
 import zipfile
 
@@ -177,7 +178,11 @@ def unzip_file(
     extraction_path: Optional[Union[str, Path]],
     **kwargs,
 ):
-    if zipfile.is_zipfile(file_path):
+    if tarfile.is_tarfile(file_path):
+        with tarfile.open(file_path) as f:
+            f.extractall(path=str(extraction_path))
+
+    elif zipfile.is_zipfile(file_path):
         with zipfile.ZipFile(file_path) as f:
             f.extractall(path=extraction_path)
         os.remove(file_path)

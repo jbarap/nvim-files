@@ -117,6 +117,7 @@ local server_names = {
   "dockerls",
   "gopls",
   "jsonls",
+  "terraform_lsp",
   "yamlls",
 }
 

@@ -114,6 +114,10 @@ M.configurations = {
   yamlls = {
     cmd = paths.get_cmd("yamlls"),
   },
+
+  terraform_lsp = {
+    cmd = paths.get_cmd("terraform_lsp")
+  },
 }
 
 --        server registration

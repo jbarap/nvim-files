@@ -147,6 +147,21 @@
                 }
             }
         },
+        "terraform_lsp": {
+            "notes": "Terraform lsp.",
+            "cmd": [ "terraform-lsp" ],
+            "install_info": {
+                "method": "github_releases",
+                "name": {
+                    "with_params": "juliosueiras/terraform-lsp/{os_param}",
+                    "os_param": {
+                        "windows": "windows",
+                        "linux": "linux",
+                        "mac": "darwin"
+                    }
+                }
+            }
+        },
         "yamlls": {
             "notes": "Yaml lsp.",
             "cmd": ["yaml-language-server", "--stdio"],
