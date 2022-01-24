@@ -89,6 +89,7 @@ wk.register({
         name = "diff",
         h = "Diff put left",
         l = "Diff put right",
+        t = "Diff this buffer",
       },
       h = {
         name = "hunk/highlight",

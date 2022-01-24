@@ -1,8 +1,8 @@
 local modules = {
   "impatient", -- setup 'require' improvements
   "options", -- General options
-  "plugins_list", -- Load plugins
   "keybinds", -- Load keybinds
+  "plugins_list", -- Load plugins
   "plugins_config", -- Load configuration
 }
 

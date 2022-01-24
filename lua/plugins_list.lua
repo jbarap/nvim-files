@@ -159,7 +159,8 @@ return packer.startup({
     use("sindrets/diffview.nvim")
 
     -- Manage tab settings
-    use("tpope/vim-sleuth")
+    -- use("tpope/vim-sleuth")
+    use("Darazaki/indent-o-matic")
 
     -- Which key
     use("folke/which-key.nvim")
