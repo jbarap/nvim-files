@@ -94,6 +94,7 @@ set_keymap("n", "<Leader>fa", function ()
     {
       find_command = {'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '{.git,.mypy_cache,__pycache__}'},
       entry_maker = require("plugins_config.telescope_custom").file_displayer(),
+      previewer = false,
     }
   )
 end)
@@ -103,6 +104,7 @@ set_keymap("n", "<Leader>ff", function ()
   require("telescope.builtin").find_files(
     {
       entry_maker = require("plugins_config.telescope_custom").file_displayer(),
+      previewer = false,
     }
   )
 end)
