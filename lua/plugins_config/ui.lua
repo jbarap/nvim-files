@@ -237,8 +237,8 @@ elseif vim.g._colorscheme == "kanagawa" then
       Normal = { fg = "#c9c9c9"},
       NormalNC = { bg = "#131313" },
       -- Cursor
-      ColorColumn = { bg = "#131414" },
-      CursorLine = { bg = "#131414" },
+      CursorLine = { bg = "#161616" },
+      ColorColumn = { bg = "#161616" },
       -- Floats
       FloatBorder = { bg = "#131313" },
       -- Search
@@ -249,6 +249,8 @@ elseif vim.g._colorscheme == "kanagawa" then
       -- Cmp
       Pmenu = { bg = "#202020" },
       PmenuSbar = { bg = "#252525" },
+      -- Diffview
+      DiffviewCursorLine = { bg = "#171717" }
     },
   })
 end
