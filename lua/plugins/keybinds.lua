@@ -117,8 +117,8 @@ set_keymap("n", "<Leader>a", "<cmd>AerialToggle<CR>")
 
 --           nvim-tree
 -- ──────────────────────────────
-set_keymap("n", "<Leader>nn", function() require("nvim-tree").toggle() end)
-set_keymap("n", "<Leader>nf", function() require("nvim-tree").find_file(true) end)
+set_keymap("n", "<Leader>nn", "<cmd>NvimTreeToggle<CR>")
+set_keymap("n", "<Leader>nf", "<cmd>NvimTreeFindFileToggle<CR>")
 
 --           trouble
 -- ──────────────────────────────

@@ -5,4 +5,4 @@ sessions/*
 pains.md
 start_time*
 *__pycache__*
-plugin/packer_compiled.lua
+lua/plugins/packer_compiled.lua

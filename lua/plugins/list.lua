@@ -70,6 +70,8 @@ return packer.startup({
     })
     use({
       "stevearc/aerial.nvim",
+      cmd = "AerialToggle",
+      module = "aerial",
       config = conf("aerial"),
     })
     use({
@@ -112,7 +114,6 @@ return packer.startup({
     use({
       "nvim-treesitter/playground",
       cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
-      opt = true,
     })
 
     -- Navigation
@@ -160,6 +161,7 @@ return packer.startup({
     -- File tree
     use({
       "kyazdani42/nvim-tree.lua",
+      cmd = { "NvimTreeToggle", "NvimTreeFindFileToggle" },
       config = conf("nvim_tree"),
     })
 
@@ -202,6 +204,7 @@ return packer.startup({
     use({
       "TimUntersberger/neogit",
       config = conf("neogit"),
+      module = "neogit",
       requires = "nvim-lua/plenary.nvim",
     })
 
@@ -238,20 +241,18 @@ return packer.startup({
     -- Debugging
     use({
       "mfussenegger/nvim-dap",
+      module = "dap",
       config = conf("debug"),
     })
     use({
       "rcarriga/nvim-dap-ui",
+      module = "dapui",
       requires = { "mfussenegger/nvim-dap" },
     })
 
     -- Python
     use("Vimjas/vim-python-pep8-indent")
-    use({
-      "ahmedkhalf/jupyter-nvim",
-      config = conf("jupyter"),
-      run = ":UpdateRemotePlugins",
-    })
+    -- check ahmedkhalf/jupyter-nvim
     use({
       "dccsillag/magma-nvim",
       config = conf("magma"),
@@ -276,6 +277,7 @@ return packer.startup({
     -- Diffview
     use({
       "sindrets/diffview.nvim",
+      cmd = { "DiffviewOpen", "DiffviewFileHistory" },
       config = conf("diffview"),
     })
 
