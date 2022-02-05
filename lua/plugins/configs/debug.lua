@@ -1,51 +1,8 @@
-local set_keymap = vim.keymap.set
-
-local M = {}
-
---        nvim-dap
--- ──────────────────────────────
 local dap = require("dap")
 local dapui = require("dapui")
 
-set_keymap("n", "<Leader>db", dap.toggle_breakpoint)
-set_keymap("n", "<Leader>dc", dap.continue)
-set_keymap("n", "<Leader>dj", dap.step_over)
-set_keymap("n", "<Leader>dl", dap.step_into)
-set_keymap("n", "<Leader>dh", dap.step_out)
-set_keymap("n", "<Leader>dr", dap.repl.open)
-set_keymap("n", "<Leader>ds", function() dap.close(); dapui.close() end)
-
 vim.cmd("au FileType dap-repl lua require('dap.ext.autocompl').attach()")
 vim.fn.sign_define("DapBreakpoint", { text = "🔺", texthl = "", linehl = "", numhl = "" })
-
--- nvim-dap convenience functions
-function M.pick_process()
-  local output = vim.fn.system({ "ps", "a" })
-  local lines = vim.split(output, "\n")
-  local procs = {}
-  for _, line in pairs(lines) do
-    -- output format
-    --    " 107021 pts/4    Ss     0:00 /bin/zsh <args>"
-    local parts = vim.fn.split(vim.fn.trim(line), " \\+")
-    local pid = parts[1]
-    local name = table.concat({ unpack(parts, 5) }, " ")
-    if pid and pid ~= "PID" then
-      pid = tonumber(pid)
-      if pid ~= vim.fn.getpid() then
-        table.insert(procs, { pid = tonumber(pid), name = name })
-      end
-    end
-  end
-  local choices = { "Select process" }
-  for i, proc in ipairs(procs) do
-    table.insert(choices, string.format("%d: pid=%d name=%s", i, proc.pid, proc.name))
-  end
-  local choice = vim.fn.inputlist(choices)
-  if choice < 1 or choice > #procs then
-    return nil
-  end
-  return procs[choice].pid
-end
 
 --          adapters
 -- ──────────────────────────────
@@ -147,4 +104,3 @@ dap.listeners.after["event_initialized"]["custom_dapui"] = function()
   dapui.open()
 end
 
-return M

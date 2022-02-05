@@ -1,4 +1,4 @@
-local language_servers = require("plugins_config.lsp.servers")
+local language_servers = require("plugins.lsp.servers")
 
 -- TODO: change to keybind
 local opts = { noremap = true, silent = true }
@@ -51,7 +51,7 @@ local on_attach = function(client, bufnr)
 
   -- Telescope LSP
   local function buf_bind_picker(...)
-    require("plugins_config.utils").buf_bind_picker(bufnr, ...)
+    require("plugins.utils").buf_bind_picker(bufnr, ...)
   end
   buf_bind_picker("<Leader>fs", "lsp_document_symbols")
   buf_bind_picker("<Leader>fS", "lsp_workspace_symbols")
@@ -145,115 +145,4 @@ language_servers.register(server_names, common_lang_options)
 
 --           null-ls setup
 -- ──────────────────────────────
-require("plugins_config.lsp.linter").setup_linter(on_attach)
-
---            nvim-cmp
--- ──────────────────────────────
-vim.o.completeopt = "menu,menuone,noselect"
-
-local cmp = require("cmp")
-local luasnip = require("luasnip")
-
-cmp.setup({
-  mapping = {
-    ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
-    ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
-    ["<M-k>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-    ["<M-j>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-
-    -- Toggle completion menu with <C-Space>
-    ["<C-Space>"] = cmp.mapping(function(fallback)
-      local action
-      if not cmp.visible() then
-        action = cmp.complete
-      else
-        action = cmp.close
-      end
-
-      if not action() then
-        fallback()
-      end
-    end),
-
-    ["<C-e>"] = cmp.mapping(cmp.mapping.close(), { "i", "c" }),
-
-    ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      -- FIXME: too buggy for gopls
-      -- elseif luasnip.expand_or_jumpable() then
-      --   luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, {
-      "i",
-      "s",
-    }),
-
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      -- elseif luasnip.jumpable(-1) then
-      --   luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, {
-      "i",
-      "s",
-    }),
-
-    ["<CR>"] = cmp.mapping(cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = false,
-    }, {
-      "i",
-      "c",
-    })),
-  },
-
-  sources = {
-    { name = "nvim_lua" },
-    { name = "nvim_lsp" },
-    { name = "luasnip" },
-    { name = "path" },
-    {
-      -- TODO: check the proximity sorter
-      name = "buffer",
-      option = {
-        keyword_length = 5,
-      },
-      keyword_length = 5,
-      max_item_count = 20,
-    },
-  },
-
-  formatting = {
-    format = require("lspkind").cmp_format({
-      with_text = false,
-      menu = {
-        nvim_lsp = "()",
-        buffer = "()",
-        path = "(/)",
-        nvim_lua = "()",
-      },
-    }),
-  },
-
-  preselect = cmp.PreselectMode.None,
-
-  documentation = {
-    border = "rounded",
-  },
-
-  snippet = {
-    expand = function(args)
-      require("luasnip").lsp_expand(args.body)
-    end,
-  },
-})
-
--- autopairs support
-local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = "" } }))
+require("plugins.lsp.linter").setup_linter(on_attach)

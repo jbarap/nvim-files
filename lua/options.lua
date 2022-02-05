@@ -14,6 +14,10 @@ vim.g.python3_host_prog = paths.join_path(
   }
 )
 
+-- Colors
+opt.termguicolors = true
+opt.background = "dark"
+
 -- Split direction
 opt.splitbelow = true
 opt.splitright = true

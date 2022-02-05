@@ -102,4 +102,4 @@ require("telescope").setup({
 
 require("telescope").load_extension("fzf")
 require("telescope").load_extension("projects")
-require("plugins_config.telescope_custom") -- require for caching
+require("plugins.configs.telescope_custom") -- require for caching

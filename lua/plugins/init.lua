@@ -1,14 +1,11 @@
 local modules = {
-  "ui",
-  "tools",
-  "lsp.config",
-  "lsp.snippets",
-  "debug",
-  "whichkey",
+  "list", -- List of plugins defined by Packer
+  "keybinds", -- Plugin related keybinds
+  "lsp.config", -- Lsp + linter configuration
 }
 
 for _, mod in ipairs(modules) do
-  local ok, err = xpcall(require, debug.traceback, string.format("plugins_config.%s", mod))
+  local ok, err = xpcall(require, debug.traceback, string.format("plugins.%s", mod))
   if not ok then
     -- stylua: ignore
     vim.notify(

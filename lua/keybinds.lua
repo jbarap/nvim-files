@@ -54,7 +54,7 @@ set_keymap("n", "<Leader>qq", require("utils").toggle_quickfix)
 set_keymap({ "n", "v" }, "<Leader>dp", "<cmd>diffput<CR>")
 set_keymap({ "n", "v" }, "<Leader>dg", "<cmd>diffget<CR>")
 
--- Resize windows (See plugins_config.tools for resize with tmux)
+-- Resize windows (See plugins.tools for resize with tmux)
 
 -- Keybinds for editing vim config
 set_keymap("n", "<Leader>ve", "<cmd>edit $MYVIMRC<CR>")
