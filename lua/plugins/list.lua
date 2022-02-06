@@ -1,7 +1,5 @@
 local fn = vim.fn
 
-require('plugins.packer_compiled')
-
 -- if Packer is not installed, download and install it
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 local packer_bootstrap
@@ -32,7 +30,7 @@ local conf = function (plugin_name)
   return string.format("require('plugins.configs.%s')", plugin_name)
 end
 
-return packer.startup({
+packer.startup({
   function(use)
     -- Packer
     use("wbthomason/packer.nvim")
@@ -350,3 +348,5 @@ return packer.startup({
     },
   },
 })
+
+require('plugins.packer_compiled')

@@ -5,23 +5,6 @@ local modules = {
   "plugins",  -- Plugins related keybinds and configs
 }
 
--- lua
---  keybinds
---  options
---  paths
---  plugins
---    configs
---      plug_1
---      plug_2
---      plug_3
---    list
---    lsp
---      thing_1
---      thing_2
---    keybinds
---    utils
---  utils
-
 for _, mod in ipairs(modules) do
   local ok, err = pcall(require, mod)
   if not ok then

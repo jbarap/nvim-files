@@ -54,11 +54,11 @@ set_keymap("n", "<Down>", require("tmux").resize_bottom)
 
 --            neogit
 -- ──────────────────────────────
-set_keymap("n", "<Leader>gs", function() require("neogit").open( {kind = "split"}) end)
+-- set_keymap("n", "<Leader>gs", function() require("neogit").open( {kind = "split"}) end)
 
 --            fugitive
 -- ──────────────────────────────
--- set_keymap("n", "<Leader>gs", "<cmd>Git<CR>")
+set_keymap("n", "<Leader>gs", "<cmd>Git<CR>")
 set_keymap({ "n", "v" }, "<Leader>gdh", "<cmd>diffget //2<CR>")
 set_keymap({ "n", "v" }, "<Leader>gdl", "<cmd>diffget //3<CR>")
 set_keymap("n", "<Leader>gf", require("plugins.utils").prompt_git_file)
