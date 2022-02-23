@@ -47,10 +47,10 @@ set_keymap("n", "<M-x>", function() require("telescope.builtin").commands() end)
 
 --             tmux
 -- ──────────────────────────────
-set_keymap("n", "<Right>", require("tmux").resize_right)
-set_keymap("n", "<Left>", require("tmux").resize_left)
-set_keymap("n", "<Up>", require("tmux").resize_top)
-set_keymap("n", "<Down>", require("tmux").resize_bottom)
+set_keymap("n", "<Right>", function() require("tmux").resize_right() end)
+set_keymap("n", "<Left>", function() require("tmux").resize_left() end)
+set_keymap("n", "<Up>", function() require("tmux").resize_top() end)
+set_keymap("n", "<Down>", function() require("tmux").resize_bottom() end)
 
 --            neogit
 -- ──────────────────────────────
@@ -59,6 +59,9 @@ set_keymap("n", "<Down>", require("tmux").resize_bottom)
 --            fugitive
 -- ──────────────────────────────
 set_keymap("n", "<Leader>gs", "<cmd>Git<CR>")
+set_keymap("n", "<Leader>gp", "<cmd>Git push<CR>")
+set_keymap("n", "<Leader>gP", "<cmd>Git pull<CR>")
+
 set_keymap({ "n", "v" }, "<Leader>gdh", "<cmd>diffget //2<CR>")
 set_keymap({ "n", "v" }, "<Leader>gdl", "<cmd>diffget //3<CR>")
 set_keymap("n", "<Leader>gf", require("plugins.utils").prompt_git_file)
@@ -72,11 +75,19 @@ set_keymap("n", "<Leader>gl", "<cmd>GV --all<CR>")
 vim.cmd("nmap s <plug>(SubversiveSubstitute)")
 vim.cmd("vmap s <plug>(SubversiveSubstitute)")
 vim.cmd("nmap ss <plug>(SubversiveSubstituteLine)")
-vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
+-- vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
 
---              doge
+--            neogen
 -- ──────────────────────────────
-set_keymap("n", "<Leader>cds", "<cmd>DogeGenerate<CR>")
+set_keymap("n", "<Leader>cds", function()
+  vim.ui.select(
+    { "func", "class", "type", "file" },
+    { prompt = "Select type of docs" },
+    function(choice)
+      require("neogen").generate({ type = choice })
+    end
+  )
+end)
 
 --             magma
 -- ──────────────────────────────
@@ -157,3 +168,12 @@ set_keymap("n", "<Leader>dh", function() require("dap").step_out() end)
 set_keymap("n", "<Leader>dr", function() require("dap").repl.open() end)
 set_keymap("n", "<Leader>ds", function() require("dap").close(); require("dapui").close() end)
 
+--          lightspeed
+-- ──────────────────────────────
+set_keymap("n", "S", "<Plug>Lightspeed_omni_s")
+set_keymap("o", "x", "<Plug>Lightspeed_x")
+set_keymap("o", "X", "<Plug>Lightspeed_X")
+set_keymap({ "n", "x", "o" }, "f", "<Plug>Lightspeed_f")
+set_keymap({ "n", "x", "o" }, "F", "<Plug>Lightspeed_F")
+set_keymap({ "n", "x", "o" }, "t", "<Plug>Lightspeed_t")
+set_keymap({ "n", "x", "o" }, "T", "<Plug>Lightspeed_T")

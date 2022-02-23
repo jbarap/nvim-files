@@ -91,6 +91,11 @@ opt.jumpoptions = "stack"
 -- Use filetype in lua
 vim.g.do_filetype_lua = 1
 vim.g.did_load_filetypes = 0
+vim.filetype.add({
+  filename = {
+    ["MLproject"] = "yaml",
+  }
+})
 
 -- Diff options
 -- waiting on: https://github.com/neovim/neovim/pull/14537

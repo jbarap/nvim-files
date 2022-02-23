@@ -124,6 +124,19 @@ packer.startup({
       config = conf("tmux"),
     })
     -- check: https://github.com/ggandor/lightspeed.nvim
+    use({
+      'ggandor/lightspeed.nvim',
+      keys = {
+        '<Plug>Lightspeed_omni_s',
+        '<Plug>Lightspeed_x',
+        '<Plug>Lightspeed_X',
+        '<Plug>Lightspeed_f',
+        '<Plug>Lightspeed_F',
+        '<Plug>Lightspeed_t',
+        '<Plug>Lightspeed_T',
+      },
+      config = conf("lightspeed"),
+    })
 
     -- Fuzzy finding
     use({
@@ -220,11 +233,10 @@ packer.startup({
 
     -- Documentation generation
     use({
-      "kkoomen/vim-doge",
-      cmd = { "DogeGenerate" },
-      config = conf("doge"),
-      opt = true,
-      run = ":call doge#install()",
+      "danymat/neogen",
+      config = conf("neogen"),
+      module = "neogen",
+      requires = "nvim-treesitter/nvim-treesitter",
     })
 
     -- Repeat
@@ -239,8 +251,8 @@ packer.startup({
     -- Debugging
     use({
       "mfussenegger/nvim-dap",
-      module = "dap",
       config = conf("debug"),
+      module = "dap",
     })
     use({
       "rcarriga/nvim-dap-ui",
