@@ -59,8 +59,8 @@ set_keymap("n", "<Down>", function() require("tmux").resize_bottom() end)
 --            fugitive
 -- ──────────────────────────────
 set_keymap("n", "<Leader>gs", "<cmd>Git<CR>")
-set_keymap("n", "<Leader>gp", "<cmd>Git push<CR>")
-set_keymap("n", "<Leader>gP", "<cmd>Git pull<CR>")
+set_keymap("n", "<Leader>gP", "<cmd>Git push<CR>")
+set_keymap("n", "<Leader>gp", "<cmd>Git pull<CR>")
 
 set_keymap({ "n", "v" }, "<Leader>gdh", "<cmd>diffget //2<CR>")
 set_keymap({ "n", "v" }, "<Leader>gdl", "<cmd>diffget //3<CR>")
