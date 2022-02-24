@@ -126,7 +126,7 @@ do
       separator = " ",
       items = {
         { width = vim.fn.strwidth(default_icons) },
-        { width = 30 }, -- width of the file name column + (line:col) info
+        { width = 45 }, -- width of the file name column + (line:col) info
         { remaining = true }, -- width of directory + line info
       },
     })
