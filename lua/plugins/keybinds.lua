@@ -75,7 +75,7 @@ set_keymap("n", "<Leader>gl", "<cmd>GV --all<CR>")
 vim.cmd("nmap s <plug>(SubversiveSubstitute)")
 vim.cmd("vmap s <plug>(SubversiveSubstitute)")
 vim.cmd("nmap ss <plug>(SubversiveSubstituteLine)")
--- vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
+vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
 
 --            neogen
 -- ──────────────────────────────
@@ -168,12 +168,7 @@ set_keymap("n", "<Leader>dh", function() require("dap").step_out() end)
 set_keymap("n", "<Leader>dr", function() require("dap").repl.open() end)
 set_keymap("n", "<Leader>ds", function() require("dap").close(); require("dapui").close() end)
 
---          lightspeed
+--            ARSync
 -- ──────────────────────────────
-set_keymap("n", "S", "<Plug>Lightspeed_omni_s")
-set_keymap("o", "x", "<Plug>Lightspeed_x")
-set_keymap("o", "X", "<Plug>Lightspeed_X")
-set_keymap({ "n", "x", "o" }, "f", "<Plug>Lightspeed_f")
-set_keymap({ "n", "x", "o" }, "F", "<Plug>Lightspeed_F")
-set_keymap({ "n", "x", "o" }, "t", "<Plug>Lightspeed_t")
-set_keymap({ "n", "x", "o" }, "T", "<Plug>Lightspeed_T")
+set_keymap("n", "<Leader>ru", "<cmd>ARsyncUp<CR>")
+set_keymap("n", "<Leader>rd", "<cmd>ARsyncDown<CR>")

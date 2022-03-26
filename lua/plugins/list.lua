@@ -124,19 +124,6 @@ packer.startup({
       config = conf("tmux"),
     })
     -- check: https://github.com/ggandor/lightspeed.nvim
-    use({
-      'ggandor/lightspeed.nvim',
-      keys = {
-        '<Plug>Lightspeed_omni_s',
-        '<Plug>Lightspeed_x',
-        '<Plug>Lightspeed_X',
-        '<Plug>Lightspeed_f',
-        '<Plug>Lightspeed_F',
-        '<Plug>Lightspeed_t',
-        '<Plug>Lightspeed_T',
-      },
-      config = conf("lightspeed"),
-    })
 
     -- Fuzzy finding
     use({
@@ -313,7 +300,7 @@ packer.startup({
     -- Remote
     use({
       "kenn7/vim-arsync",
-      cmd = { "ARshowConf", "ARsyncUp" },
+      cmd = { "ARshowConf", "ARsyncUp", "ARsyncDown" },
     })
     -- check: https://github.com/chipsenkbeil/distant.nvim
 
