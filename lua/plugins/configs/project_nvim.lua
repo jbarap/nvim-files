@@ -9,7 +9,6 @@ require("project_nvim").setup({
     ".hg",
     ".svn",
     "go.mod",
-    "Makefile",
     "package.json",
     "Pipfile",
     "poetry.lock",

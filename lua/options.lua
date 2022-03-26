@@ -46,7 +46,7 @@ opt.mouse = "a"
 opt.autoread = true
 
 -- Make last window always have a status line
-opt.laststatus = 2
+opt.laststatus = 3
 
 -- Indent
 opt.tabstop = 4 -- visual spaces that a tab represents
