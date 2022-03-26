@@ -45,7 +45,10 @@ elseif vim.g._colorscheme == "kanagawa" then
       Pmenu = { bg = "#202020" },
       PmenuSbar = { bg = "#252525" },
       -- Diffview
-      DiffviewCursorLine = { bg = "#171717" }
+      -- DiffviewCursorLine = { bg = "#171717" },
+      DiffviewCursorLine = { bg = "#252525" },
+      -- Windows
+      WinSeparator = { fg = "#252525" },
     },
   })
 end

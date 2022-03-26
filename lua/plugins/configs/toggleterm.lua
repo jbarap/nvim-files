@@ -1,6 +1,6 @@
 require("toggleterm").setup({
   open_mapping = [[<c-_>]],
-  direction = "horizontal",
+  direction = "float",
   size = function(term)
     if term.direction == "float" then
       return 50

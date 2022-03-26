@@ -40,6 +40,7 @@ wk.register({
       f = "Format",
       p = "Performance mode",
       s = "Substitute",
+      t = "Todo comments",
       d = {
         name = "diagnostics/docs",
         d = "Diagnostic list toggle",
