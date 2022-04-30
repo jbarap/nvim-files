@@ -86,8 +86,13 @@ cmp.setup({
 
   preselect = cmp.PreselectMode.None,
 
-  documentation = {
-    border = "rounded",
+  window = {
+    documentation = cmp.config.window.bordered({
+      border = "rounded",
+    }),
+    completion = cmp.config.window.bordered({
+      border = "rounded",
+    }),
   },
 
   snippet = {
