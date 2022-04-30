@@ -1,5 +1,6 @@
 require("bufferline").setup({
   options = {
+    -- themable = true,
     max_name_length = 18,
     max_prefix_length = 15,
     tab_size = 18,
@@ -13,5 +14,8 @@ require("bufferline").setup({
     buffer_selected = { gui = "bold" },
     close_button = { guifg = "#000000", guibg = "#000000"},
     modified = { guifg = "NONE", guibg = "NONE", },
+    background = {
+      guifg = '#727169',
+    },
   },
 })

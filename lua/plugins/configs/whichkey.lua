@@ -69,6 +69,7 @@ wk.register({
       ["<C-g>"] = "File grep (select directory)",
       f = "File find (no . or gitignore)",
       g = "File grep (all)",
+      g = "File grep (exclude directory)",
       h = "Find help",
       s = "Find symbols",
       S = "Find workspace symbols",

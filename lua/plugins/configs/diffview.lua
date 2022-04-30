@@ -12,6 +12,7 @@ require("diffview").setup({
   file_history_panel = {
     log_options = {
       follow = true,
+      all = true,
     },
   },
   key_bindings = {

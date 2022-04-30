@@ -14,6 +14,7 @@ require("indent_blankline").setup({
     "TelescopePrompt",
     "TelescopeResults",
     "NeogitCommitView",
+    "neo-tree",
     "dockerfile",
     "NvimTree",
     "NeovitStatus",
