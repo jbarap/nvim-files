@@ -131,7 +131,36 @@ function M.rg_dir()
             prompt_title = "Grep in: " .. content.value,
             initial_mode = "insert",
             search_dirs = { grep_dir },
-            entry_maker = require("plugins.telescope_custom").grep_displayer(),
+          })
+        end)
+      end
+
+      map("i", "<CR>", function(_)
+        select_dir()
+      end)
+
+      return true
+    end,
+  })
+end
+
+function M.rg_exclude_dir()
+  require("telescope.builtin").find_files({
+    prompt_title = "Dir to exclude from grep",
+    find_command = { "fdfind", "--type", "d", "--hidden", "--exclude", ".git" },
+
+    attach_mappings = function(prompt_bufnr, map)
+      local function select_dir()
+        -- TODO: when https://github.com/nvim-telescope/telescope.nvim/issues/416 is merged,
+        -- support grepping in multiple dirs
+        local content = require("telescope.actions.state").get_selected_entry()
+        require("telescope.actions").close(prompt_bufnr)
+
+        vim.schedule(function()
+          require("telescope.builtin").live_grep({
+            prompt_title = "Grep in exerything except: " .. content.value,
+            initial_mode = "insert",
+            additional_args = function() return { "-g", string.format("!%s/", content.value) } end,
           })
         end)
       end

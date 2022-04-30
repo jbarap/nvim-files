@@ -158,9 +158,14 @@ packer.startup({
 
     -- File tree
     use({
-      "kyazdani42/nvim-tree.lua",
-      cmd = { "NvimTreeToggle", "NvimTreeFindFileToggle" },
-      config = conf("nvim_tree"),
+      "nvim-neo-tree/neo-tree.nvim",
+      cmd = "Neotree",
+      config = conf("neo_tree"),
+      requires = {
+        "nvim-lua/plenary.nvim",
+        "kyazdani42/nvim-web-devicons",
+        "MunifTanjim/nui.nvim",
+      },
     })
 
     -- Indent lines
@@ -199,6 +204,7 @@ packer.startup({
       cmd = { "GV" },
     })
     -- check ThePrimeagen/git-worktree.nvim
+    -- check: https://github.com/ipod825/igit.nvim
     use({
       "TimUntersberger/neogit",
       config = conf("neogit"),
@@ -279,11 +285,15 @@ packer.startup({
     })
 
     -- Manage tab settings
-    -- use("tpope/vim-sleuth")
+    -- use({
+    --   "Darazaki/indent-o-matic",
+    --   config = conf("indent_o_matic"),
+    -- })
     use({
-      "Darazaki/indent-o-matic",
-      config = conf("indent_o_matic"),
+      "NMAC427/guess-indent.nvim",
+      config = conf("guess_indent"),
     })
+    -- check: https://github.com/NMAC427/guess-indent.nvim
 
     -- Which key
     use({

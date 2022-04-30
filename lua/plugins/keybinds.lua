@@ -10,34 +10,21 @@ set_keymap("n", "<Leader>fa", function ()
   require("telescope.builtin").find_files(
     {
       find_command = {'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude', '{.git,.mypy_cache,__pycache__}'},
-      entry_maker = require("plugins.configs.telescope_custom").file_displayer(),
-      previewer = false,
     }
   )
 end)
 
 -- find files
-set_keymap("n", "<Leader>ff", function ()
-  require("telescope.builtin").find_files(
-    {
-      entry_maker = require("plugins.configs.telescope_custom").file_displayer(),
-      previewer = false,
-    }
-  )
-end)
+set_keymap("n", "<Leader>ff", function () require("telescope.builtin").find_files() end)
 
 -- grep
-set_keymap("n", "<Leader>fg", function ()
-  require("telescope.builtin").live_grep(
-    {
-      entry_maker = require("plugins.configs.telescope_custom").grep_displayer(),
-    }
-  )
-end)
+set_keymap("n", "<Leader>fg", function () require("telescope.builtin").live_grep() end)
 
--- grep in directory
+-- grep in/excluding directory
 set_keymap("n", "<Leader>f<C-g>", function() require("plugins.utils").rg_dir() end)
+set_keymap("n", "<Leader>fG", function() require("plugins.utils").rg_exclude_dir() end)
 
+-- others
 set_keymap("n", "<Leader>fh", function() require("telescope.builtin").help_tags() end)
 set_keymap("n", "<Leader>ft", function() require("telescope.builtin").treesitter() end)
 set_keymap("n", "<Leader>fb", function() require("telescope.builtin").buffers() end)
@@ -66,6 +53,7 @@ set_keymap({ "n", "v" }, "<Leader>gdh", "<cmd>diffget //2<CR>")
 set_keymap({ "n", "v" }, "<Leader>gdl", "<cmd>diffget //3<CR>")
 set_keymap("n", "<Leader>gf", require("plugins.utils").prompt_git_file)
 vim.cmd("autocmd User FugitiveIndex nmap <buffer> <Tab> =")
+vim.cmd("autocmd User FugitiveIndex nmap <buffer> q <cmd>q<CR>")
 
 -- GV!
 set_keymap("n", "<Leader>gl", "<cmd>GV --all<CR>")
@@ -126,10 +114,11 @@ set_keymap("n", "<leader>qe", function() require("replacer").run() end, { nowait
 -- ──────────────────────────────
 set_keymap("n", "<Leader>a", "<cmd>AerialToggle<CR>")
 
---           nvim-tree
+--           neo-tree
 -- ──────────────────────────────
-set_keymap("n", "<Leader>nn", "<cmd>NvimTreeToggle<CR>")
-set_keymap("n", "<Leader>nf", "<cmd>NvimTreeFindFileToggle<CR>")
+set_keymap("n", "<Leader>nn", "<cmd>Neotree filesystem focus left toggle<CR>")
+set_keymap("n", "<Leader>ng", "<cmd>Neotree git_status left<CR>")
+set_keymap("n", "<Leader>nf", "<cmd>Neotree filesystem reveal left toggle<CR>")
 
 --           trouble
 -- ──────────────────────────────

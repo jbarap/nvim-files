@@ -90,6 +90,17 @@ require("telescope").setup({
       },
     },
   },
+  pickers = {
+    live_grep = {
+      entry_maker = require("plugins.configs.telescope_custom").grep_displayer(),
+        -- AND operator for live_grep like how fzf handles spaces with wildcards in rg
+      on_input_filter_cb = function(prompt) return { prompt = prompt:gsub("%s", ".*") } end,
+    },
+    find_files = {
+      entry_maker = require("plugins.configs.telescope_custom").file_displayer(),
+      previewer = false,
+    },
+  },
   extensions = {
     fzf = {
       fuzzy = true,
