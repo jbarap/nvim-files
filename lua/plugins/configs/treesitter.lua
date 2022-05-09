@@ -1,6 +1,7 @@
 require("nvim-treesitter.configs").setup({
   ensure_installed = "all",
 
+  -- highlight performance is slow on big files
   highlight = {
     enable = true,
     disable = {},

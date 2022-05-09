@@ -15,6 +15,7 @@ table.insert(runtime_path, "lua/?/init.lua")
 -- ──────────────────────────────
 -- See: https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
 -- And: https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
+-- NOTE: you MUST have debugpy installed in whatever environment you are debugging in
 M.configurations = {
   jedi_language_server = {
     cmd = paths.get_cmd("jedi_language_server"),
