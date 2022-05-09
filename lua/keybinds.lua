@@ -77,10 +77,10 @@ set_keymap("v", "<C-j>", ":m '>+1<CR>gv=gv")
 set_keymap("v", "<C-k>", ":m '<-2<CR>gv=gv")
 
 -- Center screen on cursor move
-set_keymap("n", "<C-o>", "<C-o>zz", { remap = true })
-set_keymap("n", "<C-i>", "<C-i>zz", { remap = true })
-set_keymap("n", "n", "nzz", { remap = true })
-set_keymap("n", "N", "Nzz", { remap = true })
+set_keymap("n", "<C-o>", "<C-o>zz", { remap = false })
+set_keymap("n", "<C-i>", "<C-i>zz", { remap = false })
+set_keymap("n", "n", "nzz", { remap = false })
+set_keymap("n", "N", "Nzz", { remap = false })
 
 -- <BS> in select mode will enter insert mode
 set_keymap("s", "<BS>", "<BS>i")
