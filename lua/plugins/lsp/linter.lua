@@ -33,11 +33,7 @@ M.setup_linter = function(on_attach)
     sources = {
       ---- Linters
       custom_cmd_source("diagnostics", "flake8"),
-      custom_cmd_source("diagnostics", "mypy", {
-        condition = function(cond_utils)
-          return cond_utils.root_has_file({"mypy.ini", ".mypy.ini"})
-        end,
-      }),
+      custom_cmd_source("diagnostics", "mypy"),
       custom_cmd_source("diagnostics", "pylint", {
         condition = function(cond_utils)
           return cond_utils.root_has_file({"pylintrc"})
