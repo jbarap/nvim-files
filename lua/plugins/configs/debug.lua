@@ -18,6 +18,9 @@ dap.adapters.python_attach = {
   port = "5678",
 }
 
+-- load launch.json
+require('dap.ext.vscode').load_launchjs(vim.fn.getcwd() .. '/launch.json')
+
 --          configs
 -- ──────────────────────────────
 dap.configurations.python = {
@@ -97,7 +100,13 @@ dapui.setup({
 })
 
 -- load launch.json
-require('dap.ext.vscode').load_launchjs(vim.fn.getcwd() .. '/launch.json')
+require('dap.ext.vscode').load_launchjs(
+  vim.fn.getcwd() .. '/launch.json',
+  {
+    python_launch = { "python" },
+    python_attach = { "python" },
+  }
+)
 
 -- start ui automatically
 dap.listeners.after["event_initialized"]["custom_dapui"] = function()
