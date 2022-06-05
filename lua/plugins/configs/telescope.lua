@@ -28,6 +28,9 @@ require("telescope").setup({
       "--glob",
       "!*.git",
     },
+    preview = {
+      filesize_limit = 3,  -- in MB
+    },
     path_display = function(ctx, path)
       local cwd
       if ctx.cwd then

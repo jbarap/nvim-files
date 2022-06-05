@@ -23,4 +23,5 @@ require("indent_blankline").setup({
     "dap-repl",
   },
   max_indent_increase = 10,
+  use_treesitter_scope = true,
 })

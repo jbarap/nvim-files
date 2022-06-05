@@ -5,9 +5,11 @@ require("diffview").setup({
   enhanced_diff_hl = true,
   use_icons = true,
   file_panel = {
-    position = "bottom",
-    width = 35,
-    height = 10,
+    win_config = {
+      position = "bottom",
+      width = 35,
+      height = 10,
+    }
   },
   file_history_panel = {
     log_options = {
