@@ -42,7 +42,7 @@ elseif vim.g._colorscheme == "kanagawa" then
       -- Telescope
       TelescopeSelection = { bg = "#202020" },
       -- Cmp
-      Pmenu = { bg = "#202020" },
+      Pmenu = { bg = "#101010" },
       PmenuSbar = { bg = "#252525" },
       -- CmpCompletionBorder = { bg = "#FFFFFF", fg = "#FFFFFF" },
 
