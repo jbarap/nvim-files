@@ -70,7 +70,7 @@ wk.register({
       ["<C-g>"] = "File grep (select directory)",
       f = "File find (no . or gitignore)",
       g = "File grep (all)",
-      g = "File grep (exclude directory)",
+      G = "File grep (exclude directory)",
       h = "Find help",
       s = "Find symbols",
       S = "Find workspace symbols",
@@ -117,8 +117,9 @@ wk.register({
       f = "Focus on file",
     },
     p = {
-      name = "project",
-      l = "List",
+      name = "project/peek",
+      l = "Project list",
+      d = "Peek definition",
     },
     q = {
       name = "quickfix",
@@ -126,8 +127,10 @@ wk.register({
       e = "Edit",
     },
     r = {
-      name = "re",
+      name = "re/Rsync",
       n = "Rename",
+      p = "Rsync pull (from remote)",
+      P = "Rsync push (to remote)",
     },
     s = {
       name = "session",
