@@ -13,8 +13,13 @@ require("diffview").setup({
   },
   file_history_panel = {
     log_options = {
-      follow = true,
-      all = true,
+      single_file = {
+        follow = true,
+        all = true,
+      },
+      multi_file = {
+        all = false,
+      },
     },
   },
   key_bindings = {
@@ -37,6 +42,15 @@ require("diffview").setup({
       ["<leader>nf"] = cb("focus_files"),
       ["<leader>nn"] = cb("toggle_files"),
     },
+  },
+  default_args = {
+    DiffviewOpen = { "--untracked-files=no" },
+    DiffviewFileHistory = { "--base=LOCAL" }
+  },
+  hooks = {
+    diff_buf_read = function(_)
+      vim.cmd("IndentBlanklineDisable")
+    end
   },
 })
 
