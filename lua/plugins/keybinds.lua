@@ -65,6 +65,8 @@ vim.cmd("vmap s <plug>(SubversiveSubstitute)")
 vim.cmd("nmap ss <plug>(SubversiveSubstituteLine)")
 vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
 
+vim.api.nvim_del_keymap("s", "s")
+
 --            neogen
 -- ──────────────────────────────
 set_keymap("n", "<Leader>cds", function()
@@ -85,18 +87,19 @@ set_keymap("v", "<Leader>m<CR>", ":<C-u>MagmaEvaluateVisual<CR>")
 set_keymap("n", "<Leader>mc", "<cmd>MagmaReevaluateCell<CR>")
 set_keymap("n", "<Leader>m<CR>", "<cmd>MagmaShowOutput<CR>")
 
---           ultest
+--           neotest
 -- ──────────────────────────────
-set_keymap("n", "<Leader>tt", "<cmd>Ultest<CR>")
-set_keymap("n", "<Leader>tn", "<cmd>UltestNearest<CR>")
-set_keymap("n", "<Leader>ts", "<cmd>UltestStop<CR>")
-set_keymap("n", "<Leader>tp", "<cmd>UltestSummary<CR>")
-set_keymap("n", "<Leader>td", "<cmd>UltestDebugNearest<CR>")
+set_keymap("n", "<Leader>tt", function() require("neotest").run.run(vim.fn.expand("%")) end)
+set_keymap("n", "<Leader>tl", function() require("neotest").run.run() end)
+set_keymap("n", "<Leader>to", function() require("neotest").output.open({ enter = true }) end)
+set_keymap("n", "<Leader>ts", function() require("neotest").run.stop() end)
+set_keymap("n", "<Leader>td", function() require("neotest").run.run({strategy = "dap"}) end)
+set_keymap("n", "<Leader>ta", function() require("neotest").summary.open() end)
 
 --           diffview
 -- ──────────────────────────────
-set_keymap("n", "<leader>dv", function() require("plugins.utils").toggle_diff_view("diff") end)
-set_keymap("n", "<leader>df", function() require("plugins.utils").toggle_diff_view("file") end)
+set_keymap({ "n", "v" }, "<leader>dv", function() require("plugins.utils").toggle_diff_view("diff") end)
+set_keymap({ "n", "v" }, "<leader>df", function() require("plugins.utils").toggle_diff_view("file") end)
 
 --          toggleterm
 -- ──────────────────────────────
@@ -161,8 +164,9 @@ set_keymap("n", "<Leader>ds", function() require("dap").close(); require("dapui"
 
 --            ARSync
 -- ──────────────────────────────
-set_keymap("n", "<Leader>ru", "<cmd>ARsyncUp<CR>")
-set_keymap("n", "<Leader>rd", "<cmd>ARsyncDown<CR>")
+set_keymap("n", "<Leader>rP", "<cmd>ARsyncUp<CR>")
+set_keymap("n", "<Leader>rp", "<cmd>ARsyncDown<CR>")
+
 --            UFO
 -- ──────────────────────────────
 set_keymap("n", "zR", function ()

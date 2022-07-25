@@ -155,9 +155,9 @@ packer.startup({
 
     -- Tabs
     use({
-      'akinsho/bufferline.nvim',
+      "akinsho/bufferline.nvim",
       config = conf("bufferline"),
-      requires = 'kyazdani42/nvim-web-devicons',
+      requires = "kyazdani42/nvim-web-devicons",
     })
 
     -- Statusline
@@ -202,7 +202,10 @@ packer.startup({
     })
 
     -- Surround
-    use("tpope/vim-surround")
+    use({
+      "kylechui/nvim-surround",
+      config = conf("surround"),
+    })
 
     -- Substitution
     use("svermeulen/vim-subversive")
