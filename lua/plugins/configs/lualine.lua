@@ -1,14 +1,7 @@
-local gps = require("nvim-gps")
+local navic = require("nvim-navic")
 
-gps.setup({
-  depth = 0,
-  icons = {
-    ["class-name"] = " ",
-    ["function-name"] = " ",
-    ["method-name"] = " ",
-    ["container-name"] = "◱ ",
-    ["tag-name"] = "➨ ",
-  },
+navic.setup({
+  depth_limit = 0,
 })
 
 local lualine_theme = require("lualine.themes.iceberg_dark")
@@ -27,7 +20,7 @@ require("lualine").setup({
     lualine_b = { "branch" },
     lualine_c = {
       { "filename", file_status = true, path = 1, separator = ">" },
-      { gps.get_location, cond = gps.is_available },
+      { navic.get_location, cond = navic.is_available },
     },
     lualine_x = {
       { "diagnostics", sources = { "nvim_diagnostic" } },

@@ -18,6 +18,11 @@ local on_attach = function(client, bufnr)
     require("aerial").on_attach(client)
   end
 
+  -- -- Navic
+  if client.server_capabilities.documentSymbolProvider and package.loaded["nvim-navic"] then
+    require("nvim-navic").attach(client, bufnr)
+  end
+
   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
   -- Get/Go
@@ -40,12 +45,12 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 
   -- Diagnostics
-  buf_set_keymap("n", "<Leader>cdl", "<cmd>lua vim.diagnostic.open_float(0, {scope='line'})<CR>", opts)
+  buf_set_keymap("n", "<Leader>cdl", "<cmd>lua vim.diagnostic.open_float({scope='line'})<CR>", opts)
   buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
   buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 
   -- Formatting
-  buf_set_keymap("n", "<leader>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  buf_set_keymap("n", "<leader>cf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
   buf_set_keymap("v", "<leader>cf", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
 
   -- Telescope LSP
@@ -89,7 +94,7 @@ vim.diagnostic.config({
     -- header = true,
     border = "rounded",
     format = function(diagnostic)
-      return string.format("%s (%s)", diagnostic.message, diagnostic.source)
+      return string.format("%s [%s](%s)", diagnostic.message, diagnostic.code, diagnostic.source)
     end,
   },
 })
@@ -129,7 +134,7 @@ local server_names = {
 --   table.insert(server_names, 'jedi_language_server')
 -- end
 
-table.insert(server_names, "pyright")
+table.insert(server_names, "jedi_language_server")
 
 -- common language server options
 local common_lang_options = {

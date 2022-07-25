@@ -167,8 +167,8 @@ packer.startup({
       requires = { "kyazdani42/nvim-web-devicons", opt = true },
     })
     use({
-      "SmiteshP/nvim-gps",
-      requires = "nvim-treesitter/nvim-treesitter"
+      "SmiteshP/nvim-navic",
+      requires = "neovim/nvim-lspconfig",
     })
 
     -- File tree
