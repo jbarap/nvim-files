@@ -13,12 +13,12 @@ elseif vim.g._colorscheme == "nightfox" then
 elseif vim.g._colorscheme == "kanagawa" then
   require('kanagawa').setup({
     undercurl = true,
-    commentStyle = "italic",
-    functionStyle = "NONE",
-    keywordStyle = "italic",
-    statementStyle = "bold",
-    typeStyle = "NONE",
-    variablebuiltinStyle = "italic",
+    commentStyle = { italic = true },
+    functionStyle = {},
+    keywordStyle = { italic = true },
+    statementStyle = { bold = true },
+    typeStyle = {},
+    variablebuiltinStyle = { bold = true },
     specialReturn = true,
     specialException = true,
     transparent = false,
@@ -34,6 +34,7 @@ elseif vim.g._colorscheme == "kanagawa" then
       -- Cursor
       CursorLine = { bg = "#161616" },
       ColorColumn = { bg = "#161616" },
+      QuickFixLine = { bg = "#252525" },
       -- Floats
       FloatBorder = { bg = "#131313" },
       -- Search
