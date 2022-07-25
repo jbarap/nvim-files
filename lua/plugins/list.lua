@@ -223,11 +223,18 @@ packer.startup({
     })
     -- check ThePrimeagen/git-worktree.nvim
     -- check: https://github.com/ipod825/igit.nvim
+    -- use({
+    --   "TimUntersberger/neogit",
+    --   config = conf("neogit"),
+    --   module = "neogit",
+    --   requires = "nvim-lua/plenary.nvim",
+    -- })
     use({
-      "TimUntersberger/neogit",
-      config = conf("neogit"),
-      module = "neogit",
-      requires = "nvim-lua/plenary.nvim",
+      "akinsho/git-conflict.nvim",
+      config = conf("git_conflict"),
+      cmd = "GitConflictListQf",
+      commit = "c3230fd0322b3d8e47b85478251f83d4587bdca5",
+      -- broken by: 8b7ce8839e2aaa847d2d2f2dca0e8e2f62f1d356
     })
 
     -- Change cwd to project

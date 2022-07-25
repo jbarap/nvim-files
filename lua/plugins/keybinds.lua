@@ -58,6 +58,16 @@ vim.cmd("autocmd User FugitiveIndex nmap <buffer> q <cmd>q<CR>")
 -- GV!
 set_keymap("n", "<Leader>gl", "<cmd>GV --all<CR>")
 
+--            git-conflict
+-- ──────────────────────────────
+set_keymap("n", "<Leader>gcc", "<cmd>GitConflictListQf<CR>")
+set_keymap("n", "<Leader>gco", "<cmd>GitConflictChooseOurs<CR>")
+set_keymap("n", "<Leader>gct", "<cmd>GitConflictChooseTheirs<CR>")
+set_keymap("n", "<Leader>gcb", "<cmd>GitConflictChooseBoth<CR>")
+set_keymap("n", "<Leader>gcn", "<cmd>GitConflictChooseNone<CR>")
+set_keymap("n", "]x", "<cmd>GitConflictNextConflict<CR>")
+set_keymap("n", "[x", "<cmd>GitConflictPrevConflict<CR>")
+
 --           subversive
 -- ──────────────────────────────
 vim.cmd("nmap s <plug>(SubversiveSubstitute)")
