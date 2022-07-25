@@ -65,7 +65,8 @@ opt.number = true
 -- Folding (with Treesitter)
 -- opt.foldmethod = "expr"
 -- opt.foldexpr = "nvim_treesitter#foldexpr()"
--- opt.foldlevel = 99
+opt.foldlevel = 99
+-- opt.foldenable = true  -- start with all folded
 
 -- Search
 opt.hlsearch = true
@@ -89,8 +90,6 @@ opt.listchars = { tab = "  " }
 opt.jumpoptions = "stack"
 
 -- Use filetype in lua
-vim.g.do_filetype_lua = 1
-vim.g.did_load_filetypes = 0
 vim.filetype.add({
   filename = {
     ["MLproject"] = "yaml",

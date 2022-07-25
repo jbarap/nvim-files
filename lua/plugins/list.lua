@@ -6,7 +6,12 @@ local packer_bootstrap
 
 if fn.empty(fn.glob(install_path)) > 0 then
   packer_bootstrap = fn.system({
-    'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path
+    "git",
+    "clone",
+    "--depth",
+    "1",
+    "https://github.com/wbthomason/packer.nvim",
+    install_path,
   })
   vim.api.nvim_command("packadd packer.nvim")
 end
@@ -21,12 +26,12 @@ packer.init({
   display = {
     open_fn = function()
       return require("packer.util").float({ border = "rounded" })
-    end
-  }
+    end,
+  },
 })
 
 -- util function for plugin configuration
-local conf = function (plugin_name)
+local conf = function(plugin_name)
   return string.format("require('plugins.configs.%s')", plugin_name)
 end
 
@@ -57,6 +62,16 @@ packer.startup({
       "rebelot/kanagawa.nvim",
       after = "nvim-web-devicons",
       config = conf("colorschemes"),
+    })
+
+    -- Folds  TODO: make less buggy with indent_blankline
+    use({
+      "kevinhwang91/nvim-ufo",
+      requires = {
+        {"kevinhwang91/promise-async", keys = { "za" }, module = "ufo" }
+      },
+      config = conf("nvim_ufo"),
+      after = "promise-async",
     })
 
     -- LSP + diagnostics

@@ -5,6 +5,7 @@ require("aerial").setup({
   link_tree_to_folds = true,
   link_folds_to_tree = true,
   disable_max_lines = 10000,
+  disable_max_size = 2000000, -- Default 2MB
   on_attach = function(bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>a', '<cmd>AerialToggle!<CR>', {})
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrev<CR>', {})

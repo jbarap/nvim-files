@@ -163,3 +163,23 @@ set_keymap("n", "<Leader>ds", function() require("dap").close(); require("dapui"
 -- ──────────────────────────────
 set_keymap("n", "<Leader>ru", "<cmd>ARsyncUp<CR>")
 set_keymap("n", "<Leader>rd", "<cmd>ARsyncDown<CR>")
+--            UFO
+-- ──────────────────────────────
+set_keymap("n", "zR", function ()
+  if package.loaded["ufo"] then
+    require("ufo").openAllFolds()
+    vim.cmd("IndentBlanklineRefresh")
+    return ""
+  else
+    return "zR"
+  end
+end, { remap = false, expr = true })
+
+set_keymap("n", "zM", function ()
+  if package.loaded["ufo"] then
+    require("ufo").closeAllFolds()
+    return ""
+  else
+    return "zM"
+  end
+end, { remap = false, expr = true })

@@ -99,7 +99,9 @@ vim.diagnostic.config({
 -- additional capabilities for autocompletion with nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities, {
-  snippetSupport = true,
+  snippetSupport = true,  -- cmp
+  dynamicRegistration = false, -- nvim-ufo
+  lineFoldingOnly = true, -- nvim-ufo
 })
 
 -- obtain the cwd for conditional registering
