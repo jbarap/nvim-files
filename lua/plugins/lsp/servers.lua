@@ -36,6 +36,9 @@ M.configurations = {
         },
       }
     end,
+    root_dir = function()
+      return require("project_nvim.project").find_pattern_root() or vim.loop.cwd()
+    end
   },
 
   pyright = {
@@ -51,6 +54,9 @@ M.configurations = {
       end
       config.settings.python.pythonPath = python_path
     end,
+    root_dir = function()
+      return require("project_nvim.project").find_pattern_root() or vim.loop.cwd()
+    end
   },
 
   pylsp = {
