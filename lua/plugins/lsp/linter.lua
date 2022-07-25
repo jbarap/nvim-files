@@ -33,7 +33,9 @@ M.setup_linter = function(on_attach)
     sources = {
       ---- Linters
       custom_cmd_source("diagnostics", "flake8"),
-      custom_cmd_source("diagnostics", "mypy"),
+      custom_cmd_source("diagnostics", "mypy", {
+        extra_args = { "--ignore-missing-imports" },
+      }),
       custom_cmd_source("diagnostics", "pylint", {
         condition = function(cond_utils)
           return cond_utils.root_has_file({"pylintrc"})
@@ -46,7 +48,7 @@ M.setup_linter = function(on_attach)
 
       ---- Fixers
       custom_cmd_source("formatting", "black", {
-        args = { "--quiet", "--fast", "--skip-string-normalization", "-" },
+        args = { "--quiet", "--fast", "--line-length", 105, "-" },
       }),
       custom_cmd_source("formatting", "isort"),
       custom_cmd_source("formatting", "stylua"),
