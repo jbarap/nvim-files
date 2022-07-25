@@ -27,6 +27,7 @@ with open(paths.JSON.with_name("installables_resolved.json"), 'w') as f:
     json.dump(installables_data, f)
 
 
+# TODO: refactor this whole thing into config-based pipelines
 def main(args: Namespace):
     if args.command == 'setup':
         print("Checking required executables...")

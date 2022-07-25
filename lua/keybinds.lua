@@ -34,10 +34,14 @@ set_keymap("n", "Y", "y$")
 set_keymap("n", "<Leader><CR>", "<cmd>nohlsearch<cr>")
 set_keymap("v", "<Leader><CR>", "<Esc>")
 
--- Buffer settings
+-- Buffer Nagivation
 set_keymap("n", "<Leader>b.", "<cmd>bnext<CR>")
 set_keymap("n", "<Leader>b,", "<cmd>bprev<CR>")
 set_keymap("n", "<Leader>bd", require("utils").buffer_delete)
+
+-- Tab navigation
+set_keymap("n", "<Leader>t.", "<cmd>tabnext<CR>")
+set_keymap("n", "<Leader>t,", "<cmd>tabprev<CR>")
 
 -- Goto window above/below/left/right
 set_keymap("n", "<C-h>", "<cmd>wincmd h<CR>")
@@ -65,7 +69,18 @@ set_keymap("n", "<Leader><Esc>", "<Esc>")
 
 -- Move the screen
 set_keymap({ "n", "v" }, "<A-j>", "<C-d>", { remap = true })
+set_keymap({ "n", "v" }, "<A-S-j>", "<C-e>", { remap = false })
 set_keymap({ "n", "v" }, "<A-k>", "<C-u>", { remap = true })
+set_keymap({ "n", "v" }, "<A-S-k>", "<C-y>", { remap = false })
+
+-- Smart dd
+set_keymap({ "n" }, "dd", function()
+  if vim.api.nvim_get_current_line():match("^%s*$") then
+    return '"_dd'
+  else
+    return "dd"
+  end
+end, { remap = false, expr = true })
 
 -- Add move line shortcuts
 -- set_keymap('n', '<A-j>', ':m .+1<CR>==')
