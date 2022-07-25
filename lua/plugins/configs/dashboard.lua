@@ -1,19 +1,61 @@
-vim.g.dashboard_default_executive = "telescope"
+local db = require("dashboard")
 
-vim.g.dashboard_custom_section = {
-  a = { description = { "  New File                  SPC f n" }, command = "DashboardNewFile" },
-  b = { description = { "  Recents                   SPC f o" }, command = "Telescope oldfiles" },
-  c = { description = { "  Find File                 SPC f f" }, command = "Telescope find_files" },
-  d = { description = { "  Find Word                 SPC f g" }, command = "Telescope live_grep" },
-  e = { description = { "  Bookmarks                 SPC b m" }, command = "Telescope marks" },
-  f = { description = { "  Load Last Session         SPC s l" }, command = "SessionLoad" },
+db.custom_header = {
+  "                 ",
+  "                 ",
+  "                 ",
+  "                 ",
+  "       ^ ^       ",
+  "      (O,O)      ",
+  "      (   )      ",
+  '      -"-"-      ',
+  "                 ",
+  "                 ",
+  "                 ",
 }
-vim.g.dashboard_custom_header = {
-  "                    ",
-  "          ^ ^       ",
-  "         (O,O)      ",
-  "         (   )      ",
-  '         -"-"-      ',
-  "                    ",
+
+db.custom_footer = {
+  "                      ",
+  "                      ",
+  "                      ",
+  "Better than yesterday.",
 }
-vim.g.dashboard_custom_footer = { "Better than yesterday." }
+
+db.custom_center = {
+  {
+    icon = "  ",
+    desc = "New File                  ",
+    shortcut = "SPC f n",
+    action = "DashboardNewFile",
+  },
+  {
+    icon = "  ",
+    desc = "Recents                   ",
+    shortcut = "SPC f o",
+    action = "Telescope oldfiles",
+  },
+  {
+    icon = "  ",
+    desc = "Find File                 ",
+    shortcut = "SPC f f",
+    action = "Telescope find_files",
+  },
+  {
+    icon = "  ",
+    desc = "Find Word                 ",
+    shortcut = "SPC f g",
+    action = "Telescope live_grep",
+  },
+  {
+    icon = "  ",
+    desc = "Bookmarks                 ",
+    shortcut = "SPC b m",
+    action = "Telescope marks",
+  },
+  {
+    icon = "  ",
+    desc = "Load Last Session         ",
+    shortcut = "SPC s l",
+    action = "SessionLoad",
+  },
+}
