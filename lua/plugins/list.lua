@@ -207,7 +207,7 @@ packer.startup({
     -- Substitution
     use("svermeulen/vim-subversive")
 
-    -- Git
+    -- Git integration
     use({
       "lewis6991/gitsigns.nvim",
       config = conf("gitsigns"),
@@ -285,12 +285,17 @@ packer.startup({
     })
 
     -- Tests
-    use({
-      "rcarriga/vim-ultest",
-      config = conf("ultest"),
-      requires = { "janko/vim-test" },
-      run = ":UpdateRemotePlugins",
-    })
+    use {
+      "rcarriga/neotest",
+      requires = {
+        { "nvim-lua/plenary.nvim" },
+        { "nvim-treesitter/nvim-treesitter" },
+        { "antoinemadec/FixCursorHold.nvim", module = "neotest" },
+        { "rcarriga/neotest-python", after = "FixCursorHold.nvim" },
+      },
+      after = { "neotest-python"},
+      config = conf("neotest"),
+    }
 
     -- Diffview
     use({
@@ -347,7 +352,7 @@ packer.startup({
 
     -- UI sugar
     use({
-      'stevearc/dressing.nvim',
+      "stevearc/dressing.nvim",
       config = conf("dressing"),
     })
 
@@ -360,7 +365,7 @@ packer.startup({
     -- }
 
     if packer_bootstrap then
-      require('packer').sync()
+      require("packer").sync()
     end
   end,
 
@@ -373,4 +378,4 @@ packer.startup({
   },
 })
 
-require('plugins.packer_compiled')
+require("plugins.packer_compiled")
