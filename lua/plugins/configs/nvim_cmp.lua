@@ -2,6 +2,34 @@ vim.o.completeopt = "menu,menuone,noselect"
 
 local cmp = require("cmp")
 
+local kind_icons = {
+  Text = "",
+  Method = "",
+  Function = "",
+  Constructor = "",
+  Field = "",
+  Variable = "",
+  Class = "",
+  Interface = "",
+  Module = "",
+  Property = "",
+  Unit = "",
+  Value = "",
+  Enum = "",
+  Keyword = "",
+  Snippet = "",
+  Color = "",
+  File = "",
+  Reference = "",
+  Folder = "",
+  EnumMember = "",
+  Constant = "",
+  Struct = "",
+  Event = "",
+  Operator = "",
+  TypeParameter = ""
+}
+
 cmp.setup({
   mapping = {
     ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
@@ -73,15 +101,19 @@ cmp.setup({
   },
 
   formatting = {
-    format = require("lspkind").cmp_format({
-      with_text = false,
-      menu = {
-        nvim_lsp = "()",
+    format = function(entry, vim_item)
+      -- Kind icons
+      vim_item.kind = kind_icons[vim_item.kind]
+
+      -- Source
+      vim_item.menu = ({
         buffer = "()",
-        path = "(/)",
+        nvim_lsp = "()",
         nvim_lua = "()",
-      },
-    }),
+      })[entry.source.name]
+
+      return vim_item
+    end,
   },
 
   preselect = cmp.PreselectMode.None,

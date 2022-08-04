@@ -64,7 +64,6 @@ packer.startup({
       config = conf("colorschemes"),
     })
 
-    -- Folds  TODO: make less buggy with indent_blankline
     use({
       "kevinhwang91/nvim-ufo",
       requires = {
@@ -103,9 +102,6 @@ packer.startup({
     use("hrsh7th/cmp-nvim-lua")
     use("hrsh7th/cmp-nvim-lsp")
     use("hrsh7th/cmp-path")
-
-    -- Code icons
-    use("onsails/lspkind-nvim")
 
     -- Snippet support
     use({
@@ -227,6 +223,7 @@ packer.startup({
     --   "TimUntersberger/neogit",
     --   config = conf("neogit"),
     --   module = "neogit",
+    --   cmd = "Neogit",
     --   requires = "nvim-lua/plenary.nvim",
     -- })
     use({
