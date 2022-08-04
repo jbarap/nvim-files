@@ -48,9 +48,11 @@ M.setup_linter = function(on_attach)
 
       ---- Fixers
       custom_cmd_source("formatting", "black", {
-        args = { "--quiet", "--fast", "--line-length", 105, "-" },
+        args = { "--quiet", "--line-length", 105, "-" },
       }),
-      custom_cmd_source("formatting", "isort"),
+      custom_cmd_source("formatting", "isort", {
+        extra_args = { "--profile", "black", "--filter-files" }
+      }),
       custom_cmd_source("formatting", "stylua"),
       custom_cmd_source("formatting", "prettier"),
       null_ls.builtins.formatting.gofmt, -- gofmt executable comes with go
