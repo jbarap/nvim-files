@@ -4,6 +4,8 @@ local dapui = require("dapui")
 vim.cmd("au FileType dap-repl lua require('dap.ext.autocompl').attach()")
 vim.fn.sign_define("DapBreakpoint", { text = "🔺", texthl = "", linehl = "", numhl = "" })
 
+-- TODO: add a check for debugpy installation in the current environment
+
 --          adapters
 -- ──────────────────────────────
 dap.adapters.python_launch = {
@@ -75,23 +77,24 @@ dapui.setup({
     remove = "dd",
     edit = "e",
   },
-  sidebar = {
-    elements = {
-      -- You can change the order of elements in the sidebar
-      { id = "scopes", size = 0.4 },
-      { id = "breakpoints", size = 0.1 },
-      { id = "stacks", size = 0.2 },
-      { id = "watches" , size = 0.2 },
+  layouts = {
+    {
+      elements = {
+        { id = "scopes", size = 0.4 },
+        { id = "breakpoints", size = 0.1 },
+        { id = "stacks", size = 0.2 },
+        { id = "watches" , size = 0.2 },
+      },
+      size = 40,
+      position = "left",
     },
-    size = 40,
-    position = "left", -- Can be "left" or "right"
-  },
-  tray = {
-    elements = {
-      "repl",
-    },
+    {
+      elements = {
+        "repl",
+      },
     size = 10,
-    position = "bottom", -- Can be "bottom" or "top"
+    position = "bottom",
+    }
   },
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.
