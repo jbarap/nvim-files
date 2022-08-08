@@ -24,7 +24,7 @@ end
 -- ──────────────────────────────
 M.setup_linter = function(on_attach)
   null_ls.setup({
-    debounce = 500,
+    debounce = 250,
     debug = false,
     default_timeout = 20000,
     on_attach = on_attach,

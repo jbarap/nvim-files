@@ -43,6 +43,10 @@ require("nvim-treesitter.configs").setup({
         ["ab"] = "@block.outer",
         ["ib"] = "@block.inner",
       },
+      selection_modes = {
+        ["@function.outer"] = "V",
+        ["@class.outer"] = "V",
+      },
     },
     move = {
       enable = true,
