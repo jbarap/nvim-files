@@ -55,7 +55,7 @@ packer.startup({
 
     -- Colors
     use({
-      "norcalli/nvim-colorizer.lua",
+      "NvChad/nvim-colorizer.lua",
       cmd = { "ColorizerToggle" },
     })
     use({
@@ -64,10 +64,11 @@ packer.startup({
       config = conf("colorschemes"),
     })
 
+    -- Folds
     use({
       "kevinhwang91/nvim-ufo",
       requires = {
-        {"kevinhwang91/promise-async", keys = { "za" }, module = "ufo" }
+        {"kevinhwang91/promise-async", keys = { "za", "zR", "zM" }, module = "ufo" }
       },
       config = conf("nvim_ufo"),
       after = "promise-async",
@@ -134,7 +135,10 @@ packer.startup({
       "aserowy/tmux.nvim",
       config = conf("tmux"),
     })
-    -- check: https://github.com/ggandor/lightspeed.nvim
+    use({
+      "ggandor/leap.nvim",
+      config = conf("leap"),
+    })
 
     -- Fuzzy finding
     use({
