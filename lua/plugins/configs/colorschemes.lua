@@ -45,10 +45,30 @@ elseif vim.g._colorscheme == "kanagawa" then
       -- Cmp
       Pmenu = { bg = "#101010" },
       PmenuSbar = { bg = "#252525" },
-      -- CmpCompletionBorder = { bg = "#FFFFFF", fg = "#FFFFFF" },
 
       -- Diffview
       DiffviewCursorLine = { bg = "#252525" },
+
+      -- diffAdded = { fg = "#154a4a", bg = "NONE" },
+      -- diffRemoved = { fg = "#561f37", bg = "NONE" },
+      -- diffChanged = { fg = "#33415b", bg = "NONE" },
+
+      diffAdded = { fg = "#1f6f6f", bg = "NONE" },
+      diffRemoved = { fg = "#812e52", bg = "NONE" },
+      diffChanged = { fg = "#33415b", bg = "NONE" },
+
+      DiffAdd = { bg = "#0a2b2b", fg = "NONE" },
+      DiffDelete = { bg = "#331523", fg = "NONE" },
+      DiffChange = { bg = "#1c2536", fg = "NONE" },
+      DiffText = { bg = "#0a2b2b", fg = "NONE" },
+
+      DiffAddText = { bg = "#154a4a", fg = "NONE" },
+      DiffDeleteText = { bg = "#561f37", fg = "NONE" },
+
+      DiffInlineAdd = { bg = "#0a2b2b", fg = "#154a4a" },
+      DiffInlineDelete = { bg = "#331523", fg = "#561f37" },
+      DiffInlineChange = { bg = "#1c2536", fg = "#33415b" },
+
       -- Windows
       WinSeparator = { fg = "#252525" },
     },
