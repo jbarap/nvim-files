@@ -1,6 +1,12 @@
-local cb = require("diffview.config").diffview_callback
+local actions = require("diffview.actions")
 
 require("diffview").setup({
+  view = {
+    merge_tool = {
+      layout = "diff3_mixed",
+      disable_diagnostics = true,
+    }
+  },
   diff_binaries = false,
   enhanced_diff_hl = true,
   use_icons = true,
@@ -24,23 +30,30 @@ require("diffview").setup({
   },
   key_bindings = {
     view = {
-      ["<tab>"] = cb("select_next_entry"),
-      ["<s-tab>"] = cb("select_prev_entry"),
-      ["<leader>nf"] = cb("focus_files"),
-      ["<leader>nn"] = cb("toggle_files"),
+      ["<tab>"] = actions.select_next_entry,
+      ["<s-tab>"] = actions.select_prev_entry,
+      ["<leader>nf"] = actions.focus_files,
+      ["<leader>nn"] = actions.toggle_files,
+      ["[x"] = actions.prev_conflict,
+      ["]x"] = actions.next_conflict,
+      ["<leader>co"] = actions.conflict_choose("ours"),
+      ["<leader>ct"] = actions.conflict_choose("theirs"),
+      ["<leader>cb"] = actions.conflict_choose("all"),  -- choose both
+      ["<leader>cB"] = actions.conflict_choose("base"),
+      ["<leader>cx"] = actions.conflict_choose("none"),
     },
     file_panel = {
-      ["j"] = cb("next_entry"),
-      ["<down>"] = cb("next_entry"),
-      ["k"] = cb("prev_entry"),
-      ["<up>"] = cb("prev_entry"),
-      ["<cr>"] = cb("select_entry"),
-      ["o"] = cb("select_entry"),
-      ["R"] = cb("refresh_files"),
-      ["<tab>"] = cb("select_next_entry"),
-      ["<s-tab>"] = cb("select_prev_entry"),
-      ["<leader>nf"] = cb("focus_files"),
-      ["<leader>nn"] = cb("toggle_files"),
+      ["j"] = actions.next_entry,
+      ["<down>"] = actions.next_entry,
+      ["k"] = actions.prev_entry,
+      ["<up>"] = actions.prev_entry,
+      ["<cr>"] = actions.select_entry,
+      ["o"] = actions.select_entry,
+      ["R"] = actions.refresh_files,
+      ["<tab>"] = actions.select_next_entry,
+      ["<s-tab>"] = actions.select_prev_entry,
+      ["<leader>nf"] = actions.focus_files,
+      ["<leader>nn"] = actions.toggle_files,
     },
   },
   default_args = {

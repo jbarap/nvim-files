@@ -101,7 +101,7 @@ set_keymap("n", "N", "Nzz", { remap = false })
 set_keymap("s", "<BS>", "<BS>i")
 
 -- Save files with sudo
-vim.cmd("command! WSudo lua require'utils'.sudo_write()<CR>")
+vim.api.nvim_create_user_command("WSudo", function() require("utils").sudo_write() end, {})
 
 -- Search word under the cursor
 set_keymap("n", "<Leader>fw", require("utils").search_word)

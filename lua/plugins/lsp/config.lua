@@ -9,6 +9,7 @@ local on_attach = function(client, bufnr)
   local function buf_set_keymap(...)
     vim.api.nvim_buf_set_keymap(bufnr, ...)
   end
+
   local function buf_set_option(...)
     vim.api.nvim_buf_set_option(bufnr, ...)
   end
@@ -18,8 +19,12 @@ local on_attach = function(client, bufnr)
     require("aerial").on_attach(client)
   end
 
-  -- -- Navic
-  if client.server_capabilities.documentSymbolProvider and package.loaded["nvim-navic"] then
+  -- Navic
+  if
+    client.name ~= "null-ls"
+    and client.server_capabilities.documentSymbolProvider
+    and package.loaded["nvim-navic"]
+  then
     require("nvim-navic").attach(client, bufnr)
   end
 
@@ -57,6 +62,7 @@ local on_attach = function(client, bufnr)
   local function buf_bind_picker(...)
     require("plugins.utils").buf_bind_picker(bufnr, ...)
   end
+
   buf_bind_picker("<Leader>fs", "lsp_document_symbols")
   buf_bind_picker("<Leader>fS", "lsp_workspace_symbols")
 
@@ -104,7 +110,7 @@ vim.diagnostic.config({
 -- additional capabilities for autocompletion with nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities, {
-  snippetSupport = true,  -- cmp
+  snippetSupport = true, -- cmp
   dynamicRegistration = false, -- nvim-ufo
   lineFoldingOnly = true, -- nvim-ufo
 })

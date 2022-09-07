@@ -11,11 +11,11 @@ require("bufferline").setup({
     always_show_bufferline = false,
   },
   highlights = {
-    buffer_selected = { gui = "bold" },
-    close_button = { guifg = "#000000", guibg = "#000000"},
-    modified = { guifg = "NONE", guibg = "NONE", },
+    buffer_selected = { bold = true },
+    close_button = { fg = "#000000", bg = "#000000"},
+    modified = { fg = "NONE", bg = "NONE", },
     background = {
-      guifg = '#727169',
+      fg = '#727169',
     },
   },
 })

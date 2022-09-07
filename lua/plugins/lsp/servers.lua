@@ -32,7 +32,7 @@ M.configurations = {
           command = config.cmd[1],
         },
         jediSettings = {
-          autoImportModules = { "torch", "numpy", "pandas", "tensorflow" },
+          autoImportModules = { "torch", "numpy", "pandas", "tensorflow", "cv2" },
         },
       }
     end,

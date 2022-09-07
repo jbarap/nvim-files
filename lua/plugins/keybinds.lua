@@ -182,6 +182,7 @@ set_keymap("n", "<Leader>rp", "<cmd>ARsyncDown<CR>")
 set_keymap("n", "zR", function ()
   if package.loaded["ufo"] then
     require("ufo").openAllFolds()
+    vim.cmd("redraw")
     vim.cmd("IndentBlanklineRefresh")
     return ""
   else
@@ -192,6 +193,7 @@ end, { remap = false, expr = true })
 set_keymap("n", "zM", function ()
   if package.loaded["ufo"] then
     require("ufo").closeAllFolds()
+    vim.cmd("redraw")
     return ""
   else
     return "zM"

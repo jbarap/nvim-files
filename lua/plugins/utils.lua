@@ -43,7 +43,14 @@ function M.toggle_diff_view(mode)
   if is_diffview then
     vim.cmd("silent DiffviewClose")
     require("utils").buffer_close_all_but_current()
-    vim.cmd("IndentBlanklineEnable")
+
+    -- enable indents once we close the diffview
+    bfr = vim.api.nvim_get_current_buf()
+    buf_type = vim.api.nvim_buf_get_option(bfr, "filetype")
+    if vim.tbl_get(vim.g.indent_blankline_filetype_exclude, buf_type) ~= nil then
+      vim.cmd("IndentBlanklineEnable")
+    end
+
   else
     if mode == "diff" then
       vim.fn.feedkeys(":DiffviewOpen ")
@@ -235,6 +242,7 @@ function M.run_code()
     vim.notify("Filetype '" .. file_type .. "' not yet supported.")
   else
     vim.cmd("TermExec cmd='" .. command .. " %' go_back=0")
+    vim.cmd("ToggleTerm")
   end
 end
 

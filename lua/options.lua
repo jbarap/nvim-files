@@ -115,3 +115,13 @@ opt.foldtext = "v:lua.custom_fold_expr()"
 utils.create_augroup("highlight_on_yank", {
   { "TextYankPost", "*", "silent!", "lua vim.highlight.on_yank()" },
 })
+
+-- Autocommands
+-- don't list quickfix buffers in tabline
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    vim.opt_local.buflisted = false
+  end,
+})
+
