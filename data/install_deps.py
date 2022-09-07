@@ -39,6 +39,7 @@ def main(args: Namespace):
             base_path=paths.INSTALLABLES
         )
 
+        # TODO: force a python version, currently it's 3.9
         print("Python venv: ", end="")
         if not utils.is_exec(paths.PYTHON):
             print("Creating...")
