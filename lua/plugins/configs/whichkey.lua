@@ -138,16 +138,13 @@ wk.register({
       s = "Save directory session",
     },
     t = {
-      name = "test/terminal",
+      name = "test",
       a = "Test all summary",
       d = "Test debug nearest",
-      f = "Terminal float",
-      h = "Terminal horizontal",
       l = "Test nearest",
       o = "Test output",
       s = "Test stop",
       t = "Test suite run",
-      v = "Terminal vertical",
     },
     v = {
       name = "vim",

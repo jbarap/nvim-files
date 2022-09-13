@@ -1,5 +1,11 @@
 local set_keymap = vim.keymap.set
 
+
+--           Utils
+-- ──────────────────────────────
+local utils = require("plugins.utils")
+set_keymap("n", "<Leader>cp", utils.buffer_performance_mode)
+
 --           Telescope
 -- ──────────────────────────────
 -- projects
@@ -58,16 +64,6 @@ vim.cmd("autocmd User FugitiveIndex nmap <buffer> q <cmd>q<CR>")
 -- GV!
 set_keymap("n", "<Leader>gl", "<cmd>GV --all<CR>")
 
---            git-conflict
--- ──────────────────────────────
-set_keymap("n", "<Leader>gcc", "<cmd>GitConflictListQf<CR>")
-set_keymap("n", "<Leader>gco", "<cmd>GitConflictChooseOurs<CR>")
-set_keymap("n", "<Leader>gct", "<cmd>GitConflictChooseTheirs<CR>")
-set_keymap("n", "<Leader>gcb", "<cmd>GitConflictChooseBoth<CR>")
-set_keymap("n", "<Leader>gcn", "<cmd>GitConflictChooseNone<CR>")
-set_keymap("n", "]x", "<cmd>GitConflictNextConflict<CR>")
-set_keymap("n", "[x", "<cmd>GitConflictPrevConflict<CR>")
-
 --           subversive
 -- ──────────────────────────────
 vim.cmd("nmap s <plug>(SubversiveSubstitute)")
@@ -111,13 +107,12 @@ set_keymap("n", "<Leader>ta", function() require("neotest").summary.open() end)
 set_keymap({ "n", "v" }, "<leader>dv", function() require("plugins.utils").toggle_diff_view("diff") end)
 set_keymap({ "n", "v" }, "<leader>df", function() require("plugins.utils").toggle_diff_view("file") end)
 
---          toggleterm
+--          fterm
 -- ──────────────────────────────
-set_keymap("n", "<Leader>tf", "<cmd>ToggleTerm direction=float<CR>")
-set_keymap("n", "<Leader>th", "<cmd>ToggleTerm direction=horizontal<CR>")
-set_keymap("n", "<Leader>tv", "<cmd>ToggleTerm direction=vertical<CR>")
-
 set_keymap("n", "<Leader>ce", require("plugins.utils").run_code)
+
+set_keymap('n', '<c-_>', '<CMD>lua require("FTerm").toggle()<CR>')
+set_keymap('t', '<c-_>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 
 --          replacer
 -- ──────────────────────────────

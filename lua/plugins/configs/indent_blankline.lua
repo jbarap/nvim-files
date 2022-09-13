@@ -10,6 +10,7 @@ require("indent_blankline").setup({
     "packer",
     "aerial",
     "alpha",
+    "FTerm",
     "man",
     "TelescopePrompt",
     "TelescopeResults",

@@ -1,7 +1,5 @@
 local set_keymap = vim.keymap.set
 
-local opts = { noremap = true, silent = true }
-
 local M = {}
 
 --     bind telescope picker
@@ -208,47 +206,36 @@ end
 set_keymap("n", "<Leader>ct", M.todo_comments)
 
 -- Lazygit toggle
-local Terminal = require("toggleterm.terminal").Terminal
-local lazygit = Terminal:new({
+local fterm = require("FTerm")
+
+local lazygit_term = fterm:new({
   cmd = "lazygit",
-  hidden = true,
-  direction = "float",
-  on_open = function(term)
-    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "q", "<cmd>close<CR>", opts)
-    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<Esc>", "<Esc>", opts)
-    vim.api.nvim_buf_set_keymap(term.bufnr, "t", [[<c-_>]], "<cmd>close<CR>", opts)
-  end,
 })
 
 function M.lazygit_toggle()
-  lazygit:toggle()
+  lazygit_term:toggle()
 end
 
 --          code runner
 -- ──────────────────────────────
--- Alternatively look at: https://github.com/pianocomposer321/yabs.nvim
+-- Code Runner - execute commands in a floating terminal
 function M.run_code()
-  local all_commands = {
+  local runners = {
     python = "python3",
     lua = "lua",
     go = "go run"
   }
 
-  local file_type = vim.api.nvim_buf_get_option(0, "filetype")
+  local file_name = vim.api.nvim_buf_get_name(0)
+  local file_type = vim.filetype.match({ filename = file_name })
+  local exec = runners[file_type]
 
-  local command = all_commands[file_type]
-
-  if command == nil then
+  if exec == nil then
     vim.notify("Filetype '" .. file_type .. "' not yet supported.")
   else
-    vim.cmd("TermExec cmd='" .. command .. " %' go_back=0")
-    vim.cmd("ToggleTerm")
+    require('FTerm').scratch({ cmd = { exec, file_name } })
   end
-end
 
---        function binds
--- ──────────────────────────────
-set_keymap("n", "<Leader>cp", M.buffer_performance_mode)
--- set_keymap("n", "<Leader>gs", M.lazygit_toggle)
+end
 
 return M
