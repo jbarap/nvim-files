@@ -11,6 +11,7 @@ from deps import utils, paths
 from deps.typing import InstallablesSpec, Installable
 
 
+# TODO: add apt
 def pip(
     installables: Dict[str, Installable],
     task_limiter: Optional[asyncio.Semaphore]

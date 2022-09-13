@@ -131,6 +131,7 @@ local server_names = {
   "jsonls",
   "terraform_lsp",
   "yamlls",
+  "clangd",
 }
 
 -- register pyright if the config file exists, otherwise use jedi_language_server

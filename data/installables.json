@@ -162,6 +162,23 @@
                 }
             }
         },
+        "clangd": {
+            "notes": "C/CPP/cuda/objc lsp.",
+            "cmd": [
+                "clangd_14.0.3/bin/clangd"
+            ],
+            "install_info": {
+                "method": "github_releases",
+                "name": {
+                    "with_params": "clangd/clangd/{os_param}",
+                    "os_param": {
+                        "windows": "windows",
+                        "linux": "linux",
+                        "mac": "mac"
+                    }
+                }
+            }
+        },
         "yamlls": {
             "notes": "Yaml lsp.",
             "cmd": ["yaml-language-server", "--stdio"],

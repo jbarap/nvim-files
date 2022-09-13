@@ -123,7 +123,11 @@ M.configurations = {
   },
 
   terraform_lsp = {
-    cmd = paths.get_cmd("terraform_lsp")
+    cmd = paths.get_cmd("terraform_lsp"),
+  },
+
+  clangd = {
+    cmd = paths.get_cmd("clangd"),
   },
 }
 
