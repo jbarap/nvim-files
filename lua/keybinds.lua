@@ -104,7 +104,8 @@ set_keymap("s", "<BS>", "<BS>i")
 vim.api.nvim_create_user_command("WSudo", function() require("utils").sudo_write() end, {})
 
 -- Search word under the cursor
-set_keymap("n", "<Leader>fw", require("utils").search_word)
+set_keymap("n", "<Leader>fw", require("utils").search_word_under_cursor)
+set_keymap("x", "<Leader>fw", require("utils").search_selected_word)
 
 -- Replace
 set_keymap("n", "<Leader>cs", ":%s/")

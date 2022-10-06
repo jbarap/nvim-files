@@ -88,8 +88,18 @@ end
 --           search
 -- ──────────────────────────────
 
-M.search_word = function()
+M.search_word_under_cursor = function()
   vim.cmd([[let @/='\<]] .. vim.fn.expand("<cword>") .. [[\>']])
+  vim.o["hlsearch"] = true
+end
+
+M.search_selected_word = function ()
+  local bufnr = vim.api.nvim_win_get_buf(0)
+  local start = vim.fn.getpos('v')  -- [bufnum, lnum, col, off]
+  local _end = vim.fn.getpos('.')  -- [bufnum, lnum, col, off]
+  local text = vim.api.nvim_buf_get_text(bufnr, start[2] - 1, start[3] - 1, _end[2] - 1, _end[3], {})[1]
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+  vim.cmd([[let @/=']] .. text .. [[']])
   vim.o["hlsearch"] = true
 end
 
