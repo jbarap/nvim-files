@@ -1,6 +1,7 @@
 require("project_nvim").setup({
   manual_mode = false,
   detection_methods = { "pattern" },
+  scope_chdir = 'global',
   patterns = {
     "_darcs",
     ".project",
@@ -14,7 +15,6 @@ require("project_nvim").setup({
     "poetry.lock",
     "pyrightconfig.json",
     "pyproject.toml",
-    "requirements.txt",
     "setup.cfg",
     "setup.py",
   },
