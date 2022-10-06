@@ -30,6 +30,11 @@ set_keymap("n", "<Leader>fg", function () require("telescope.builtin").live_grep
 set_keymap("n", "<Leader>f<C-g>", function() require("plugins.utils").rg_dir() end)
 set_keymap("n", "<Leader>fG", function() require("plugins.utils").rg_exclude_dir() end)
 
+-- TODO: grep visual selection
+set_keymap("n", "<Leader>fW", function()
+  require("telescope.builtin").grep_string({search = vim.fn.expand("<cword>")})
+end)
+
 -- others
 set_keymap("n", "<Leader>fh", function() require("telescope.builtin").help_tags() end)
 set_keymap("n", "<Leader>ft", function() require("telescope.builtin").treesitter() end)
