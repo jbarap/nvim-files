@@ -28,6 +28,8 @@ opt.signcolumn = "yes:1"
 -- Color line/column
 opt.colorcolumn = "90"
 opt.cursorline = true
+-- opt.cmdheight = 0
+opt.splitkeep = "topline"
 
 -- Completion menu
 opt.pumheight = 20
