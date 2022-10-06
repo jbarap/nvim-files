@@ -52,10 +52,4 @@ db.custom_center = {
     shortcut = "SPC b m",
     action = "Telescope marks",
   },
-  {
-    icon = "  ",
-    desc = "Load Last Session         ",
-    shortcut = "SPC s l",
-    action = "SessionLoad",
-  },
 }
