@@ -62,8 +62,8 @@ elseif vim.g._colorscheme == "kanagawa" then
       DiffChange = { bg = "#1c2536", fg = "NONE" },
       DiffText = { bg = "#0a2b2b", fg = "NONE" },
 
-      DiffAddText = { bg = "#154a4a", fg = "NONE" },
-      DiffDeleteText = { bg = "#561f37", fg = "NONE" },
+      DiffAddText = { bg = "#1C6464", fg = "NONE" },
+      DiffDeleteText = { bg = "#692643", fg = "NONE" },
 
       DiffInlineAdd = { bg = "#0a2b2b", fg = "#154a4a" },
       DiffInlineDelete = { bg = "#331523", fg = "#561f37" },
