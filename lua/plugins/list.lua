@@ -55,8 +55,8 @@ packer.startup({
 
     -- Colors
     use({
-      "NvChad/nvim-colorizer.lua",
-      cmd = { "ColorizerToggle" },
+      "uga-rosa/ccc.nvim",
+      cmd = { "CccPick", "CccConvert", "CccHighlighterToggle" },
     })
     use({
       "rebelot/kanagawa.nvim",
@@ -240,6 +240,7 @@ packer.startup({
     use({
       "glepnir/dashboard-nvim",
       config = conf("dashboard"),
+      commit = "44983543314c9c8fd3a62acdabf5150317aacbfa",
     })
 
     -- Documentation generation
@@ -358,6 +359,7 @@ packer.startup({
       "stevearc/dressing.nvim",
       config = conf("dressing"),
     })
+    -- check: https://github.com/folke/noice.nvim
 
     -- Refactoring
     -- use { "ThePrimeagen/refactoring.nvim",
