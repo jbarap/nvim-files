@@ -45,7 +45,7 @@ function M.toggle_diff_view(mode)
     -- enable indents once we close the diffview
     bfr = vim.api.nvim_get_current_buf()
     buf_type = vim.api.nvim_buf_get_option(bfr, "filetype")
-    if vim.tbl_get(vim.g.indent_blankline_filetype_exclude, buf_type) ~= nil then
+    if not vim.tbl_contains(vim.g.indent_blankline_filetype_exclude, buf_type) then
       vim.cmd("IndentBlanklineEnable")
     end
 
