@@ -26,7 +26,7 @@ require("neo-tree").setup({
     },
     name = {
       trailing_slash = false,
-      use_git_status_colors = true,
+      use_git_status_colors = false,
     },
     git_status = {
       symbols = {
@@ -97,6 +97,17 @@ require("neo-tree").setup({
     -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
     use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes
     -- instead of relying on nvim autocmd events.
+    --
+    window = {
+      mappings = {
+        ["gu"] = "git_unstage_file",
+        ["ga"] = "git_add_file",
+        ["gx"] = "git_revert_file",
+        ["gc"] = "git_commit",
+        ["gp"] = "git_push",
+        ["gg"] = "git_commit_and_push",
+      },
+    },
   },
   buffers = {
     show_unloaded = true,
