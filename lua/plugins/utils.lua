@@ -223,11 +223,13 @@ function M.run_code()
   local runners = {
     python = "python3",
     lua = "lua",
-    go = "go run"
+    go = "go run",
+    -- TODO: set runner as 'sh', but read first line to look for shebangs
+    sh = "bash",
   }
 
   local file_name = vim.api.nvim_buf_get_name(0)
-  local file_type = vim.filetype.match({ filename = file_name })
+  local file_type = vim.bo.filetype
   local exec = runners[file_type]
 
   if exec == nil then
