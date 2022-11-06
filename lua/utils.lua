@@ -93,10 +93,10 @@ M.search_word_under_cursor = function()
   vim.o["hlsearch"] = true
 end
 
-M.search_selected_word = function ()
+M.search_selected_word = function()
   local bufnr = vim.api.nvim_win_get_buf(0)
-  local start = vim.fn.getpos('v')  -- [bufnum, lnum, col, off]
-  local _end = vim.fn.getpos('.')  -- [bufnum, lnum, col, off]
+  local start = vim.fn.getpos('v') -- [bufnum, lnum, col, off]
+  local _end = vim.fn.getpos('.') -- [bufnum, lnum, col, off]
   local text = vim.api.nvim_buf_get_text(bufnr, start[2] - 1, start[3] - 1, _end[2] - 1, _end[3], {})[1]
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
   vim.cmd([[let @/=']] .. text .. [[']])
@@ -173,14 +173,16 @@ M.buffer_delete = function()
   end
 end
 
+-- TODO: scope buffers to only the ones in this tab?
 M.buffer_close_all_but_current = function()
-  -- require("bufferline").close_in_direction("left")
-  -- require("bufferline").close_in_direction("right")
-
   local current_buf = vim.api.nvim_get_current_buf()
   local all_bufs = vim.api.nvim_list_bufs()
   for _, buf in ipairs(all_bufs) do
-    if buf ~= current_buf and vim.api.nvim_buf_is_loaded(buf) then
+    if
+      buf ~= current_buf
+      and vim.api.nvim_buf_is_loaded(buf)
+      and vim.api.nvim_buf_get_option(buf, "buftype") ~= "terminal"
+    then
       vim.cmd(string.format("bdelete %s", buf))
     end
   end
