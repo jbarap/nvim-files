@@ -120,12 +120,12 @@ cmp.setup({
 
   window = {
     documentation = cmp.config.window.bordered({
-      border = "none",
-      winhighlight = 'FloatBorder:NormalFloat',
+      border = "rounded",
+      winhighlight = 'NormalFloat:NormalFloat',
     }),
     completion = cmp.config.window.bordered({
       border = "none",
-      winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None',
+      winhighlight = 'Normal:NormalFloat,FloatBorder:Normal,CursorLine:Visual,Search:None',
     }),
   },
 
