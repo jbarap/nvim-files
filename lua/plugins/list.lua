@@ -57,6 +57,7 @@ packer.startup({
     use({
       "uga-rosa/ccc.nvim",
       cmd = { "CccPick", "CccConvert", "CccHighlighterToggle" },
+      config = conf("ccc"),
     })
     use({
       "rebelot/kanagawa.nvim",
