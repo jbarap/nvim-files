@@ -43,25 +43,25 @@ elseif vim.g._colorscheme == "kanagawa" then
       -- Telescope
       TelescopeSelection = { bg = "#202020" },
       -- Cmp
-      Pmenu = { bg = "#101010" },
+      Pmenu = { bg = "#0a0a0a" },
       PmenuSbar = { bg = "#252525" },
 
       -- Diffview
       DiffviewCursorLine = { bg = "#252525" },
 
-      -- diffAdded = { fg = "#154a4a", bg = "NONE" },
-      -- diffRemoved = { fg = "#561f37", bg = "NONE" },
-      -- diffChanged = { fg = "#33415b", bg = "NONE" },
-
+      -- diff gutter
       diffAdded = { fg = "#1f6f6f", bg = "NONE" },
       diffRemoved = { fg = "#812e52", bg = "NONE" },
+      diffDeleted = { fg = "#812e52", bg = "NONE" },
       diffChanged = { fg = "#33415b", bg = "NONE" },
 
-      DiffAdd = { bg = "#0a2b2b", fg = "NONE" },
+      -- diff line background
+      DiffAdd = { bg = "#0a3026", fg = "NONE" },
       DiffDelete = { bg = "#331523", fg = "NONE" },
       DiffChange = { bg = "#1c2536", fg = "NONE" },
-      DiffText = { bg = "#0a2b2b", fg = "NONE" },
 
+      -- diff text background
+      DiffText = { bg = "#1f3b70", fg = "NONE" },
       DiffAddText = { bg = "#1C6464", fg = "NONE" },
       DiffDeleteText = { bg = "#692643", fg = "NONE" },
 
