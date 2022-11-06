@@ -14,11 +14,6 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, ...)
   end
 
-  -- Aerial window
-  if package.loaded["aerial"] then
-    require("aerial").on_attach(client)
-  end
-
   -- Navic
   if
     client.name ~= "null-ls"
@@ -109,11 +104,11 @@ vim.diagnostic.config({
 -- ──────────────────────────────
 -- additional capabilities for autocompletion with nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities, {
-  snippetSupport = true, -- cmp
-  dynamicRegistration = false, -- nvim-ufo
-  lineFoldingOnly = true, -- nvim-ufo
-})
+capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true
+}
+capabilities = vim.tbl_deep_extend("force", capabilities, require('cmp_nvim_lsp').default_capabilities())
 
 -- obtain the cwd for conditional registering
 local lsputil = require("lspconfig.util")
