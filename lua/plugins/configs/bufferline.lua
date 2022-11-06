@@ -1,6 +1,5 @@
 require("bufferline").setup({
   options = {
-    -- themable = true,
     max_name_length = 18,
     max_prefix_length = 15,
     tab_size = 18,

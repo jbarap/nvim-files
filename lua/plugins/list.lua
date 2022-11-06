@@ -223,7 +223,6 @@ packer.startup({
       "junegunn/gv.vim",
       cmd = { "GV" },
     })
-    -- check ThePrimeagen/git-worktree.nvim
     -- use({
     --   "TimUntersberger/neogit",
     --   config = conf("neogit"),
