@@ -57,7 +57,7 @@ set_keymap("n", "<Down>", function() require("tmux").resize_bottom() end)
 --            fugitive
 -- ──────────────────────────────
 set_keymap("n", "<Leader>gs", "<cmd>Git<CR>")
-set_keymap("n", "<Leader>gP", "<cmd>Git push<CR>")
+set_keymap("n", "<Leader>gP", function() vim.fn.feedkeys(":Git push ") end)
 set_keymap("n", "<Leader>gp", "<cmd>Git pull<CR>")
 
 set_keymap({ "n", "v" }, "<Leader>gdh", "<cmd>diffget //2<CR>")
@@ -71,12 +71,10 @@ set_keymap("n", "<Leader>gl", "<cmd>GV --all<CR>")
 
 --           subversive
 -- ──────────────────────────────
-vim.cmd("nmap s <plug>(SubversiveSubstitute)")
-vim.cmd("vmap s <plug>(SubversiveSubstitute)")
-vim.cmd("nmap ss <plug>(SubversiveSubstituteLine)")
-vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
-
-vim.api.nvim_del_keymap("s", "s")
+vim.cmd("nmap S <plug>(SubversiveSubstitute)")
+vim.cmd("vmap S <plug>(SubversiveSubstitute)")
+vim.cmd("nmap SS <plug>(SubversiveSubstituteLine)")
+vim.cmd("nmap S$ <plug>(SubversiveSubstituteToEndOfLine)")
 
 --            neogen
 -- ──────────────────────────────
@@ -199,3 +197,9 @@ set_keymap("n", "zM", function ()
     return "zM"
   end
 end, { remap = false, expr = true })
+
+--            leap
+-- ──────────────────────────────
+set_keymap({ "n", "x" }, "<Leader><Space>", function()
+  require("leap").leap({ target_windows = { vim.fn.win_getid() } })
+end, { silent = true })
