@@ -138,6 +138,7 @@ packer.startup({
     })
     use({
       "ggandor/leap.nvim",
+      module = "leap",
       config = conf("leap"),
     })
 
