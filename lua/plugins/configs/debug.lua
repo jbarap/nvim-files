@@ -21,7 +21,7 @@ dap.adapters.python_attach = {
 }
 
 -- load launch.json
-require('dap.ext.vscode').load_launchjs(vim.fn.getcwd() .. '/launch.json')
+require('dap.ext.vscode').load_launchjs(vim.fn.getcwd() .. '/.vscode/launch.json')
 
 --          configs
 -- ──────────────────────────────
