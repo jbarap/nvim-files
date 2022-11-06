@@ -205,8 +205,8 @@ packer.startup({
 
     -- Surround
     use({
-      "kylechui/nvim-surround",
-      config = conf("surround"),
+      "echasnovski/mini.surround",
+      config = conf("mini_surround"),
     })
 
     -- Substitution
