@@ -99,9 +99,8 @@ vim.filetype.add({
 })
 
 -- Diff options
--- waiting on: https://github.com/neovim/neovim/pull/14537
 -- oddly enough, this option isn't set as a table
-opt.diffopt = "filler,vertical,closeoff,internal,indent-heuristic,algorithm:patience"
+opt.diffopt = "filler,vertical,closeoff,internal,indent-heuristic,algorithm:patience,linematch:60"
 
 vim.g.loaded_matchparen = 1
 
