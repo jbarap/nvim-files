@@ -1,5 +1,8 @@
+-- impatient optimizations
+require("impatient")
+-- require("impatient").enable_profile()
+
 local modules = {
-  "impatient", -- Setup 'require' improvements
   "options", -- General nvim options
   "keybinds", -- Nvim keybinds
   "plugins",  -- Plugins related keybinds and configs
