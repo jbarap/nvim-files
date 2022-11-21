@@ -255,10 +255,14 @@ packer.startup({
     -- Repeat
     use("tpope/vim-repeat")
 
-    -- Targets
+    -- Textobjects
     use({
-      "wellle/targets.vim",
-      config = conf("targets"),
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      requires = "nvim-treesitter/nvim-treesitter",
+    })
+    use({
+      "echasnovski/mini.ai",
+      config = conf("mini_ai"),
     })
 
     -- Debugging
