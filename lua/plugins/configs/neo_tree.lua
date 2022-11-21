@@ -67,7 +67,12 @@ require("neo-tree").setup({
       ["A"] = "add_directory",
       ["d"] = "delete",
       ["r"] = "rename",
-      ["y"] = "copy_to_clipboard",
+      ["y"] = function (state) -- copy absolute path to system clipboard
+        local node = state.tree:get_node()
+        vim.fn.setreg("+", node.path)
+        print(string.format("Copied path '%s' to clipboard.", node.path))
+      end,
+      ["Y"] = "copy_to_clipboard", -- copy file to system clipboard
       ["x"] = "cut_to_clipboard",
       ["p"] = "paste_from_clipboard",
       ["c"] = "copy", -- takes text input for destination
@@ -88,15 +93,9 @@ require("neo-tree").setup({
       never_show = { -- remains hidden even if visible is toggled to true
       },
     },
-    follow_current_file = false, -- This will find and focus the file in the active buffer every
-    -- time the current file is changed while the tree is open.
-    hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
-    -- in whatever position is specified in window.position
-    -- "open_current",  -- netrw disabled, opening a directory opens within the
-    -- window like netrw would, regardless of window.position
-    -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
-    use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes
-    -- instead of relying on nvim autocmd events.
+    follow_current_file = false,
+    hijack_netrw_behavior = "open_default",
+    use_libuv_file_watcher = true,
     --
     window = {
       mappings = {

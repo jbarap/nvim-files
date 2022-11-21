@@ -98,6 +98,10 @@ vim.filetype.add({
   }
 })
 
+-- disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Diff options
 -- oddly enough, this option isn't set as a table
 opt.diffopt = "filler,vertical,closeoff,internal,indent-heuristic,algorithm:patience,linematch:60"

@@ -131,6 +131,27 @@ set_keymap("n", "<Leader>nn", "<cmd>Neotree filesystem focus left toggle<CR>")
 set_keymap("n", "<Leader>ng", "<cmd>Neotree git_status left<CR>")
 set_keymap("n", "<Leader>nf", "<cmd>Neotree filesystem reveal left toggle<CR>")
 
+-- load neo-tree on directory open so it hijacks netrw
+vim.cmd("silent! autocmd! FileExplorer *")
+vim.api.nvim_create_autocmd(
+  { "BufEnter", "BufWinEnter" },
+  {
+    pattern = { "*" },
+    callback = function ()
+      local bufname = vim.api.nvim_buf_get_name(0)
+      local stats = vim.loop.fs_stat(bufname)
+      if not stats then
+        return false
+      end
+      if stats.type ~= "directory" then
+        return false
+      end
+      require("neo-tree")
+    end
+  }
+)
+
+
 --           trouble
 -- ──────────────────────────────
 -- lazy loaded setup
