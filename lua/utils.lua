@@ -1,5 +1,15 @@
 local M = {}
 
+--            tables
+-- ──────────────────────────────
+function M.tbl_concat(tbl1, tbl2)
+  local tbl3 = {unpack(tbl1)}
+  for i = 1, #tbl2 do
+    tbl3[#tbl1 + i] = tbl2[i]
+  end
+  return tbl3
+end
+
 --          autogroups
 -- ──────────────────────────────
 
