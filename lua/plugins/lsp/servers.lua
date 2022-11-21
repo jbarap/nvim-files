@@ -1,7 +1,8 @@
+local paths = require("paths")
+local utils = require("utils")
+
 local lspconfig = require("lspconfig")
 local lsputils = require("lspconfig.util")
-
-local paths = require("paths")
 
 local M = {}
 
@@ -11,11 +12,30 @@ local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
+function M.find_root(patterns, fname)
+  return lsputils.root_pattern(unpack(patterns))(fname) or lsputils.find_git_ancestor(fname) or vim.loop.cwd()
+end
+
+local common_patterns = {
+  ".project",
+  ".git",
+  "Makefile",
+}
+
+local python_patterns = {
+  "pyproject.toml",
+  "setup.py",
+  "setup.cfg",
+  "requirements.txt",
+  "Pipfile",
+  "poetry.lock",
+  "pyrightconfig.json",
+}
+
 --        server settings
 -- ──────────────────────────────
 -- See: https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
 -- And: https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
--- NOTE: you MUST have debugpy installed in whatever environment you are debugging in
 M.configurations = {
   jedi_language_server = {
     cmd = paths.get_cmd("jedi_language_server"),
@@ -36,8 +56,8 @@ M.configurations = {
         },
       }
     end,
-    root_dir = function()
-      return require("project_nvim.project").find_pattern_root() or vim.loop.cwd()
+    root_dir = function(fname)
+      return M.find_root(utils.tbl_concat(common_patterns, python_patterns), fname)
     end
   },
 
@@ -54,8 +74,8 @@ M.configurations = {
       end
       config.settings.python.pythonPath = python_path
     end,
-    root_dir = function()
-      return require("project_nvim.project").find_pattern_root() or vim.loop.cwd()
+    root_dir = function(fname)
+      return M.find_root(utils.tbl_concat(common_patterns, python_patterns), fname)
     end
   },
 
@@ -81,7 +101,10 @@ M.configurations = {
           },
         }
       }
-    }
+    },
+    root_dir = function(fname)
+      return M.find_root(utils.tbl_concat(common_patterns, python_patterns), fname)
+    end
   },
 
   gopls = {
