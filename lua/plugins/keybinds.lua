@@ -66,8 +66,8 @@ set_keymap("n", "<Leader>gf", require("plugins.utils").prompt_git_file)
 vim.cmd("autocmd User FugitiveIndex nmap <buffer> <Tab> =")
 vim.cmd("autocmd User FugitiveIndex nmap <buffer> q <cmd>q<CR>")
 
--- GV!
-set_keymap("n", "<Leader>gl", "<cmd>GV --all<CR>")
+-- Git log
+set_keymap("n", "<Leader>gl", "<cmd>Flog -all<CR>")
 
 --           subversive
 -- ──────────────────────────────

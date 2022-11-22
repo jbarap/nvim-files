@@ -220,8 +220,8 @@ packer.startup({
     use("tpope/vim-fugitive")
     use("tpope/vim-rhubarb")
     use({
-      "junegunn/gv.vim",
-      cmd = { "GV" },
+      "rbong/vim-flog",
+      cmd = { "Flog" },
     })
     -- use({
     --   "TimUntersberger/neogit",
