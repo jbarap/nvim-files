@@ -51,7 +51,7 @@ packer.startup({
     })
 
     -- Icons
-    use("kyazdani42/nvim-web-devicons")
+    use("nvim-tree/nvim-web-devicons")
 
     -- Colors
     use({
@@ -92,7 +92,7 @@ packer.startup({
       "folke/trouble.nvim",
       cmd = "TroubleToggle",
       config = conf("trouble"),
-      requires = "kyazdani42/nvim-web-devicons",
+      requires = "nvim-tree/nvim-web-devicons",
     })
 
     -- Autocompletion
@@ -119,12 +119,14 @@ packer.startup({
       run = ":TSUpdate",
     })
     use({
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      requires = "nvim-treesitter/nvim-treesitter",
-    })
-    use({
       "nvim-treesitter/playground",
       cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
+    })
+    use({ "yioneko/nvim-yati", requires = "nvim-treesitter/nvim-treesitter" })
+    use({
+      "yioneko/vim-tmindent",
+      module = "tmindent",
+      config = conf("tmindent"),
     })
 
     -- Navigation
@@ -159,14 +161,14 @@ packer.startup({
     use({
       "akinsho/bufferline.nvim",
       config = conf("bufferline"),
-      requires = "kyazdani42/nvim-web-devicons",
+      requires = "nvim-tree/nvim-web-devicons",
     })
 
     -- Statusline
     use({
       "nvim-lualine/lualine.nvim",
       config = conf("lualine"),
-      requires = { "kyazdani42/nvim-web-devicons", opt = true },
+      requires = { "nvim-tree/nvim-web-devicons", opt = true },
     })
     use({
       "SmiteshP/nvim-navic",
@@ -178,9 +180,10 @@ packer.startup({
       "nvim-neo-tree/neo-tree.nvim",
       cmd = "Neotree",
       config = conf("neo_tree"),
+      module = "neo-tree",
       requires = {
         "nvim-lua/plenary.nvim",
-        "kyazdani42/nvim-web-devicons",
+        "nvim-tree/nvim-web-devicons",
         "MunifTanjim/nui.nvim",
       },
     })
@@ -278,7 +281,6 @@ packer.startup({
     })
 
     -- Python
-    use("Vimjas/vim-python-pep8-indent")
     -- check ahmedkhalf/jupyter-nvim
     use({
       "dccsillag/magma-nvim",

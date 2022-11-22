@@ -27,6 +27,15 @@ require("nvim-treesitter.configs").setup({
     disable = { "python" },
   },
 
+  yati = {
+    enable = true,
+    default_lazy = true,
+    default_fallback = function(lnum, computed, bufnr)
+      -- TODO: check what tmindent returns when it fails, and add default as second fallback
+      return require('tmindent').get_indent(lnum, bufnr) + computed
+    end,
+  },
+
   textobjects = {
     select = {
       enable = true,
