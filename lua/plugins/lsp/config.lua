@@ -1,13 +1,13 @@
 local language_servers = require("plugins.lsp.servers")
 
 -- TODO: change to keybind
-local opts = { noremap = true, silent = true }
+local default_opts = { noremap = true, silent = true }
 
 --           on attach
 -- ──────────────────────────────
 local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...)
-    vim.api.nvim_buf_set_keymap(bufnr, ...)
+  local function buf_set_keymap(mode, lhs, rhs, opts)
+    vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", opts, { buffer = bufnr }))
   end
 
   local function buf_set_option(...)
@@ -27,31 +27,31 @@ local on_attach = function(client, bufnr)
 
   -- Get/Go
   -- See telescope for definition and references
-  buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-  buf_set_keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+  buf_set_keymap("n", "gD", vim.lsp.buf.declaration, default_opts)
+
+  buf_set_keymap("n", "gi", vim.lsp.buf.implementation, default_opts)
+  buf_set_keymap("n", "gt", vim.lsp.buf.type_definition, default_opts)
 
   -- Information
-  buf_set_keymap("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  buf_set_keymap("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  buf_set_keymap("n", "K", vim.lsp.buf.hover, default_opts)
+  buf_set_keymap("i", "<C-k>", vim.lsp.buf.signature_help, default_opts)
 
   -- Workspace
-  buf_set_keymap("n", "<Leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
-  buf_set_keymap("n", "<Leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
-  buf_set_keymap("n", "<Leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
+  buf_set_keymap("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, default_opts)
+  buf_set_keymap("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, default_opts)
+  buf_set_keymap("n", "<Leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, default_opts)
 
   -- Code actions
-  buf_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  buf_set_keymap("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  buf_set_keymap("n", "<Leader>rn", vim.lsp.buf.rename, default_opts)
+  buf_set_keymap("n", "<leader>ca", vim.lsp.buf.code_action, default_opts)
 
   -- Diagnostics
-  buf_set_keymap("n", "<Leader>cdl", "<cmd>lua vim.diagnostic.open_float({scope='line'})<CR>", opts)
-  buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-  buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+  buf_set_keymap("n", "<Leader>cdl",  function() vim.diagnostic.open_float({ scope = "line", }) end, default_opts)
+  buf_set_keymap("n", "]d", vim.diagnostic.goto_next, default_opts)
+  buf_set_keymap("n", "[d", vim.diagnostic.goto_prev, default_opts)
 
   -- Formatting
-  buf_set_keymap("n", "<leader>cf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
-  buf_set_keymap("v", "<leader>cf", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+  buf_set_keymap({ "n" , "v" }, "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, default_opts)
 
   -- Telescope LSP
   local function buf_bind_picker(...)
@@ -97,6 +97,7 @@ vim.diagnostic.config({
     format = function(diagnostic)
       return string.format("%s [%s](%s)", diagnostic.message, diagnostic.code, diagnostic.source)
     end,
+    suffix = "",
   },
 })
 
