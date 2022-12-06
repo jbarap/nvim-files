@@ -1,7 +1,7 @@
 require("project_nvim").setup({
   manual_mode = false,
   detection_methods = { "pattern" },
-  scope_chdir = 'global',
+  scope_chdir = 'tab',
   patterns = {
     "_darcs",
     ".project",
