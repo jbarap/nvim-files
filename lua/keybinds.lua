@@ -26,10 +26,6 @@ set_keymap("n", "gp", "a<CR><Esc>PkJJxx")
 -- Make Y key yank to end of line
 set_keymap("n", "Y", "y$")
 
--- Indent with Tab and Shift-Tab
--- set_keymap("v", "<Tab>", ">")
--- set_keymap("v", "<S-Tab>", "<")
-
 -- Clear search highlight and exit visual mode
 set_keymap("n", "<Leader><CR>", "<cmd>nohlsearch<cr>")
 set_keymap("v", "<Leader><CR>", "<Esc>")
@@ -42,6 +38,7 @@ set_keymap("n", "<Leader>bd", require("utils").buffer_delete)
 -- Tab navigation
 set_keymap("n", "<Leader>t.", "<cmd>tabnext<CR>")
 set_keymap("n", "<Leader>t,", "<cmd>tabprev<CR>")
+set_keymap("n", "<Leader>tn", "<cmd>tabnew<CR>")
 
 -- Goto window above/below/left/right
 set_keymap("n", "<C-h>", "<cmd>wincmd h<CR>")
