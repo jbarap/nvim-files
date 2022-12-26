@@ -118,10 +118,6 @@ packer.startup({
       config = conf("treesitter"),
       run = ":TSUpdate",
     })
-    use({
-      "nvim-treesitter/playground",
-      cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
-    })
     use({ "yioneko/nvim-yati", requires = "nvim-treesitter/nvim-treesitter" })
     use({
       "yioneko/vim-tmindent",
