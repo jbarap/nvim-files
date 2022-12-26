@@ -14,11 +14,24 @@ dap.adapters.python_launch = {
   args = { "-m", "debugpy.adapter" },
   initialize_timeout_sec = 5,
 }
-dap.adapters.python_attach = {
-  type = "server",
-  host = "127.0.0.1",
-  port = "5678",
-}
+dap.adapters.python_attach = function (callback, user_config)
+  local address = vim.fn.input({ prompt = "Address (default 127.0.0.1:5678): "})
+  local host
+  local port
+
+  if string.find(address, ":") ~= nil then
+    host, port = unpack(vim.fn.split(address, ":"))
+  else
+    host = "127.0.0.1"
+    port = "5678"
+  end
+
+  callback({
+    type = "server",
+    host = host,
+    port = port,
+  })
+end
 
 -- load launch.json
 require('dap.ext.vscode').load_launchjs(vim.fn.getcwd() .. '/.vscode/launch.json')
@@ -27,7 +40,7 @@ require('dap.ext.vscode').load_launchjs(vim.fn.getcwd() .. '/.vscode/launch.json
 -- ──────────────────────────────
 dap.configurations.python = {
   {
-    name = "Launch script",
+    name = "[Launch] script",
     type = "python_launch",
     request = "launch",
     program = "${file}",
@@ -40,7 +53,7 @@ dap.configurations.python = {
     pythonPath = "python3",
   },
   {
-    name = "Launch module",
+    name = "[Launch] module",
     type = "python_launch",
     request = "launch",
     cwd = "${workspaceFolder}",
@@ -58,7 +71,7 @@ dap.configurations.python = {
     pythonPath = "python3",
   },
   {
-    name = "Attach",
+    name = "[Attach] to running app",
     type = "python_attach",
     request = "attach",
   },
@@ -90,11 +103,25 @@ dapui.setup({
     },
     {
       elements = {
-        "repl",
+        { id = "repl", size = 1 },
       },
-    size = 10,
-    position = "bottom",
+      size = 10,
+      position = "bottom",
     }
+  },
+  controls = {
+    enabled = true,
+    element = "repl",
+    icons = {
+      pause = "",
+      play = "",
+      step_into = "",
+      step_over = "",
+      step_out = "",
+      step_back = "",
+      run_last = "",
+      terminate = "",
+    },
   },
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.
@@ -104,7 +131,7 @@ dapui.setup({
 
 -- load launch.json
 require('dap.ext.vscode').load_launchjs(
-  vim.fn.getcwd() .. '/launch.json',
+  vim.fn.getcwd() .. '/.vscode/launch.json',
   {
     python_launch = { "python" },
     python_attach = { "python" },
