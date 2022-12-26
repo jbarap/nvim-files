@@ -18,13 +18,15 @@ require("diffview").setup({
     }
   },
   file_history_panel = {
-    log_options = {
-      single_file = {
-        follow = true,
-        all = true,
-      },
-      multi_file = {
-        all = false,
+    git = {
+      log_options = {
+        single_file = {
+          follow = true,
+          all = true,
+        },
+        multi_file = {
+          all = false,
+        },
       },
     },
   },
