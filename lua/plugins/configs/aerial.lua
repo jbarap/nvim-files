@@ -11,6 +11,9 @@ require("aerial").setup({
   on_attach = function(bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>a', '<cmd>AerialToggle!<CR>', {})
   end,
+  layout = {
+    preserve_equality = true
+  },
   keymaps = {
     ["<CR>"] = function()
       -- hack because for some reason when you just jump, the cursor position is wrong,
