@@ -378,12 +378,9 @@ packer.startup({
   end,
 
   config = {
-    compile_path = vim.fn.stdpath("config") .. "/lua/plugins/packer_compiled.lua",
     profile = {
       enable = true,
       threshold = 0.1,
     },
   },
 })
-
-require("plugins.packer_compiled")
