@@ -31,14 +31,6 @@
                 "name": "jupyter-client"
             }
         },
-        "ueberzug": {
-            "notes": "magma-nvim dependency.",
-            "cmd": ["python ", "-m", "ueberzug"],
-            "install_info": {
-                "method": "pip",
-                "name": "ueberzug"
-            }
-        },
         "pillow": {
             "notes": "magma-nvim dependency.",
             "cmd": ["python ", "-m", "PIL"],
@@ -165,7 +157,7 @@
         "clangd": {
             "notes": "C/CPP/cuda/objc lsp.",
             "cmd": [
-                "clangd_14.0.3/bin/clangd"
+                "clangd_15.0.6/bin/clangd"
             ],
             "install_info": {
                 "method": "github_releases",
@@ -196,6 +188,14 @@
                 "name": "flake8"
             }
         },
+        "ruff_lsp": {
+            "notes": "FAST Python linter (as an lsp server).",
+            "cmd": ["ruff-lsp"],
+            "install_info": {
+                "method": "pip",
+                "name": "ruff-lsp"
+            }
+        },
         "mypy": {
             "notes": "Python linter.",
             "cmd": ["mypy"],
@@ -220,7 +220,6 @@
                 "name": "honnef.co/go/tools/cmd/staticcheck@latest"
             }
         },
-
         "black": {
             "notes": "Python fixer.",
             "cmd": ["black"],
