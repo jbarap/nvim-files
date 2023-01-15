@@ -32,7 +32,6 @@ M.setup_linter = function(on_attach)
     save_after_format = false,
     sources = {
       ---- Linters
-      custom_cmd_source("diagnostics", "flake8"),
       custom_cmd_source("diagnostics", "mypy", {
         extra_args = { "--ignore-missing-imports" },
       }),
@@ -44,17 +43,14 @@ M.setup_linter = function(on_attach)
       custom_cmd_source("diagnostics", "luacheck", {
         extra_args = { "--globals", "vim", "--allow-defined" },
       }, true),
-      -- custom_cmd_source("diagnostics", "staticcheck")
+      custom_cmd_source("diagnostics", "staticcheck", {}),
 
       ---- Fixers
       custom_cmd_source("formatting", "black", {
         args = { "--quiet", "--line-length", 105, "-" },
       }),
-      custom_cmd_source("formatting", "isort", {
-        extra_args = { "--profile", "black", "--filter-files" }
-      }),
-      custom_cmd_source("formatting", "stylua"),
-      custom_cmd_source("formatting", "prettier"),
+      custom_cmd_source("formatting", "stylua", {}),
+      custom_cmd_source("formatting", "prettier", {}),
       null_ls.builtins.formatting.gofmt, -- gofmt executable comes with go
     },
   })

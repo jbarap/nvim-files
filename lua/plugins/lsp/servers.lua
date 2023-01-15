@@ -107,6 +107,35 @@ M.configurations = {
     end
   },
 
+  ruff_lsp = {
+    cmd = paths.get_cmd("ruff_lsp"),
+    settings = {
+      args = {
+        -- to enable later: ANN,
+        "--select",
+        "F,E,W,C,I,D,N,S,FBT,B,C4,EM,ICN,RET,ARG,ERA,PLW",
+
+        -- configuration for pydocstyle - google convention
+        "--extend-ignore",
+        "D203,D204,D213,D215,D400,D404,D406,D407,D408,D409,D413",
+      },
+    },
+    -- automatically identify virtualenvs set with pyenv
+    on_new_config = function (config, _)
+      local python_path
+      local virtual_env = vim.env.VIRTUAL_ENV or vim.env.PYENV_VIRTUAL_ENV
+      if virtual_env then
+        python_path = lsputils.path.join(virtual_env, "bin", "python")
+      else
+        python_path = "python"
+      end
+      config.settings.interpreter = python_path
+    end,
+    root_dir = function(fname)
+      return M.find_root(utils.tbl_concat(common_patterns, python_patterns), fname)
+    end
+  },
+
   gopls = {
     cmd = paths.get_cmd("gopls"),
   },
