@@ -2,10 +2,16 @@ local actions = require("diffview.actions")
 
 require("diffview").setup({
   view = {
+    default = {
+      winbar_info = true,
+    },
     merge_tool = {
       layout = "diff3_mixed",
       disable_diagnostics = true,
-    }
+    },
+    file_history = {
+      winbar_info = true,
+    },
   },
   diff_binaries = false,
   enhanced_diff_hl = true,
