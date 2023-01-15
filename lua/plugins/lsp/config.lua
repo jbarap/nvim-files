@@ -111,16 +111,10 @@ capabilities.textDocument.foldingRange = {
 }
 capabilities = vim.tbl_deep_extend("force", capabilities, require('cmp_nvim_lsp').default_capabilities())
 
--- obtain the cwd for conditional registering
-local lsputil = require("lspconfig.util")
-local cwd = vim.loop.cwd()
-local project_nvim = require("project_nvim.project")
-if project_nvim ~= nil then
-  cwd = project_nvim.find_pattern_root() or vim.loop.cwd()
-end
-
 -- Language servers to register
 local server_names = {
+  "ruff_lsp",
+  "jedi_language_server",
   "sumneko_lua",
   "dockerls",
   "gopls",
@@ -129,15 +123,6 @@ local server_names = {
   "yamlls",
   "clangd",
 }
-
--- register pyright if the config file exists, otherwise use jedi_language_server
--- if lsputil.path.exists(lsputil.path.join(cwd, "pyrightconfig.json")) then
---   table.insert(server_names, 'pyright')
--- else
---   table.insert(server_names, 'jedi_language_server')
--- end
-
-table.insert(server_names, "jedi_language_server")
 
 -- common language server options
 local common_lang_options = {
