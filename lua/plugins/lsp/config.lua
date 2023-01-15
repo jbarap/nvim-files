@@ -43,7 +43,7 @@ local on_attach = function(client, bufnr)
 
   -- Code actions
   buf_set_keymap("n", "<Leader>rn", vim.lsp.buf.rename, default_opts)
-  buf_set_keymap("n", "<leader>ca", vim.lsp.buf.code_action, default_opts)
+  buf_set_keymap({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, default_opts)
 
   -- Diagnostics
   buf_set_keymap("n", "<Leader>cdl",  function() vim.diagnostic.open_float({ scope = "line", }) end, default_opts)
