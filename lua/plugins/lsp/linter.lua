@@ -33,7 +33,7 @@ M.setup_linter = function(on_attach)
     sources = {
       ---- Linters
       custom_cmd_source("diagnostics", "mypy", {
-        extra_args = { "--ignore-missing-imports" },
+        extra_args = { "--ignore-missing-imports", "--check-untyped-defs" },
       }),
       custom_cmd_source("diagnostics", "pylint", {
         condition = function(cond_utils)
