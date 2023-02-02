@@ -118,7 +118,7 @@ opt.foldtext = "v:lua.custom_fold_expr()"
 
 -- Highlight text on yank
 utils.create_augroup("highlight_on_yank", {
-  { "TextYankPost", "*", "silent!", "lua vim.highlight.on_yank()" },
+  { "TextYankPost", "*", "silent!", "lua vim.highlight.on_yank({ higroup='IncSearch', timeout=150 })" },
 })
 
 -- Autocommands
