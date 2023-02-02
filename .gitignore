@@ -6,3 +6,4 @@ pains.md
 start_time*
 *__pycache__*
 lua/plugins/packer_compiled.lua
+spell/*
