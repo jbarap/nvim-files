@@ -240,7 +240,7 @@ packer.startup({
     use({
       "glepnir/dashboard-nvim",
       config = conf("dashboard"),
-      commit = "44983543314c9c8fd3a62acdabf5150317aacbfa",
+      -- commit = "44983543314c9c8fd3a62acdabf5150317aacbfa",
     })
 
     -- Documentation generation
