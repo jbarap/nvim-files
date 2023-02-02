@@ -69,7 +69,7 @@ packer.startup({
     use({
       "kevinhwang91/nvim-ufo",
       requires = {
-        {"kevinhwang91/promise-async", keys = { "za", "zR", "zM" }, module = "ufo" }
+        {"kevinhwang91/promise-async", keys = { "za", "zc", "zo", "zR", "zM" }, module = "ufo" }
       },
       config = conf("nvim_ufo"),
       after = "promise-async",
