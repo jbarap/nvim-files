@@ -73,10 +73,10 @@ set_keymap("n", "<Leader>gl", "<cmd>Flog -all<CR>")
 
 --           subversive
 -- ──────────────────────────────
-vim.cmd("nmap S <plug>(SubversiveSubstitute)")
-vim.cmd("vmap S <plug>(SubversiveSubstitute)")
-vim.cmd("nmap SS <plug>(SubversiveSubstituteLine)")
-vim.cmd("nmap S$ <plug>(SubversiveSubstituteToEndOfLine)")
+vim.cmd("nmap s <plug>(SubversiveSubstitute)")
+vim.cmd("vmap s <plug>(SubversiveSubstitute)")
+vim.cmd("nmap ss <plug>(SubversiveSubstituteLine)")
+vim.cmd("nmap S <plug>(SubversiveSubstituteToEndOfLine)")
 
 --            neogen
 -- ──────────────────────────────
