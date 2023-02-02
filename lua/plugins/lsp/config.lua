@@ -107,15 +107,16 @@ vim.diagnostic.config({
 -- additional capabilities for autocompletion with nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.foldingRange = {
-    dynamicRegistration = false,
-    lineFoldingOnly = true
+  dynamicRegistration = false,
+  lineFoldingOnly = true
 }
 capabilities = vim.tbl_deep_extend("force", capabilities, require('cmp_nvim_lsp').default_capabilities())
 
 -- Language servers to register
 local server_names = {
   "ruff_lsp",
-  "jedi_language_server",
+  -- "jedi_language_server",
+  "pyright",
   "sumneko_lua",
   "dockerls",
   "gopls",

@@ -32,9 +32,9 @@ M.setup_linter = function(on_attach)
     save_after_format = false,
     sources = {
       ---- Linters
-      custom_cmd_source("diagnostics", "mypy", {
-        extra_args = { "--ignore-missing-imports", "--check-untyped-defs" },
-      }),
+      -- custom_cmd_source("diagnostics", "mypy", {
+      --   extra_args = { "--strict", "--ignore-missing-imports", "--check-untyped-defs" },
+      -- }),
       custom_cmd_source("diagnostics", "pylint", {
         condition = function(cond_utils)
           return cond_utils.root_has_file({"pylintrc"})
