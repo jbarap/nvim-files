@@ -160,11 +160,10 @@ packer.startup({
       requires = "nvim-tree/nvim-web-devicons",
     })
 
-    -- Statusline
+    -- Statusline/Winbar
     use({
-      "nvim-lualine/lualine.nvim",
-      config = conf("lualine"),
-      requires = { "nvim-tree/nvim-web-devicons", opt = true },
+      "feline-nvim/feline.nvim",
+      config = conf("feline")
     })
     use({
       "SmiteshP/nvim-navic",
