@@ -20,6 +20,7 @@ local on_attach = function(client, bufnr)
     and client.server_capabilities.documentSymbolProvider
     and package.loaded["nvim-navic"]
   then
+    require("plugins.configs.nvim_navic")
     require("nvim-navic").attach(client, bufnr)
   end
 
