@@ -25,10 +25,12 @@ set_keymap("n", "<Leader>ff", function () require("telescope.builtin").find_file
 
 -- grep
 set_keymap("n", "<Leader>fg", function () require("telescope.builtin").live_grep() end)
+set_keymap("n", "<Leader>fG", function() require("telescope.builtin").live_grep({
+  additional_args = { "--no-ignore" },
+}) end)
 
--- grep in/excluding directory
+-- grep in directory
 set_keymap("n", "<Leader>f<C-g>", function() require("plugins.utils").rg_dir() end)
-set_keymap("n", "<Leader>fG", function() require("plugins.utils").rg_exclude_dir() end)
 
 -- TODO: grep visual selection
 set_keymap("n", "<Leader>fW", function()

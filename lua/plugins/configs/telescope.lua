@@ -24,7 +24,6 @@ require("telescope").setup({
       "--smart-case",
       "--with-filename",
       "--hidden",
-      "--no-ignore",
       "--glob",
       "!*.git",
     },
