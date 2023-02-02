@@ -124,11 +124,13 @@ M.configurations = {
     on_new_config = function (config, _)
       local python_path
       local virtual_env = vim.env.VIRTUAL_ENV or vim.env.PYENV_VIRTUAL_ENV
+
       if virtual_env then
         python_path = lsputils.path.join(virtual_env, "bin", "python")
       else
         python_path = "python"
       end
+
       config.settings.interpreter = python_path
     end,
     root_dir = function(fname)
@@ -152,7 +154,8 @@ M.configurations = {
           globals = { "vim" },
         },
         workspace = {
-          -- library = vim.api.nvim_get_runtime_file("", true),
+          library = vim.api.nvim_get_runtime_file("", true),
+          checkThirdParty = false,
           preloadFileSize = 350, -- in kb
         },
         telemetry = {
