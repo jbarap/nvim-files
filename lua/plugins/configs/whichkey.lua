@@ -81,7 +81,7 @@ wk.register({
       name = "git",
       f = "File open",
       l = "Log",
-      s = "Status",
+      g = "Status",
       b = {
         name = "blame",
         b = "Toggle line blame",

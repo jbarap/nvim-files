@@ -58,7 +58,7 @@ set_keymap("n", "<Down>", function() require("tmux").resize_bottom() end)
 
 --            fugitive
 -- ──────────────────────────────
-set_keymap("n", "<Leader>gs", "<cmd>Git<CR>")
+set_keymap("n", "<Leader>gg", "<cmd>Git<CR>")
 set_keymap("n", "<Leader>gP", function() vim.fn.feedkeys(":Git push ") end)
 set_keymap("n", "<Leader>gp", "<cmd>Git pull<CR>")
 
