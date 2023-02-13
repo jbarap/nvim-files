@@ -107,6 +107,42 @@ require("telescope").setup({
       entry_maker = require("plugins.configs.telescope_custom").file_displayer(),
       previewer = false,
     },
+    git_commits = {
+      mappings = {
+        i = {
+          -- Open in diffview
+          ["<C-d>"] = function()
+            local selected_entry = actions_state.get_selected_entry()
+            local value = selected_entry.value
+            -- close Telescope window properly prior to switching windows
+            vim.api.nvim_win_close(0, true)
+            vim.cmd("stopinsert")
+            vim.schedule(function()
+              vim.cmd(("DiffviewOpen %s^!"):format(value))
+            end)
+          end,
+          ["<C-u>"] = nil,
+        }
+      }
+    },
+    git_branches = {
+      mappings = {
+        i = {
+          -- Open in diffview
+          ["<C-d>"] = function()
+            local selected_entry = actions_state.get_selected_entry()
+            local value = selected_entry.value
+            -- close Telescope window properly prior to switching windows
+            vim.api.nvim_win_close(0, true)
+            vim.cmd("stopinsert")
+            vim.schedule(function()
+              vim.cmd(("DiffviewOpen %s^!"):format(value))
+            end)
+          end,
+          ["<C-u>"] = nil,
+        }
+      }
+    },
   },
   extensions = {
     fzf = {
