@@ -1,4 +1,5 @@
 local actions = require("telescope.actions")
+local actions_state = require('telescope.actions.state')
 local layout_actions = require("telescope.actions.layout")
 
 -- Helper functions for path_display
