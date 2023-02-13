@@ -117,7 +117,7 @@ local server_names = {
   "ruff_lsp",
   -- "jedi_language_server",
   "pyright",
-  "sumneko_lua",
+  "lua_ls",
   "dockerls",
   "gopls",
   "jsonls",

@@ -142,7 +142,7 @@ M.configurations = {
     cmd = paths.get_cmd("gopls"),
   },
 
-  sumneko_lua = {
+  lua_ls = {
     cmd = paths.get_cmd("sumneko_lua"),
     settings = {
       Lua = {
