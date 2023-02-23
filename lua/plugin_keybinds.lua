@@ -1,9 +1,8 @@
 local set_keymap = vim.keymap.set
 
-
 --           Utils
 -- ──────────────────────────────
-local utils = require("plugins.utils")
+local utils = require("plugin_utils")
 set_keymap("n", "<Leader>cp", utils.buffer_performance_mode)
 
 --           Telescope
@@ -30,7 +29,7 @@ set_keymap("n", "<Leader>fG", function() require("telescope.builtin").live_grep(
 }) end)
 
 -- grep in directory
-set_keymap("n", "<Leader>f<C-g>", function() require("plugins.utils").rg_dir() end)
+set_keymap("n", "<Leader>f<C-g>", function() plugin_utils.rg_dir() end)
 
 -- TODO: grep visual selection
 set_keymap("n", "<Leader>fW", function()
@@ -64,7 +63,7 @@ set_keymap("n", "<Leader>gp", "<cmd>Git pull<CR>")
 
 set_keymap({ "n", "v" }, "<Leader>gdh", "<cmd>diffget //2<CR>")
 set_keymap({ "n", "v" }, "<Leader>gdl", "<cmd>diffget //3<CR>")
-set_keymap("n", "<Leader>gf", require("plugins.utils").prompt_git_file)
+set_keymap("n", "<Leader>gf", function() plugin_utils.prompt_git_file() end)
 vim.cmd("autocmd User FugitiveIndex nmap <buffer> <Tab> =")
 vim.cmd("autocmd User FugitiveIndex nmap <buffer> q <cmd>q<CR>")
 
@@ -109,12 +108,12 @@ set_keymap("n", "<Leader>ta", function() require("neotest").summary.open() end)
 
 --           diffview
 -- ──────────────────────────────
-set_keymap({ "n", "v" }, "<leader>dv", function() require("plugins.utils").toggle_diff_view("diff") end)
-set_keymap({ "n", "v" }, "<leader>df", function() require("plugins.utils").toggle_diff_view("file") end)
+set_keymap({ "n", "v" }, "<leader>dv", function() plugin_utils.toggle_diff_view("diff") end)
+set_keymap({ "n", "v" }, "<leader>df", function() plugin_utils.toggle_diff_view("file") end)
 
 --          fterm
 -- ──────────────────────────────
-set_keymap("n", "<Leader>ce", require("plugins.utils").run_code)
+set_keymap("n", "<Leader>ce", function() plugin_utils.run_code() end)
 
 set_keymap('n', '<c-_>', '<CMD>lua require("FTerm").toggle()<CR>')
 set_keymap('t', '<c-_>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
@@ -221,8 +220,4 @@ set_keymap("n", "zM", function ()
   end
 end, { remap = false, expr = true })
 
---            leap
--- ──────────────────────────────
-set_keymap({ "n", "x" }, "<Leader><Space>", function()
-  require("leap").leap({ target_windows = { vim.fn.win_getid() } })
-end, { silent = true })
+return {}

@@ -36,7 +36,7 @@ local python_patterns = {
 -- ──────────────────────────────
 -- See: https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
 -- And: https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
-M.configurations = {
+M.configs = {
   jedi_language_server = {
     cmd = paths.get_cmd("jedi_language_server"),
     before_init = function(initialize_params, config)

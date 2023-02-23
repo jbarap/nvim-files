@@ -12,7 +12,6 @@ end
 
 --          autogroups
 -- ──────────────────────────────
-
 function M.create_augroup(name, autocmds)
   vim.cmd("augroup " .. name)
   vim.cmd("autocmd!")
@@ -22,6 +21,21 @@ function M.create_augroup(name, autocmds)
   end
 
   vim.cmd("augroup END")
+end
+
+--           modules
+-- ──────────────────────────────
+function M.safe_load(module)
+  local ok, result = pcall(require, module)
+  if not ok then
+    vim.notify(
+      string.format("--- Module '%s' failed to load due to error: %s", module, result),
+      vim.log.levels.ERROR
+    )
+    return nil
+  else
+    return result
+  end
 end
 
 --          togglers

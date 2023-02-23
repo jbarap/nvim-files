@@ -205,16 +205,6 @@ function M.todo_comments()
 end
 set_keymap("n", "<Leader>ct", M.todo_comments)
 
--- Lazygit toggle
-local fterm = require("FTerm")
-
-local lazygit_term = fterm:new({
-  cmd = "lazygit",
-})
-
-function M.lazygit_toggle()
-  lazygit_term:toggle()
-end
 
 --          code runner
 -- ──────────────────────────────
