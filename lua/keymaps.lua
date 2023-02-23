@@ -3,72 +3,47 @@ local set_keymap = vim.keymap.set
 -- Set mapleader to space
 vim.g.mapleader = " "
 
---        general mappings
+--        Mappings
 -- ──────────────────────────────
--- Exit insert mode
-set_keymap("i", "jk", "<ESC>")
-set_keymap("i", "JK", "<ESC>")
+-- Exit insert
+set_keymap("i", "jk", "<ESC>", { desc = "Exit insert mode" })
+set_keymap("i", "JK", "<ESC>", { desc = "Exit insert mode" })
 
--- Exit terminal insert mode
-set_keymap("t", "<Esc>", "<C-\\><C-n>")
+set_keymap("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit insert mode from terminal" })
 
--- Redo with U
-set_keymap("n", "U", "<C-r>")
-
--- Paste to clipboard
-set_keymap("v", "<Leader>y", '"+y')
-set_keymap("n", "<Leader>y", '"+y')
-set_keymap("n", "<Leader>Y", '"+y$')
-
--- Paste anything (e.g. lines) to cursor
-set_keymap("n", "gp", "a<CR><Esc>PkJJxx")
-
--- Make Y key yank to end of line
-set_keymap("n", "Y", "y$")
-
--- Clear search highlight and exit visual mode
-set_keymap("n", "<Leader><CR>", "<cmd>nohlsearch<cr>")
-set_keymap("v", "<Leader><CR>", "<Esc>")
-
--- Buffer Nagivation
-set_keymap("n", "<Leader>b.", "<cmd>bnext<CR>")
-set_keymap("n", "<Leader>b,", "<cmd>bprev<CR>")
-set_keymap("n", "<Leader>bd", require("utils").buffer_delete)
+-- Buffer nagivation
+set_keymap("n", "<Leader>b.", "<cmd>bnext<CR>", { desc = "Buffer next" })
+set_keymap("n", "<Leader>b,", "<cmd>bprev<CR>", { desc = "Buffer prev" })
+set_keymap("n", "<Leader>bd", require("utils").buffer_delete, { desc = "Buffer delete" })
 
 -- Tab navigation
-set_keymap("n", "<Leader>t.", "<cmd>tabnext<CR>")
-set_keymap("n", "<Leader>t,", "<cmd>tabprev<CR>")
-set_keymap("n", "<Leader>tn", "<cmd>tabnew<CR>")
+set_keymap("n", "<Leader>t.", "<cmd>tabnext<CR>", { desc = "Tab next" })
+set_keymap("n", "<Leader>t,", "<cmd>tabprev<CR>", { desc = "Tab prev" })
+set_keymap("n", "<Leader>tn", "<cmd>tabnew<CR>", { desc = "Tab new" })
+
+-- Screen navigation
+set_keymap({ "n", "v" }, "<A-j>", "<C-d>", { remap = true, desc = "Move screen up" })
+set_keymap({ "n", "v" }, "<A-S-j>", "<C-e>", { remap = false, desc = "Move screen up (one line)" })
+set_keymap({ "n", "v" }, "<A-k>", "<C-u>", { remap = true, desc = "Move screen down" })
+set_keymap({ "n", "v" }, "<A-S-k>", "<C-y>", { remap = false, desc = "Move screen down (one line)" })
 
 -- Goto window above/below/left/right
-set_keymap("n", "<C-h>", "<cmd>wincmd h<CR>")
-set_keymap("n", "<C-j>", "<cmd>wincmd j<CR>")
-set_keymap("n", "<C-k>", "<cmd>wincmd k<CR>")
-set_keymap("n", "<C-l>", "<cmd>wincmd l<CR>")
+set_keymap("n", "<C-h>", "<cmd>wincmd h<CR>", { desc = "Win move to left" })
+set_keymap("n", "<C-j>", "<cmd>wincmd j<CR>", { desc = "Win move down" })
+set_keymap("n", "<C-k>", "<cmd>wincmd k<CR>", { desc = "Win move up" })
+set_keymap("n", "<C-l>", "<cmd>wincmd l<CR>", { desc = "Win move to right" })
 
 -- QuickFix
-set_keymap("n", "]q", "<cmd>cn<CR>")
-set_keymap("n", "[q", "<cmd>cp<CR>")
-set_keymap("n", "<Leader>qq", require("utils").toggle_quickfix)
+set_keymap("n", "]q", "<cmd>cn<CR>", { desc = "Quickfix next" })
+set_keymap("n", "[q", "<cmd>cp<CR>", { desc = "Quickfix prev" })
+set_keymap("n", "<Leader>qq", require("utils").toggle_quickfix, { desc = "Quickfix toggle" })
 
 -- Diff
-set_keymap({ "n", "v" }, "<Leader>dp", "<cmd>diffput<CR>")
-set_keymap({ "n", "v" }, "<Leader>dg", "<cmd>diffget<CR>")
+set_keymap({ "n", "v" }, "<Leader>dp", "<cmd>diffput<CR>", { desc = "Diff put" })
+set_keymap({ "n", "v" }, "<Leader>dg", "<cmd>diffget<CR>", { desc = "Diff get" })
 
--- Resize windows (See plugins.tools for resize with tmux)
-
--- Keybinds for editing vim config
-set_keymap("n", "<Leader>ve", "<cmd>edit $MYVIMRC<CR>")
-set_keymap("n", "<Leader>vv", "<cmd>version<CR>")
-
--- Exit whichkey with one esc press instead of two
-set_keymap("n", "<Leader><Esc>", "<Esc>")
-
--- Move the screen
-set_keymap({ "n", "v" }, "<A-j>", "<C-d>", { remap = true })
-set_keymap({ "n", "v" }, "<A-S-j>", "<C-e>", { remap = false })
-set_keymap({ "n", "v" }, "<A-k>", "<C-u>", { remap = true })
-set_keymap({ "n", "v" }, "<A-S-k>", "<C-y>", { remap = false })
+-- Vim config
+set_keymap("n", "<Leader>ve", "<cmd>edit $MYVIMRC<CR>", { desc = "Vim edit config" })
 
 -- Smart dd
 set_keymap({ "n" }, "dd", function()
@@ -77,40 +52,44 @@ set_keymap({ "n" }, "dd", function()
   else
     return "dd"
   end
-end, { remap = false, expr = true })
-
--- Add move line shortcuts
--- set_keymap('n', '<A-j>', ':m .+1<CR>==')
--- set_keymap('n', '<A-k>', ':m .-2<CR>==')
--- set_keymap('i', '<A-j>', '<Esc>:m .+1<CR>==gi')
--- set_keymap('i', '<A-k>', '<Esc>:m .-2<CR>==gi')
+end, { remap = false, expr = true }, { desc = "Delete line (don't yank if empty)" })
 
 set_keymap("v", "<C-j>", ":m '>+1<CR>gv=gv")
 set_keymap("v", "<C-k>", ":m '<-2<CR>gv=gv")
 
 -- Center screen on cursor move
-set_keymap("n", "<C-o>", "<C-o>zz", { remap = false })
-set_keymap("n", "<C-i>", "<C-i>zz", { remap = false })
-set_keymap("n", "n", "nzz", { remap = false })
-set_keymap("n", "N", "Nzz", { remap = false })
+set_keymap("n", "<C-o>", "<C-o>zz", { remap = false }, { desc = "Jumplist prev" })
+set_keymap("n", "<C-i>", "<C-i>zz", { remap = false }, { desc = "Jumplist next" })
+set_keymap("n", "n", "nzz", { remap = false }, { desc = "Next search result" })
+set_keymap("n", "N", "Nzz", { remap = false }, { desc = "Prev search result" })
 
--- <BS> in select mode will enter insert mode
-set_keymap("s", "<BS>", "<BS>i")
+-- Replace
+set_keymap("n", "<Leader>cs", ":%s/", { desc = "Code substitute" })
+set_keymap("v", "<Leader>cs", ":s/", { desc = "Code substitute (within selection)" })
 
+-- Convenience
+set_keymap("n", "U", "<C-r>", { desc = "Redo" })
+
+set_keymap({ "n", "v" }, "<Leader>y", '"+y', { desc = "Yank to clipboard" })
+set_keymap("n", "<Leader>Y", '"+y$', { desc = "Yank ('til EOL) to clipboard" })
+
+set_keymap("n", "gp", "a<CR><Esc>PkJJxx", { desc = "Paste inline" })
+
+set_keymap("n", "<Leader><CR>", "<cmd>nohlsearch<cr>", { desc = "Clear hlsearch" })
+set_keymap("v", "<Leader><CR>", "<Esc>", { desc = "Exit visual mode" })
+
+set_keymap("n", "<Leader>fw", require("utils").search_word_under_cursor, { desc = "Find word under cursor" })
+set_keymap("x", "<Leader>fw", require("utils").search_selected_word, { desc = "Find selected word" })
+
+set_keymap("s", "<BS>", "<BS>i", { desc = "Delete and insert" })
+
+set_keymap("", "<S-h>", "^", { desc = "End on line" })
+set_keymap("", "<S-l>", "$", { desc = "Beginning of line" })
+
+set_keymap("n", "<M-o>", "<cmd>keepjumps normal <C-^><CR>", { desc = "Buffer pair" })
+
+--        Commands
+-- ──────────────────────────────
 -- Save files with sudo
 vim.api.nvim_create_user_command("WSudo", function() require("utils").sudo_write() end, {})
 
--- Search word under the cursor
-set_keymap("n", "<Leader>fw", require("utils").search_word_under_cursor)
-set_keymap("x", "<Leader>fw", require("utils").search_selected_word)
-
--- Replace
-set_keymap("n", "<Leader>cs", ":%s/")
-set_keymap("v", "<Leader>cs", ":s/")
-
--- Convenience mappings for ^ and $ in modes: normal, vis, and op-pending
-set_keymap("", "<S-h>", "^")
-set_keymap("", "<S-l>", "$")
-
--- Convenience mappings for <C-^>
-set_keymap("n", "<M-o>", "<cmd>keepjumps normal <C-^><CR>")

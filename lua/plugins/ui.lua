@@ -528,8 +528,6 @@ return {
         ["["] = { name = "+prev" },
         ["<leader>"] = {
           ["a"] = "Aerial toggle" ,
-          ["y"] = "Yank to clipboard",
-          ["Y"] = "Yank to clipboard (eol)",
           ["b"] = { name = "buffer" },
           ["c"] = {
             name = "code",
@@ -547,22 +545,9 @@ return {
           ["p"] = { name = "project/peek" },
           ["q"] = { name = "quickfix" },
           ["r"] = { name = "re/rsync" },
-          ["t"] = { name = "test" },
+          ["t"] = { name = "test/tab" },
           ["v"] = { name = "vim" },
         },
-
-        -- ["<leader><tab>"] = { name = "+tabs" },
-        -- ["<leader>b"] = { name = "+buffer" },
-        -- ["<leader>c"] = { name = "+code" },
-        -- ["<leader>f"] = { name = "+file/find" },
-        -- ["<leader>g"] = { name = "+git" },
-        -- ["<leader>gh"] = { name = "+hunks" },
-        -- ["<leader>q"] = { name = "+quit/session" },
-        -- ["<leader>s"] = { name = "+search" },
-        -- ["<leader>sn"] = { name = "+noice" },
-        -- ["<leader>u"] = { name = "+ui" },
-        -- ["<leader>w"] = { name = "+windows" },
-        -- ["<leader>x"] = { name = "+diagnostics/quickfix" },
       })
     end,
   },
