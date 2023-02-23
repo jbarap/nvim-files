@@ -4,7 +4,7 @@ local utils = require("utils")
 
 local modules = {
   "options", -- General nvim options
-  "keybinds", -- Nvim keybinds
+  "keymaps", -- Nvim keybinds
 }
 
 for _, mod in ipairs(modules) do
