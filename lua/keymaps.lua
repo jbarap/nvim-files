@@ -71,7 +71,7 @@ set_keymap("v", "<Leader>cs", ":s/", { desc = "Code substitute (within selection
 set_keymap("n", "U", "<C-r>", { desc = "Redo" })
 
 set_keymap({ "n", "v" }, "<Leader>y", '"+y', { desc = "Yank to clipboard" })
-set_keymap("n", "<Leader>Y", '"+y$', { desc = "Yank ('til EOL) to clipboard" })
+set_keymap("n", "<Leader>Y", '"+y$', { desc = "Yank to clipboard ('til EOL)" })
 
 set_keymap("n", "gp", "a<CR><Esc>PkJJxx", { desc = "Paste inline" })
 

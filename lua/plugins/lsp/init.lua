@@ -54,6 +54,9 @@ return {
   {
     "stevearc/aerial.nvim",
     cmd = "AerialToggle",
+    keys = {
+      { "<Leader>co", "<cmd>AerialToggle<CR>", desc = "Code overview" },
+    },
     opts = {
       backends = { "lsp", "treesitter", "markdown" },
       highlight_on_jump = 350,

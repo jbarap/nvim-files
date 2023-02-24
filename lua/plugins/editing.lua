@@ -281,7 +281,16 @@ return {
   },
 
   -- Substitution
-  { "svermeulen/vim-subversive" },
+  {
+    "gbprod/substitute.nvim",
+    keys = {
+      { "s", "<cmd>lua require('substitute').operator()<cr>", desc = "Substitute" },
+      { "ss", "<cmd>lua require('substitute').line()<cr>", desc = "Substitute (line)" },
+      { "S", "<cmd>lua require('substitute').eol()<cr>", desc = "Substitute ('til EOL)" },
+      { "s", "<cmd>lua require('substitute').visual()<cr>", mode = "x", desc = "Substitute (selection)" },
+    },
+    config = true,
+  },
 
   -- Repeat
   { "tpope/vim-repeat" },
@@ -319,6 +328,29 @@ return {
   -- Better folding
   {
     "kevinhwang91/nvim-ufo",
+    keys = { "za", "zc", "zo", "zR", "zM" },
+    init = function ()
+      vim.keymap.set("n", "zR", function ()
+        if package.loaded["ufo"] then
+          require("ufo").openAllFolds()
+          vim.cmd("redraw")
+          vim.cmd("IndentBlanklineRefresh")
+          return ""
+        else
+          return "zR"
+        end
+      end, { remap = false, expr = true })
+
+      vim.keymap.set("n", "zM", function ()
+        if package.loaded["ufo"] then
+          require("ufo").closeAllFolds()
+          vim.cmd("redraw")
+          return ""
+        else
+          return "zM"
+        end
+      end, { remap = false, expr = true })
+    end,
     dependencies = { "kevinhwang91/promise-async" },
     config = function ()
       vim.o.foldcolumn = '0'
@@ -327,13 +359,15 @@ return {
       vim.o.foldenable = true
       require("ufo").setup()
     end,
-    keys = { "za", "zc", "zo", "zR", "zM" },
   },
 
   -- Docstring generation
   {
     "danymat/neogen",
     lazy = true,
+    keys = {
+      { "<Leader>cdg", function() require("neogen").generate() end, desc = "Docstring generate" },
+    },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = {
       input_after_comment = true,
@@ -366,5 +400,8 @@ return {
   {
     "gabrielpoca/replacer.nvim",
     lazy = true,
+    keys = {
+      { "<leader>qe", function() require("replacer").run() end, nowait = true, desc = "Quickfix edit" },
+    },
   },
 }

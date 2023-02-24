@@ -81,6 +81,21 @@ return {
   {
     "akinsho/bufferline.nvim",
     event = "VeryLazy",
+    keys = {
+      { "<A-.>", "<cmd>keepjumps BufferLineCycleNext<CR>", desc = "Buffer next" },
+      { "<A-,>", "<cmd>keepjumps BufferLineCyclePrev<CR>", desc = "Buffer prev" },
+      { "<A-<>", "<cmd>BufferLineMovePrev<CR>", desc = "Buffer move prev" },
+      { "<A->>", "<cmd>BufferLineMoveNext<CR>", desc = "Buffer move next" },
+      { "<A-1>", "<cmd>BufferLineGoToBuffer 1<CR>", desc = "Buffer goto 1" },
+      { "<A-2>", "<cmd>BufferLineGoToBuffer 2<CR>", desc = "Buffer goto 2" },
+      { "<A-3>", "<cmd>BufferLineGoToBuffer 3<CR>", desc = "Buffer goto 3" },
+      { "<A-4>", "<cmd>BufferLineGoToBuffer 4<CR>", desc = "Buffer goto 4" },
+      { "<A-5>", "<cmd>BufferLineGoToBuffer 5<CR>", desc = "Buffer goto 5" },
+      { "<A-6>", "<cmd>BufferLineGoToBuffer 6<CR>", desc = "Buffer goto 6" },
+      { "<Leader>bp", "<cmd>BufferLinePick<CR>", desc = "Buffer pick" },
+      { "<Leader>bo", require("utils").buffer_close_all_but_current, desc = "Buffer only (close all but)" },
+    },
+    dependencies = "nvim-tree/nvim-web-devicons",
     opts = {
       options = {
         max_name_length = 18,
@@ -101,7 +116,6 @@ return {
         },
       },
     },
-    dependencies = "nvim-tree/nvim-web-devicons",
   },
 
   -- Markdown preview
@@ -393,6 +407,7 @@ return {
         "tsplayground",
         "startup",
         "dap-repl",
+        "qf",
       },
       max_indent_increase = 10,
       use_treesitter_scope = true,
@@ -489,6 +504,9 @@ return {
   {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
+    keys = {
+      { "<leader>cdd", "<cmd>TroubleToggle<cr>", desc = "Code diagnostics display" },
+    },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       mode = "document_diagnostics",
@@ -527,26 +545,33 @@ return {
         ["]"] = { name = "+next" },
         ["["] = { name = "+prev" },
         ["<leader>"] = {
-          ["a"] = "Aerial toggle" ,
           ["b"] = { name = "buffer" },
           ["c"] = {
             name = "code",
             ["d"] = { name = "diagnostics/documentation"},
           },
-          ["d"] = { name = "debugging/diff" },
+          ["d"] = {
+            name = "debugging/diff",
+            ["v"] = { name = "diffview" }
+          },
           ["f"] = { name = "find/files" },
           ["g"] = {
             name = "git",
             ["b"] = { name = "blame" },
-            ["d"] = { name = "diff" },
             ["h"] = { name = "hunk/highlight" },
           },
           ["n"] = { name = "neotree" },
           ["p"] = { name = "project/peek" },
           ["q"] = { name = "quickfix" },
-          ["r"] = { name = "re/rsync" },
-          ["t"] = { name = "test/tab" },
+          ["r"] = { name = "remote" },
+          ["t"] = {
+            name = "test/tab",
+            ["r"] = { name = "test run" },
+            ["d"] = { name = "test debug" },
+            ["o"] = { name = "test output" },
+          },
           ["v"] = { name = "vim" },
+          ["w"] = { name = "workspace" },
         },
       })
     end,

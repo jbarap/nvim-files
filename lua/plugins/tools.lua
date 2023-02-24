@@ -3,11 +3,36 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     cmd = "Neotree",
+    keys = {
+      { "<Leader>nn", "<cmd>Neotree filesystem focus left toggle<CR>", desc =  "Neotree toggle"  },
+      { "<Leader>ng", "<cmd>Neotree git_status left<CR>", desc =  "Neotree git status"  },
+    },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
+    init = function ()
+      -- load neo-tree on directory open so it hijacks netrw
+      vim.cmd("silent! autocmd! FileExplorer *")
+      vim.api.nvim_create_autocmd(
+        { "BufEnter", "BufWinEnter" },
+        {
+          pattern = { "*" },
+          callback = function ()
+            local bufname = vim.api.nvim_buf_get_name(0)
+            local stats = vim.loop.fs_stat(bufname)
+            if not stats then
+              return false
+            end
+            if stats.type ~= "directory" then
+              return false
+            end
+            require("neo-tree")
+          end
+        }
+      )
+    end,
     opts = {
       close_if_last_window = false,
       popup_border_style = "rounded",
@@ -147,6 +172,17 @@ return {
   {
     "mfussenegger/nvim-dap",
     lazy = true,
+    keys = {
+      { "<Leader>db", function() require("dap").toggle_breakpoint() end, desc = "Debug breakpoint" },
+      { "<Leader>dc", function() require("dap").continue() end, desc = "Debug continue (or start)" },
+      { "<Leader>dj", function() require("dap").step_over() end, desc = "Debug step over" },
+      { "<Leader>di", function() require("dapui").eval() end, mode = { "n", "v" }, desc = "Debug inspect" },
+      { "<Leader>do", function() require("dapui").float_element() end, desc = "Debug open float" },
+      { "<Leader>dl", function() require("dap").step_into() end, desc = "Debug step into" },
+      { "<Leader>dh", function() require("dap").step_out() end, desc = "Debug step out" },
+      { "<Leader>dr", function() require("dap").repl.open() end, desc = "Debug repl" },
+      { "<Leader>ds", function() require("dap").close(); require("dapui").close() end, desc = "Debug stop (and close)" },
+    },
     config = function ()
       local dap = require("dap")
       local dapui = require("dapui")
@@ -182,6 +218,9 @@ return {
           port = port,
         })
       end
+
+      -- use python_launch as the default python adapter
+      dap.adapters.python = dap.adapters.python_launch
 
       -- load launch.json
       require('dap.ext.vscode').load_launchjs(vim.fn.getcwd() .. '/.vscode/launch.json')
@@ -307,6 +346,23 @@ return {
   {
     "nvim-neotest/neotest",
     lazy = true,
+    keys = {
+      -- run
+      { "<Leader>trf", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Test run (file)" },
+      { "<Leader>trn", function() require("neotest").run.run() end, desc = "Test run (nearest)" },
+      { "<Leader>trs", function() require("neotest").run.run({ suite = true }) end, desc = "Test run (full suite)" },
+      { "<Leader>trl", function() require("neotest").run.run_last() end, desc = "Test run (last)" },
+      -- debug
+      { "<Leader>tdf", function() require("neotest").run.run({ vim.fn.expand("%"), strategy = "dap" }) end, desc = "Test debug (file)" },
+      { "<Leader>tdn", function() require("neotest").run.run({ strategy = "dap" }) end, desc = "Test debug (nearest)" },
+      { "<Leader>tds", function() require("neotest").run.run({ suite = true, strategy = "dap" }) end, desc = "Test debug (full suite)" },
+      -- stop
+      { "<Leader>ts", function() require("neotest").run.stop() end, desc = "Test stop" },
+      -- output
+      { "<Leader>too", function() require("neotest").output.open({ enter = true }) end, desc = "Test output open" },
+      { "<Leader>top", function() require("neotest").output_panel.toggle() end, desc = "Test output panel" },
+      { "<Leader>tos", function() require("neotest").summary.toggle() end, desc = "Test output summary" },
+    },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
@@ -327,6 +383,10 @@ return {
   -- Terminal
   {
     "numToStr/FTerm.nvim",
+    keys = {
+      { "<Leader>ce", function() require("plugin_utils").run_code() end, desc = "Code execute" },
+      { "<c-_>", function() require("FTerm").toggle() end, mode = { "n", "t" }, desc = "Terminal toggle" },
+    },
     opts = {
       border = 'rounded',
       blend = 3,
@@ -340,6 +400,10 @@ return {
   -- Remote
   {
     "kenn7/vim-arsync",
+    init = function ()
+      vim.keymap.set("n", "<Leader>rP", "<cmd>ARsyncUp<CR>", { desc = "Remote push (rsync)" })
+      vim.keymap.set("n", "<Leader>rp", "<cmd>ARsyncDown<CR>", { desc = "Remote pull (rsync)" })
+    end,
     cmd = { "ARshowConf", "ARsyncUp", "ARsyncDown" },
   },
   -- check: https://github.com/chipsenkbeil/distant.nvim

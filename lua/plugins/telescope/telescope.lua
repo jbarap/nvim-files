@@ -4,7 +4,39 @@ return {
     lazy = true,
     cmd = { "Telescope" },
     dependencies = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" },
-    config = function ()
+    keys = {
+      -- extensions
+      { "<Leader>pl", "<cmd>Telescope projects<CR>", desc = "Projects list" },
+      -- files
+      { "<Leader>ff", function() require("telescope.builtin").find_files() end, desc = "Find files" },
+      { "<Leader>fF", function()
+        require("telescope.builtin").find_files({
+          find_command = { 'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude',
+            '{.git,.mypy_cache,__pycache__}' },
+        })
+      end,
+        desc = "Find files (all)",
+      },
+      -- livegrep
+      { "<Leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Find grep" },
+      { "<Leader>fG", function()
+        require("telescope.builtin").live_grep({ additional_args = { "--no-ignore" } })
+      end,
+        desc = "Find grep (all)",
+      },
+      { "<Leader>f<C-g>", function() require("plugin_utils").rg_dir() end, desc = "Find grep (in dir)" },
+      { "<Leader>fW", function()
+        require("telescope.builtin").grep_string({search = vim.fn.expand("<cword>")})
+      end,
+        desc = "Find word under cursor (in project)",
+      },
+      -- extra
+      { "<Leader>fh", function() require("telescope.builtin").help_tags() end, desc = "Find help docs" },
+      { "<Leader>ft", function() require("telescope.builtin").treesitter() end, desc = "Find treesitter symbols" },
+      { "<Leader>fb", function() require("telescope.builtin").buffers() end, desc = "Find buffers" },
+      { "<Leader>fc", function() require("telescope.builtin").commands() end, desc = "Find commands" },
+    },
+    config = function()
       local actions = require("telescope.actions")
       local layout_actions = require("telescope.actions.layout")
 
@@ -35,7 +67,7 @@ return {
             "!*.git",
           },
           preview = {
-            filesize_limit = 3,  -- in MB
+            filesize_limit = 3, -- in MB
           },
           path_display = function(ctx, path)
             local cwd
@@ -56,7 +88,8 @@ return {
             local directory = Path:new(path):parent():make_relative(cwd)
 
             -- compensate for both parenthesis (2) and the space (1) characters
-            directory = require("plenary.strings").truncate(directory, math.max(ctx.__length - name:len() - 3, 0), nil, -1)
+            directory = require("plenary.strings").truncate(directory, math.max(ctx.__length - name:len() - 3, 0), nil,
+              -1)
 
             return string.format("%s (%s)", name, directory)
           end,
@@ -102,12 +135,12 @@ return {
         pickers = {
           live_grep = {
             entry_maker = require("plugins.telescope.telescope_custom").grep_displayer(),
-              -- AND operator for live_grep like how fzf handles spaces with wildcards in rg
+            -- AND operator for live_grep like how fzf handles spaces with wildcards in rg
             on_input_filter_cb = function(prompt) return { prompt = prompt:gsub("%s", ".*") } end,
           },
           grep_string = {
             entry_maker = require("plugins.telescope.telescope_custom").grep_displayer(),
-              -- AND operator for live_grep like how fzf handles spaces with wildcards in rg
+            -- AND operator for live_grep like how fzf handles spaces with wildcards in rg
             on_input_filter_cb = function(prompt) return { prompt = prompt:gsub("%s", ".*") } end,
           },
           find_files = {

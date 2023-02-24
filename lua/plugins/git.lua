@@ -9,7 +9,7 @@ return {
       },
       trouble = true,
       update_debounce = 1000,
-      on_attach = function (bufnr)
+      on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
 
         local function map(mode, l, r, opts)
@@ -23,17 +23,17 @@ return {
           if vim.wo.diff then return ']h' end
           vim.schedule(function() gs.next_hunk() end)
           return '<Ignore>'
-        end, {expr=true})
+        end, { expr = true })
 
         map('n', '[h', function()
           if vim.wo.diff then return '[h' end
           vim.schedule(function() gs.prev_hunk() end)
           return '<Ignore>'
-        end, {expr=true})
+        end, { expr = true })
 
         -- Actions
-        map({'n', 'v'}, '<leader>ghs', gs.stage_hunk)
-        map({'n', 'v'}, '<leader>ghx', gs.reset_hunk)
+        map({ 'n', 'v' }, '<leader>ghs', gs.stage_hunk)
+        map({ 'n', 'v' }, '<leader>ghx', gs.reset_hunk)
         map('n', '<leader>ghu', gs.undo_stage_hunk)
         map('n', '<leader>ghX', gs.reset_buffer)
         map('n', '<leader>ghp', gs.preview_hunk)
@@ -46,21 +46,35 @@ return {
           gs.setqflist("attached")
           vim.cmd("copen")
         end)
-        map('n', '<leader>gbl', function() gs.blame_line{full=true} end)
+        map('n', '<leader>gbl', function() gs.blame_line { full = true } end)
         map('n', '<leader>gbb', gs.toggle_current_line_blame)
         map('n', '<leader>gdt', gs.diffthis)
 
         -- Text object
-        map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+        map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
       end,
     },
   },
 
-  { "tpope/vim-fugitive" },
+  {
+    "tpope/vim-fugitive",
+    init = function()
+      vim.keymap.set("n", "<Leader>gg", "<cmd>Git<CR>", { desc = "Git status" })
+      vim.keymap.set("n", "<Leader>gp", "<cmd>Git pull<CR>", { desc = "Git pull" })
+      vim.keymap.set("n", "<Leader>gP", function() vim.fn.feedkeys(":Git push ") end, { desc = "Git push" })
+
+      -- override fugitive's buffer local keymaps
+      vim.cmd("autocmd User FugitiveIndex nmap <buffer> <Tab> =")
+      vim.cmd("autocmd User FugitiveIndex nmap <buffer> q <cmd>q<CR>")
+    end
+  },
   { "tpope/vim-rhubarb" },
   {
     "rbong/vim-flog",
     cmd = { "Flog" },
+    init = function()
+      vim.keymap.set("n", "<Leader>gl", "<cmd>Flog -all<CR>", { desc = "Git log" })
+    end,
   },
   -- Neogit (fugitive alternative)
   -- {
@@ -90,7 +104,11 @@ return {
   {
     "sindrets/diffview.nvim",
     cmd = { "DiffviewOpen", "DiffviewFileHistory" },
-    config = function ()
+    keys = {
+      { "<leader>dvo", function() require("plugin_utils").toggle_diff_view("diff") end, mode = { "n", "v" }, desc = "Diffview open" },
+      { "<leader>dvf", function() require("plugin_utils").toggle_diff_view("file") end, mode = { "n", "v" }, desc = "Diffview file history" },
+    },
+    config = function()
       local actions = require("diffview.actions")
       require("diffview").setup({
         view = {
@@ -138,7 +156,7 @@ return {
             ["]x"] = actions.next_conflict,
             ["<leader>co"] = actions.conflict_choose("ours"),
             ["<leader>ct"] = actions.conflict_choose("theirs"),
-            ["<leader>cb"] = actions.conflict_choose("all"),  -- choose both
+            ["<leader>cb"] = actions.conflict_choose("all"), -- choose both
             ["<leader>cB"] = actions.conflict_choose("base"),
             ["<leader>cx"] = actions.conflict_choose("none"),
           },
