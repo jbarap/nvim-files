@@ -5,6 +5,7 @@ return {
     cmd = "Neotree",
     keys = {
       { "<Leader>nn", "<cmd>Neotree filesystem focus left toggle<CR>", desc =  "Neotree toggle"  },
+      { "<Leader>nf", "<cmd>Neotree filesystem focus reveal toggle<CR>", desc =  "Neotree toggle (focused on file)"  },
       { "<Leader>ng", "<cmd>Neotree git_status left<CR>", desc =  "Neotree git status"  },
     },
     dependencies = {
