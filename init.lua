@@ -32,7 +32,10 @@ if use_plugins then
       version = false, -- Change it to respect Semver if plugins widely adopt it
     },
     change_detection = {
-      enabled = false, -- Disable for now while building the config
-    }
+      enabled = false,
+    },
+    ui = {
+      border = "rounded",
+    },
   })
 end
