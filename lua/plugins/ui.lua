@@ -17,7 +17,7 @@ return {
         transparent = false,
         dimInactive = false,
         colors = {
-          sumiInk0 = "#131313",
+          sumiInk0 = "#101010",
           sumiInk1 = "#151515",
         },
         overrides = {
@@ -129,7 +129,7 @@ return {
 
   -- Statusline/Winbar
   {
-    "feline-nvim/feline.nvim",
+    "freddiehaddad/feline.nvim",
     event = "VeryLazy",
     config = function ()
       local feline_ok, feline = pcall(require, "feline")
