@@ -94,6 +94,7 @@ return {
             return string.format("%s (%s)", name, directory)
           end,
           layout_strategy = "flex",
+          sorting_strategy = "ascending",
           borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
           winblend = 10, -- cursor disappears if I set winblend (only on alacritty)
           layout_config = {
@@ -101,6 +102,7 @@ return {
             width = 0.97,
             scroll_speed = 4,
             horizontal = {
+              prompt_position = "top",
               preview_width = 0.4,
             },
             vertical = {

@@ -55,7 +55,7 @@ return {
     "stevearc/aerial.nvim",
     cmd = "AerialToggle",
     keys = {
-      { "<Leader>co", "<cmd>AerialToggle<CR>", desc = "Code overview" },
+      { "<Leader>co", "<cmd>AerialToggle<CR>", desc = "Code outline" },
     },
     opts = {
       backends = { "lsp", "treesitter", "markdown" },
@@ -92,22 +92,20 @@ return {
     config = function ()
       local null_ls = require("null-ls")
 
-      local paths = require("paths")
-
       ---convenience wrapper of null\_ls builtin sources to register with a custom command
-      ---@param type string #formatting, diagnostics, code\_actions, hover, or completion.
-      ---@param name string #source name.
-      ---@param opts table #extra options to pass to the source.
-      local function custom_cmd_source(type, name, opts, is_luarock)
+      ---@param type string formatting, diagnostics, code\_actions, hover, or completion.
+      ---@param name string source name.
+      ---@param opts table extra options to pass to the source.
+      local function get_mason_nullls_source(type, name, opts)
         opts = opts or {}
-        local command_getter = (is_luarock == nil and paths.get_cmd) or paths.get_luarock_cmd
 
+        local source = null_ls.builtins[type][name]
         local custom_opts = {
-          command = command_getter(name, { as_string = true })
+          command = require("mason-core.path").bin_prefix(source["_opts"]["command"]),
         }
 
         opts = vim.tbl_extend("force", custom_opts, opts)
-        return null_ls.builtins[type][name].with(opts)
+        return source.with(opts)
       end
 
       null_ls.setup({
@@ -115,29 +113,28 @@ return {
         debug = false,
         default_timeout = 20000,
         on_attach = require("plugins.lsp.on_attach"),
-        -- root_dir = require("project_nvim.project").find_pattern_root,
         save_after_format = false,
         sources = {
           ---- Linters
-          -- custom_cmd_source("diagnostics", "mypy", {
+          -- get_mason_nullls_source("diagnostics", "mypy", {
           --   extra_args = { "--strict", "--ignore-missing-imports", "--check-untyped-defs" },
           -- }),
-          custom_cmd_source("diagnostics", "pylint", {
-            condition = function(cond_utils)
-              return cond_utils.root_has_file({"pylintrc"})
-            end,
-          }),
-          custom_cmd_source("diagnostics", "luacheck", {
+          -- get_mason_nullls_source("diagnostics", "pylint", {
+          --   condition = function(cond_utils)
+          --     return cond_utils.root_has_file({"pylintrc"})
+          --   end,
+          -- }),
+          get_mason_nullls_source("diagnostics", "luacheck", {
             extra_args = { "--globals", "vim", "--allow-defined" },
-          }, true),
-          custom_cmd_source("diagnostics", "staticcheck", {}),
+          }),
+          get_mason_nullls_source("diagnostics", "staticcheck", {}),
 
-          ---- Fixers
-          custom_cmd_source("formatting", "black", {
+          -- ---- Fixers
+          get_mason_nullls_source("formatting", "black", {
             args = { "--quiet", "--line-length", 105, "-" },
           }),
-          custom_cmd_source("formatting", "stylua", {}),
-          custom_cmd_source("formatting", "prettier", {}),
+          get_mason_nullls_source("formatting", "stylua", {}),
+          get_mason_nullls_source("formatting", "prettier", {}),
           null_ls.builtins.formatting.gofmt, -- gofmt executable comes with go
         },
       })

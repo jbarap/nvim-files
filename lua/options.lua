@@ -1,22 +1,11 @@
 local utils = require("utils")
 local opt = vim.opt
 
-local paths = require("paths")
-
 -- Variables
-vim.g.python3_host_prog = paths.join_path(
-  {
-    vim.fn.stdpath("data"),
-    "installables",
-    "python",
-    "bin",
-    "python3"
-  }
-)
+vim.g.python3_host_prog = "python3"
 
 -- Colors
 opt.termguicolors = true
-opt.background = "dark"
 
 -- Split direction
 opt.splitbelow = true
