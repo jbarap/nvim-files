@@ -5,6 +5,7 @@ return {
     priority = 1000,
     config = function ()
       require('kanagawa').setup({
+        -- compile = true,  -- NOTE: run :KanagawaCompile on changes
         undercurl = true,
         commentStyle = { italic = true },
         functionStyle = {},
@@ -17,54 +18,73 @@ return {
         transparent = false,
         dimInactive = false,
         colors = {
-          sumiInk0 = "#101010",
-          sumiInk1 = "#151515",
+          palette = {
+            fugiWhite = "#c9c9c9",
+            fujiGray= "#666666",
+
+            sumiInk0 = "#101010",
+            sumiInk1 = "#111111",
+            sumiInk2 = "#131313",
+            sumiInk3 = "#151515", -- Normal bg
+            sumiInk4 = "#181818", -- Gutter gb
+            sumiInk5 = "#23232e",
+            sumiInk6 = "#54546d", -- Used as darkish fg
+          },
+          theme = {
+            wave = {
+              diff = {
+                -- add = {  },
+              },
+              syn = {
+                preproc = "#ffa066",
+              },
+            },
+          },
         },
-        overrides = {
-          -- Syntax
-          Normal = { fg = "#c9c9c9"},
-          NormalNC = { bg = "#131313" },
-          -- Cursor
-          CursorLine = { bg = "#161616" },
-          ColorColumn = { bg = "#161616" },
-          QuickFixLine = { bg = "#252525" },
-          -- Floats
-          FloatBorder = { bg = "#131313" },
-          -- Search
-          Search = { bg = "#1c284a" },
-          Substitute = { bg = "#4d1d28" },
-          -- Telescope
-          TelescopeSelection = { bg = "#202020" },
-          -- Cmp
-          Pmenu = { bg = "#0a0a0a" },
-          PmenuSbar = { bg = "#252525" },
+        overrides = function (colors)
+            return {
+              NormalNC = { bg = colors.palette.sumiInk2 },
+              -- Cursor
+              CursorLine = { bg = colors.palette.sumiInk4 },
+              ColorColumn = { bg = colors.palette.sumiInk4 },
+              QuickFixLine = { bg = "#252525" },
+              -- Search
+              Search = { bg = "#1c284a" },
+              Substitute = { bg = "#4d1d28" },
+              -- Telescope
+              TelescopeSelection = { bg = "#202020" },
 
-          -- Diffview
-          DiffviewCursorLine = { bg = "#252525" },
+              -- Cmp
+              Pmenu = { bg = "#0a0a0a" },
+              PmenuSbar = { bg = "#252525" },
 
-          -- diff gutter
-          diffAdded = { fg = "#1f6f6f", bg = "NONE" },
-          diffRemoved = { fg = "#812e52", bg = "NONE" },
-          diffDeleted = { fg = "#812e52", bg = "NONE" },
-          diffChanged = { fg = "#33415b", bg = "NONE" },
+              -- Diffview
+              DiffviewCursorLine = { bg = "#252525" },
 
-          -- diff line background
-          DiffAdd = { bg = "#0a3026", fg = "NONE" },
-          DiffDelete = { bg = "#331523", fg = "NONE" },
-          DiffChange = { bg = "#1c2536", fg = "NONE" },
+          --     -- diff gutter
+          --     diffAdded = { fg = "#1f6f6f", bg = "NONE" },
+          --     diffRemoved = { fg = "#812e52", bg = "NONE" },
+          --     diffDeleted = { fg = "#812e52", bg = "NONE" },
+          --     diffChanged = { fg = "#33415b", bg = "NONE" },
 
-          -- diff text background
-          DiffText = { bg = "#1f3b70", fg = "NONE" },
-          DiffAddText = { bg = "#1C6464", fg = "NONE" },
-          DiffDeleteText = { bg = "#692643", fg = "NONE" },
+          --     -- diff line background
+          --     DiffAdd = { bg = "#0a3026", fg = "NONE" },
+          --     DiffDelete = { bg = "#331523", fg = "NONE" },
+          --     DiffChange = { bg = "#1c2536", fg = "NONE" },
 
-          DiffInlineAdd = { bg = "#0a2b2b", fg = "#154a4a" },
-          DiffInlineDelete = { bg = "#331523", fg = "#561f37" },
-          DiffInlineChange = { bg = "#1c2536", fg = "#33415b" },
+          --     -- diff text background
+          --     DiffText = { bg = "#1f3b70", fg = "NONE" },
+          --     DiffAddText = { bg = "#1C6464", fg = "NONE" },
+          --     DiffDeleteText = { bg = "#692643", fg = "NONE" },
 
-          -- Windows
-          WinSeparator = { fg = "#252525" },
-        },
+          --     DiffInlineAdd = { bg = "#0a2b2b", fg = "#154a4a" },
+          --     DiffInlineDelete = { bg = "#331523", fg = "#561f37" },
+          --     DiffInlineChange = { bg = "#1c2536", fg = "#33415b" },
+
+              -- Windows
+              WinSeparator = { fg = "#252525" },
+            }
+          end,
       })
       vim.cmd([[colorscheme kanagawa]])
     end
