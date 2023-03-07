@@ -33,7 +33,15 @@ return {
           theme = {
             wave = {
               diff = {
-                -- add = {  },
+                add = "#0a2b2b",
+                delete = "#331523",
+                change = "#1c2536",
+                text = "#1f3b70",
+              },
+              vcs = {
+                added = "#1f6f6f",
+                removed = "#812e52",
+                changed = "#33415b",
               },
               syn = {
                 preproc = "#ffa066",
@@ -69,7 +77,7 @@ return {
 
           --     -- diff line background
           --     DiffAdd = { bg = "#0a3026", fg = "NONE" },
-          --     DiffDelete = { bg = "#331523", fg = "NONE" },
+              DiffDelete = { fg = "NONE" },
           --     DiffChange = { bg = "#1c2536", fg = "NONE" },
 
           --     -- diff text background
