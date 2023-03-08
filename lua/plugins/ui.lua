@@ -180,14 +180,6 @@ return {
         COMMAND = "aqua",
       }
 
-      local icons_ok, icons = pcall(require, "nvim-web-devicons")
-      local python_icon = ""
-      if icons_ok then
-        python_icon = icons.get_icon_by_filetype("python")
-      else
-        python_icon = ""
-      end
-
       local all_components = {
         vim_mode = {
           provider = {
@@ -333,21 +325,14 @@ return {
             fg = "faded_fg"
           },
         },
-        -- python_env = {
-        --   provider = function()
-        --     print"updated"
-        --     local ftype = vim.bo.filetype
-        --     if ftype ~= "python" then
-        --       return ""
-        --     end
-
-        --     local conda_env = vim.env.CONDA_DEFAULT_ENV
-        --     return string.format("Python env: %s", conda_env)
-        --   end,
-        --   update = { "DirChanged", "BufEnter" },
-        --   -- update = false,
-        --   icon = python_icon,
-        -- }
+        python_venv = {
+          provider = "python_venv",
+          update = { "DirChanged", "BufEnter" },
+          hl = {
+            bg = "darkblue",
+            style = "NONE",
+          },
+        },
       }
 
       local left = {
@@ -366,7 +351,7 @@ return {
       }
 
       local right = {
-        -- all_components.python_env,
+        all_components.python_venv,
         all_components.file_type,
         all_components.position,
         all_components.line_percentage,
@@ -385,6 +370,21 @@ return {
 
       feline.setup({
         components = components,
+        custom_providers = {
+          python_venv = function()
+            local ftype = vim.bo.filetype
+            if ftype ~= "python" then
+              return ""
+            end
+
+            local python_venv = vim.env.CONDA_DEFAULT_ENV
+            if not python_venv then
+              python_venv = "system"
+            end
+
+            return python_venv
+          end
+        },
         theme = one_monokai,
         vi_mode_colors = vi_mode_colors,
       })
