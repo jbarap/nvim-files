@@ -45,6 +45,7 @@ return {
               },
               syn = {
                 preproc = "#ffa066",
+                special1 = "#957fb8",
               },
             },
           },
@@ -59,8 +60,14 @@ return {
               -- Search
               Search = { bg = "#1c284a" },
               Substitute = { bg = "#4d1d28" },
+              -- Diffs
+              DiffDelete = { fg = "NONE" },
+              -- Windows
+              WinSeparator = { fg = "#252525" },
+
               -- Telescope
               TelescopeSelection = { bg = "#202020" },
+              TelescopeMatching = { fg = "#7fb4ca" },
 
               -- Cmp
               Pmenu = { bg = "#0a0a0a" },
@@ -68,29 +75,6 @@ return {
 
               -- Diffview
               DiffviewCursorLine = { bg = "#252525" },
-
-          --     -- diff gutter
-          --     diffAdded = { fg = "#1f6f6f", bg = "NONE" },
-          --     diffRemoved = { fg = "#812e52", bg = "NONE" },
-          --     diffDeleted = { fg = "#812e52", bg = "NONE" },
-          --     diffChanged = { fg = "#33415b", bg = "NONE" },
-
-          --     -- diff line background
-          --     DiffAdd = { bg = "#0a3026", fg = "NONE" },
-              DiffDelete = { fg = "NONE" },
-          --     DiffChange = { bg = "#1c2536", fg = "NONE" },
-
-          --     -- diff text background
-          --     DiffText = { bg = "#1f3b70", fg = "NONE" },
-          --     DiffAddText = { bg = "#1C6464", fg = "NONE" },
-          --     DiffDeleteText = { bg = "#692643", fg = "NONE" },
-
-          --     DiffInlineAdd = { bg = "#0a2b2b", fg = "#154a4a" },
-          --     DiffInlineDelete = { bg = "#331523", fg = "#561f37" },
-          --     DiffInlineChange = { bg = "#1c2536", fg = "#33415b" },
-
-              -- Windows
-              WinSeparator = { fg = "#252525" },
             }
           end,
       })
