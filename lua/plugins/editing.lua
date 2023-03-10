@@ -314,7 +314,7 @@ return {
         n_lines = 500,
         search_method = 'cover_or_nearest',
         custom_textobjects = {
-          a = ai.gen_spec.treesitter({ a = "@parameter.inner", i = "@parameter.outer" }),
+          a = ai.gen_spec.treesitter({ a = "@parameter.outer", i = "@parameter.inner" }),
           o = ai.gen_spec.treesitter({
             a = { "@block.outer", "@conditional.outer", "@loop.outer" },
             i = { "@block.inner", "@conditional.inner", "@loop.inner" },
