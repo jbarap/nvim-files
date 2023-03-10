@@ -517,7 +517,7 @@ return {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
     keys = {
-      { "<leader>cdd", "<cmd>TroubleToggle<cr>", desc = "Code diagnostics display" },
+      { "<leader>so", "<cmd>TroubleToggle<cr>", desc = "Show diagnostics (outline)" },
     },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
@@ -560,7 +560,7 @@ return {
           ["b"] = { name = "buffer" },
           ["c"] = {
             name = "code",
-            ["d"] = { name = "diagnostics/documentation"},
+            ["d"] = { name = "documentation"},
           },
           ["d"] = {
             name = "debugging/diff",
@@ -576,6 +576,7 @@ return {
           ["p"] = { name = "project/peek" },
           ["q"] = { name = "quickfix" },
           ["r"] = { name = "remote" },
+          ["s"] = { name = "show" },
           ["t"] = {
             name = "test/tab",
             ["r"] = { name = "test run" },

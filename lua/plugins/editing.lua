@@ -367,7 +367,7 @@ return {
     "danymat/neogen",
     lazy = true,
     keys = {
-      { "<Leader>cdg", function() require("neogen").generate() end, desc = "Docstring generate" },
+      { "<Leader>cdg", function() require("neogen").generate() end, desc = "Code docstring generate" },
     },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = {
