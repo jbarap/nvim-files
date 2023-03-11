@@ -81,7 +81,7 @@ set_keymap("v", "<Leader><CR>", "<Esc>", { desc = "Exit visual mode" })
 set_keymap("n", "<Leader>fw", require("utils").search_word_under_cursor, { desc = "Find word under cursor" })
 set_keymap("x", "<Leader>fw", require("utils").search_selected_word, { desc = "Find selected word" })
 
-set_keymap("s", "<BS>", "<BS>i", { desc = "Delete and insert" })
+set_keymap("s", "<BS>", "<BS>a", { desc = "Delete and insert" })
 
 set_keymap("", "<S-h>", "^", { desc = "End on line" })
 set_keymap("", "<S-l>", "$", { desc = "Beginning of line" })

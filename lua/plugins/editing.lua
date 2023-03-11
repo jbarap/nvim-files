@@ -368,6 +368,8 @@ return {
     lazy = true,
     keys = {
       { "<Leader>cdg", function() require("neogen").generate() end, desc = "Code docstring generate" },
+      { "<Leader>cd.", function() require("neogen").jump_next() end, desc = "Code docstring next field" },
+      { "<Leader>cd,", function() require("neogen").jump_prev() end, desc = "Code docstring prev field" },
     },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = {
