@@ -23,32 +23,32 @@ return {
           if vim.wo.diff then return ']h' end
           vim.schedule(function() gs.next_hunk() end)
           return '<Ignore>'
-        end, { expr = true })
+        end, { expr = true, desc = "Goto next git hunk" })
 
         map('n', '[h', function()
           if vim.wo.diff then return '[h' end
           vim.schedule(function() gs.prev_hunk() end)
           return '<Ignore>'
-        end, { expr = true })
+        end, { expr = true, desc = "Goto prev git hunk" })
 
         -- Actions
-        map({ 'n', 'v' }, '<leader>ghs', gs.stage_hunk)
-        map({ 'n', 'v' }, '<leader>ghx', gs.reset_hunk)
-        map('n', '<leader>ghu', gs.undo_stage_hunk)
-        map('n', '<leader>ghX', gs.reset_buffer)
-        map('n', '<leader>ghp', gs.preview_hunk)
+        map({ 'n', 'v' }, '<leader>ghs', gs.stage_hunk, { desc = "Git hunk stage" })
+        map({ 'n', 'v' }, '<leader>ghx', gs.reset_hunk, { desc = "Git hunk reset" })
+        map('n', '<leader>ghu', gs.undo_stage_hunk, { desc = "Git hunk undo stage" })
+        map('n', '<leader>ghX', gs.reset_buffer, { desc = "Git hunk reset (buffer)" })
+        map('n', '<leader>ghp', gs.preview_hunk, { desc = "Git hunk preview" })
         map('n', '<leader>ghh', function()
           gs.toggle_numhl()
           gs.toggle_word_diff()
           gs.toggle_deleted()
-        end)
+        end, { desc = "Git highlight toggle" })
         map('n', '<leader>ghq', function()
           gs.setqflist("attached")
           vim.cmd("copen")
-        end)
-        map('n', '<leader>gbl', function() gs.blame_line { full = true } end)
-        map('n', '<leader>gbb', gs.toggle_current_line_blame)
-        map('n', '<leader>gdt', gs.diffthis)
+        end, { desc = "Git hunk to quickfix" })
+        map('n', '<leader>gbl', function() gs.blame_line { full = true } end, { desc = "Git blame line" })
+        map('n', '<leader>gbb', gs.toggle_current_line_blame, { desc = "Git blame line (toggle)" })
+        map('n', '<leader>gdt', gs.diffthis, { desc = "Git diff this" })
 
         -- Text object
         map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
