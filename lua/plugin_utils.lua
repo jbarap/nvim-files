@@ -26,7 +26,7 @@ function M.toggle_diff_view(mode)
     bfr = vim.api.nvim_get_current_buf()
     buf_type = vim.api.nvim_buf_get_option(bfr, "filetype")
     if not vim.tbl_contains(vim.g.indent_blankline_filetype_exclude, buf_type) then
-      vim.cmd("IndentBlanklineEnable")
+      require("indent_blankline.commands").enable()
     end
 
   else
@@ -73,7 +73,7 @@ function M.buffer_performance_mode()
   if string.match(option, "y") then
     vim.fn.execute("TSBufDisable highlight")
   end
-  vim.fn.execute("IndentBlanklineDisable")
+  require("indent_blankline.commands").disable()
   vim.fn.execute("TSBufDisable indent")
   vim.fn.execute("TSBufDisable incremental_selection")
 end

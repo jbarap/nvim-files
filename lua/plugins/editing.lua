@@ -335,7 +335,7 @@ return {
         if package.loaded["ufo"] then
           require("ufo").openAllFolds()
           vim.cmd("redraw")
-          vim.cmd("IndentBlanklineRefresh")
+          require("indent_blankline").refresh(false)
           return ""
         else
           return "zR"
