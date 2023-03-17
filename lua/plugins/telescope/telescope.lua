@@ -5,36 +5,44 @@ return {
     cmd = { "Telescope" },
     dependencies = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" },
     keys = {
-      -- extensions
-      { "<Leader>pl", "<cmd>Telescope projects<CR>", desc = "Projects list" },
+
       -- files
-      { "<Leader>ff", function() require("telescope.builtin").find_files() end, desc = "Find files" },
+      { "<Leader>ff", function() require("telescope.builtin").find_files({
+        find_command = { "fd", "--type", "f", "--ignore", "--follow" },
+      }) end, desc = "Find files" },
       { "<Leader>fF", function()
         require("telescope.builtin").find_files({
-          find_command = { 'fdfind', '--type', 'f', '--hidden', '--no-ignore', '--exclude',
-            '{.git,.mypy_cache,__pycache__}' },
+          find_command = { "fd", "--type", "f", "--hidden", "--no-ignore", "--follow" },
         })
       end,
         desc = "Find files (all)",
       },
-      -- livegrep
+
+      -- grep
       { "<Leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Find grep" },
       { "<Leader>fG", function()
-        require("telescope.builtin").live_grep({ additional_args = { "--no-ignore" } })
+        require("telescope.builtin").live_grep({ additional_args = { "--no-ignore", "--hidden" } })
       end,
         desc = "Find grep (all)",
       },
       { "<Leader>f<C-g>", function() require("plugin_utils").rg_dir() end, desc = "Find grep (in dir)" },
-      { "<Leader>fW", function()
-        require("telescope.builtin").grep_string({search = vim.fn.expand("<cword>")})
-      end,
+      { "<Leader>fW", function() require("telescope.builtin").grep_string() end,
         desc = "Find word under cursor (in project)",
+        mode = { "n", "v" },
       },
+
+      -- git
+      { "<Leader>gff", function() require("telescope.builtin").git_files() end, desc = "Git find files" },
+      { "<Leader>gfc", function() require("telescope.builtin").git_bcommits() end, desc = "Git find commits (buffer)" },
+      { "<Leader>gfC", function() require("telescope.builtin").git_commits() end, desc = "Git find commits (all)" },
+      { "<Leader>gfb", function() require("telescope.builtin").git_branches() end, desc = "Git find commits (all)" },
+
       -- extra
-      { "<Leader>fh", function() require("telescope.builtin").help_tags() end, desc = "Find help docs" },
-      { "<Leader>ft", function() require("telescope.builtin").treesitter() end, desc = "Find treesitter symbols" },
       { "<Leader>fb", function() require("telescope.builtin").buffers() end, desc = "Find buffers" },
-      { "<Leader>fc", function() require("telescope.builtin").commands() end, desc = "Find commands" },
+      { "<Leader>fz", function() require("telescope.builtin").current_buffer_fuzzy_find() end, desc = "Find fuZzy (in buffer)" },
+
+      -- extensions
+      { "<Leader>pl", "<cmd>Telescope projects<CR>", desc = "Projects list" },
     },
     config = function()
       local actions = require("telescope.actions")
@@ -62,12 +70,9 @@ return {
             "--no-heading",
             "--smart-case",
             "--with-filename",
-            "--hidden",
-            "--glob",
-            "!*.git",
           },
           preview = {
-            filesize_limit = 3, -- in MB
+            filesize_limit = 25, -- in MB
           },
           path_display = function(ctx, path)
             local cwd
@@ -95,8 +100,10 @@ return {
           end,
           layout_strategy = "flex",
           sorting_strategy = "ascending",
+          scroll_strategy = "limit",
+          selection_caret= "➜ ",
           borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-          winblend = 10, -- cursor disappears if I set winblend (only on alacritty)
+          winblend = 10,
           layout_config = {
             height = 0.97,
             width = 0.97,
