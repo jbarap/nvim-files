@@ -1,6 +1,5 @@
 local utils = require("utils")
 
-local lspconfig = require("lspconfig")
 local lsputils = require("lspconfig.util")
 
 local M = {}
@@ -187,6 +186,10 @@ M._lazy_configs = {
   dockerls = function()
     return {
       cmd = get_mason_lsp_cmd("dockerls"),
+      -- disable semantic highlighting because it looks worse than regular
+      after_on_attach = function(client, _)
+        client.server_capabilities.semanticTokensProvider = nil
+      end,
     }
   end,
 
@@ -248,20 +251,5 @@ M.configs = setmetatable({}, {
     return M._lazy_configs[key]()
   end
 })
-
---        server registration
--- ──────────────────────────────
-M.register = function(server_names, common_options)
-  local options
-
-  if type(server_names) == "string" then
-    server_names = { server_names }
-  end
-
-  for _, name in ipairs(server_names) do
-    options = vim.tbl_extend("keep", M.configurations[name], common_options or {})
-    lspconfig[name].setup(options)
-  end
-end
 
 return M

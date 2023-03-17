@@ -201,6 +201,7 @@ return {
       }
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
+
       -- for nvim_ufo compatibility
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
@@ -209,7 +210,6 @@ return {
       -- for autocompletion with nvim-cmp
       capabilities = vim.tbl_deep_extend("force", capabilities, require('cmp_nvim_lsp').default_capabilities())
 
-      -- common language server options
       local base_options = {
         on_attach = require("plugins.lsp.on_attach"),
         capabilities = capabilities,
@@ -219,11 +219,26 @@ return {
         },
       }
 
+      -- initialization for all servers
       for _, name in ipairs(server_names) do
-        local opts = vim.tbl_extend("keep", language_servers.configs[name], base_options or {})
+        local server_config = language_servers.configs[name]
+
+        -- use after_on_attach if defined
+        if server_config.after_on_attach then
+          local original_on_attach = server_config.on_attach
+          server_config.on_attach = function (client, bufnr)
+            if original_on_attach then
+              original_on_attach(client, bufnr)
+            end
+            server_config.after_on_attach(client, bufnr)
+          end
+        end
+
+        local opts = vim.tbl_extend("keep", server_config, base_options or {})
         require("lspconfig")[name].setup(opts)
       end
 
     end
-  }
+  },
+
 }
