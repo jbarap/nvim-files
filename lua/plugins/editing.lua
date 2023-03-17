@@ -100,6 +100,7 @@ return {
       vim.o.completeopt = "menu,menuone,noselect"
 
       local cmp = require("cmp")
+      local cmp_buffer = require('cmp_buffer')
 
       local kind_icons = {
         Text = "",
@@ -189,7 +190,6 @@ return {
           { name = "luasnip" },
           { name = "path" },
           {
-            -- TODO: check the proximity sorter
             name = "buffer",
             option = {
               keyword_length = 5,
@@ -197,6 +197,12 @@ return {
             keyword_length = 5,
             max_item_count = 20,
           },
+        },
+
+        sorting = {
+          comparators = {
+            function(...) return cmp_buffer:compare_locality(...) end,
+          }
         },
 
         formatting = {
