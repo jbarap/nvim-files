@@ -13,7 +13,6 @@ return function(client, bufnr)
   -- Get/Go
   -- See telescope for definition and references
   buf_set_keymap("n", "gD", vim.lsp.buf.declaration, { desc = "Goto declaration" })
-  buf_set_keymap("n", "gd", vim.lsp.buf.definition, { desc = "Goto definition" })
   buf_set_keymap("n", "gi", vim.lsp.buf.implementation, { desc = "Goto implementation" })
   buf_set_keymap("n", "gt", vim.lsp.buf.type_definition, { desc = "Goto type definition" })
 
@@ -53,4 +52,5 @@ return function(client, bufnr)
   buf_bind_picker("<Leader>fS", "lsp_workspace_symbols", {}, { desc = "Find symbols (lsp Workspace)" })
 
   buf_bind_picker("gr", "lsp_references", {}, { desc = "Goto references" })
+  buf_bind_picker("gd", "lsp_definitions", {}, { desc = "Goto definition" })
 end
