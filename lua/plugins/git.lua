@@ -48,7 +48,6 @@ return {
         end, { desc = "Git hunk to quickfix" })
         map('n', '<leader>gbl', function() gs.blame_line { full = true } end, { desc = "Git blame line" })
         map('n', '<leader>gbb', gs.toggle_current_line_blame, { desc = "Git blame line (toggle)" })
-        map('n', '<leader>gdt', gs.diffthis, { desc = "Git diff this" })
 
         -- Text object
         map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')

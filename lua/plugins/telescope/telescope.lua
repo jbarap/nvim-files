@@ -35,7 +35,7 @@ return {
       { "<Leader>gff", function() require("telescope.builtin").git_files() end, desc = "Git find files" },
       { "<Leader>gfc", function() require("telescope.builtin").git_bcommits() end, desc = "Git find commits (buffer)" },
       { "<Leader>gfC", function() require("telescope.builtin").git_commits() end, desc = "Git find commits (all)" },
-      { "<Leader>gfb", function() require("telescope.builtin").git_branches() end, desc = "Git find commits (all)" },
+      { "<Leader>gfb", function() require("telescope.builtin").git_branches() end, desc = "Git find branches (all)" },
 
       -- extra
       { "<Leader>fb", function() require("telescope.builtin").buffers() end, desc = "Find buffers" },
