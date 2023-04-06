@@ -5,7 +5,6 @@ return {
     priority = 1000,
     config = function ()
       require('kanagawa').setup({
-        -- compile = true,  -- NOTE: run :KanagawaCompile on changes
         undercurl = true,
         commentStyle = { italic = true },
         functionStyle = {},
@@ -570,6 +569,7 @@ return {
           ["g"] = {
             name = "git",
             ["b"] = { name = "blame" },
+            ["f"] = { name = "find" },
             ["h"] = { name = "hunk/highlight" },
           },
           ["n"] = { name = "neotree" },
