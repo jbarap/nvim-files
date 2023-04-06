@@ -52,9 +52,6 @@ return {
     keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
     opts = {
       PATH = "skip",
-      registries = {
-        "lua:mason-registry.index",
-      },
       pip = {
         upgrade_pip = true,
       },
